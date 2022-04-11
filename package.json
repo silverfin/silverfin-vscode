@@ -1,0 +1,59 @@
+{
+ 	"name": "silverfin-development-toolkit",
+	"displayName": "Silverfin Development Toolkit",
+	"version": "0.0.1",
+	"publisher": "Silverfin",
+	"icon": "media/sf-icon.png",
+	"engines": {
+		"vscode": "^1.66.0"
+	},
+	"categories": [
+		"Snippets",
+		"Other"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/GetSilverfin/silverfin-development-toolkit.git"
+	},
+	"homepage": "https://github.com/GetSilverfin/silverfin-development-toolkit/blob/main/README.md",
+	"activationEvents": [],
+	"main": "./out/extension.js",
+	"extensionDependencies": [
+		"redhat.vscode-yaml"
+	],
+	"contributes": {
+		"yamlValidation": [
+			{
+				"fileMatch": ["*_liquid_test.yaml","*_liquid_test.yml"],
+				"url": "./schemas/liquid-tests.schema.json"
+			}
+		],
+		"snippets": [
+			{
+				"language": "yaml",
+				"path": "./snippets/liquid-tests-snippets.json"
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.66.0",
+		"@types/glob": "^7.2.0",
+		"@types/mocha": "^9.1.0",
+		"@types/node": "14.x",
+		"@typescript-eslint/eslint-plugin": "^5.12.1",
+		"@typescript-eslint/parser": "^5.12.1",
+		"eslint": "^8.9.0",
+		"glob": "^7.2.0",
+		"mocha": "^9.2.1",
+		"typescript": "^4.5.5",
+		"@vscode/test-electron": "^2.1.2"
+	}
+}
