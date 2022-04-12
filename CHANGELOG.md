@@ -4,6 +4,11 @@ All notable changes to the "silverfin-development-toolkit" extension will be doc
 
 ## [Unreleased]
 
+## [0.0.2]
+
+### Updated
+- Local paths for schemas and snippets (`src` directory was omitted when publishing).
+
 ## [0.0.1]
 
 ### Added
