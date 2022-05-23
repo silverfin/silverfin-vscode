@@ -1,7 +1,7 @@
 {
  	"name": "silverfin-development-toolkit",
 	"displayName": "Silverfin Development Toolkit",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"publisher": "Silverfin",
 	"icon": "media/sf-icon.png",
 	"engines": {
@@ -25,7 +25,7 @@
 		"yamlValidation": [
 			{
 				"fileMatch": ["*_liquid_test.yaml","*_liquid_test.yml"],
-				"url": "./schemas/liquid-tests.schema.json"
+				"url": "https://raw.githubusercontent.com/GetSilverfin/silverfin-development-toolkit/main/schemas/liquid-tests.schema.json"
 			}
 		],
 		"snippets": [

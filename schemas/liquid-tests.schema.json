@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "JSON Schema for Silverfin Liquid Test ",
+    "title": "JSON Schema for Silverfin Liquid Test",
     "description": "Validate YAML properties for Silverfin liquid template testing",
     "type": "object",
     "patternProperties": {

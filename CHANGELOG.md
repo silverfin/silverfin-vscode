@@ -4,6 +4,11 @@ All notable changes to the "silverfin-development-toolkit" extension will be doc
 
 ## [Unreleased]
 
+## [0.0.3]
+
+### Updated
+- Replaced path for the JSON Schema (from a local file to an external file). This change will make the schema read-only for users.
+
 ## [0.0.2]
 
 ### Updated
