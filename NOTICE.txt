@@ -1,0 +1,10 @@
+Silverfin Development Toolkit
+Copyright 2022 Silverfin
+
+This product includes software developed at
+Silverfin (https://www.silverfin.com/).
+
+This extension contains code that is copied from, derived from, or
+inspired by Silverfin Liquid v0.2.12, developed by Nicklas Lydersen,
+which is available under the license "GNU General Public License v3.0". For details, see https://github.com/Nicklas185105/Silverfin-Liquid.
+
