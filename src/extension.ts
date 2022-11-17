@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from "vscode";
 import { posix } from "path";
-const sfToolkit = require("sf-toolkit");
+const sfToolkit = require("sf_toolkit");
 
 type ResultArray = {
   test: string;
   result: string;
   got: any;
   expected: any;
-
   line_number: number;
 }[];
 type ResponseObject = {
@@ -81,12 +80,18 @@ export async function activate(context: vscode.ExtensionContext) {
   // Set Context Key
   // We should update this key based on if the user has the Silverfin CLI authorized or not
   // We can use this key in package.json menus.commandPalette to show/hide our commands
-  // TO-DO (update true value with a boolean based on the cli presence)
   vscode.commands.executeCommand(
     "setContext",
     "silverfin-development-toolkit.apiAuthorized",
     true
   );
+
+  // Get Current Document Information
+  let currentYaml: vscode.TextDocument;
+
+  // Errors from Liquid Test are stored in a Diagnostic Collection
+  const errorsCollection =
+    vscode.languages.createDiagnosticCollection(`Collection`);
 
   // Status Bar Item
   const statusBarItem = vscode.window.createStatusBarItem(
@@ -104,7 +109,7 @@ export async function activate(context: vscode.ExtensionContext) {
     document: vscode.TextDocument,
     reExpresion: string,
     startIndex: number = 0
-  ) {
+  ): number {
     let lineIndex = startIndex;
     const documentLastRow = document.lineCount - 1;
     const re = new RegExp(reExpresion);
@@ -122,8 +127,8 @@ export async function activate(context: vscode.ExtensionContext) {
   function handleResponse(
     document: vscode.TextDocument,
     responseResults: ResultArray
-  ): Array<any> {
-    const collectionArray: Array<any> = [];
+  ): Array<DiagnosticObject> {
+    const collectionArray: Array<DiagnosticObject> = [];
     for (let testObject of responseResults) {
       let resultParts = testObject.result.split(".");
       let resultType = resultParts.shift();
@@ -183,14 +188,13 @@ export async function activate(context: vscode.ExtensionContext) {
     return collectionArray;
   }
 
-  // Process the errors returned and update the collection
+  // Process the response from the API call and update the collection
   function updateDiagnostics(
     document: vscode.TextDocument,
     collection: vscode.DiagnosticCollection,
     response: ResponseObject
   ): void {
-    let collectionArray = [];
-    console.log(response.result);
+    let collectionArray: Array<DiagnosticObject> = [];
     if (response.status === "completed") {
       if (document && response.result && response.result.length > 0) {
         // Errors present after liquid test run
@@ -254,11 +258,10 @@ export async function activate(context: vscode.ExtensionContext) {
         severity: vscode.DiagnosticSeverity.Error,
         source: "Liquid Test",
       };
+      collectionArray.push(diagnostic);
+      collection.set(document.uri, collectionArray);
     }
   }
-
-  // Get Current Document Information
-  let currentYaml: vscode.TextDocument;
 
   // Run Test Command
   const runTestCommand = "silverfin-development-toolkit.runTest";
@@ -273,21 +276,44 @@ export async function activate(context: vscode.ExtensionContext) {
       return;
     }
     currentYaml = vscode.window.activeTextEditor.document;
-    // Errors from Liquid Test are stored in a Diagnostic Collection
-    const errorsCollection = vscode.languages.createDiagnosticCollection(
-      `${templateHandle}Collection`
-    );
+
     // Start Test
     statusBarItem.text = "Silverfin: running test...";
     statusBarItem.backgroundColor = new vscode.ThemeColor(
       "statusBarItem.warningBackground"
     );
-    const response = await sfToolkit.runTests(templateHandle);
+    // Get Firm Stored
+    let firmId = await sfToolkit.getDefaultFirmID();
+    // Request Firm ID and store it if necessary
+    if (!firmId) {
+      const newFirmId = await vscode.window.showInputBox({
+        prompt:
+          "There is no Firm ID stored. Provide one to run the liquid test",
+        placeHolder: "123456",
+        title: "FIRM ID",
+      });
+      // No firm id provided via prompt
+      if (!newFirmId) {
+        return;
+      }
+      // Store and use new firm id provided
+      await sfToolkit.setDefaultFirmID(newFirmId);
+      firmId = newFirmId;
+    }
+    // Run Test
+    const response = await sfToolkit.runTests(firmId, templateHandle);
     // Update status bar
     statusBarItem.text = "Silverfin: run new liquid test";
     statusBarItem.backgroundColor = "";
-    // Process response and update collection
-    updateDiagnostics(currentYaml, errorsCollection, response);
+    if (response) {
+      // Process response and update collection
+      updateDiagnostics(currentYaml, errorsCollection, response);
+    } else {
+      // Unhandled errors
+      vscode.window.showErrorMessage(
+        "Unexpected error: use the CLI to get more information"
+      );
+    }
   }
   // Register Command
   context.subscriptions.push(
