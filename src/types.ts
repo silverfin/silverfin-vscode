@@ -24,3 +24,15 @@ export type DiagnosticObject = {
   source: string;
   tags?: vscode.DiagnosticTag[];
 };
+
+export type StoredDiagnostic = {
+  range: [
+    { line: number; character: number },
+    { line: number; character: number }
+  ];
+  code?: string;
+  message: string;
+  severity: number;
+  source: string;
+  tags?: any;
+};

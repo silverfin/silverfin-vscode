@@ -1,13 +1,26 @@
 import * as vscode from "vscode";
 import { posix } from "path";
 
-// Check open file is a Liquid Test
-// Check right folder structure && type YAML
-// Return templateHandle to run liquid test
-export async function checkFilePath() {
+// Get template handle from file path
+export async function getTemplateHandle() {
   // File information
   if (!vscode.window.activeTextEditor) {
     return;
+  }
+  const filePath = posix.resolve(
+    vscode.window.activeTextEditor.document.uri.path
+  );
+  const pathParts = posix.dirname(filePath).split(posix.sep);
+  const templateHandle = pathParts[pathParts.length - 2];
+  return templateHandle;
+}
+
+// Check open file is a Liquid Test
+// Check right folder structure && type YAML
+export async function checkFilePath() {
+  // File information
+  if (!vscode.window.activeTextEditor) {
+    return false;
   }
   const filePath = posix.resolve(
     vscode.window.activeTextEditor.document.uri.path
@@ -20,7 +33,7 @@ export async function checkFilePath() {
     vscode.window.showErrorMessage(
       'File is not stored in a "./tests" directory'
     );
-    return;
+    return false;
   }
 
   // Get Template Handle
@@ -34,7 +47,7 @@ export async function checkFilePath() {
     vscode.window.showErrorMessage(
       "File name is not correct: [handle]_liquid_test.yml"
     );
-    return;
+    return false;
   }
 
   // Check Config File
@@ -46,13 +59,12 @@ export async function checkFilePath() {
     await vscode.workspace.fs.stat(configUri);
   } catch (error) {
     vscode.window.showErrorMessage("Config.json is missing");
-    return;
+    return false;
   }
   // Set the right path
   const basePath = posix.dirname(posix.dirname(templatePath));
   process.chdir(basePath);
-
-  return templateHandle;
+  return true;
 }
 
 // Find in which row of the document a text is located

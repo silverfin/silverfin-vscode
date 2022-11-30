@@ -46,8 +46,8 @@ export async function activate(context: vscode.ExtensionContext) {
   function createDiagnostics(
     document: vscode.TextDocument,
     responseResults: types.ResultArray
-  ): Array<types.DiagnosticObject> {
-    const collectionArray: Array<types.DiagnosticObject> = [];
+  ): types.DiagnosticObject[] {
+    const collectionArray: types.DiagnosticObject[] = [];
     for (let testObject of responseResults) {
       let resultParts = testObject.result.split(".");
       let resultType = resultParts.shift();
@@ -113,7 +113,7 @@ export async function activate(context: vscode.ExtensionContext) {
     collection: vscode.DiagnosticCollection,
     response: types.ResponseObject
   ): void {
-    let collectionArray: Array<types.DiagnosticObject> = [];
+    let collectionArray: types.DiagnosticObject[] = [];
     if (response.status === "completed") {
       if (document && response.result && response.result.length > 0) {
         // Errors present after liquid test run
@@ -121,7 +121,7 @@ export async function activate(context: vscode.ExtensionContext) {
         collection.set(document.uri, collectionArray);
       } else {
         // No errors after liquid test
-        collection.clear();
+        collection.set(document.uri, []);
         vscode.window.showInformationMessage(
           "All tests have passed succesfully!"
         );
@@ -180,13 +180,20 @@ export async function activate(context: vscode.ExtensionContext) {
       collectionArray.push(diagnostic);
       collection.set(document.uri, collectionArray);
     }
+    // Store Diagnostic Objects
+    context.globalState.update(document.uri.toString(), collectionArray);
   }
 
   // Run Test Command
   const runTestCommand = "silverfin-development-toolkit.runTest";
   async function runTestCommandHandler() {
-    // Check right file & get template handle
-    let templateHandle = await utils.checkFilePath();
+    // Check right file
+    let checksPassed = await utils.checkFilePath();
+    if (!checksPassed) {
+      return;
+    }
+    // Get template handle
+    let templateHandle = await utils.getTemplateHandle();
     if (!templateHandle) {
       return;
     }
@@ -256,6 +263,65 @@ export async function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand(runTestCommand, runTestCommandHandler)
   );
+
+  // When a new file is opened for the first time. Load the Diagnostic stored from previous runs
+  context.subscriptions.push(
+    vscode.workspace.onDidOpenTextDocument(async (file) => {
+      if (file && vscode.window.activeTextEditor) {
+        let currentDocument = vscode.window.activeTextEditor.document;
+        let storedDiagnostics: types.StoredDiagnostic[] | undefined =
+          await context.globalState.get(currentDocument.uri.toString());
+        if (storedDiagnostics) {
+          // Recreate Diagnostic Objects
+          let collectionArray: types.DiagnosticObject[] = [];
+          for (let diagnosticStored of storedDiagnostics) {
+            let diagnosticRecreated: types.DiagnosticObject = {
+              range: new vscode.Range(
+                new vscode.Position(
+                  diagnosticStored.range[0].line,
+                  diagnosticStored.range[0].character
+                ),
+                new vscode.Position(
+                  diagnosticStored.range[1].line,
+                  diagnosticStored.range[1].character
+                )
+              ),
+              message: diagnosticStored.message,
+              severity: vscode.DiagnosticSeverity.Error,
+              source: diagnosticStored.source,
+              code: diagnosticStored.code,
+            };
+            collectionArray.push(diagnosticRecreated);
+          }
+          // Load the Diagnostics
+          errorsCollection.set(currentDocument.uri, collectionArray);
+        }
+      }
+    })
+  );
+
+  // Trigger event whenever we select/type/delete text in the editor
+  /*
+  context.subscriptions.push(
+    vscode.window.onDidChangeTextEditorSelection((activeTab) => {
+      if (activeTab) {
+        // Diagnostics of the Document
+        const documentDiagnostics = vscode.languages.getDiagnostics(
+          activeTab.textEditor.document.uri
+        );
+        // Find Text in a range
+        const text = activeTab.textEditor.document.getText(
+          new vscode.Range(
+            new vscode.Position(11, 4),
+            new vscode.Position(11, 21)
+          )
+        );
+        console.log(documentDiagnostics);
+        console.log(text);
+      }
+    })
+  );
+  */
 }
 
 export function deactivate() {}
