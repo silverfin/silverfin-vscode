@@ -2,6 +2,7 @@
 import * as vscode from "vscode";
 import { posix } from "path";
 const sfToolkit = require("sf_toolkit");
+const { config } = require("sf_toolkit/api/auth");
 
 type ResultArray = {
   test: string;
@@ -23,6 +24,7 @@ type DiagnosticObject = {
   severity: vscode.DiagnosticSeverity;
   source: string;
 };
+
 let firstRowRange: vscode.Range = new vscode.Range(
   new vscode.Position(0, 0),
   new vscode.Position(0, 500)
@@ -41,6 +43,7 @@ async function checkFilePath() {
   );
   const fileBasename = posix.basename(filePath);
   const pathParts = posix.dirname(filePath).split(posix.sep);
+
   // Check /tests directory
   if (pathParts[pathParts.length - 1] !== "tests") {
     vscode.window.showErrorMessage(
@@ -48,8 +51,13 @@ async function checkFilePath() {
     );
     return;
   }
+
+  // Get Template Handle
+  const templateHandle = pathParts[pathParts.length - 2];
+  const templatePath = posix.dirname(posix.dirname(filePath));
+
   // Check file name
-  const nameRe = new RegExp("_liquid_test.yml");
+  const nameRe = new RegExp(`${templateHandle}_liquid_test.yml`);
   const matchName = fileBasename.match(nameRe);
   if (!matchName) {
     vscode.window.showErrorMessage(
@@ -57,8 +65,7 @@ async function checkFilePath() {
     );
     return;
   }
-  const templateHandle = pathParts[pathParts.length - 2];
-  const templatePath = posix.dirname(posix.dirname(filePath));
+
   // Check Config File
   const configPath = posix.join(templatePath, "config.json");
   const configUri = vscode.window.activeTextEditor.document.uri.with({
@@ -73,17 +80,20 @@ async function checkFilePath() {
   // Set the right path
   const basePath = posix.dirname(posix.dirname(templatePath));
   process.chdir(basePath);
+
   return templateHandle;
 }
 
 export async function activate(context: vscode.ExtensionContext) {
+  const credentials =
+    process.env.SF_API_CLIENT_ID && process.env.SF_API_SECRET ? true : false;
+
   // Set Context Key
-  // We should update this key based on if the user has the Silverfin CLI authorized or not
   // We can use this key in package.json menus.commandPalette to show/hide our commands
   vscode.commands.executeCommand(
     "setContext",
     "silverfin-development-toolkit.apiAuthorized",
-    true
+    credentials
   );
 
   // Get Current Document Information
@@ -98,8 +108,12 @@ export async function activate(context: vscode.ExtensionContext) {
     vscode.StatusBarAlignment.Left,
     100
   );
-  statusBarItem.command = "silverfin-development-toolkit.runTest";
-  statusBarItem.text = "Silverfin: run liquid test";
+  if (credentials) {
+    statusBarItem.command = "silverfin-development-toolkit.runTest";
+    statusBarItem.text = "Silverfin: run liquid test";
+  } else {
+    statusBarItem.text = "Silverfin: credentials missing";
+  }
   statusBarItem.show();
   context.subscriptions.push(statusBarItem);
 
@@ -271,6 +285,7 @@ export async function activate(context: vscode.ExtensionContext) {
     if (!templateHandle) {
       return;
     }
+
     // Check active tab and get document
     if (!vscode.window.activeTextEditor) {
       return;
@@ -294,16 +309,33 @@ export async function activate(context: vscode.ExtensionContext) {
       });
       // No firm id provided via prompt
       if (!newFirmId) {
+        statusBarItem.text = "Silverfin: run liquid test";
+        statusBarItem.backgroundColor = "";
         return;
       }
       // Store and use new firm id provided
       await sfToolkit.setDefaultFirmID(newFirmId);
       firmId = newFirmId;
     }
+
+    // Check firm id
+    const firmIdStored = config.getFirmId();
+    const firmCredentials = config.getTokens(firmIdStored);
+    if (!firmCredentials) {
+      vscode.window.showErrorMessage(
+        "You first need to authorize your firm using the CLI"
+      );
+      return;
+    }
+
     // Run Test
-    const response = await sfToolkit.runTests(firmId, templateHandle);
+    let response: ResponseObject = await sfToolkit.runTests(
+      firmId,
+      templateHandle
+    );
+
     // Update status bar
-    statusBarItem.text = "Silverfin: run new liquid test";
+    statusBarItem.text = "Silverfin: run liquid test";
     statusBarItem.backgroundColor = "";
     if (response) {
       // Process response and update collection
