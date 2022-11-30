@@ -1,88 +1,13 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from "vscode";
-import { posix } from "path";
+import * as utils from "./utils";
+import * as types from "./types";
 const sfToolkit = require("sf_toolkit");
 const { config } = require("sf_toolkit/api/auth");
-
-type ResultArray = {
-  test: string;
-  result: string;
-  got: any;
-  expected: any;
-  line_number: number;
-}[];
-type ResponseObject = {
-  status: "completed" | "internal_error" | "test_error" | "started";
-  result?: ResultArray;
-  error_line_number?: number;
-  error_message?: string;
-};
-type DiagnosticObject = {
-  range: vscode.Range;
-  code?: string;
-  message: string;
-  severity: vscode.DiagnosticSeverity;
-  source: string;
-};
 
 let firstRowRange: vscode.Range = new vscode.Range(
   new vscode.Position(0, 0),
   new vscode.Position(0, 500)
 );
-
-// Check open file is a Liquid Test
-// Check right folder structure && type YAML
-// Return templateHandle to run liquid test
-async function checkFilePath() {
-  // File information
-  if (!vscode.window.activeTextEditor) {
-    return;
-  }
-  const filePath = posix.resolve(
-    vscode.window.activeTextEditor.document.uri.path
-  );
-  const fileBasename = posix.basename(filePath);
-  const pathParts = posix.dirname(filePath).split(posix.sep);
-
-  // Check /tests directory
-  if (pathParts[pathParts.length - 1] !== "tests") {
-    vscode.window.showErrorMessage(
-      'File is not stored in a "./tests" directory'
-    );
-    return;
-  }
-
-  // Get Template Handle
-  const templateHandle = pathParts[pathParts.length - 2];
-  const templatePath = posix.dirname(posix.dirname(filePath));
-
-  // Check file name
-  const nameRe = new RegExp(`${templateHandle}_liquid_test.yml`);
-  const matchName = fileBasename.match(nameRe);
-  if (!matchName) {
-    vscode.window.showErrorMessage(
-      "File name is not correct: [handle]_liquid_test.yml"
-    );
-    return;
-  }
-
-  // Check Config File
-  const configPath = posix.join(templatePath, "config.json");
-  const configUri = vscode.window.activeTextEditor.document.uri.with({
-    path: configPath,
-  });
-  try {
-    await vscode.workspace.fs.stat(configUri);
-  } catch (error) {
-    vscode.window.showErrorMessage("Config.json is missing");
-    return;
-  }
-  // Set the right path
-  const basePath = posix.dirname(posix.dirname(templatePath));
-  process.chdir(basePath);
-
-  return templateHandle;
-}
 
 export async function activate(context: vscode.ExtensionContext) {
   const credentials =
@@ -117,32 +42,12 @@ export async function activate(context: vscode.ExtensionContext) {
   statusBarItem.show();
   context.subscriptions.push(statusBarItem);
 
-  // Find in which row of the document a text is located
-  // It will return only the first match if repeated
-  function findIndexRow(
-    document: vscode.TextDocument,
-    reExpresion: string,
-    startIndex: number = 0
-  ): number {
-    let lineIndex = startIndex;
-    const documentLastRow = document.lineCount - 1;
-    const re = new RegExp(reExpresion);
-    for (lineIndex; lineIndex < documentLastRow; lineIndex++) {
-      let lineText = document.lineAt(lineIndex).text;
-      let regExpTest = lineText.match(re);
-      if (regExpTest) {
-        return lineIndex;
-      }
-    }
-    return 0;
-  }
-
   // Process errors, create Diagnostic Objects with all the needed information
-  function handleResponse(
+  function createDiagnostics(
     document: vscode.TextDocument,
-    responseResults: ResultArray
-  ): Array<DiagnosticObject> {
-    const collectionArray: Array<DiagnosticObject> = [];
+    responseResults: types.ResultArray
+  ): Array<types.DiagnosticObject> {
+    const collectionArray: Array<types.DiagnosticObject> = [];
     for (let testObject of responseResults) {
       let resultParts = testObject.result.split(".");
       let resultType = resultParts.shift();
@@ -168,12 +73,12 @@ export async function activate(context: vscode.ExtensionContext) {
         // We first search in it's specific unit test (that's why we filter the index start)
         // If it's not found there we search in the entire file
         // Because of anchor & aliases it could be defined in a preivous test
-        let testIndex = findIndexRow(document, testObject.test);
-        let newIndex = findIndexRow(document, reExpresion, testIndex);
+        let testIndex = utils.findIndexRow(document, testObject.test);
+        let newIndex = utils.findIndexRow(document, reExpresion, testIndex);
         if (newIndex && newIndex !== 0) {
           diagnosticLineNumber = newIndex;
         } else {
-          newIndex = findIndexRow(document, reExpresion);
+          newIndex = utils.findIndexRow(document, reExpresion);
           if (newIndex && newIndex !== 0) {
             diagnosticLineNumber = newIndex;
           }
@@ -190,7 +95,7 @@ export async function activate(context: vscode.ExtensionContext) {
       );
 
       // Create diagnostic object
-      let diagnostic: DiagnosticObject = {
+      let diagnostic: types.DiagnosticObject = {
         range: diagnosticRange,
         message: diagnosticMessage,
         severity: vscode.DiagnosticSeverity.Error,
@@ -203,16 +108,16 @@ export async function activate(context: vscode.ExtensionContext) {
   }
 
   // Process the response from the API call and update the collection
-  function updateDiagnostics(
+  function processResponse(
     document: vscode.TextDocument,
     collection: vscode.DiagnosticCollection,
-    response: ResponseObject
+    response: types.ResponseObject
   ): void {
-    let collectionArray: Array<DiagnosticObject> = [];
+    let collectionArray: Array<types.DiagnosticObject> = [];
     if (response.status === "completed") {
       if (document && response.result && response.result.length > 0) {
         // Errors present after liquid test run
-        collectionArray = handleResponse(document, response.result);
+        collectionArray = createDiagnostics(document, response.result);
         collection.set(document.uri, collectionArray);
       } else {
         // No errors after liquid test
@@ -251,7 +156,7 @@ export async function activate(context: vscode.ExtensionContext) {
       } else {
         diagnosticMessage = "Error message not provided";
       }
-      let diagnostic: DiagnosticObject = {
+      let diagnostic: types.DiagnosticObject = {
         range: diagnosticRange,
         message: diagnosticMessage,
         severity: vscode.DiagnosticSeverity.Error,
@@ -265,7 +170,7 @@ export async function activate(context: vscode.ExtensionContext) {
       statusBarItem.backgroundColor = new vscode.ThemeColor(
         "statusBarItem.errorBackground"
       );
-      let diagnostic: DiagnosticObject = {
+      let diagnostic: types.DiagnosticObject = {
         range: firstRowRange,
         message:
           "Internal error. Try to run the test again. If the issue persists, contact support",
@@ -281,7 +186,7 @@ export async function activate(context: vscode.ExtensionContext) {
   const runTestCommand = "silverfin-development-toolkit.runTest";
   async function runTestCommandHandler() {
     // Check right file & get template handle
-    let templateHandle = await checkFilePath();
+    let templateHandle = await utils.checkFilePath();
     if (!templateHandle) {
       return;
     }
@@ -329,7 +234,7 @@ export async function activate(context: vscode.ExtensionContext) {
     }
 
     // Run Test
-    let response: ResponseObject = await sfToolkit.runTests(
+    let response: types.ResponseObject = await sfToolkit.runTests(
       firmId,
       templateHandle
     );
@@ -339,7 +244,7 @@ export async function activate(context: vscode.ExtensionContext) {
     statusBarItem.backgroundColor = "";
     if (response) {
       // Process response and update collection
-      updateDiagnostics(currentYaml, errorsCollection, response);
+      processResponse(currentYaml, errorsCollection, response);
     } else {
       // Unhandled errors
       vscode.window.showErrorMessage(
