@@ -3,7 +3,7 @@
   "displayName": "Silverfin Development Toolkit",
   "version": "0.0.1",
   "publisher": "Silverfin",
-  "icon": "media/sf-icon.png",
+  "icon": "resources/sf-icon.png",
   "engines": {
     "vscode": "^1.66.0"
   },
@@ -18,7 +18,8 @@
   "homepage": "https://github.com/GetSilverfin/silverfin-development-toolkit/blob/main/README.md",
   "activationEvents": [
     "onLanguage:yaml",
-    "onCommand:silverfin-development-toolkit.runTest"
+    "onCommand:silverfin-development-toolkit.runTest",
+    "onCommand:silverfin-development-toolkit.setFirm"
   ],
   "main": "./out/extension.js",
   "extensionDependencies": [
@@ -47,6 +48,10 @@
       {
         "command": "silverfin-development-toolkit.runTest",
         "title": "Silverfin: run liquid test"
+      },
+      {
+        "command": "silverfin-development-toolkit.setFirm",
+        "title": "Silverfin: set firm ID"
       }
     ],
     "keybindings": [
@@ -61,6 +66,10 @@
         {
           "command": "silverfin-development-toolkit.runTest",
           "when": "editorLangId == yaml && silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.setFirm",
+          "when": "silverfin-development-toolkit.apiAuthorized"
         }
       ]
     }
