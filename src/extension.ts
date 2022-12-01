@@ -275,22 +275,7 @@ export async function activate(context: vscode.ExtensionContext) {
           // Recreate Diagnostic Objects
           let collectionArray: types.DiagnosticObject[] = [];
           for (let diagnosticStored of storedDiagnostics) {
-            let diagnosticRecreated: types.DiagnosticObject = {
-              range: new vscode.Range(
-                new vscode.Position(
-                  diagnosticStored.range[0].line,
-                  diagnosticStored.range[0].character
-                ),
-                new vscode.Position(
-                  diagnosticStored.range[1].line,
-                  diagnosticStored.range[1].character
-                )
-              ),
-              message: diagnosticStored.message,
-              severity: vscode.DiagnosticSeverity.Error,
-              source: diagnosticStored.source,
-              code: diagnosticStored.code,
-            };
+            let diagnosticRecreated = types.diagnosticParser(diagnosticStored);
             collectionArray.push(diagnosticRecreated);
           }
           // Load the Diagnostics

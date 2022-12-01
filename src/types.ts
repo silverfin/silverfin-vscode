@@ -36,3 +36,26 @@ export type StoredDiagnostic = {
   source: string;
   tags?: any;
 };
+
+// Convert the stored data back into a Diagnostic
+export function diagnosticParser(
+  diagnosticStored: StoredDiagnostic
+): DiagnosticObject {
+  let diagnosticRecreated: DiagnosticObject = {
+    range: new vscode.Range(
+      new vscode.Position(
+        diagnosticStored.range[0].line,
+        diagnosticStored.range[0].character
+      ),
+      new vscode.Position(
+        diagnosticStored.range[1].line,
+        diagnosticStored.range[1].character
+      )
+    ),
+    message: diagnosticStored.message,
+    severity: vscode.DiagnosticSeverity.Error,
+    source: diagnosticStored.source,
+    code: diagnosticStored.code,
+  };
+  return diagnosticRecreated;
+}
