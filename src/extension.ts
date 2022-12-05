@@ -295,7 +295,7 @@ export async function activate(context: vscode.ExtensionContext) {
       promptMessage =
         "Provide a new firm ID (currently, there is no ID stored)";
     } else {
-      promptMessage = `Provide a new firm ID (this will overwrite the existing ID:${firmId}`;
+      promptMessage = `Provide a new firm ID (this will overwrite the existing ID:${firmId}) `;
     }
     // Request Firm ID and store it
     const newFirmId = await vscode.window.showInputBox({
@@ -326,29 +326,6 @@ export async function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand(setFirmCommand, setFirmCommandHandler)
   );
-
-  // Trigger event whenever we select/type/delete text in the editor
-  /*
-  context.subscriptions.push(
-    vscode.window.onDidChangeTextEditorSelection((activeTab) => {
-      if (activeTab) {
-        // Diagnostics of the Document
-        const documentDiagnostics = vscode.languages.getDiagnostics(
-          activeTab.textEditor.document.uri
-        );
-        // Find Text in a range
-        const text = activeTab.textEditor.document.getText(
-          new vscode.Range(
-            new vscode.Position(11, 4),
-            new vscode.Position(11, 21)
-          )
-        );
-        console.log(documentDiagnostics);
-        console.log(text);
-      }
-    })
-  );
-  */
 }
 
 export function deactivate() {}
