@@ -2,6 +2,12 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.1.0]
+
+### Added
+
+- Show only the statusBar icon when there is a YAML file opened in the activeTab
+
 ## [1.0.0]
 
 ### Added
@@ -13,6 +19,7 @@ All notable changes to the "silverfin-development-toolkit" extension will be doc
 ## [0.0.3]
 
 ### Updated
+
 - Replaced path for the JSON Schema (from a local file to an external file). This change will make the schema read-only for users.
 
 ## [0.0.2]

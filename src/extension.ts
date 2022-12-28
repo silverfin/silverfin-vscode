@@ -42,6 +42,21 @@ export async function activate(context: vscode.ExtensionContext) {
   statusBarItem.show();
   context.subscriptions.push(statusBarItem);
 
+  // Show/Hide statusBar (based on activeTab is YAML file)
+  vscode.window.onDidChangeActiveTextEditor((e) => {
+    const fileName = vscode.window.activeTextEditor?.document.fileName;
+    if (!fileName) {
+      return;
+    }
+    const fileNameParts = fileName.split(".");
+    const fileType = fileNameParts[fileNameParts.length - 1].toLowerCase();
+    if (fileType === "yaml" || fileType === "yml") {
+      statusBarItem.show();
+    } else {
+      statusBarItem.hide();
+    }
+  });
+
   // Process errors, create Diagnostic Objects with all the needed information
   function createDiagnostics(
     document: vscode.TextDocument,

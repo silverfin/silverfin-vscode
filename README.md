@@ -1,6 +1,6 @@
 # Silverfin Development Toolkit
 
-This extension aims to support the **Liquid testing** process of Silverfin templates. In the future, it should also add supports for the entire process of creating these templates with [Silverfin Templating Language](https://live.getsilverfin.com/f/200247/users/staff)
+This extension aims to support the **Liquid testing** process of Silverfin templates. In the future, it should also add supports for the entire process of creating these templates with [Silverfin Templating Language](https://developer.silverfin.com/docs)
 
 ## Features
 
