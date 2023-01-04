@@ -2,6 +2,12 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.1.1]
+
+### Updated
+
+- Wrong link in README
+
 ## [1.1.0]
 
 ### Added
