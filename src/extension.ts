@@ -11,9 +11,13 @@ let firstRowRange: vscode.Range = new vscode.Range(
 );
 
 export async function activate(context: vscode.ExtensionContext) {
+  // Output Channel
+  const outputChannel = vscode.window.createOutputChannel("Silverfin");
+
   // API Credentials
   const credentials =
     process.env.SF_API_CLIENT_ID && process.env.SF_API_SECRET ? true : false;
+  outputChannel.appendLine(`Credentials: ${credentials}`);
 
   // Set Context Key
   // We can use this key in package.json menus.commandPalette to show/hide our commands
@@ -221,11 +225,6 @@ export async function activate(context: vscode.ExtensionContext) {
     }
     currentYaml = vscode.window.activeTextEditor.document;
 
-    // Start Test
-    statusBarItem.text = "Silverfin: running test...";
-    statusBarItem.backgroundColor = new vscode.ThemeColor(
-      "statusBarItem.warningBackground"
-    );
     // Get Firm Stored
     let firmId = await sfToolkit.getDefaultFirmID();
     // Request Firm ID and store it if necessary
@@ -257,24 +256,33 @@ export async function activate(context: vscode.ExtensionContext) {
       return;
     }
 
+    // Start Test - Status Bar
+    statusBarItem.text = "Silverfin: running test...";
+    statusBarItem.backgroundColor = new vscode.ThemeColor(
+      "statusBarItem.warningBackground"
+    );
+
     // Run Test
     let response: types.ResponseObject = await sfToolkit.runTests(
       firmId,
       templateHandle
     );
+    outputChannel.appendLine(`Response: ${JSON.stringify(response)}`);
 
     // Update status bar
     statusBarItem.text = "Silverfin: run liquid test";
     statusBarItem.backgroundColor = "";
-    if (response) {
-      // Process response and update collection
-      processResponse(currentYaml, errorsCollection, response);
-    } else {
+
+    if (!response) {
       // Unhandled errors
       vscode.window.showErrorMessage(
         "Unexpected error: use the CLI to get more information"
       );
+      return;
     }
+
+    // Process response and update collection
+    processResponse(currentYaml, errorsCollection, response);
   }
   // Register Command
   context.subscriptions.push(
