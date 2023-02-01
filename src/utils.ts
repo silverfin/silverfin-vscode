@@ -1,6 +1,11 @@
 import { posix } from "path";
 import * as vscode from "vscode";
 
+export let firstRowRange: vscode.Range = new vscode.Range(
+  new vscode.Position(0, 0),
+  new vscode.Position(0, 500)
+);
+
 // Get template handle from file path
 export async function getTemplateHandle() {
   // File information

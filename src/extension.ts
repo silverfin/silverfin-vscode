@@ -5,11 +5,6 @@ import * as utils from "./utils";
 const sfToolkit = require("sf_toolkit");
 const { config } = require("sf_toolkit/api/auth");
 
-let firstRowRange: vscode.Range = new vscode.Range(
-  new vscode.Position(0, 0),
-  new vscode.Position(0, 500)
-);
-
 export async function activate(context: vscode.ExtensionContext) {
   // Output Channel
   const outputChannel = vscode.window.createOutputChannel("Silverfin");
@@ -169,7 +164,7 @@ export async function activate(context: vscode.ExtensionContext) {
           new vscode.Position(response.error_line_number - 1, highlighEndIndex)
         );
       } else {
-        diagnosticRange = firstRowRange;
+        diagnosticRange = utils.firstRowRange;
       }
       let diagnosticMessage;
       if (response.error_message) {
@@ -192,7 +187,7 @@ export async function activate(context: vscode.ExtensionContext) {
         "statusBarItem.errorBackground"
       );
       let diagnostic: types.DiagnosticObject = {
-        range: firstRowRange,
+        range: utils.firstRowRange,
         message:
           "Internal error. Try to run the test again. If the issue persists, contact support",
         severity: vscode.DiagnosticSeverity.Error,
