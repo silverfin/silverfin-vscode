@@ -1,5 +1,5 @@
-import * as vscode from "vscode";
 import { posix } from "path";
+import * as vscode from "vscode";
 
 // Get template handle from file path
 export async function getTemplateHandle() {

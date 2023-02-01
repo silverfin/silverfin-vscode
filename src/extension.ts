@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
-import * as utils from "./utils";
+import FirmIdCommand from "./firmIdCommand";
 import * as types from "./types";
+import * as utils from "./utils";
 const sfToolkit = require("sf_toolkit");
 const { config } = require("sf_toolkit/api/auth");
 
@@ -10,6 +11,7 @@ let firstRowRange: vscode.Range = new vscode.Range(
 );
 
 export async function activate(context: vscode.ExtensionContext) {
+  // API Credentials
   const credentials =
     process.env.SF_API_CLIENT_ID && process.env.SF_API_SECRET ? true : false;
 
@@ -300,47 +302,8 @@ export async function activate(context: vscode.ExtensionContext) {
     })
   );
 
-  // Set Firm ID Command
-  const setFirmCommand = "silverfin-development-toolkit.setFirm";
-  async function setFirmCommandHandler() {
-    // Get Firm Stored
-    let firmId = await sfToolkit.getDefaultFirmID();
-    let promptMessage;
-    if (!firmId) {
-      promptMessage =
-        "Provide a new firm ID (currently, there is no ID stored)";
-    } else {
-      promptMessage = `Provide a new firm ID (this will overwrite the existing ID:${firmId}) `;
-    }
-    // Request Firm ID and store it
-    const newFirmId = await vscode.window.showInputBox({
-      prompt: promptMessage,
-      placeHolder: "123456",
-      title: "STORE FIRM ID",
-    });
-    // Empty prompt
-    if (!newFirmId) {
-      return;
-    }
-    // Store the new firm id provided
-    await sfToolkit.setDefaultFirmID(newFirmId);
-    vscode.window.showInformationMessage(
-      `Firm ID ${newFirmId} stored succesfully`
-    );
-    // Check firm id's credentials
-    const firmCredentials = config.getTokens(newFirmId);
-    if (!firmCredentials) {
-      vscode.window.showErrorMessage(
-        "Use the CLI to authorize the firm ID provided"
-      );
-      return;
-    }
-  }
-
-  // Register Command
-  context.subscriptions.push(
-    vscode.commands.registerCommand(setFirmCommand, setFirmCommandHandler)
-  );
+  // Command to set Firm ID via prompt and store it
+  new FirmIdCommand(context);
 }
 
 export function deactivate() {}
