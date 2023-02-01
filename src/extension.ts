@@ -201,7 +201,6 @@ export async function activate(context: vscode.ExtensionContext) {
   }
 
   // Run Test Command
-  const runTestCommand = "silverfin-development-toolkit.runTest";
   async function runTestCommandHandler() {
     // Check right file
     let checksPassed = await utils.checkFilePath();
@@ -262,7 +261,11 @@ export async function activate(context: vscode.ExtensionContext) {
       firmId,
       templateHandle
     );
-    outputChannel.appendLine(`Response: ${JSON.stringify(response)}`);
+    outputChannel.appendLine(
+      `Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
+        response
+      )}`
+    );
 
     // Update status bar
     statusBarItem.text = "Silverfin: run liquid test";
@@ -281,7 +284,10 @@ export async function activate(context: vscode.ExtensionContext) {
   }
   // Register Command
   context.subscriptions.push(
-    vscode.commands.registerCommand(runTestCommand, runTestCommandHandler)
+    vscode.commands.registerCommand(
+      "silverfin-development-toolkit.runTest",
+      runTestCommandHandler
+    )
   );
 
   // When a new file is opened for the first time. Load the Diagnostic stored from previous runs
@@ -303,6 +309,19 @@ export async function activate(context: vscode.ExtensionContext) {
         }
       }
     })
+  );
+
+  // Command to clean Diagnostic Collection of current file
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "silverfin-development-toolkit.clearCurrentDiagnosticCollection",
+      () => {
+        if (!vscode.window.activeTextEditor) {
+          return;
+        }
+        errorsCollection.set(vscode.window.activeTextEditor.document.uri, []);
+      }
+    )
   );
 
   // Command to set Firm ID via prompt and store it

@@ -1,7 +1,7 @@
 {
   "name": "silverfin-development-toolkit",
   "displayName": "Silverfin Development Toolkit",
-  "version": "1.2.1",
+  "version": "1.2.3",
   "publisher": "Silverfin",
   "icon": "resources/sf-icon.png",
   "engines": {
@@ -52,6 +52,10 @@
       {
         "command": "silverfin-development-toolkit.setFirm",
         "title": "Silverfin: set firm ID"
+      },
+      {
+        "command": "silverfin-development-toolkit.clearCurrentDiagnosticCollection",
+        "title": "Silverfin: erase stored details of previous test runs (current file)"
       }
     ],
     "keybindings": [
@@ -59,6 +63,11 @@
         "command": "silverfin-development-toolkit.runTest",
         "key": "ctrl+shift+t",
         "mac": "cmd+shift+t"
+      },
+      {
+        "command": "silverfin-development-toolkit.clearCurrentDiagnosticCollection",
+        "key": "ctrl+shift+e",
+        "mac": "cmd+shift+e"
       }
     ],
     "menus": {
@@ -70,6 +79,10 @@
         {
           "command": "silverfin-development-toolkit.setFirm",
           "when": "silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.clearCurrentDiagnosticCollection",
+          "when": "editorLangId == yaml && silverfin-development-toolkit.apiAuthorized"
         }
       ]
     }
