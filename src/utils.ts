@@ -1,5 +1,6 @@
 import { posix } from "path";
 import * as vscode from "vscode";
+import * as types from "./types";
 
 export let firstRowRange: vscode.Range = new vscode.Range(
   new vscode.Position(0, 0),
@@ -90,4 +91,44 @@ export function findIndexRow(
     }
   }
   return 0;
+}
+
+// Load the Diagnostic stored from previous runs
+// Check file, look for stored data, parse it, create collection
+export async function loadStoredDiagnostics(
+  currentDocument: vscode.TextDocument,
+  outputChannel: vscode.OutputChannel,
+  context: vscode.ExtensionContext,
+  errorsCollection: vscode.DiagnosticCollection
+) {
+  outputChannel.appendLine(
+    `File opened: ${JSON.stringify(currentDocument.fileName)}`
+  );
+  // Check if yaml
+  if (
+    currentDocument.fileName.split(".")[
+      currentDocument.fileName.split(".").length - 1
+    ] !== "yml"
+  ) {
+    return;
+  }
+  // Open Diagnostic Stored in Global State
+  let storedDiagnostics: types.StoredDiagnostic[] | undefined =
+    await context.globalState.get(currentDocument.uri.toString());
+  // outputChannel.appendLine(
+  //   `Stored Diagnostics: ${JSON.stringify(storedDiagnostics)}`
+  // );
+  if (storedDiagnostics) {
+    // Recreate Diagnostic Objects
+    let collectionArray: types.DiagnosticObject[] = [];
+    for (let diagnosticStored of storedDiagnostics) {
+      let diagnosticRecreated = types.diagnosticParser(diagnosticStored);
+      collectionArray.push(diagnosticRecreated);
+      // outputChannel.appendLine(
+      //   `Recreated Diagnostics: ${JSON.stringify(diagnosticRecreated)}`
+      // );
+    }
+    // Load the Diagnostics
+    errorsCollection.set(currentDocument.uri, collectionArray);
+  }
 }

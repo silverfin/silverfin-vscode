@@ -29,6 +29,16 @@ export async function activate(context: vscode.ExtensionContext) {
   const errorsCollection =
     vscode.languages.createDiagnosticCollection(`Collection`);
 
+  // Load Errors stored for open file if any
+  if (vscode.window.activeTextEditor) {
+    utils.loadStoredDiagnostics(
+      vscode.window.activeTextEditor.document,
+      outputChannel,
+      context,
+      errorsCollection
+    );
+  }
+
   // Status Bar Item
   const statusBarItem = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Left,
@@ -292,22 +302,13 @@ export async function activate(context: vscode.ExtensionContext) {
 
   // When a new file is opened for the first time. Load the Diagnostic stored from previous runs
   context.subscriptions.push(
-    vscode.workspace.onDidOpenTextDocument(async (file) => {
-      if (file && vscode.window.activeTextEditor) {
-        let currentDocument = vscode.window.activeTextEditor.document;
-        let storedDiagnostics: types.StoredDiagnostic[] | undefined =
-          await context.globalState.get(currentDocument.uri.toString());
-        if (storedDiagnostics) {
-          // Recreate Diagnostic Objects
-          let collectionArray: types.DiagnosticObject[] = [];
-          for (let diagnosticStored of storedDiagnostics) {
-            let diagnosticRecreated = types.diagnosticParser(diagnosticStored);
-            collectionArray.push(diagnosticRecreated);
-          }
-          // Load the Diagnostics
-          errorsCollection.set(currentDocument.uri, collectionArray);
-        }
-      }
+    vscode.workspace.onDidOpenTextDocument(async (currentDocument) => {
+      utils.loadStoredDiagnostics(
+        currentDocument,
+        outputChannel,
+        context,
+        errorsCollection
+      );
     })
   );
 
