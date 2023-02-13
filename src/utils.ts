@@ -1,5 +1,6 @@
 import { posix } from "path";
 import * as vscode from "vscode";
+import * as yaml from "yaml";
 import * as types from "./types";
 
 export let firstRowRange: vscode.Range = new vscode.Range(
@@ -131,4 +132,17 @@ export async function loadStoredDiagnostics(
     // Load the Diagnostics
     errorsCollection.set(currentDocument.uri, collectionArray);
   }
+}
+
+export function findTestNamesAndRows(document: vscode.TextDocument) {
+  const testContent = document.getText();
+  const testYAML = yaml.parse(testContent);
+  const testNames = Object.keys(testYAML);
+  const testRows = testContent.split("\n");
+  const indexes: { [index: string]: number } = {};
+  testNames.forEach((testName) => {
+    let index = testRows.findIndex((element) => element.includes(testName));
+    indexes[testName] = index;
+  });
+  return indexes;
 }

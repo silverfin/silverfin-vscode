@@ -22,8 +22,8 @@ export async function activate(context: vscode.ExtensionContext) {
     credentials
   );
 
-  // Get Current Document Information
-  let currentYaml: vscode.TextDocument;
+  let currentYamlDocument: vscode.TextDocument;
+  let htmlPanel: vscode.WebviewPanel;
 
   // Errors from Liquid Test are stored in a Diagnostic Collection
   const errorsCollection =
@@ -45,7 +45,7 @@ export async function activate(context: vscode.ExtensionContext) {
     100
   );
   if (credentials) {
-    statusBarItem.command = "silverfin-development-toolkit.runTest";
+    statusBarItem.command = "silverfin-development-toolkit.runAllTests";
     statusBarItem.text = "Silverfin: run liquid test";
   } else {
     statusBarItem.text = "Silverfin: credentials missing";
@@ -286,7 +286,7 @@ export async function activate(context: vscode.ExtensionContext) {
   }
 
   // Run Test Command
-  async function runTestCommandHandler() {
+  async function runAllTestsCommandHandler() {
     // Check right file
     let checksPassed = await utils.checkFilePath();
     if (!checksPassed) {
@@ -302,7 +302,7 @@ export async function activate(context: vscode.ExtensionContext) {
     if (!vscode.window.activeTextEditor) {
       return;
     }
-    currentYaml = vscode.window.activeTextEditor.document;
+    currentYamlDocument = vscode.window.activeTextEditor.document;
 
     // Get Firm Stored
     let firmId = await setFirmID();
@@ -350,13 +350,12 @@ export async function activate(context: vscode.ExtensionContext) {
     }
 
     // Process response and update collection
-    processResponse(currentYaml, errorsCollection, response);
+    processResponse(currentYamlDocument, errorsCollection, response);
   }
-  // Register Command
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "silverfin-development-toolkit.runTest",
-      runTestCommandHandler
+      "silverfin-development-toolkit.runAllTests",
+      runAllTestsCommandHandler
     )
   );
 
@@ -387,6 +386,98 @@ export async function activate(context: vscode.ExtensionContext) {
 
   // Command to set Firm ID via prompt and store it
   new FirmIdCommand(context);
+
+  async function runTestWithHTMLCommandHandler() {
+    // Check right file
+    let checksPassed = await utils.checkFilePath();
+    if (!checksPassed) {
+      return;
+    }
+    // Get template handle
+    let templateHandle = await utils.getTemplateHandle();
+    if (!templateHandle) {
+      return;
+    }
+
+    // Check active tab and get document
+    if (!vscode.window.activeTextEditor) {
+      return;
+    }
+    currentYamlDocument = vscode.window.activeTextEditor.document;
+
+    // Get Firm Stored
+    let firmId = await setFirmID();
+
+    // Check firm id credetials
+    const firmIdStored = config.getFirmId();
+    const firmCredentials = config.getTokens(firmIdStored);
+    if (!firmCredentials) {
+      vscode.window.showErrorMessage(
+        `Firm ID: ${firmIdStored}. You first need to authorize your firm using the CLI`
+      );
+      outputChannel.appendLine(
+        `Firm ID: ${firmIdStored}. Pair of access/refresh tokens missing from config`
+      );
+      return;
+    }
+
+    // Identify Test names
+    const testNamesandRows = utils.findTestNamesAndRows(currentYamlDocument);
+    const testNames = Object.keys(testNamesandRows);
+
+    // Select Test to be run
+    const testSelected = await vscode.window.showQuickPick(testNames);
+    if (!testSelected) {
+      return;
+    }
+
+    // Run Test
+    let response: types.ResponseObject = await sfToolkit.runTests(
+      firmId,
+      templateHandle,
+      testSelected,
+      true
+    );
+    outputChannel.appendLine(
+      `Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
+        response
+      )}`
+    );
+
+    if (!response) {
+      // Unhandled errors
+      vscode.window.showErrorMessage(
+        "Unexpected error: use the CLI to get more information"
+      );
+      return;
+    }
+
+    // Process response and update collection
+    processResponse(currentYamlDocument, errorsCollection, response);
+
+    // Get HTML
+    await sfToolkit.getHTML(response.tests[testSelected].html, testSelected);
+
+    // Create Panel if needed
+    if (!htmlPanel) {
+      htmlPanel = vscode.window.createWebviewPanel(
+        "htmlWebView",
+        "HTML View",
+        vscode.ViewColumn.Two
+      );
+    }
+
+    // Display HTML
+    const filePath = sfToolkit.resolveHTMLPath(testSelected);
+    const fs = require("fs");
+    htmlPanel.webview.html = fs.readFileSync(filePath, "utf8");
+  }
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "silverfin-development-toolkit.runTestWithHTML",
+      runTestWithHTMLCommandHandler
+    )
+  );
 }
 
 export function deactivate() {}
