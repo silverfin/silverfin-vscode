@@ -213,7 +213,7 @@
   },
   "elsif tag": {
     "prefix": "elsif",
-    "body": ["{% elsif ${1:var} %}", "\t${1:content}"],
+    "body": ["{% elsif ${1:var} %}", "\t${2:content}"],
     "description": [
       "The elsif statement is used in combination with the if statement.\n",
       "If the if statement is false, there will be checked if the elsif statement is true."
