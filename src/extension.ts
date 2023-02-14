@@ -1,8 +1,8 @@
 import * as vscode from "vscode";
-import FirmIdCommand from "./firmIdCommand";
-import StatusBarItem from "./statusBarItem";
-import * as types from "./types";
-import * as utils from "./utils";
+import FirmIdCommand from "./lib/firmIdCommand";
+import StatusBarItem from "./lib/statusBarItem";
+import * as types from "./lib/types";
+import * as utils from "./lib/utils";
 const sfToolkit = require("sf_toolkit");
 const { config } = require("sf_toolkit/api/auth");
 
