@@ -1,0 +1,180 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Silverfin Templating Language",
+  "fileTypes": ["liquid"],
+  "foldingStartMarker": "(?x){%\\s*(if|unless|for|paginate|capture|form|case|tablerow|raw|comment)[^(%})]+%}",
+  "foldingStopMarker": "(?x){%\\s*(endif|endunless|endfor|endpaginate|endcapture|endform|endcase|endtablerow|endraw|endcomment)[^(%})]+%}",
+  "patterns": [
+    {
+      "name": "comment.block.stl",
+      "begin": "{%\\s*comment\\s*%}",
+      "end": "{%\\s*endcomment\\s*%}"
+    },
+    {
+      "name": "punctuation.output.stl",
+      "begin": "{{",
+      "end": "}}",
+      "patterns": [
+        {
+          "include": "#template_var"
+        }
+      ]
+    },
+    {
+      "name": "punctuation.tag.stl",
+      "begin": "{%",
+      "end": "%}",
+      "patterns": [
+        {
+          "include": "#template_tag_name"
+        },
+        {
+          "include": "#template_var"
+        }
+      ]
+    },
+    {
+      "include": "text.html.basic"
+    }
+  ],
+  "repository": {
+    "assign_op": {
+      "patterns": [
+        {
+          "name": "keyword.operator.assignment.augmented.stl",
+          "match": "\\="
+        }
+      ]
+    },
+    "logic_expression": {
+      "patterns": [
+        {
+          "name": "keyword.operator.assignment.augmented.stl",
+          "match": "\\="
+        }
+      ]
+    },
+    "logic_op": {
+      "patterns": [
+        {
+          "name": "keyword.operator.logical.stl",
+          "match": "\\s+(and|or|not|contains|(\\!\\=|\\=\\=|<\\=|>\\=|<|>)\\s+"
+        }
+      ]
+    },
+    "template_tag_name": {
+      "patterns": [
+        {
+          "name": "entity.name.tag.stl",
+          "match": "(?<={%)\\s*(\\w+)"
+        },
+        {
+          "name": "entity.name.tag.stl",
+          "match": "(?<={%-)\\s*(\\w+)"
+        }
+      ]
+    },
+    "template_var": {
+      "patterns": [
+        {
+          "captures": {
+            "2": {
+              "name": "invalid.illegal.filter.stl"
+            },
+            "3": {
+              "name": "invalid.illegal.filter.stl"
+            }
+          },
+          "match": "(\\[)(\\|)(?=[^\\]]*)(?=\\])"
+        },
+        {
+          "name": "invalid.illegal.filter.stl",
+          "match": "(?<=\\s)(\\+|\\-|/|\\*)(?=\\s)"
+        },
+        {
+          "name": "constant.language.stl",
+          "match": "(false|true|blank)"
+        },
+        {
+          "captures": {
+            "3": {
+              "name": "invalid.illegal.operator.stl"
+            }
+          },
+          "match": "(?=if|unless|elsif)\\s*[^%}]+\\s(in)\\s"
+        },
+        {
+          "name": "keyword.operator.stl",
+          "match": "\\s+(and|or|not|contains|in|by|((\\!|\\=|\\<|\\>)\\=))\\s+"
+        },
+        {
+          "captures": {
+            "2": {
+              "name": "invalid.illegal.assignment.stl"
+            }
+          },
+          "match": "(?<=assign)([^\\=]+)(\\=\\=+)"
+        },
+        {
+          "name": "support.function.with-args.stl",
+          "match": "\\|\\s+(?![\\.0-9])[a-zA-Z0-9_-]+\\:\\s+"
+        },
+        {
+          "name": "support.function.without-args.stl",
+          "match": "\\|\\s+(?![\\.0-9])[a-zA-Z0-9_-]+\\s+"
+        },
+        {
+          "name": "keyword.control.stl",
+          "match": "(?<=\\s)(with|offset\\:|limit\\:)(?=\\s)"
+        },
+        {
+          "captures": {
+            "2": {
+              "name": "invalid.illegal.argument.stl"
+            }
+          },
+          "match": "(?<=include)(.*)(with\\:|offset|limit)(?=\\s)"
+        },
+        {
+          "name": "invalid.illegal.stl",
+          "match": "(?<=\\s)(\\w+\\:)(?=\\:\\s)"
+        },
+        {
+          "name": "string.quoted.double.stl",
+          "begin": "\"",
+          "end": "\""
+        },
+        {
+          "name": "string.quoted.single.stl",
+          "begin": "'",
+          "end": "'"
+        },
+        {
+          "name": "constant.numeric.stl",
+          "match": "(-|\\+)?\\s*[0-9]+(\\.[0-9]+)?"
+        },
+        {
+          "name": "support.class.stl",
+          "match": "\\b(collection|product|linklist|linklists|order|link|customer|customer_address|line_item|shop|collections|page_title|template|image|blog|blogs|cart|pages|theme|themes|variant|items|comment|forloop|settings)\\b"
+        },
+        {
+          "name": "support.class.stl",
+          "match": "\\b(assets|author|body|body_raw|current|date|excerpt_raw|meta|next|pages|parent|posts|previous|site|tags|taxonomy|title|url)\\b"
+        },
+        {
+          "name": "variable.parameter.stl",
+          "match": "((?<=\\w\\:\\s)\\w+)"
+        },
+        {
+          "name": "support.variable.stl",
+          "match": "(?<=\\.)\\w+\\b"
+        },
+        {
+          "name": "variable.other.stl",
+          "match": "\\w+"
+        }
+      ]
+    }
+  },
+  "scopeName": "source.stl"
+}

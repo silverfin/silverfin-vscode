@@ -1,7 +1,7 @@
 {
   "name": "silverfin-development-toolkit",
   "displayName": "Silverfin Development Toolkit",
-  "version": "1.2.5",
+  "version": "1.3.0",
   "publisher": "Silverfin",
   "icon": "resources/sf-icon.png",
   "engines": {
@@ -9,7 +9,8 @@
   },
   "categories": [
     "Snippets",
-    "Other"
+    "Other",
+    "Programming Languages"
   ],
   "repository": {
     "type": "git",
@@ -27,6 +28,28 @@
     "sf_toolkit": "github:silverfin/sf-toolkit"
   },
   "contributes": {
+    "languages": [
+      {
+        "id": "liquid",
+        "aliases": [
+          "Silverfin Templating Language",
+          "stl",
+          "liquid",
+          "silverfin liquid"
+        ],
+        "extensions": [
+          ".liquid"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "liquid",
+        "scopeName": "source.stl",
+        "path": "./syntaxes/stl.tmLanguage.json"
+      }
+    ],
     "yamlValidation": [
       {
         "fileMatch": [
@@ -40,6 +63,10 @@
       {
         "language": "yaml",
         "path": "./snippets/liquid-tests-snippets.json"
+      },
+      {
+        "language": "liquid",
+        "path": "./snippets/liquid-template-snippets.json"
       }
     ],
     "commands": [
