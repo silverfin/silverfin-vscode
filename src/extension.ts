@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import FirmIdCommand from "./firmIdCommand";
+import StatusBarItem from "./statusBarItem";
 import * as types from "./types";
 import * as utils from "./utils";
 const sfToolkit = require("sf_toolkit");
@@ -39,34 +40,7 @@ export async function activate(context: vscode.ExtensionContext) {
     );
   }
 
-  // Status Bar Item
-  const statusBarItem = vscode.window.createStatusBarItem(
-    vscode.StatusBarAlignment.Left,
-    100
-  );
-  if (credentials) {
-    statusBarItem.command = "silverfin-development-toolkit.runAllTests";
-    statusBarItem.text = "Silverfin: run liquid test";
-  } else {
-    statusBarItem.text = "Silverfin: credentials missing";
-  }
-  statusBarItem.show();
-  context.subscriptions.push(statusBarItem);
-
-  // Show/Hide statusBar (based on activeTab is YAML file)
-  vscode.window.onDidChangeActiveTextEditor((e) => {
-    const fileName = vscode.window.activeTextEditor?.document.fileName;
-    if (!fileName) {
-      return;
-    }
-    const fileNameParts = fileName.split(".");
-    const fileType = fileNameParts[fileNameParts.length - 1].toLowerCase();
-    if (fileType === "yaml" || fileType === "yml") {
-      statusBarItem.show();
-    } else {
-      statusBarItem.hide();
-    }
-  });
+  const statusBarItemRunTests = new StatusBarItem(context, credentials);
 
   // Get Firm ID or set a new one
   async function setFirmID() {
@@ -81,8 +55,7 @@ export async function activate(context: vscode.ExtensionContext) {
       });
       // No firm id provided via prompt
       if (!newFirmId) {
-        statusBarItem.text = "Silverfin: run liquid test";
-        statusBarItem.backgroundColor = "";
+        statusBarItemRunTests.setStateIdle();
         return;
       }
       // Store and use new firm id provided
@@ -266,10 +239,7 @@ export async function activate(context: vscode.ExtensionContext) {
         break;
 
       case "internal_error":
-        statusBarItem.text = "Silverfin: internal error";
-        statusBarItem.backgroundColor = new vscode.ThemeColor(
-          "statusBarItem.errorBackground"
-        );
+        statusBarItemRunTests.setStateInternalError();
         let diagnosticInternal: types.DiagnosticObject = {
           range: utils.firstRowRange,
           message:
@@ -320,26 +290,18 @@ export async function activate(context: vscode.ExtensionContext) {
       return;
     }
 
-    // Start Test - Status Bar
-    statusBarItem.text = "Silverfin: running test...";
-    statusBarItem.backgroundColor = new vscode.ThemeColor(
-      "statusBarItem.warningBackground"
-    );
-
     // Run Test
+    statusBarItemRunTests.setStateRunning();
     let response: types.ResponseObject = await sfToolkit.runTests(
       firmId,
       templateHandle
     );
+    statusBarItemRunTests.setStateIdle();
     outputChannel.appendLine(
       `Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
         response
       )}`
     );
-
-    // Update status bar
-    statusBarItem.text = "Silverfin: run liquid test";
-    statusBarItem.backgroundColor = "";
 
     if (!response) {
       // Unhandled errors
@@ -432,12 +394,14 @@ export async function activate(context: vscode.ExtensionContext) {
     }
 
     // Run Test
+    statusBarItemRunTests.setStateRunning();
     let response: types.ResponseObject = await sfToolkit.runTests(
       firmId,
       templateHandle,
       testSelected,
       true
     );
+    statusBarItemRunTests.setStateIdle();
     outputChannel.appendLine(
       `Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
         response
