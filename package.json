@@ -40,7 +40,7 @@
         "extensions": [
           ".liquid"
         ],
-        "configuration": "./language-configuration.json"
+        "configuration": "./languages/liquid-language-configuration.json"
       }
     ],
     "grammars": [
