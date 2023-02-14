@@ -3,3 +3,8 @@ dist
 node_modules
 .vscode-test/
 *.vsix
+
+# Template directories
+reconciliation_texts
+shared_parts
+account_templates
