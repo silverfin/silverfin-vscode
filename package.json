@@ -13,13 +13,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/GetSilverfin/silverfin-development-toolkit.git"
+    "url": "https://github.com/silverfin/silverfin-vscode.git"
   },
-  "homepage": "https://github.com/GetSilverfin/silverfin-development-toolkit/blob/main/README.md",
+  "homepage": "https://github.com/silverfin/silverfin-vscode#readme",
   "activationEvents": [
-    "onLanguage:yaml",
-    "onCommand:silverfin-development-toolkit.runTest",
-    "onCommand:silverfin-development-toolkit.setFirm"
+    "onLanguage:yaml"
   ],
   "main": "./out/extension.js",
   "extensionDependencies": [
