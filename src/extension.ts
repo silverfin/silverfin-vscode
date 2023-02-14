@@ -349,7 +349,8 @@ export async function activate(context: vscode.ExtensionContext) {
   // Command to set Firm ID via prompt and store it
   new FirmIdCommand(context);
 
-  async function runTestWithHTMLCommandHandler() {
+  async function runTestWithOptionsCommandHandler() {
+    const allTests = "Run all Liquid Tests";
     // Check right file
     let checksPassed = await utils.checkFilePath();
     if (!checksPassed) {
@@ -386,6 +387,7 @@ export async function activate(context: vscode.ExtensionContext) {
     // Identify Test names
     const testNamesandRows = utils.findTestNamesAndRows(currentYamlDocument);
     const testNames = Object.keys(testNamesandRows);
+    testNames.unshift(allTests);
 
     // Select Test to be run
     const testSelected = await vscode.window.showQuickPick(testNames);
@@ -395,12 +397,19 @@ export async function activate(context: vscode.ExtensionContext) {
 
     // Run Test
     statusBarItemRunTests.setStateRunning();
-    let response: types.ResponseObject = await sfToolkit.runTests(
-      firmId,
-      templateHandle,
-      testSelected,
-      true
-    );
+    let response: types.ResponseObject;
+    if (testSelected === allTests) {
+      // Run all tests without HTML
+      response = await sfToolkit.runTests(firmId, templateHandle);
+    } else {
+      // Run specific test with HTML
+      response = await sfToolkit.runTests(
+        firmId,
+        templateHandle,
+        testSelected,
+        true
+      );
+    }
     statusBarItemRunTests.setStateIdle();
     outputChannel.appendLine(
       `Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
@@ -419,27 +428,34 @@ export async function activate(context: vscode.ExtensionContext) {
     // Process response and update collection
     processResponse(currentYamlDocument, errorsCollection, response);
 
-    // Get HTML
-    await sfToolkit.getHTML(response.tests[testSelected].html, testSelected);
+    // HANDLE HTML PANEL
+    if (testSelected === allTests) {
+      // Delete HTML panel
+      if (htmlPanel) {
+        htmlPanel.dispose();
+      }
+    } else {
+      await sfToolkit.getHTML(response.tests[testSelected].html, testSelected);
 
-    // Create Panel if needed
-    if (!htmlPanel) {
-      htmlPanel = vscode.window.createWebviewPanel(
-        "htmlWebView",
-        "HTML View",
-        vscode.ViewColumn.Two
-      );
+      // Create Panel if needed
+      if (!htmlPanel) {
+        htmlPanel = vscode.window.createWebviewPanel(
+          "htmlWebView",
+          "HTML View",
+          vscode.ViewColumn.Two
+        );
+      }
+
+      // Display HTML
+      const filePath = sfToolkit.resolveHTMLPath(testSelected);
+      const fs = require("fs");
+      htmlPanel.webview.html = fs.readFileSync(filePath, "utf8");
     }
-
-    // Display HTML
-    const filePath = sfToolkit.resolveHTMLPath(testSelected);
-    const fs = require("fs");
-    htmlPanel.webview.html = fs.readFileSync(filePath, "utf8");
   }
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "silverfin-development-toolkit.runTestWithHTML",
-      runTestWithHTMLCommandHandler
+      "silverfin-development-toolkit.runTestWithOptions",
+      runTestWithOptionsCommandHandler
     )
   );
 }

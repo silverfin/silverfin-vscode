@@ -8,7 +8,7 @@ export default class StatusBarItem {
       100
     );
     if (credentials) {
-      this.item.command = "silverfin-development-toolkit.runAllTests";
+      this.item.command = "silverfin-development-toolkit.runTestWithOptions";
       this.item.text = "Silverfin: run liquid test";
     } else {
       this.item.text = "Silverfin: credentials missing";
