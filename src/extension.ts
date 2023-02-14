@@ -1,5 +1,332 @@
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
+import FirmIdCommand from "./firmIdCommand";
+import * as types from "./types";
+import * as utils from "./utils";
+const sfToolkit = require("sf_toolkit");
+const { config } = require("sf_toolkit/api/auth");
 
-export function activate(context: vscode.ExtensionContext) {}
+export async function activate(context: vscode.ExtensionContext) {
+  // Output Channel
+  const outputChannel = vscode.window.createOutputChannel("Silverfin");
+
+  // API Credentials
+  const credentials =
+    process.env.SF_API_CLIENT_ID && process.env.SF_API_SECRET ? true : false;
+  outputChannel.appendLine(`Credentials: ${credentials}`);
+
+  // Set Context Key
+  // We can use this key in package.json menus.commandPalette to show/hide our commands
+  vscode.commands.executeCommand(
+    "setContext",
+    "silverfin-development-toolkit.apiAuthorized",
+    credentials
+  );
+
+  // Get Current Document Information
+  let currentYaml: vscode.TextDocument;
+
+  // Errors from Liquid Test are stored in a Diagnostic Collection
+  const errorsCollection =
+    vscode.languages.createDiagnosticCollection(`Collection`);
+
+  // Load Errors stored for open file if any
+  if (vscode.window.activeTextEditor) {
+    utils.loadStoredDiagnostics(
+      vscode.window.activeTextEditor.document,
+      outputChannel,
+      context,
+      errorsCollection
+    );
+  }
+
+  // Status Bar Item
+  const statusBarItem = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Left,
+    100
+  );
+  if (credentials) {
+    statusBarItem.command = "silverfin-development-toolkit.runTest";
+    statusBarItem.text = "Silverfin: run liquid test";
+  } else {
+    statusBarItem.text = "Silverfin: credentials missing";
+  }
+  statusBarItem.show();
+  context.subscriptions.push(statusBarItem);
+
+  // Show/Hide statusBar (based on activeTab is YAML file)
+  vscode.window.onDidChangeActiveTextEditor((e) => {
+    const fileName = vscode.window.activeTextEditor?.document.fileName;
+    if (!fileName) {
+      return;
+    }
+    const fileNameParts = fileName.split(".");
+    const fileType = fileNameParts[fileNameParts.length - 1].toLowerCase();
+    if (fileType === "yaml" || fileType === "yml") {
+      statusBarItem.show();
+    } else {
+      statusBarItem.hide();
+    }
+  });
+
+  // Process errors, create Diagnostic Objects with all the needed information
+  function createDiagnostics(
+    document: vscode.TextDocument,
+    responseResults: types.ResultArray
+  ): types.DiagnosticObject[] {
+    const collectionArray: types.DiagnosticObject[] = [];
+    for (let testObject of responseResults) {
+      let resultParts = testObject.result.split(".");
+      let resultType = resultParts.shift();
+      let resultJoin;
+      if (resultParts.length > 0) {
+        resultJoin = resultParts.join(".");
+      }
+
+      let diagnosticMessage = `[${
+        resultJoin || "Reconciled status"
+      }] Expected: ${
+        testObject.expected
+      } (${typeof testObject.expected}) | Got: ${
+        testObject.got
+      } (${typeof testObject.got})`;
+      let diagnosticLineNumber = testObject.line_number - 1;
+
+      if (resultType !== "reconciled") {
+        // Expresion: name: content
+        let reExpresion = `${resultParts[resultParts.length - 1]}: (\"|\')${
+          testObject.expected
+        }(\"|\')`;
+        // We first search in it's specific unit test (that's why we filter the index start)
+        // If it's not found there we search in the entire file
+        // Because of anchor & aliases it could be defined in a preivous test
+        let testIndex = utils.findIndexRow(document, testObject.test);
+        let newIndex = utils.findIndexRow(document, reExpresion, testIndex);
+        if (newIndex && newIndex !== 0) {
+          diagnosticLineNumber = newIndex;
+        } else {
+          newIndex = utils.findIndexRow(document, reExpresion);
+          if (newIndex && newIndex !== 0) {
+            diagnosticLineNumber = newIndex;
+          }
+        }
+      }
+      // Range to highlight
+      let highlightStartIndex =
+        document.lineAt(diagnosticLineNumber).firstNonWhitespaceCharacterIndex;
+      let highlighEndIndex =
+        document.lineAt(diagnosticLineNumber).text.split("").length + 1;
+      let diagnosticRange = new vscode.Range(
+        new vscode.Position(diagnosticLineNumber, highlightStartIndex),
+        new vscode.Position(diagnosticLineNumber, highlighEndIndex)
+      );
+
+      // Create diagnostic object
+      let diagnostic: types.DiagnosticObject = {
+        range: diagnosticRange,
+        message: diagnosticMessage,
+        severity: vscode.DiagnosticSeverity.Error,
+        source: "Liquid Test",
+        code: testObject.test,
+      };
+      collectionArray.push(diagnostic);
+    }
+    return collectionArray;
+  }
+
+  // Process the response from the API call and update the collection
+  function processResponse(
+    document: vscode.TextDocument,
+    collection: vscode.DiagnosticCollection,
+    response: types.ResponseObject
+  ): void {
+    let collectionArray: types.DiagnosticObject[] = [];
+    if (response.status === "completed") {
+      if (document && response.result && response.result.length > 0) {
+        // Errors present after liquid test run
+        collectionArray = createDiagnostics(document, response.result);
+        collection.set(document.uri, collectionArray);
+      } else {
+        // No errors after liquid test
+        collection.set(document.uri, []);
+        vscode.window.showInformationMessage(
+          "All tests have passed succesfully!"
+        );
+      }
+    } else if (response.status === "test_error") {
+      // Test concluded
+      // Error that prevented the Liquid Test to be run
+      let diagnosticRange: vscode.Range;
+      if (
+        response.error_line_number &&
+        response.hasOwnProperty("error_line_number")
+      ) {
+        let highlightStartIndex = document.lineAt(
+          response.error_line_number - 1
+        ).firstNonWhitespaceCharacterIndex;
+        let highlighEndIndex =
+          document.lineAt(response.error_line_number - 1).text.split("")
+            .length + 1;
+        diagnosticRange = new vscode.Range(
+          new vscode.Position(
+            response.error_line_number - 1,
+            highlightStartIndex
+          ),
+          new vscode.Position(response.error_line_number - 1, highlighEndIndex)
+        );
+      } else {
+        diagnosticRange = utils.firstRowRange;
+      }
+      let diagnosticMessage;
+      if (response.error_message) {
+        diagnosticMessage = response.error_message;
+      } else {
+        diagnosticMessage = "Error message not provided";
+      }
+      let diagnostic: types.DiagnosticObject = {
+        range: diagnosticRange,
+        message: diagnosticMessage,
+        severity: vscode.DiagnosticSeverity.Error,
+        source: "Liquid Test",
+      };
+      collectionArray.push(diagnostic);
+      collection.set(document.uri, collectionArray);
+    } else if (response.status === "internal_error") {
+      // Internal error
+      statusBarItem.text = "Silverfin: internal error";
+      statusBarItem.backgroundColor = new vscode.ThemeColor(
+        "statusBarItem.errorBackground"
+      );
+      let diagnostic: types.DiagnosticObject = {
+        range: utils.firstRowRange,
+        message:
+          "Internal error. Try to run the test again. If the issue persists, contact support",
+        severity: vscode.DiagnosticSeverity.Error,
+        source: "Liquid Test",
+      };
+      collectionArray.push(diagnostic);
+      collection.set(document.uri, collectionArray);
+    }
+    // Store Diagnostic Objects
+    context.globalState.update(document.uri.toString(), collectionArray);
+  }
+
+  // Run Test Command
+  async function runTestCommandHandler() {
+    // Check right file
+    let checksPassed = await utils.checkFilePath();
+    if (!checksPassed) {
+      return;
+    }
+    // Get template handle
+    let templateHandle = await utils.getTemplateHandle();
+    if (!templateHandle) {
+      return;
+    }
+
+    // Check active tab and get document
+    if (!vscode.window.activeTextEditor) {
+      return;
+    }
+    currentYaml = vscode.window.activeTextEditor.document;
+
+    // Get Firm Stored
+    let firmId = await sfToolkit.getDefaultFirmID();
+    // Request Firm ID and store it if necessary
+    if (!firmId) {
+      const newFirmId = await vscode.window.showInputBox({
+        prompt:
+          "There is no Firm ID stored. Provide one to run the liquid test",
+        placeHolder: "123456",
+        title: "FIRM ID",
+      });
+      // No firm id provided via prompt
+      if (!newFirmId) {
+        statusBarItem.text = "Silverfin: run liquid test";
+        statusBarItem.backgroundColor = "";
+        return;
+      }
+      // Store and use new firm id provided
+      await sfToolkit.setDefaultFirmID(newFirmId);
+      firmId = newFirmId;
+    }
+
+    // Check firm id
+    const firmIdStored = config.getFirmId();
+    const firmCredentials = config.getTokens(firmIdStored);
+    if (!firmCredentials) {
+      vscode.window.showErrorMessage(
+        "You first need to authorize your firm using the CLI"
+      );
+      return;
+    }
+
+    // Start Test - Status Bar
+    statusBarItem.text = "Silverfin: running test...";
+    statusBarItem.backgroundColor = new vscode.ThemeColor(
+      "statusBarItem.warningBackground"
+    );
+
+    // Run Test
+    let response: types.ResponseObject = await sfToolkit.runTests(
+      firmId,
+      templateHandle
+    );
+    outputChannel.appendLine(
+      `Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
+        response
+      )}`
+    );
+
+    // Update status bar
+    statusBarItem.text = "Silverfin: run liquid test";
+    statusBarItem.backgroundColor = "";
+
+    if (!response) {
+      // Unhandled errors
+      vscode.window.showErrorMessage(
+        "Unexpected error: use the CLI to get more information"
+      );
+      return;
+    }
+
+    // Process response and update collection
+    processResponse(currentYaml, errorsCollection, response);
+  }
+  // Register Command
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "silverfin-development-toolkit.runTest",
+      runTestCommandHandler
+    )
+  );
+
+  // When a new file is opened for the first time. Load the Diagnostic stored from previous runs
+  context.subscriptions.push(
+    vscode.workspace.onDidOpenTextDocument(async (currentDocument) => {
+      utils.loadStoredDiagnostics(
+        currentDocument,
+        outputChannel,
+        context,
+        errorsCollection
+      );
+    })
+  );
+
+  // Command to clean Diagnostic Collection of current file
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "silverfin-development-toolkit.clearCurrentDiagnosticCollection",
+      () => {
+        if (!vscode.window.activeTextEditor) {
+          return;
+        }
+        errorsCollection.set(vscode.window.activeTextEditor.document.uri, []);
+      }
+    )
+  );
+
+  // Command to set Firm ID via prompt and store it
+  new FirmIdCommand(context);
+}
 
 export function deactivate() {}
