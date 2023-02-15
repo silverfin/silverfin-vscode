@@ -2,6 +2,12 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.4.0]
+
+### Added
+
+- HTML render of templates inside Visual Studio Code while running a Liquid Test
+
 ## [1.2.0]
 
 ### Updated

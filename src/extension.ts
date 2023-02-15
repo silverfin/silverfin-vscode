@@ -24,7 +24,7 @@ export async function activate(context: vscode.ExtensionContext) {
   );
 
   let currentYamlDocument: vscode.TextDocument;
-  let htmlPanel: vscode.WebviewPanel;
+  let htmlPanel: vscode.WebviewPanel | undefined;
 
   // Errors from Liquid Test are stored in a Diagnostic Collection
   const errorsCollection =
@@ -433,23 +433,36 @@ export async function activate(context: vscode.ExtensionContext) {
       // Delete HTML panel
       if (htmlPanel) {
         htmlPanel.dispose();
+        htmlPanel = undefined;
       }
     } else {
-      await sfToolkit.getHTML(response.tests[testSelected].html, testSelected);
-
-      // Create Panel if needed
-      if (!htmlPanel) {
-        htmlPanel = vscode.window.createWebviewPanel(
-          "htmlWebView",
-          "HTML View",
-          vscode.ViewColumn.Two
+      try {
+        await sfToolkit.getHTML(
+          response.tests[testSelected].html,
+          testSelected
         );
-      }
+        // Open File
+        const filePath = sfToolkit.resolveHTMLPath(testSelected);
+        const fs = require("fs");
+        const fileContent = fs.readFileSync(filePath, "utf8");
 
-      // Display HTML
-      const filePath = sfToolkit.resolveHTMLPath(testSelected);
-      const fs = require("fs");
-      htmlPanel.webview.html = fs.readFileSync(filePath, "utf8");
+        if (!htmlPanel || !htmlPanel?.visible) {
+          htmlPanel = vscode.window.createWebviewPanel(
+            "htmlWebView",
+            "HTML View",
+            { viewColumn: vscode.ViewColumn.Two, preserveFocus: true }
+          );
+        }
+        // Display HTML
+        htmlPanel.webview.html = fileContent;
+      } catch (error) {
+        outputChannel.appendLine(`Error while opening HTML:`);
+        outputChannel.appendLine(JSON.stringify(error));
+        if (htmlPanel) {
+          htmlPanel.dispose();
+          htmlPanel = undefined;
+        } // close panel if open
+      }
     }
   }
   context.subscriptions.push(

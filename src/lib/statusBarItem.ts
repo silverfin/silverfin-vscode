@@ -21,11 +21,12 @@ export default class StatusBarItem {
 
   private registerOnDidChange() {
     // Show/Hide statusBar (based on activeTab is YAML file)
-    vscode.window.onDidChangeActiveTextEditor((e) => {
-      const fileName = vscode.window.activeTextEditor?.document.fileName;
-      if (!fileName) {
+    vscode.window.onDidChangeActiveTextEditor((activeTab) => {
+      if (!activeTab) {
+        this.item.hide();
         return;
       }
+      const fileName = activeTab.document.fileName;
       const fileNameParts = fileName.split(".");
       const fileType = fileNameParts[fileNameParts.length - 1].toLowerCase();
       if (fileType === "yaml" || fileType === "yml") {
