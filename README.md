@@ -1,5 +1,9 @@
 # Silverfin Development Toolkit
 
+![Maintained](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
+![License](https://img.shields.io/github/license/silverfin/silverfin-vscode.svg)
+![Issues](https://img.shields.io/github/issues/silverfin/silverfin-vscode.svg)
+
 This extension aims to support the creation of **Liquid templates** with the [Silverfin Templating Language](https://developer.silverfin.com/docs) and the development of [Liquid testing YAML](https://developer.silverfin.com/docs/liquid-testing) files.
 
 ## Features
