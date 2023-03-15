@@ -1,17 +1,30 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from "vscode";
 
-export type ResultArray = {
-  test: string;
-  result: string;
+export type ResultDetails = {
+  test?: string;
+  result?: string;
   got: any;
   expected: any;
   line_number: number;
-}[];
+};
+
+export type ResultObj = {
+  [key: string]: ResultDetails;
+};
+
+export type testObject = {
+  [key: string]: {
+    reconciled: ResultDetails | null;
+    results: ResultObj | {};
+    rollforwards: ResultObj | {};
+    html?: string;
+  };
+};
 
 export type ResponseObject = {
   status: "completed" | "internal_error" | "test_error" | "started";
-  result?: ResultArray;
+  tests: testObject;
   error_line_number?: number;
   error_message?: string;
 };

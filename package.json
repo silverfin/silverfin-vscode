@@ -1,7 +1,7 @@
 {
   "name": "silverfin-development-toolkit",
   "displayName": "Silverfin Development Toolkit",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "publisher": "Silverfin",
   "icon": "resources/sf-icon.png",
   "engines": {
@@ -71,8 +71,12 @@
     ],
     "commands": [
       {
-        "command": "silverfin-development-toolkit.runTest",
-        "title": "Silverfin: run liquid test"
+        "command": "silverfin-development-toolkit.runAllTests",
+        "title": "Silverfin: run all liquid tests"
+      },
+      {
+        "command": "silverfin-development-toolkit.runTestWithOptions",
+        "title": "Silverfin: run specific liquid test (with HTML output)"
       },
       {
         "command": "silverfin-development-toolkit.setFirm",
@@ -85,7 +89,12 @@
     ],
     "keybindings": [
       {
-        "command": "silverfin-development-toolkit.runTest",
+        "command": "silverfin-development-toolkit.runAllTests",
+        "key": "ctrl+shift+a",
+        "mac": "cmd+shift+a"
+      },
+      {
+        "command": "silverfin-development-toolkit.runTestWithOptions",
         "key": "ctrl+shift+t",
         "mac": "cmd+shift+t"
       },
@@ -98,7 +107,11 @@
     "menus": {
       "commandPalette": [
         {
-          "command": "silverfin-development-toolkit.runTest",
+          "command": "silverfin-development-toolkit.runAllTests",
+          "when": "editorLangId == yaml && silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.runTestWithOptions",
           "when": "editorLangId == yaml && silverfin-development-toolkit.apiAuthorized"
         },
         {

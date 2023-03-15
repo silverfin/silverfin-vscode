@@ -52,6 +52,7 @@ export default class FirmIdCommand {
       return;
     }
   }
+
   private registerCommand(
     context: vscode.ExtensionContext,
     commandName: string,
