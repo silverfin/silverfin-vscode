@@ -429,7 +429,17 @@ export async function activate(context: vscode.ExtensionContext) {
     processResponse(currentYamlDocument, errorsCollection, response);
 
     // HANDLE HTML PANEL
+    if (response.status !== "completed") {
+      outputChannel.appendLine(`Test failed. No HTML panel created`);
+      // Delete HTML panel
+      if (htmlPanel) {
+        htmlPanel.dispose();
+        htmlPanel = undefined;
+      }
+      return;
+    }
     if (testSelected === allTests) {
+      outputChannel.appendLine(`All tests run. No HTML panel created`);
       // Delete HTML panel
       if (htmlPanel) {
         htmlPanel.dispose();

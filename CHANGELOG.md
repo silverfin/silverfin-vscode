@@ -2,6 +2,13 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.4.1]
+
+## Added
+
+- Update sf-toolkit to v1.4.1
+- Output channel: extra logging when test run fails. Close/Prevent HTML panel
+
 ## [1.4.0]
 
 ### Added
