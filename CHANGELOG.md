@@ -2,6 +2,12 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.4.3]
+
+### Updated
+
+- Update dependencies. Sf-toolkit to v1.5.2
+
 ## [1.4.2]
 
 ### Updated
