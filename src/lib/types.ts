@@ -34,7 +34,7 @@ export type DiagnosticObject = {
   code?: string;
   message: string;
   severity: vscode.DiagnosticSeverity;
-  source: string;
+  source: string; // We store the expected value here
   tags?: vscode.DiagnosticTag[];
 };
 
@@ -46,7 +46,7 @@ export type StoredDiagnostic = {
   code?: string;
   message: string;
   severity: number;
-  source: string;
+  source: string; // We store the expected value here
   tags?: any;
 };
 

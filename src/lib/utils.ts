@@ -96,15 +96,13 @@ export function findIndexRow(
 
 // Load the Diagnostic stored from previous runs
 // Check file, look for stored data, parse it, create collection
+// Return the collection as array for further use if needed
 export async function loadStoredDiagnostics(
   currentDocument: vscode.TextDocument,
   outputChannel: vscode.OutputChannel,
   context: vscode.ExtensionContext,
   errorsCollection: vscode.DiagnosticCollection
 ) {
-  outputChannel.appendLine(
-    `File opened: ${JSON.stringify(currentDocument.fileName)}`
-  );
   // Check if yaml
   if (
     currentDocument.fileName.split(".")[
@@ -116,6 +114,9 @@ export async function loadStoredDiagnostics(
   // Open Diagnostic Stored in Global State
   let storedDiagnostics: types.StoredDiagnostic[] | undefined =
     await context.globalState.get(currentDocument.uri.toString());
+  outputChannel.appendLine(
+    `[Stored diagnostics] loaded: ${JSON.stringify(currentDocument.fileName)}`
+  );
   // outputChannel.appendLine(
   //   `Stored Diagnostics: ${JSON.stringify(storedDiagnostics)}`
   // );
@@ -125,15 +126,36 @@ export async function loadStoredDiagnostics(
     for (let diagnosticStored of storedDiagnostics) {
       let diagnosticRecreated = types.diagnosticParser(diagnosticStored);
       collectionArray.push(diagnosticRecreated);
-      // outputChannel.appendLine(
-      //   `Recreated Diagnostics: ${JSON.stringify(diagnosticRecreated)}`
-      // );
     }
     // Load the Diagnostics
     errorsCollection.set(currentDocument.uri, collectionArray);
+    return collectionArray;
   }
 }
 
+// Diagnostic Collection Filter
+// Compare the current document with the stored diagnostics
+// Filter those that are no longer relevant
+export function filterFixedDiagnostics(
+  currentDocument: vscode.TextDocument,
+  outputChannel: vscode.OutputChannel,
+  context: vscode.ExtensionContext,
+  errorsCollection: vscode.DiagnosticCollection,
+  storedDiagnostics: types.DiagnosticObject[]
+) {
+  let collectionArray: types.DiagnosticObject[] = [];
+  for (let diagnosticStored of storedDiagnostics) {
+    let testRow = currentDocument.getText(diagnosticStored.range);
+    let testRowExpectation = testRow.split(":")[1].trim();
+    if (testRowExpectation.toString() !== diagnosticStored.source.toString()) {
+      collectionArray.push(diagnosticStored);
+    }
+  }
+  errorsCollection.set(currentDocument.uri, []);
+  errorsCollection.set(currentDocument.uri, collectionArray);
+}
+
+// Return an array with the names of the unit tests and the row where they are located
 export function findTestNamesAndRows(document: vscode.TextDocument) {
   const testContent = document.getText();
   const testYAML = yaml.parse(testContent);

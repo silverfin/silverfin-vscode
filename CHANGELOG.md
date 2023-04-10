@@ -2,6 +2,12 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.5.0]
+
+### Added
+
+- Dynamically compare the Error's list from the the last test run with the content of the file. When the file is updated to solve the issue, the error should be gone from the interface (but it is still stored)
+
 ## [1.4.3]
 
 ### Updated

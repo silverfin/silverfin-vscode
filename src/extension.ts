@@ -106,7 +106,7 @@ export async function activate(context: vscode.ExtensionContext) {
           range: diagnosticRange,
           message: diagnosticMessage,
           severity: vscode.DiagnosticSeverity.Error,
-          source: "Liquid Test",
+          source: testObject.reconciled.got,
           code: testName,
         };
         collectionArray.push(diagnostic);
@@ -161,7 +161,7 @@ export async function activate(context: vscode.ExtensionContext) {
           range: diagnosticRange,
           message: diagnosticMessage,
           severity: vscode.DiagnosticSeverity.Error,
-          source: "Liquid Test",
+          source: itemObject.got,
           code: testName,
         };
         collectionArray.push(diagnostic);
@@ -232,7 +232,7 @@ export async function activate(context: vscode.ExtensionContext) {
           range: diagnosticRange,
           message: diagnosticMessage,
           severity: vscode.DiagnosticSeverity.Error,
-          source: "Liquid Test",
+          source: "error_message",
         };
         collectionArray.push(diagnosticError);
         collection.set(document.uri, collectionArray);
@@ -245,7 +245,7 @@ export async function activate(context: vscode.ExtensionContext) {
           message:
             "Internal error. Try to run the test again. If the issue persists, contact support",
           severity: vscode.DiagnosticSeverity.Error,
-          source: "Liquid Test",
+          source: "internal_error",
         };
         collectionArray.push(diagnosticInternal);
         collection.set(document.uri, collectionArray);
@@ -290,6 +290,7 @@ export async function activate(context: vscode.ExtensionContext) {
       return;
     }
 
+    outputChannel.appendLine(`Current directory: ${process.cwd()}`);
     // Run Test
     statusBarItemRunTests.setStateRunning();
     let response: types.ResponseObject = await sfToolkit.runTests(
@@ -329,6 +330,32 @@ export async function activate(context: vscode.ExtensionContext) {
         outputChannel,
         context,
         errorsCollection
+      );
+    })
+  );
+
+  // Check for changes in current file and compare them with the stored Diagnostic Objects
+  context.subscriptions.push(
+    vscode.window.onDidChangeTextEditorSelection(async () => {
+      if (!vscode.window.activeTextEditor) {
+        return;
+      }
+      let currentDocument = vscode.window.activeTextEditor.document;
+      let storedDiagnostics = await utils.loadStoredDiagnostics(
+        currentDocument,
+        outputChannel,
+        context,
+        errorsCollection
+      );
+      if (!storedDiagnostics) {
+        return;
+      }
+      utils.filterFixedDiagnostics(
+        currentDocument,
+        outputChannel,
+        context,
+        errorsCollection,
+        storedDiagnostics
       );
     })
   );
@@ -395,6 +422,7 @@ export async function activate(context: vscode.ExtensionContext) {
       return;
     }
 
+    outputChannel.appendLine(`Current directory: ${process.cwd()}`);
     // Run Test
     statusBarItemRunTests.setStateRunning();
     let response: types.ResponseObject;
