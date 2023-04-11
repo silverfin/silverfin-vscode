@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import FirmIdCommand from "./lib/firmIdCommand";
+import { LiquidTestFixer } from "./lib/quickFixes";
 import StatusBarItem from "./lib/statusBarItem";
 import * as types from "./lib/types";
 import * as utils from "./lib/utils";
@@ -39,6 +40,17 @@ export async function activate(context: vscode.ExtensionContext) {
       errorsCollection
     );
   }
+
+  // Quick Fixes Provider
+  context.subscriptions.push(
+    vscode.languages.registerCodeActionsProvider(
+      "yaml",
+      new LiquidTestFixer(),
+      {
+        providedCodeActionKinds: LiquidTestFixer.providedCodeActionKinds,
+      }
+    )
+  );
 
   const statusBarItemRunTests = new StatusBarItem(context, credentials);
 

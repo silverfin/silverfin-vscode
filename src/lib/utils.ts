@@ -146,8 +146,11 @@ export function filterFixedDiagnostics(
   let collectionArray: types.DiagnosticObject[] = [];
   for (let diagnosticStored of storedDiagnostics) {
     let testRow = currentDocument.getText(diagnosticStored.range);
-    let testRowExpectation = testRow.split(":")[1].trim();
-    if (testRowExpectation.toString() !== diagnosticStored.source.toString()) {
+    let testRowExpectation = testRow.split(":")[1];
+    if (
+      testRowExpectation &&
+      testRowExpectation.toString() !== diagnosticStored.source.toString()
+    ) {
       collectionArray.push(diagnosticStored);
     }
   }
