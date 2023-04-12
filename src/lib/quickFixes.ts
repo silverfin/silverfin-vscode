@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import * as utils from "./utils";
 
 export class LiquidTestFixer implements vscode.CodeActionProvider {
   public static readonly providedCodeActionKinds = [
@@ -15,7 +16,12 @@ export class LiquidTestFixer implements vscode.CodeActionProvider {
       // TODO We can use the diagnostic.code to define different types of fixes
       // For example: "nothing" => non_existent_row => remove row
       // For example: missing results => missing_row => add results in a new row
-      const expectedAndGot = this.getExpectedGotFromMessage(diagnostic.message);
+      // TODO We can use the diagnostic.source to search the item in the YAML tree instead of relying on the line number
+      // Amount of rows can change, so we can't rely on the line number
+      // Also, using the YAML tree we can add new rows precisely where they should be
+      const expectedAndGot = utils.getExpectedGotFromMessage(
+        diagnostic.message
+      );
       const got = expectedAndGot[1].toString().trim();
       let codeAction: vscode.CodeAction | undefined;
       // if 'nothing', then we should remove the entire line
@@ -54,7 +60,7 @@ export class LiquidTestFixer implements vscode.CodeActionProvider {
     range: vscode.Range,
     diagnostic: vscode.Diagnostic
   ): vscode.CodeAction | undefined {
-    const expectedAndGot = this.getExpectedGotFromMessage(diagnostic.message);
+    const expectedAndGot = utils.getExpectedGotFromMessage(diagnostic.message);
     const got = expectedAndGot[1].toString().trim();
     const rowContent = document.lineAt(range.start.line);
     const indexContentStart = rowContent.text.match(/:/)?.index;
@@ -79,25 +85,5 @@ export class LiquidTestFixer implements vscode.CodeActionProvider {
       got
     );
     return fixReplace;
-  }
-
-  // Return: [expected, got]
-  private getExpectedGotFromMessage(message: string): string[] {
-    const output = [];
-    const expectedRegex = /Expected:\s*([^(]+)/g;
-    const expectedMatch = message.match(expectedRegex);
-    if (expectedMatch) {
-      output.push(expectedMatch[0].replace("Expected: ", ""));
-    } else {
-      output.push("");
-    }
-    const gotRegex = /Got:\s*([^(]+)/g;
-    const gotMatch = message.match(gotRegex);
-    if (gotMatch) {
-      output.push(gotMatch[0].replace("Got: ", ""));
-    } else {
-      output.push("");
-    }
-    return output;
   }
 }

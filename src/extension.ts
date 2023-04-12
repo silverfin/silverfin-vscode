@@ -93,10 +93,9 @@ export async function activate(context: vscode.ExtensionContext) {
         ...testObject.results,
         ...testObject.rollforwards,
       };
-
       if (testObject.reconciled) {
         // MESSAGE
-        let diagnosticMessage = `[${"Reconciled status"}] Expected: ${
+        let diagnosticMessage = `["Reconciled status"] Expected: ${
           testObject.reconciled.expected
         } (${typeof testObject.reconciled.expected}) | Got: ${
           testObject.reconciled.got
@@ -118,7 +117,7 @@ export async function activate(context: vscode.ExtensionContext) {
           range: diagnosticRange,
           message: diagnosticMessage,
           severity: vscode.DiagnosticSeverity.Error,
-          source: testObject.reconciled.got,
+          source: `${testName}.expectation.reconciled`, // to identify object in tree
           code: testName,
         };
         collectionArray.push(diagnostic);
@@ -168,12 +167,17 @@ export async function activate(context: vscode.ExtensionContext) {
           new vscode.Position(diagnosticLineNumber, highlightStartIndex),
           new vscode.Position(diagnosticLineNumber, highlighEndIndex)
         );
+        // result or rollforward ?
+        let itemType: string;
+        Object.keys(testObject.rollforwards).includes(itemName)
+          ? (itemType = "rollforward")
+          : (itemType = "result");
         // Create diagnostic object
         let diagnostic: types.DiagnosticObject = {
           range: diagnosticRange,
           message: diagnosticMessage,
           severity: vscode.DiagnosticSeverity.Error,
-          source: itemObject.got,
+          source: `${testName}.expectation.${itemType}.${itemName}`, // to identify object in tree
           code: testName,
         };
         collectionArray.push(diagnostic);

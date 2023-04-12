@@ -25,7 +25,8 @@
     "redhat.vscode-yaml"
   ],
   "dependencies": {
-    "sf_toolkit": "github:silverfin/sf-toolkit"
+    "sf_toolkit": "github:silverfin/sf-toolkit",
+    "yaml": "^2.2.1"
   },
   "contributes": {
     "languages": [

@@ -145,12 +145,13 @@ export function filterFixedDiagnostics(
 ) {
   let collectionArray: types.DiagnosticObject[] = [];
   for (let diagnosticStored of storedDiagnostics) {
-    let testRow = currentDocument.getText(diagnosticStored.range);
-    let testRowExpectation = testRow.split(":")[1];
-    if (
-      testRowExpectation &&
-      testRowExpectation.toString() !== diagnosticStored.source.toString()
-    ) {
+    let testRow = {};
+    try {
+      let testRow = yaml.parse(currentDocument.getText(diagnosticStored.range));
+    } catch (error) {}
+    let testRowExpectation = Object.values(testRow)[0];
+    let gotValue = getExpectedGotFromMessage(diagnosticStored.message)[1];
+    if (testRowExpectation && testRowExpectation !== gotValue) {
       collectionArray.push(diagnosticStored);
     }
   }
@@ -170,4 +171,25 @@ export function findTestNamesAndRows(document: vscode.TextDocument) {
     indexes[testName] = index;
   });
   return indexes;
+}
+
+// From the Messaage of the error, extract the expected and got values
+// Return: [expected, got]
+export function getExpectedGotFromMessage(message: string): string[] {
+  const output = [];
+  const expectedRegex = /Expected:\s*([^(]+)/g;
+  const expectedMatch = message.match(expectedRegex);
+  if (expectedMatch) {
+    output.push(expectedMatch[0].replace("Expected: ", ""));
+  } else {
+    output.push("");
+  }
+  const gotRegex = /Got:\s*([^(]+)/g;
+  const gotMatch = message.match(gotRegex);
+  if (gotMatch) {
+    output.push(gotMatch[0].replace("Got: ", ""));
+  } else {
+    output.push("");
+  }
+  return output;
 }
