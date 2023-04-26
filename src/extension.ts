@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import FirmIdCommand from "./lib/firmIdCommand";
+import LiquidLinter from "./lib/liquidLinter";
 import StatusBarItem from "./lib/statusBarItem";
 import * as types from "./lib/types";
 import * as utils from "./lib/utils";
@@ -63,6 +64,21 @@ export async function activate(context: vscode.ExtensionContext) {
       firmId = newFirmId;
     }
     return firmId;
+  }
+
+  async function checkFirmCredentials() {
+    const firmIdStored = config.getFirmId();
+    const firmCredentials = config.getTokens(firmIdStored);
+    if (!firmCredentials) {
+      vscode.window.showErrorMessage(
+        `Firm ID: ${firmIdStored}. You first need to authorize your firm using the CLI`
+      );
+      outputChannel.appendLine(
+        `Firm ID: ${firmIdStored}. Pair of access/refresh tokens missing from config`
+      );
+      return false;
+    }
+    return true;
   }
 
   // Process errors, create Diagnostic Objects with all the needed information
@@ -276,17 +292,8 @@ export async function activate(context: vscode.ExtensionContext) {
 
     // Get Firm Stored
     let firmId = await setFirmID();
-
-    // Check firm id credetials
-    const firmIdStored = config.getFirmId();
-    const firmCredentials = config.getTokens(firmIdStored);
+    const firmCredentials = checkFirmCredentials();
     if (!firmCredentials) {
-      vscode.window.showErrorMessage(
-        `Firm ID: ${firmIdStored}. You first need to authorize your firm using the CLI`
-      );
-      outputChannel.appendLine(
-        `Firm ID: ${firmIdStored}. Pair of access/refresh tokens missing from config`
-      );
       return;
     }
 
@@ -376,6 +383,14 @@ export async function activate(context: vscode.ExtensionContext) {
   // Command to set Firm ID via prompt and store it
   new FirmIdCommand(context);
 
+  // Command to run the liquid linter
+  const linter = new LiquidLinter();
+  context.subscriptions.push(
+    vscode.commands.registerCommand(linter.commandName, () => {
+      linter.verifyLiquidCommand();
+    })
+  );
+
   async function runTestWithOptionsCommandHandler() {
     const allTests = "Run all Liquid Tests";
     // Check right file
@@ -397,17 +412,8 @@ export async function activate(context: vscode.ExtensionContext) {
 
     // Get Firm Stored
     let firmId = await setFirmID();
-
-    // Check firm id credetials
-    const firmIdStored = config.getFirmId();
-    const firmCredentials = config.getTokens(firmIdStored);
+    const firmCredentials = checkFirmCredentials();
     if (!firmCredentials) {
-      vscode.window.showErrorMessage(
-        `Firm ID: ${firmIdStored}. You first need to authorize your firm using the CLI`
-      );
-      outputChannel.appendLine(
-        `Firm ID: ${firmIdStored}. Pair of access/refresh tokens missing from config`
-      );
       return;
     }
 
