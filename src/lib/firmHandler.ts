@@ -5,7 +5,12 @@ const { config } = require("sf_toolkit/api/auth");
 
 export default class FirmHandler {
   commandName = "silverfin-development-toolkit.setFirm";
-  constructor() {}
+  output: vscode.OutputChannel;
+  credentials: boolean;
+  constructor(outputChannel: vscode.OutputChannel) {
+    this.output = outputChannel;
+    this.credentials = this.checkAPICredentials();
+  }
 
   public async setFirmIdCommand() {
     // Set right path
@@ -45,5 +50,22 @@ export default class FirmHandler {
       );
       return;
     }
+  }
+
+  private checkAPICredentials() {
+    // API Credentials
+    const credentials =
+      process.env.SF_API_CLIENT_ID && process.env.SF_API_SECRET ? true : false;
+
+    // Set Context Key
+    // We can use this key in package.json menus.commandPalette to show/hide our commands
+    vscode.commands.executeCommand(
+      "setContext",
+      "silverfin-development-toolkit.apiAuthorized",
+      credentials
+    );
+
+    this.output.appendLine(`Credentials stored: ${credentials}`);
+    return credentials;
   }
 }

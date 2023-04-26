@@ -11,18 +11,28 @@ export async function activate(context: vscode.ExtensionContext) {
   // Output Channel
   const outputChannel = vscode.window.createOutputChannel("Silverfin");
 
-  // API Credentials
-  const credentials =
-    process.env.SF_API_CLIENT_ID && process.env.SF_API_SECRET ? true : false;
-  outputChannel.appendLine(`Credentials: ${credentials}`);
+  const firmHandler = new FirmHandler(outputChannel);
 
-  // Set Context Key
-  // We can use this key in package.json menus.commandPalette to show/hide our commands
-  vscode.commands.executeCommand(
-    "setContext",
-    "silverfin-development-toolkit.apiAuthorized",
-    credentials
+  // Command to set Firm ID via prompt and store it
+  context.subscriptions.push(
+    vscode.commands.registerCommand(firmHandler.commandName, () => {
+      firmHandler.setFirmIdCommand();
+    })
   );
+
+  // Command to run the liquid linter
+  const linter = new LiquidLinter();
+  context.subscriptions.push(
+    vscode.commands.registerCommand(linter.commandName, () => {
+      linter.verifyLiquidCommand();
+    })
+  );
+  // Command is run when you save a liquid file
+  vscode.workspace.onDidSaveTextDocument(() => {
+    if (LiquidLinter.isLiquidFileCheck()) {
+      linter.verifyLiquidCommand();
+    }
+  });
 
   let currentYamlDocument: vscode.TextDocument;
   let htmlPanel: vscode.WebviewPanel | undefined;
@@ -41,7 +51,10 @@ export async function activate(context: vscode.ExtensionContext) {
     );
   }
 
-  const statusBarItemRunTests = new StatusBarItem(context, credentials);
+  const statusBarItemRunTests = new StatusBarItem(
+    context,
+    firmHandler.credentials
+  );
 
   // Get Firm ID or set a new one
   async function setFirmID() {
@@ -380,28 +393,6 @@ export async function activate(context: vscode.ExtensionContext) {
       }
     )
   );
-
-  const firmHandler = new FirmHandler();
-  // Command to set Firm ID via prompt and store it
-  context.subscriptions.push(
-    vscode.commands.registerCommand(firmHandler.commandName, () => {
-      firmHandler.setFirmIdCommand();
-    })
-  );
-
-  // Command to run the liquid linter
-  const linter = new LiquidLinter();
-  context.subscriptions.push(
-    vscode.commands.registerCommand(linter.commandName, () => {
-      linter.verifyLiquidCommand();
-    })
-  );
-  // Command is run when you save a liquid file
-  vscode.workspace.onDidSaveTextDocument(() => {
-    if (LiquidLinter.isLiquidFileCheck()) {
-      linter.verifyLiquidCommand();
-    }
-  });
 
   async function runTestWithOptionsCommandHandler() {
     utils.setCWD();
