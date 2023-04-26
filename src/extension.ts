@@ -5,13 +5,16 @@ import StatusBarItem from "./lib/statusBarItem";
 import * as types from "./lib/types";
 import * as utils from "./lib/utils";
 const sfToolkit = require("sf_toolkit");
-const { config } = require("sf_toolkit/api/auth");
 
 export async function activate(context: vscode.ExtensionContext) {
-  // Output Channel
   const outputChannel = vscode.window.createOutputChannel("Silverfin");
-
   const firmHandler = new FirmHandler(outputChannel);
+  const statusBarItemRunTests = new StatusBarItem(
+    context,
+    firmHandler.credentials
+  );
+  firmHandler.statusBarItem = statusBarItemRunTests;
+  const liquidLinter = new LiquidLinter();
 
   // Command to set Firm ID via prompt and store it
   context.subscriptions.push(
@@ -21,16 +24,15 @@ export async function activate(context: vscode.ExtensionContext) {
   );
 
   // Command to run the liquid linter
-  const linter = new LiquidLinter();
   context.subscriptions.push(
-    vscode.commands.registerCommand(linter.commandName, () => {
-      linter.verifyLiquidCommand();
+    vscode.commands.registerCommand(liquidLinter.commandName, () => {
+      liquidLinter.verifyLiquidCommand();
     })
   );
-  // Command is run when you save a liquid file
+  // Liquid Linter Command is run when you save a liquid file
   vscode.workspace.onDidSaveTextDocument(() => {
     if (LiquidLinter.isLiquidFileCheck()) {
-      linter.verifyLiquidCommand();
+      liquidLinter.verifyLiquidCommand();
     }
   });
 
@@ -49,49 +51,6 @@ export async function activate(context: vscode.ExtensionContext) {
       context,
       errorsCollection
     );
-  }
-
-  const statusBarItemRunTests = new StatusBarItem(
-    context,
-    firmHandler.credentials
-  );
-
-  // Get Firm ID or set a new one
-  async function setFirmID() {
-    let firmId = await sfToolkit.getDefaultFirmID();
-    // Request Firm ID and store it if necessary
-    if (!firmId) {
-      const newFirmId = await vscode.window.showInputBox({
-        prompt:
-          "There is no Firm ID stored. Provide one to run the liquid test",
-        placeHolder: "123456",
-        title: "FIRM ID",
-      });
-      // No firm id provided via prompt
-      if (!newFirmId) {
-        statusBarItemRunTests.setStateIdle();
-        return;
-      }
-      // Store and use new firm id provided
-      await sfToolkit.setDefaultFirmID(newFirmId);
-      firmId = newFirmId;
-    }
-    return firmId;
-  }
-
-  async function checkFirmCredentials() {
-    const firmIdStored = config.getFirmId();
-    const firmCredentials = config.getTokens(firmIdStored);
-    if (!firmCredentials) {
-      vscode.window.showErrorMessage(
-        `Firm ID: ${firmIdStored}. You first need to authorize your firm using the CLI`
-      );
-      outputChannel.appendLine(
-        `Firm ID: ${firmIdStored}. Pair of access/refresh tokens missing from config`
-      );
-      return false;
-    }
-    return true;
   }
 
   // Process errors, create Diagnostic Objects with all the needed information
@@ -305,8 +264,8 @@ export async function activate(context: vscode.ExtensionContext) {
     currentYamlDocument = vscode.window.activeTextEditor.document;
 
     // Get Firm Stored
-    let firmId = await setFirmID();
-    const firmCredentials = checkFirmCredentials();
+    let firmId = await firmHandler.setFirmID();
+    const firmCredentials = firmHandler.checkFirmCredentials();
     if (!firmCredentials) {
       return;
     }
@@ -415,8 +374,8 @@ export async function activate(context: vscode.ExtensionContext) {
     currentYamlDocument = vscode.window.activeTextEditor.document;
 
     // Get Firm Stored
-    let firmId = await setFirmID();
-    const firmCredentials = checkFirmCredentials();
+    let firmId = await firmHandler.setFirmID();
+    const firmCredentials = firmHandler.checkFirmCredentials();
     if (!firmCredentials) {
       return;
     }

@@ -7,6 +7,7 @@ export default class FirmHandler {
   commandName = "silverfin-development-toolkit.setFirm";
   output: vscode.OutputChannel;
   credentials: boolean;
+  statusBarItem: any;
   constructor(outputChannel: vscode.OutputChannel) {
     this.output = outputChannel;
     this.credentials = this.checkAPICredentials();
@@ -50,6 +51,49 @@ export default class FirmHandler {
       );
       return;
     }
+  }
+
+  // Get Firm ID or set a new one via Prompt
+  public async setFirmID() {
+    utils.setCWD();
+    let firmId: Number = config.getFirmId();
+    // Request Firm ID and store it if necessary
+    if (!firmId) {
+      let newFirmId = await vscode.window.showInputBox({
+        prompt:
+          "There is no Firm ID stored. Provide one to run the liquid test",
+        placeHolder: "123456",
+        title: "FIRM ID",
+      });
+      let newFirmIdNumber = Number(newFirmId);
+      // No valid firm id provided via prompt
+      if (!newFirmIdNumber) {
+        if (this.statusBarItem) {
+          this.statusBarItem.setStateIdle();
+        }
+        return;
+      }
+      // Store and use new firm id provided
+      await config.setFirmId(newFirmIdNumber);
+      firmId = newFirmIdNumber;
+    }
+    return firmId;
+  }
+
+  public async checkFirmCredentials() {
+    utils.setCWD();
+    const firmIdStored = config.getFirmId();
+    const firmCredentials = config.getTokens(firmIdStored);
+    if (!firmCredentials) {
+      vscode.window.showErrorMessage(
+        `Firm ID: ${firmIdStored}. You first need to authorize your firm using the CLI`
+      );
+      this.output.appendLine(
+        `Firm ID: ${firmIdStored}. Pair of access/refresh tokens missing from config`
+      );
+      return false;
+    }
+    return true;
   }
 
   private checkAPICredentials() {
