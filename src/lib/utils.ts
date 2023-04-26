@@ -186,5 +186,6 @@ export function setCWD() {
   const newCwdParts = pathParts.slice(0, index);
   const newCwdPath = posix.resolve(newCwdParts.join(posix.sep));
   process.chdir(newCwdPath);
-  console.log("New CWD: " + newCwdPath);
+  console.log("CWD set to: " + newCwdPath);
+  return newCwdPath;
 }

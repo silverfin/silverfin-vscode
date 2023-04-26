@@ -7,10 +7,12 @@ const { config } = require("sf_toolkit/api/auth");
 export default class LiquidLinter {
   commandName = "silverfin-development-toolkit.liquidLinter";
   errorsCollection: vscode.DiagnosticCollection;
-  constructor() {
+  output: vscode.OutputChannel;
+  constructor(outputChannel: vscode.OutputChannel) {
     this.errorsCollection = vscode.languages.createDiagnosticCollection(
       `LiquidLinterCollection`
     );
+    this.output = outputChannel;
   }
 
   public async verifyLiquidCommand() {
@@ -36,7 +38,15 @@ export default class LiquidLinter {
     const requestData = JSON.stringify({ code: liquidCode });
     const response = await sfApi.verifyLiquid(firmId, requestData);
     if (response || response.status === 200) {
+      this.output.appendLine(
+        `Liquid Linter run succesfully (${response.status})`
+      );
       return response.data;
+    } else {
+      this.output.appendLine(
+        `Liquid Linter run failed (${response.status}): ${response}`
+      );
+      return false;
     }
   }
 
@@ -51,7 +61,6 @@ export default class LiquidLinter {
     const fileName = pathParts[pathParts.length - 1];
     const fileType = fileName.split(".")[1];
     if (fileType !== "liquid") {
-      //vscode.window.showErrorMessage(`Command can only be run on liquid files`);
       return false;
     }
     return true;
@@ -69,9 +78,9 @@ export default class LiquidLinter {
       vscode.window.showErrorMessage(
         `Firm ID: ${firmId}. You first need to authorize your firm using the CLI`
       );
-      // outputChannel.appendLine(
-      //   `Firm ID: ${firmIdStored}. Pair of access/refresh tokens missing from config`
-      // );
+      this.output.appendLine(
+        `Firm ID: ${firmId}. Pair of access/refresh tokens missing from config`
+      );
       return false;
     }
     return firmId;
