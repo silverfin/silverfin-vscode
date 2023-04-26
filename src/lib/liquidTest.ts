@@ -362,23 +362,11 @@ export default class LiquidTest {
     );
 
     // HANDLE HTML PANEL
-    if (response.status !== "completed") {
-      this.output.appendLine(`Test failed. No HTML panel created`);
-      // Delete HTML panel
-      if (this.htmlPanel) {
-        this.htmlPanel.dispose();
-        this.htmlPanel = undefined;
-      }
-      return;
+    if (this.htmlPanel) {
+      this.htmlPanel.dispose();
+      this.htmlPanel = undefined;
     }
-    if (testSelected === allTests) {
-      this.output.appendLine(`All tests run. No HTML panel created`);
-      // Delete HTML panel
-      if (this.htmlPanel) {
-        this.htmlPanel.dispose();
-        this.htmlPanel = undefined;
-      }
-    } else {
+    if (testSelected !== allTests) {
       try {
         await sfToolkit.getHTML(
           response.tests[testSelected].html,
@@ -388,8 +376,7 @@ export default class LiquidTest {
         const filePath = sfToolkit.resolveHTMLPath(testSelected);
         const fs = require("fs");
         const fileContent = fs.readFileSync(filePath, "utf8");
-
-        if (!this.htmlPanel || !this.htmlPanel?.visible) {
+        if (!this.htmlPanel) {
           this.htmlPanel = vscode.window.createWebviewPanel(
             "htmlWebView",
             "HTML View",

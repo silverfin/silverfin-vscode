@@ -2,6 +2,12 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.6.0]
+
+### Added
+
+- Run linter using Silverfin API on liquid files.
+
 ## [1.5.0]
 
 ### Added
