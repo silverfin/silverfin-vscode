@@ -1,5 +1,6 @@
 import { posix } from "path";
 import * as vscode from "vscode";
+import * as utils from "./utils";
 const sfApi = require("sf_toolkit/api/sf_api");
 const { config } = require("sf_toolkit/api/auth");
 
@@ -13,11 +14,11 @@ export default class LiquidLinter {
   }
 
   public async verifyLiquidCommand() {
-    const isLiquidFile = this.isLiquidFileCheck();
+    const isLiquidFile = LiquidLinter.isLiquidFileCheck();
     if (!isLiquidFile) {
       return;
     }
-    this.setCWD();
+    utils.setCWD();
     const firmId = await this.getFirmId();
     if (!firmId) {
       return;
@@ -39,7 +40,7 @@ export default class LiquidLinter {
     }
   }
 
-  private isLiquidFileCheck() {
+  public static isLiquidFileCheck() {
     if (!vscode.window.activeTextEditor) {
       return false;
     }
@@ -50,26 +51,10 @@ export default class LiquidLinter {
     const fileName = pathParts[pathParts.length - 1];
     const fileType = fileName.split(".")[1];
     if (fileType !== "liquid") {
-      vscode.window.showErrorMessage(`Command can only be run on liquid files`);
+      //vscode.window.showErrorMessage(`Command can only be run on liquid files`);
       return false;
     }
     return true;
-  }
-
-  private setCWD() {
-    if (!vscode.window.activeTextEditor) {
-      return false;
-    }
-    const filePath = posix.resolve(
-      vscode.window.activeTextEditor.document.uri.path
-    );
-    const pathParts = filePath.split(posix.sep);
-    const indexCheck = (element: string) =>
-      element === "shared_parts" || element === "reconciliation_texts";
-    const index = pathParts.findIndex(indexCheck);
-    const newCwdParts = pathParts.slice(0, index);
-    const newCwdPath = posix.resolve(newCwdParts.join(posix.sep));
-    process.chdir(newCwdPath);
   }
 
   private async getFirmId() {

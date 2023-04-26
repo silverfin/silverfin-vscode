@@ -273,6 +273,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
   // Run Test Command
   async function runAllTestsCommandHandler() {
+    utils.setCWD();
     // Check right file
     let checksPassed = await utils.checkFilePath();
     if (!checksPassed) {
@@ -390,8 +391,15 @@ export async function activate(context: vscode.ExtensionContext) {
       linter.verifyLiquidCommand();
     })
   );
+  // Command is run when you save a liquid file
+  vscode.workspace.onDidSaveTextDocument(() => {
+    if (LiquidLinter.isLiquidFileCheck()) {
+      linter.verifyLiquidCommand();
+    }
+  });
 
   async function runTestWithOptionsCommandHandler() {
+    utils.setCWD();
     const allTests = "Run all Liquid Tests";
     // Check right file
     let checksPassed = await utils.checkFilePath();

@@ -168,3 +168,23 @@ export function findTestNamesAndRows(document: vscode.TextDocument) {
   });
   return indexes;
 }
+
+export function setCWD() {
+  if (!vscode.window.activeTextEditor) {
+    return false;
+  }
+  const filePath = posix.resolve(
+    vscode.window.activeTextEditor.document.uri.path
+  );
+  const pathParts = filePath.split(posix.sep);
+  const indexCheck = (element: string) =>
+    element === "shared_parts" || element === "reconciliation_texts";
+  const index = pathParts.findIndex(indexCheck);
+  if (index === -1) {
+    return false;
+  }
+  const newCwdParts = pathParts.slice(0, index);
+  const newCwdPath = posix.resolve(newCwdParts.join(posix.sep));
+  process.chdir(newCwdPath);
+  console.log("New CWD: " + newCwdPath);
+}
