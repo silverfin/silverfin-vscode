@@ -3,16 +3,11 @@ import * as utils from "./utils";
 const sfToolkit = require("sf_toolkit");
 const { config } = require("sf_toolkit/api/auth");
 
-export default class FirmIdCommand {
-  constructor(context: vscode.ExtensionContext) {
-    this.registerCommand(
-      context,
-      "silverfin-development-toolkit.setFirm",
-      this.setFirmCommandHandler
-    );
-  }
-  // Set Firm ID Command
-  private async setFirmCommandHandler() {
+export default class FirmHandler {
+  commandName = "silverfin-development-toolkit.setFirm";
+  constructor() {}
+
+  public async setFirmIdCommand() {
     // Set right path
     const check = await utils.checkFilePath();
     if (!check) {
@@ -20,7 +15,6 @@ export default class FirmIdCommand {
     }
     // Get Firm Stored
     let firmIdStored = await sfToolkit.getDefaultFirmID();
-    console.log(firmIdStored);
     let promptMessage;
     if (!firmIdStored) {
       promptMessage =
@@ -51,15 +45,5 @@ export default class FirmIdCommand {
       );
       return;
     }
-  }
-
-  private registerCommand(
-    context: vscode.ExtensionContext,
-    commandName: string,
-    handler: any
-  ) {
-    context.subscriptions.push(
-      vscode.commands.registerCommand(commandName, handler)
-    );
   }
 }

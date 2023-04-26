@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import FirmIdCommand from "./lib/firmIdCommand";
+import FirmHandler from "./lib/firmHandler";
 import LiquidLinter from "./lib/liquidLinter";
 import StatusBarItem from "./lib/statusBarItem";
 import * as types from "./lib/types";
@@ -381,8 +381,13 @@ export async function activate(context: vscode.ExtensionContext) {
     )
   );
 
+  const firmHandler = new FirmHandler();
   // Command to set Firm ID via prompt and store it
-  new FirmIdCommand(context);
+  context.subscriptions.push(
+    vscode.commands.registerCommand(firmHandler.commandName, () => {
+      firmHandler.setFirmIdCommand();
+    })
+  );
 
   // Command to run the liquid linter
   const linter = new LiquidLinter();
