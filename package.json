@@ -1,7 +1,7 @@
 {
   "name": "silverfin-development-toolkit",
   "displayName": "Silverfin Development Toolkit",
-  "version": "1.6.0",
+  "version": "1.6.2",
   "publisher": "Silverfin",
   "icon": "resources/sf-icon.png",
   "engines": {
@@ -25,7 +25,8 @@
     "redhat.vscode-yaml"
   ],
   "dependencies": {
-    "sf_toolkit": "github:silverfin/sf-toolkit"
+    "sf_toolkit": "github:silverfin/sf-toolkit",
+    "yaml": "^2.2.2"
   },
   "contributes": {
     "languages": [

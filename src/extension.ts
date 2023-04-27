@@ -62,32 +62,6 @@ export async function activate(context: vscode.ExtensionContext) {
     })
   );
 
-  // Check for changes in current file and compare them with the stored Diagnostic Objects
-  context.subscriptions.push(
-    vscode.window.onDidChangeTextEditorSelection(async () => {
-      if (!vscode.window.activeTextEditor) {
-        return;
-      }
-      let currentDocument = vscode.window.activeTextEditor.document;
-      let storedDiagnostics = await utils.loadStoredDiagnostics(
-        currentDocument,
-        outputChannel,
-        context,
-        liquidTest.errorsCollection
-      );
-      if (!storedDiagnostics) {
-        return;
-      }
-      utils.filterFixedDiagnostics(
-        currentDocument,
-        outputChannel,
-        context,
-        liquidTest.errorsCollection,
-        storedDiagnostics
-      );
-    })
-  );
-
   // Command to clean Diagnostic Collection of current file
   context.subscriptions.push(
     vscode.commands.registerCommand(

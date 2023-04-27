@@ -15,7 +15,7 @@ export default class FirmHandler {
 
   public async setFirmIdCommand() {
     // Set right path
-    const check = await utils.checkFilePath();
+    const check = utils.setCWD();
     if (!check) {
       return;
     }
