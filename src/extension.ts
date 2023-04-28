@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import FirmHandler from "./lib/firmHandler";
 import LiquidLinter from "./lib/liquidLinter";
 import LiquidTest from "./lib/liquidTest";
+import LiquidTestQuickFixes from "./lib/quickFixes";
 import StatusBarItem from "./lib/statusBarItem";
 import * as utils from "./lib/utils";
 
@@ -94,6 +95,17 @@ export async function activate(context: vscode.ExtensionContext) {
       "silverfin-development-toolkit.runTestWithOptions",
       () => {
         liquidTest.runTestWithOptionsCommand();
+      }
+    )
+  );
+
+  // Quick Fixes Provider
+  context.subscriptions.push(
+    vscode.languages.registerCodeActionsProvider(
+      "yaml",
+      new LiquidTestQuickFixes(),
+      {
+        providedCodeActionKinds: LiquidTestQuickFixes.providedCodeActionKinds,
       }
     )
   );

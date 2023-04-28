@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.7.0]
+
+- Introduce Quick-Fixes
+
 ## [1.6.2]
 
 - Remove functionality introduced in v1.5.0.
