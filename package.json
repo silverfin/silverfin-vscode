@@ -1,7 +1,7 @@
 {
   "name": "silverfin-development-toolkit",
   "displayName": "Silverfin Development Toolkit",
-  "version": "1.7.1",
+  "version": "1.8.0",
   "publisher": "Silverfin",
   "icon": "resources/sf-icon.png",
   "engines": {
@@ -29,6 +29,31 @@
     "yaml": "^2.2.2"
   },
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "silverfin-panel",
+          "title": "Silverfin",
+          "icon": "resources/sf-icon.png"
+        }
+      ]
+    },
+    "views": {
+      "silverfin-panel": [
+        {
+          "type": "webview",
+          "id": "template-parts",
+          "name": "Template Parts",
+          "visibility": "visible"
+        },
+        {
+          "type": "webview",
+          "id": "template-info",
+          "name": "Template Information",
+          "visibility": "visible"
+        }
+      ]
+    },
     "languages": [
       {
         "id": "liquid",

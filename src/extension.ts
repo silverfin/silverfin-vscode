@@ -2,6 +2,10 @@ import * as vscode from "vscode";
 import FirmHandler from "./lib/firmHandler";
 import LiquidLinter from "./lib/liquidLinter";
 import LiquidTest from "./lib/liquidTest";
+import {
+  TemplateInformationViewProvider,
+  TemplatePartsViewProvider,
+} from "./lib/panel";
 import LiquidTestQuickFixes from "./lib/quickFixes";
 import StatusBarItem from "./lib/statusBarItem";
 import * as utils from "./lib/utils";
@@ -107,6 +111,26 @@ export async function activate(context: vscode.ExtensionContext) {
       {
         providedCodeActionKinds: LiquidTestQuickFixes.providedCodeActionKinds,
       }
+    )
+  );
+
+  // Side-Bar Views
+  const templatePartsProvider = new TemplatePartsViewProvider(
+    context.extensionUri
+  );
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      TemplatePartsViewProvider.viewType,
+      templatePartsProvider
+    )
+  );
+  const templateInfoProvider = new TemplateInformationViewProvider(
+    context.extensionUri
+  );
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      TemplateInformationViewProvider.viewType,
+      templateInfoProvider
     )
   );
 }
