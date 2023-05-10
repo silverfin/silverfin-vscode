@@ -1,7 +1,7 @@
 {
   "name": "silverfin-development-toolkit",
   "displayName": "Silverfin Development Toolkit",
-  "version": "1.5.0",
+  "version": "1.6.2",
   "publisher": "Silverfin",
   "icon": "resources/sf-icon.png",
   "engines": {
@@ -25,7 +25,8 @@
     "redhat.vscode-yaml"
   ],
   "dependencies": {
-    "sf_toolkit": "github:silverfin/sf-toolkit"
+    "sf_toolkit": "github:silverfin/sf-toolkit",
+    "yaml": "^2.2.2"
   },
   "contributes": {
     "languages": [
@@ -85,6 +86,10 @@
       {
         "command": "silverfin-development-toolkit.clearCurrentDiagnosticCollection",
         "title": "Silverfin: erase stored details of previous test runs (current file)"
+      },
+      {
+        "command": "silverfin-development-toolkit.liquidLinter",
+        "title": "Silverfin: verify liquid syntax (linter)"
       }
     ],
     "keybindings": [
@@ -102,6 +107,11 @@
         "command": "silverfin-development-toolkit.clearCurrentDiagnosticCollection",
         "key": "ctrl+shift+e",
         "mac": "cmd+shift+e"
+      },
+      {
+        "command": "silverfin-development-toolkit.liquidLinter",
+        "key": "ctrl+shift+l",
+        "mac": "cmd+shift+l"
       }
     ],
     "menus": {
@@ -121,6 +131,10 @@
         {
           "command": "silverfin-development-toolkit.clearCurrentDiagnosticCollection",
           "when": "editorLangId == yaml && silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.liquidLinter",
+          "when": "editorLangId == liquid && silverfin-development-toolkit.apiAuthorized"
         }
       ]
     }
