@@ -116,6 +116,7 @@ export async function activate(context: vscode.ExtensionContext) {
   );
 
   // Side-Bar Views
+  // Template Parts
   const templatePartsProvider = new TemplatePartsViewProvider(
     context.extensionUri
   );
@@ -125,6 +126,13 @@ export async function activate(context: vscode.ExtensionContext) {
       templatePartsProvider
     )
   );
+  vscode.window.onDidChangeActiveTextEditor(() => {
+    if (!templatePartsProvider._view) {
+      return;
+    }
+    templatePartsProvider.setContent(templatePartsProvider._view);
+  });
+  // Template Info
   const templateInfoProvider = new TemplateInformationViewProvider(
     context.extensionUri
   );
@@ -134,6 +142,13 @@ export async function activate(context: vscode.ExtensionContext) {
       templateInfoProvider
     )
   );
+  vscode.window.onDidChangeActiveTextEditor(() => {
+    if (!templateInfoProvider._view) {
+      return;
+    }
+    templateInfoProvider.setContent(templateInfoProvider._view);
+  });
+  // Firm Info
   const firmInfoProvider = new FirmViewProvider(context.extensionUri);
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider(

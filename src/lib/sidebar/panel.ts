@@ -5,7 +5,7 @@ const { config } = require("sf_toolkit/api/auth");
 
 export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = "template-parts";
-  private _view?: vscode.WebviewView;
+  public _view?: vscode.WebviewView;
   constructor(private readonly _extensionUri: vscode.Uri) {}
 
   public async resolveWebviewView(
@@ -18,40 +18,39 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
       enableScripts: true,
       localResourceRoots: [this._extensionUri],
     };
-    webviewView.webview.html = await this.getHtmlForWebview(
-      webviewView.webview
-    );
+    await this.setContent(webviewView);
   }
 
-  private async getHtmlForWebview(webview: vscode.Webview) {
+  public async setContent(webviewView: vscode.WebviewView) {
     const firmId = getFirmIdStored();
     const configData = await utils.getTemplateConfigData();
+    let htmlBody = "";
 
-    const partNames = Object.keys(configData.text_parts) || [];
-    const partsLi = partNames
-      .map((partName) => `<li>${partName}</li>`)
-      .join("");
+    // Reconciliations
+    if (configData && "text_parts" in configData) {
+      let partNames: string[] = [];
+      partNames = Object.keys(configData.text_parts) || [];
+      const partsLi = partNames
+        .map((partName) => `<li>${partName}</li>`)
+        .join("");
+      let sharedParts: string[] = [];
+      sharedParts =
+        (await fsUtils.getSharedParts(firmId, configData.handle)) || [];
+      const sharedPartsLi = sharedParts
+        .map((sharedPart: string) => `<li>${sharedPart}</li>`)
+        .join("");
+      htmlBody = `<body>
+                      <p><i>Parts:</i></p>
+                      <ul>${partsLi}</ul>
+                      <p><i>Shared Parts:</i></p>
+                      <ul>${sharedPartsLi}</ul>
+                    </body>`;
+    }
 
-    const sharedParts =
-      (await fsUtils.getSharedParts(firmId, configData.handle)) || [];
-    const sharedPartsLi = sharedParts
-      .map((sharedPart: string) => `<li>${sharedPart}</li>`)
-      .join("");
-
-    return `<!DOCTYPE html>
+    webviewView.webview.html = `<!DOCTYPE html>
 			<html lang="en">
-			<head>
-				<meta charset="UTF-8">
-				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource};">
-				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<title>Parts</title>
-			</head>
-			<body>
-        <p><i>Parts:</i></p>
-				<ul>${partsLi}</ul>
-        <p><i>Shared Parts:</i></p>
-        <ul>${sharedPartsLi}</ul>
-			</body>
+        ${htmlHeader(webviewView)}
+        ${htmlBody}
 			</html>`;
   }
 }
@@ -60,7 +59,7 @@ export class TemplateInformationViewProvider
   implements vscode.WebviewViewProvider
 {
   public static readonly viewType = "template-info";
-  private _view?: vscode.WebviewView;
+  public _view?: vscode.WebviewView;
   constructor(private readonly _extensionUri: vscode.Uri) {}
 
   public async resolveWebviewView(
@@ -73,12 +72,10 @@ export class TemplateInformationViewProvider
       enableScripts: true,
       localResourceRoots: [this._extensionUri],
     };
-    webviewView.webview.html = await this.getHtmlForWebview(
-      webviewView.webview
-    );
+    await this.setContent(webviewView);
   }
 
-  private async getHtmlForWebview(webview: vscode.Webview) {
+  public async setContent(webviewView: vscode.WebviewView) {
     const configData = await utils.getTemplateConfigData();
 
     const configDataEntries = Object.entries(configData) || [];
@@ -104,14 +101,9 @@ export class TemplateInformationViewProvider
       })
       .join("");
 
-    return `<!DOCTYPE html>
+    webviewView.webview.html = `<!DOCTYPE html>
 			<html lang="en">
-			<head>
-				<meta charset="UTF-8">
-				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource};">
-				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<title>Information</title>
-			</head>
+			${htmlHeader(webviewView)}
 			<body>
 				<ul>${itemsLi}</ul>
 			</body>
@@ -121,7 +113,7 @@ export class TemplateInformationViewProvider
 
 export class FirmViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = "firm-info";
-  private _view?: vscode.WebviewView;
+  public _view?: vscode.WebviewView;
   constructor(private readonly _extensionUri: vscode.Uri) {}
 
   public async resolveWebviewView(
@@ -134,25 +126,19 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
       enableScripts: true,
       localResourceRoots: [this._extensionUri],
     };
-    webviewView.webview.html = await this.getHtmlForWebview(
-      webviewView.webview
-    );
+    await this.setContent(webviewView);
   }
 
-  private async getHtmlForWebview(webview: vscode.Webview) {
+  public async setContent(webviewView: vscode.WebviewView) {
     const firmId = getFirmIdStored();
     const firmData = config.storedIds(firmId);
     const authorizedFirmsLi = firmData
       .map((firm: string) => `<li>${firm}</li>`)
       .join("");
-    return `<!DOCTYPE html>
+
+    webviewView.webview.html = `<!DOCTYPE html>
 			<html lang="en">
-			<head>
-				<meta charset="UTF-8">
-				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource};">
-				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<title>Information</title>
-			</head>
+      ${htmlHeader(webviewView)}
 			<body>
         <p><i>Firm to be used:</i></p>
 				<ul><li>${firmId}</li></ul>
@@ -170,6 +156,15 @@ function getFirmIdStored() {
     return firmIdStored;
   }
   return false;
+}
+
+function htmlHeader(webviewView: vscode.WebviewView) {
+  return `<head>
+            <meta charset="UTF-8">
+            <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webviewView.webview.cspSource};">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Information</title>
+          </head>`;
 }
 
 // How to post messages ? (this can be done anywhere in the extension)

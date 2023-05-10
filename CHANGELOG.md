@@ -4,7 +4,7 @@ All notable changes to the "silverfin-development-toolkit" extension will be doc
 
 ## [1.8.0]
 
-- Introduce a Side-Bar panel
+- Introduce a Side-Bar panel. Display information about parts, shared parts, template configuration and firm ids authorized.
 
 ## [1.7.0]
 
