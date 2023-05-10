@@ -21,18 +21,6 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
     webviewView.webview.html = await this.getHtmlForWebview(
       webviewView.webview
     );
-
-    // How to post messages ? (this can be done anywhere in the extension)
-    // vscode.postMessage({ type: 'identificationName', value: color });
-    // How Handle messages from the webview ?
-    // webviewView.webview.onDidReceiveMessage((data) => {
-    //   switch (data.type) {
-    //     case "identificationName": {
-    //       // do something with data.value
-    //       break;
-    //     }
-    //   }
-    // });
   }
 
   private async getHtmlForWebview(webview: vscode.Webview) {
@@ -59,9 +47,9 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
 				<title>Parts</title>
 			</head>
 			<body>
-        <p><i>Parts</i></p>
+        <p><i>Parts:</i></p>
 				<ul>${partsLi}</ul>
-        <p><i>Shared Parts</i></p>
+        <p><i>Shared Parts:</i></p>
         <ul>${sharedPartsLi}</ul>
 			</body>
 			</html>`;
@@ -91,7 +79,6 @@ export class TemplateInformationViewProvider
   }
 
   private async getHtmlForWebview(webview: vscode.Webview) {
-    const firmId = getFirmIdStored();
     const configData = await utils.getTemplateConfigData();
 
     const configDataEntries = Object.entries(configData) || [];
@@ -132,6 +119,50 @@ export class TemplateInformationViewProvider
   }
 }
 
+export class FirmViewProvider implements vscode.WebviewViewProvider {
+  public static readonly viewType = "firm-info";
+  private _view?: vscode.WebviewView;
+  constructor(private readonly _extensionUri: vscode.Uri) {}
+
+  public async resolveWebviewView(
+    webviewView: vscode.WebviewView,
+    context: vscode.WebviewViewResolveContext,
+    _token: vscode.CancellationToken
+  ) {
+    this._view = webviewView;
+    webviewView.webview.options = {
+      enableScripts: true,
+      localResourceRoots: [this._extensionUri],
+    };
+    webviewView.webview.html = await this.getHtmlForWebview(
+      webviewView.webview
+    );
+  }
+
+  private async getHtmlForWebview(webview: vscode.Webview) {
+    const firmId = getFirmIdStored();
+    const firmData = config.storedIds(firmId);
+    const authorizedFirmsLi = firmData
+      .map((firm: string) => `<li>${firm}</li>`)
+      .join("");
+    return `<!DOCTYPE html>
+			<html lang="en">
+			<head>
+				<meta charset="UTF-8">
+				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource};">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<title>Information</title>
+			</head>
+			<body>
+        <p><i>Firm to be used:</i></p>
+				<ul><li>${firmId}</li></ul>
+        <p><i>Authorized firms:</i></p>
+				<ul>${authorizedFirmsLi}</ul>
+			</body>
+			</html>`;
+  }
+}
+
 function getFirmIdStored() {
   utils.setCWD();
   const firmIdStored = config.getFirmId();
@@ -140,3 +171,16 @@ function getFirmIdStored() {
   }
   return false;
 }
+
+// How to post messages ? (this can be done anywhere in the extension)
+// vscode.postMessage({ type: 'identificationName', value: color });
+//
+// How Handle messages from the webview ?
+// webviewView.webview.onDidReceiveMessage((data) => {
+//   switch (data.type) {
+//     case "identificationName": {
+//       // do something with data.value
+//       break;
+//     }
+//   }
+// });

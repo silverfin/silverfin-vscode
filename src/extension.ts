@@ -4,6 +4,7 @@ import LiquidLinter from "./lib/liquidLinter";
 import LiquidTest from "./lib/liquidTest";
 import LiquidTestQuickFixes from "./lib/quickFixes";
 import {
+  FirmViewProvider,
   TemplateInformationViewProvider,
   TemplatePartsViewProvider,
 } from "./lib/sidebar/panel";
@@ -131,6 +132,13 @@ export async function activate(context: vscode.ExtensionContext) {
     vscode.window.registerWebviewViewProvider(
       TemplateInformationViewProvider.viewType,
       templateInfoProvider
+    )
+  );
+  const firmInfoProvider = new FirmViewProvider(context.extensionUri);
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      FirmViewProvider.viewType,
+      firmInfoProvider
     )
   );
 }

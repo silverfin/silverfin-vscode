@@ -51,6 +51,12 @@
           "id": "template-info",
           "name": "Template Information",
           "visibility": "visible"
+        },
+        {
+          "type": "webview",
+          "id": "firm-info",
+          "name": "Firms",
+          "visibility": "visible"
         }
       ]
     },
