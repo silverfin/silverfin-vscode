@@ -2,11 +2,11 @@ import * as vscode from "vscode";
 import FirmHandler from "./lib/firmHandler";
 import LiquidLinter from "./lib/liquidLinter";
 import LiquidTest from "./lib/liquidTest";
+import LiquidTestQuickFixes from "./lib/quickFixes";
 import {
   TemplateInformationViewProvider,
   TemplatePartsViewProvider,
-} from "./lib/panel";
-import LiquidTestQuickFixes from "./lib/quickFixes";
+} from "./lib/sidebar/panel";
 import StatusBarItem from "./lib/statusBarItem";
 import * as utils from "./lib/utils";
 

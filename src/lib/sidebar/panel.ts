@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
-import * as utils from "./utils";
+import * as utils from "../utils";
+const fsUtils = require("sf_toolkit/fs_utils");
+const { config } = require("sf_toolkit/api/auth");
 
 export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = "template-parts";
@@ -16,7 +18,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
       enableScripts: true,
       localResourceRoots: [this._extensionUri],
     };
-    webviewView.webview.html = await this._getHtmlForWebview(
+    webviewView.webview.html = await this.getHtmlForWebview(
       webviewView.webview
     );
 
@@ -33,9 +35,20 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
     // });
   }
 
-  private async _getHtmlForWebview(webview: vscode.Webview) {
+  private async getHtmlForWebview(webview: vscode.Webview) {
+    const firmId = getFirmIdStored();
     const configData = await utils.getTemplateConfigData();
+
     const partNames = Object.keys(configData.text_parts) || [];
+    const partsLi = partNames
+      .map((partName) => `<li>${partName}</li>`)
+      .join("");
+
+    const sharedParts =
+      (await fsUtils.getSharedParts(firmId, configData.handle)) || [];
+    const sharedPartsLi = sharedParts
+      .map((sharedPart: string) => `<li>${sharedPart}</li>`)
+      .join("");
 
     return `<!DOCTYPE html>
 			<html lang="en">
@@ -46,17 +59,10 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
 				<title>Parts</title>
 			</head>
 			<body>
-      Template Parts
-				<ul>
-          <li>
-            ${partNames}
-          </il>
-        </ul>
-        Template Shared Parts
-        <ul>
-          <li>
-          </li>
-				</ul>
+        <p><i>Parts</i></p>
+				<ul>${partsLi}</ul>
+        <p><i>Shared Parts</i></p>
+        <ul>${sharedPartsLi}</ul>
 			</body>
 			</html>`;
   }
@@ -69,7 +75,7 @@ export class TemplateInformationViewProvider
   private _view?: vscode.WebviewView;
   constructor(private readonly _extensionUri: vscode.Uri) {}
 
-  public resolveWebviewView(
+  public async resolveWebviewView(
     webviewView: vscode.WebviewView,
     context: vscode.WebviewViewResolveContext,
     _token: vscode.CancellationToken
@@ -79,25 +85,58 @@ export class TemplateInformationViewProvider
       enableScripts: true,
       localResourceRoots: [this._extensionUri],
     };
-    webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
+    webviewView.webview.html = await this.getHtmlForWebview(
+      webviewView.webview
+    );
   }
 
-  private _getHtmlForWebview(webview: vscode.Webview) {
+  private async getHtmlForWebview(webview: vscode.Webview) {
+    const firmId = getFirmIdStored();
+    const configData = await utils.getTemplateConfigData();
+
+    const configDataEntries = Object.entries(configData) || [];
+    const ITEMS: any = {
+      handle: "Handle",
+      name_en: "Name (en)",
+      name_nl: "Name (nl)",
+      name_fr: "Name (fr)",
+      reconciliation_type: "Reconciliation type",
+      virtual_account_number: "Virtual account number",
+      auto_hide_formula: "Auto hide formula",
+      is_active: "Active?",
+      public: "Public?",
+      externally_managed: "Externally managed?",
+    };
+    const filtered = configDataEntries.filter(([key, value]) =>
+      Object.keys(ITEMS).includes(key)
+    );
+
+    const itemsLi = filtered
+      .map(([key, value]) => {
+        return `<li>${ITEMS[key]}: ${value}</li>`;
+      })
+      .join("");
+
     return `<!DOCTYPE html>
 			<html lang="en">
 			<head>
 				<meta charset="UTF-8">
 				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource};">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<title>Parts</title>
+				<title>Information</title>
 			</head>
 			<body>
-				<ul>
-          <li>
-            Items in config.json
-          </li>
-				</ul>
+				<ul>${itemsLi}</ul>
 			</body>
 			</html>`;
   }
+}
+
+function getFirmIdStored() {
+  utils.setCWD();
+  const firmIdStored = config.getFirmId();
+  if (firmIdStored) {
+    return firmIdStored;
+  }
+  return false;
 }
