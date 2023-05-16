@@ -156,6 +156,12 @@ export async function activate(context: vscode.ExtensionContext) {
       firmInfoProvider
     )
   );
+  vscode.window.onDidChangeActiveTextEditor(() => {
+    if (!firmInfoProvider._view) {
+      return;
+    }
+    firmInfoProvider.setContent(firmInfoProvider._view);
+  });
 }
 
 export function deactivate() {}

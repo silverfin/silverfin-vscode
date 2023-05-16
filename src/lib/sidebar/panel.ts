@@ -28,6 +28,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
   // Section's html created based on the ActiveTextEditor
   public async setContent(webviewView: vscode.WebviewView) {
     const firmId = getFirmIdStored();
+    console.log(firmId);
     const configData = await utils.getTemplateConfigData();
     let htmlContent = "";
 
@@ -54,22 +55,60 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
   ) {
     let partNames: string[] = [];
     partNames = Object.keys(configData.text_parts) || [];
-    const partsLi = partNames
-      .map((partName) => `<li>${partName}</li>`)
+    const partsRows = partNames
+      .map(
+        (partName) => `<vscode-data-grid-row>
+                        <vscode-data-grid-cell grid-column="1">
+                          ${partName}
+                        </vscode-data-grid-cell>
+                        <vscode-data-grid-cell grid-column="2">
+                        </vscode-data-grid-cell>
+                      </vscode-data-grid-row>`
+      )
       .join("");
 
     let sharedParts: string[] = [];
     sharedParts =
       (await fsUtils.getSharedParts(firmId, configData.handle)) || [];
-    const sharedPartsLi = sharedParts
-      .map((sharedPart: string) => `<li>${sharedPart}</li>`)
+    const sharedPartsRows = sharedParts
+      .map(
+        (sharedPartName: string) => `<vscode-data-grid-row>
+                                      <vscode-data-grid-cell grid-column="1">
+                                        ${sharedPartName}
+                                      </vscode-data-grid-cell>
+                                      <vscode-data-grid-cell grid-column="2">
+                                      </vscode-data-grid-cell>
+                                    </vscode-data-grid-row>`
+      )
       .join("");
 
-    let htmlBody = `<p><i>Main</i></p>
-                <p><i>Parts:</i></p>
-                <ul>${partsLi}</ul>
-                <p><i>Shared Parts:</i></p>
-                <ul>${sharedPartsLi}</ul`;
+    let htmlBody = `<vscode-data-grid aria-label="template parts">
+                      <vscode-data-grid-row row-type="header">
+                        <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
+                          Parts
+                        </vscode-data-grid-cell>
+                        <vscode-data-grid-cell cell-type="columnheader" grid-column="2">
+                        </vscode-data-grid-cell>
+                      </vscode-data-grid-row>
+                      <vscode-data-grid-row>
+                        <vscode-data-grid-cell grid-column="1">
+                          Main
+                        </vscode-data-grid-cell>
+                        <vscode-data-grid-cell grid-column="2">
+                        </vscode-data-grid-cell>
+                      </vscode-data-grid-row>
+                      ${partsRows}
+                    </vscode-data-grid>
+                    <vscode-data-grid aria-label="template shared-parts">
+                      <vscode-data-grid-row row-type="header">
+                        <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
+                          Shared parts
+                        </vscode-data-grid-cell>
+                        <vscode-data-grid-cell cell-type="columnheader" grid-column="2">
+                        </vscode-data-grid-cell>
+                      </vscode-data-grid-row>
+                      ${sharedPartsRows}
+                    </vscode-data-grid>`;
     return htmlContainer(webviewView, this._extensionUri, htmlBody);
   }
 }
@@ -101,6 +140,7 @@ export class TemplateInformationViewProvider
     const configData = await utils.getTemplateConfigData();
 
     const configDataEntries = Object.entries(configData) || [];
+    /* eslint-disable */
     const ITEMS: any = {
       handle: "Handle",
       name_en: "Name (en)",
@@ -113,17 +153,33 @@ export class TemplateInformationViewProvider
       public: "Public?",
       externally_managed: "Externally managed?",
     };
+    /* eslint-enable */
     const filtered = configDataEntries.filter(([key, value]) =>
       Object.keys(ITEMS).includes(key)
     );
 
-    const itemsLi = filtered
+    const configItemsRows = filtered
       .map(([key, value]) => {
-        return `<li>${ITEMS[key]}: ${value}</li>`;
+        return `<vscode-data-grid-row>
+                  <vscode-data-grid-cell grid-column="1">
+                    ${ITEMS[key]}
+                  </vscode-data-grid-cell>
+                  <vscode-data-grid-cell grid-column="2">
+                    ${value}
+                  </vscode-data-grid-cell>
+                </vscode-data-grid-row>`;
       })
       .join("");
 
-    let htmlBody = `<ul>${itemsLi}</ul>`;
+    let htmlBody = `<vscode-data-grid aria-label="authorized firms">
+                      <vscode-data-grid-row row-type="header">
+                        <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
+                        </vscode-data-grid-cell>
+                        <vscode-data-grid-cell cell-type="columnheader" grid-column="2">
+                        </vscode-data-grid-cell>
+                      </vscode-data-grid-row>
+                      ${configItemsRows}
+                    </vscode-data-grid>`;
     let htmlContent = htmlContainer(webviewView, this._extensionUri, htmlBody);
     webviewView.webview.html = htmlContent;
   }
@@ -152,17 +208,35 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
   public async setContent(webviewView: vscode.WebviewView) {
     const firmId = getFirmIdStored();
     const firmData = config.storedIds(firmId);
-    const authorizedFirmsLi = firmData
-      .map(
-        (firm: string) =>
-          `<li><vscode-link href="https://live.getsilverfin.com/f/${firm}">${firm}</vscode-link></li>`
-      )
+    const authorizedFirmsRows = firmData
+      .map((firm: string) => {
+        let activeFirmTag = "";
+        if (firm.toString() === firmId.toString()) {
+          activeFirmTag = `<vscode-tag>Active</vscode-tag>`;
+        }
+        return `<vscode-data-grid-row>
+                  <vscode-data-grid-cell grid-column="1">
+                    <vscode-link href="https://live.getsilverfin.com/f/${firm}">
+                      ${firm}
+                    </vscode-link>
+                  </vscode-data-grid-cell>
+                  <vscode-data-grid-cell grid-column="2">
+                    ${activeFirmTag}
+                  </vscode-data-grid-cell>
+                </vscode-data-grid-row>`;
+      })
       .join("");
 
-    let htmlBody = `<p><i>Firm to be used:</i></p>
-                    <ul><li>${firmId}</li></ul>
-                    <p><i>Authorized firms:</i></p>
-                    <ul>${authorizedFirmsLi}</ul>`;
+    let htmlBody = `<vscode-data-grid aria-label="authorized firms">
+                      <vscode-data-grid-row row-type="header">
+                        <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
+                          Authorized firm IDs
+                        </vscode-data-grid-cell>
+                        <vscode-data-grid-cell cell-type="columnheader" grid-column="2">
+                        </vscode-data-grid-cell>
+                      </vscode-data-grid-row>
+                      ${authorizedFirmsRows}
+                    </vscode-data-grid>`;
     let htmlContent = htmlContainer(webviewView, this._extensionUri, htmlBody);
     webviewView.webview.html = htmlContent;
   }
@@ -221,3 +295,5 @@ function htmlContainer(
 //     }
 //   }
 // });
+//
+// <vscode-link href="command:extension.openTemplatePart?${partName}">
