@@ -25,6 +25,7 @@
     "redhat.vscode-yaml"
   ],
   "dependencies": {
+    "@vscode/webview-ui-toolkit": "^1.2.2",
     "sf_toolkit": "github:silverfin/sf-toolkit",
     "yaml": "^2.2.2"
   },
@@ -171,9 +172,10 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run package",
+    "compile": "node ./esbuild.js",
+    "package": "NODE_ENV=production node ./esbuild.js",
+    "watch": "node ./esbuild.js --watch",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js"
@@ -186,6 +188,7 @@
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
     "@vscode/test-electron": "^2.1.2",
+    "esbuild": "^0.16.17",
     "eslint": "^8.9.0",
     "glob": "^7.2.0",
     "mocha": "^9.2.1",
