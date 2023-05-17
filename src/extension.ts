@@ -3,11 +3,9 @@ import FirmHandler from "./lib/firmHandler";
 import LiquidLinter from "./lib/liquidLinter";
 import LiquidTest from "./lib/liquidTest";
 import LiquidTestQuickFixes from "./lib/quickFixes";
-import {
-  FirmViewProvider,
-  TemplateInformationViewProvider,
-  TemplatePartsViewProvider,
-} from "./lib/sidebar/panel";
+import { FirmViewProvider } from "./lib/sidebar/panelFirm";
+import { TemplateInformationViewProvider } from "./lib/sidebar/panelTemplateInfo";
+import { TemplatePartsViewProvider } from "./lib/sidebar/panelTemplateParts";
 import StatusBarItem from "./lib/statusBarItem";
 import * as utils from "./lib/utils";
 
