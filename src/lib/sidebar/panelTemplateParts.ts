@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
-import * as utils from "../utils";
+import * as templateUtils from "../../utilities/templateUtils";
+import * as utils from "../../utilities/utils";
 import * as panelUtils from "./panelUtils";
 const fsUtils = require("sf_toolkit/fs_utils");
 
@@ -18,16 +19,16 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
     this._view = webviewView;
     webviewView.webview.options = {
       enableScripts: true,
-      localResourceRoots: [vscode.Uri.joinPath(this._extensionUri, "out")],
+      localResourceRoots: [vscode.Uri.joinPath(this._extensionUri)],
     };
     await this.setContent(webviewView);
   }
 
   // Section's html created based on the ActiveTextEditor
   public async setContent(webviewView: vscode.WebviewView) {
+    utils.setCWD();
     const firmId = panelUtils.getFirmIdStored();
-    console.log(firmId);
-    const configData = await utils.getTemplateConfigData();
+    const configData = await templateUtils.getTemplateConfigData();
     let htmlContent = "";
 
     // Reconciliations
@@ -60,6 +61,9 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
                           ${partName}
                         </vscode-data-grid-cell>
                         <vscode-data-grid-cell grid-column="2">
+                          <vscode-button appearance="icon" aria-label="Open-file">
+                            <span class="codicon codicon-go-to-file"></span>
+                          </vscode-button>
                         </vscode-data-grid-cell>
                       </vscode-data-grid-row>`
       )
@@ -75,6 +79,9 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
                                         ${sharedPartName}
                                       </vscode-data-grid-cell>
                                       <vscode-data-grid-cell grid-column="2">
+                                        <vscode-button appearance="icon" aria-label="Open-file">
+                                          <span class="codicon codicon-go-to-file"></span>
+                                        </vscode-button>
                                       </vscode-data-grid-cell>
                                     </vscode-data-grid-row>`
       )
@@ -94,6 +101,9 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
                           Main
                         </vscode-data-grid-cell>
                         <vscode-data-grid-cell grid-column="2">
+                          <vscode-button appearance="icon" aria-label="Open-file">
+                            <span class="codicon codicon-go-to-file"></span>
+                          </vscode-button>
                         </vscode-data-grid-cell>
                       </vscode-data-grid-row>
                       ${partsRows}

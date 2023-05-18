@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import * as utils from "../../utilities/utils";
 import * as panelUtils from "./panelUtils";
 const { config } = require("sf_toolkit/api/auth");
 
@@ -23,6 +24,7 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
   }
 
   public async setContent(webviewView: vscode.WebviewView) {
+    utils.setCWD();
     const firmId = panelUtils.getFirmIdStored();
     const firmData = config.storedIds(firmId);
     const authorizedFirmsRows = firmData

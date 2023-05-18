@@ -7,7 +7,7 @@ import { FirmViewProvider } from "./lib/sidebar/panelFirm";
 import { TemplateInformationViewProvider } from "./lib/sidebar/panelTemplateInfo";
 import { TemplatePartsViewProvider } from "./lib/sidebar/panelTemplateParts";
 import StatusBarItem from "./lib/statusBarItem";
-import * as utils from "./lib/utils";
+import * as utils from "./utilities/utils";
 
 export async function activate(context: vscode.ExtensionContext) {
   // Initializers

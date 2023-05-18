@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { getNonce } from "../../utilities/getNonce";
 import { getWebviewUri } from "../../utilities/getUri";
-import * as utils from "../utils";
+import * as utils from "../../utilities/utils";
 const { config } = require("sf_toolkit/api/auth");
 
 export function getFirmIdStored() {
@@ -13,13 +13,40 @@ export function getFirmIdStored() {
   return false;
 }
 
-export function htmlHeader(webviewView: vscode.WebviewView, nonce: string) {
+export function htmlHeader(
+  webviewView: vscode.WebviewView,
+  extensionUri: vscode.Uri,
+  nonce: string
+) {
+  // Custom CSS
+  const styleUri = getWebviewUri(webviewView.webview, extensionUri, [
+    "src",
+    "lib",
+    "media",
+    "style.css",
+  ]);
+  // https://microsoft.github.io/vscode-codicons/dist/codicon.html
+  // https://github.com/microsoft/vscode-extension-samples/blob/main/webview-codicons-sample/src/extension.ts
+  // https://github.com/microsoft/vscode-webview-ui-toolkit/blob/main/docs/components.md
+  const codiconsUri = getWebviewUri(webviewView.webview, extensionUri, [
+    "node_modules",
+    "@vscode/codicons",
+    "dist",
+    "codicon.css",
+  ]);
+  const codiconsFontUri = getWebviewUri(webviewView.webview, extensionUri, [
+    "node_modules",
+    "@vscode/codicons",
+    "dist",
+    "codicon.ttf",
+  ]);
+  // TODO: Content-Security-Policy
   return `<head>
+            <title>Information</title>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'nonce-${nonce}'; style-src ${webviewView.webview.cspSource};">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Information</title>
+            <link href="${styleUri}" rel="stylesheet" type="text/css"/>
+            <link href="${codiconsUri}" rel="stylesheet" type="text/css"/>
           </head>`;
 }
 
@@ -35,7 +62,7 @@ export function htmlContainer(
   const nonce = getNonce();
   return `<!DOCTYPE html>
                  <html lang="en">
-                  ${htmlHeader(webviewView, nonce)}
+                  ${htmlHeader(webviewView, extensionUri, nonce)}
                   <body>
                   ${htmlContent}
                   <script type="module" nonce="${nonce}" src="${webviewUri}"></script>

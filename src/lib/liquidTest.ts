@@ -1,8 +1,9 @@
 import { posix } from "path";
 import * as vscode from "vscode";
 import * as yaml from "yaml";
+import * as templateUtils from "../utilities/templateUtils";
+import * as utils from "../utilities/utils";
 import * as types from "./types";
-import * as utils from "./utils";
 const sfToolkit = require("sf_toolkit");
 
 export default class LiquidTest {
@@ -40,7 +41,7 @@ export default class LiquidTest {
       return;
     }
     // Get template handle
-    let templateHandle = await utils.getTemplateHandle();
+    let templateHandle = await templateUtils.getTemplateHandle();
     if (!templateHandle) {
       return;
     }
@@ -104,7 +105,7 @@ export default class LiquidTest {
       return;
     }
     // Get template handle
-    let templateHandle = await utils.getTemplateHandle();
+    let templateHandle = await templateUtils.getTemplateHandle();
     if (!templateHandle) {
       return;
     }
@@ -469,8 +470,8 @@ export default class LiquidTest {
       return false;
     }
     // Set the right path
-    const basePath = posix.dirname(posix.dirname(templatePath));
-    process.chdir(basePath);
+    utils.setCWD();
+
     return true;
   }
 }

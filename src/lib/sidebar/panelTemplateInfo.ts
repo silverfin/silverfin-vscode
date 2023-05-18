@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
-import * as utils from "../utils";
+import * as templateUtils from "../../utilities/templateUtils";
+import * as utils from "../../utilities/utils";
 import * as panelUtils from "./panelUtils";
 
 export class TemplateInformationViewProvider
@@ -26,7 +27,8 @@ export class TemplateInformationViewProvider
 
   // Section's html created based on the ActiveTextEditor
   public async setContent(webviewView: vscode.WebviewView) {
-    const configData = await utils.getTemplateConfigData();
+    utils.setCWD();
+    const configData = await templateUtils.getTemplateConfigData();
 
     const configDataEntries = Object.entries(configData) || [];
     /* eslint-disable */

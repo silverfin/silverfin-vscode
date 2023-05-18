@@ -1,6 +1,6 @@
 import { posix } from "path";
 import * as vscode from "vscode";
-import * as utils from "./utils";
+import * as utils from "../utilities/utils";
 const sfApi = require("sf_toolkit/api/sf_api");
 const { config } = require("sf_toolkit/api/auth");
 
