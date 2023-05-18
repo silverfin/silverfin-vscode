@@ -60,7 +60,8 @@ export class TemplateInformationViewProvider
       })
       .join("");
 
-    let htmlBody = `<vscode-data-grid aria-label="authorized firms">
+    const gridLayout = `grid-template-columns="1fr 2fr"`;
+    let htmlBody = `<vscode-data-grid aria-label="template information" ${gridLayout}>
                       <vscode-data-grid-row row-type="header">
                         <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
                         </vscode-data-grid-cell>

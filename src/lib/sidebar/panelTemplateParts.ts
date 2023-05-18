@@ -80,7 +80,8 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
       )
       .join("");
 
-    let htmlBody = `<vscode-data-grid aria-label="template parts">
+    const gridLayout = `grid-template-columns="3fr 1fr"`;
+    let htmlBody = `<vscode-data-grid aria-label="template parts" ${gridLayout}>
                       <vscode-data-grid-row row-type="header">
                         <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
                           Parts
@@ -97,7 +98,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
                       </vscode-data-grid-row>
                       ${partsRows}
                     </vscode-data-grid>
-                    <vscode-data-grid aria-label="template shared-parts">
+                    <vscode-data-grid aria-label="template shared-parts" ${gridLayout}>
                       <vscode-data-grid-row row-type="header">
                         <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
                           Shared parts

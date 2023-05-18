@@ -44,7 +44,8 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
       })
       .join("");
 
-    let htmlBody = `<vscode-data-grid aria-label="authorized firms">
+    const gridLayout = `grid-template-columns="3fr 1fr"`;
+    let htmlBody = `<vscode-data-grid aria-label="authorized firms" ${gridLayout}>
                       <vscode-data-grid-row row-type="header">
                         <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
                           Authorized firm IDs
