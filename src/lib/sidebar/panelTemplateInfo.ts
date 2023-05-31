@@ -55,7 +55,7 @@ export class TemplateInformationViewProvider
                   <vscode-data-grid-cell grid-column="1">
                     ${ITEMS[key]}
                   </vscode-data-grid-cell>
-                  <vscode-data-grid-cell grid-column="2">
+                  <vscode-data-grid-cell grid-column="2"  class="vs-actions">
                     ${value}
                   </vscode-data-grid-cell>
                 </vscode-data-grid-row>`;

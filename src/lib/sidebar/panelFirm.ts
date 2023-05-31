@@ -39,7 +39,7 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
                       ${firm}
                     </vscode-link>
                   </vscode-data-grid-cell>
-                  <vscode-data-grid-cell grid-column="2">
+                  <vscode-data-grid-cell grid-column="2"  class="vs-actions">
                     ${activeFirmTag}
                   </vscode-data-grid-cell>
                 </vscode-data-grid-row>`;

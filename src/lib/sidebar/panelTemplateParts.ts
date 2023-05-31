@@ -60,7 +60,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
                         <vscode-data-grid-cell grid-column="1">
                           ${partName}
                         </vscode-data-grid-cell>
-                        <vscode-data-grid-cell grid-column="2">
+                        <vscode-data-grid-cell grid-column="2"  class="vs-actions">
                           <vscode-button appearance="icon" aria-label="Open-file">
                             <span class="codicon codicon-go-to-file"></span>
                           </vscode-button>
@@ -78,7 +78,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
                                       <vscode-data-grid-cell grid-column="1">
                                         ${sharedPartName}
                                       </vscode-data-grid-cell>
-                                      <vscode-data-grid-cell grid-column="2">
+                                      <vscode-data-grid-cell grid-column="2"  class="vs-actions">
                                         <vscode-button appearance="icon" aria-label="Open-file">
                                           <span class="codicon codicon-go-to-file"></span>
                                         </vscode-button>
@@ -100,7 +100,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
                         <vscode-data-grid-cell grid-column="1">
                           Main
                         </vscode-data-grid-cell>
-                        <vscode-data-grid-cell grid-column="2">
+                        <vscode-data-grid-cell grid-column="2"  class="vs-actions">
                           <vscode-button appearance="icon" aria-label="Open-file">
                             <span class="codicon codicon-go-to-file"></span>
                           </vscode-button>
