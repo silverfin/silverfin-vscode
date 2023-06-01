@@ -51,7 +51,7 @@ export class TemplateInformationViewProvider
 
     const configItemsRows = filtered
       .map(([key, value]) => {
-        return `<vscode-data-grid-row>
+        return /*html*/ `<vscode-data-grid-row>
                   <vscode-data-grid-cell grid-column="1">
                     ${ITEMS[key]}
                   </vscode-data-grid-cell>
@@ -63,7 +63,7 @@ export class TemplateInformationViewProvider
       .join("");
 
     const gridLayout = `grid-template-columns="1fr 2fr"`;
-    let htmlBody = `<vscode-data-grid aria-label="template information" ${gridLayout}>
+    let htmlBody = /*html*/ `<vscode-data-grid aria-label="template information" ${gridLayout}>
                       <vscode-data-grid-row row-type="header">
                         <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
                         </vscode-data-grid-cell>

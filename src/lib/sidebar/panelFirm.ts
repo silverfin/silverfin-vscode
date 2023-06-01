@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import * as utils from "../../utilities/utils";
 import * as panelUtils from "./panelUtils";
-const { config } = require("sf_toolkit/api/auth");
+const { config } = require("sf_toolkit/lib/api/auth");
 
 export class FirmViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = "firm-info";
@@ -33,7 +33,7 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
         if (firm.toString() === firmId.toString()) {
           activeFirmTag = `<vscode-tag>Active</vscode-tag>`;
         }
-        return `<vscode-data-grid-row>
+        return /*html*/ `<vscode-data-grid-row>
                   <vscode-data-grid-cell grid-column="1">
                     <vscode-link href="https://live.getsilverfin.com/f/${firm}">
                       ${firm}
@@ -47,16 +47,16 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
       .join("");
 
     const gridLayout = `grid-template-columns="3fr 1fr"`;
-    let htmlBody = `<vscode-data-grid aria-label="authorized firms" ${gridLayout}>
-                      <vscode-data-grid-row row-type="header">
-                        <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
-                          Authorized firm IDs
-                        </vscode-data-grid-cell>
-                        <vscode-data-grid-cell cell-type="columnheader" grid-column="2">
-                        </vscode-data-grid-cell>
-                      </vscode-data-grid-row>
-                      ${authorizedFirmsRows}
-                    </vscode-data-grid>`;
+    let htmlBody = /*html*/ `<vscode-data-grid aria-label="authorized firms" ${gridLayout}>
+                    <vscode-data-grid-row row-type="header">
+                      <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
+                        Authorized firm IDs
+                      </vscode-data-grid-cell>
+                      <vscode-data-grid-cell cell-type="columnheader" grid-column="2">
+                      </vscode-data-grid-cell1>
+                    </vscode-data-grid-row>
+                    ${authorizedFirmsRows}
+                  </vscode-data-grid>`;
     let htmlContent = panelUtils.htmlContainer(
       webviewView,
       this._extensionUri,

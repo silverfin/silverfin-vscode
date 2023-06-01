@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
 const sfToolkit = require("sf_toolkit");
-const { config } = require("sf_toolkit/api/auth");
+const { config } = require("sf_toolkit/lib/api/auth");
 
 export default class FirmHandler {
   commandName = "silverfin-development-toolkit.setFirm";
