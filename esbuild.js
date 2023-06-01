@@ -75,6 +75,14 @@ const webviewConfig = {
   outfile: "./out/webview.js",
 };
 
+const styleConfig = {
+  ...baseConfig,
+  target: "es2020",
+  format: "esm",
+  entryPoints: ["./src/lib/media/style.css"],
+  outfile: "./out/style.css",
+};
+
 (async () => {
   const args = process.argv.slice(2);
   try {
@@ -89,11 +97,16 @@ const webviewConfig = {
         ...webviewConfig,
         ...watchConfig,
       });
+      await build({
+        ...styleConfig,
+        ...watchConfig,
+      });
       console.log("[watch] build finished");
     } else {
       // Build extension and webview code
       await build(extensionConfig);
       await build(webviewConfig);
+      await build(styleConfig);
       console.log("build complete");
     }
   } catch (err) {

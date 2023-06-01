@@ -20,9 +20,7 @@ export function htmlHeader(
 ) {
   // Custom CSS
   const styleUri = getWebviewUri(webviewView.webview, extensionUri, [
-    "src",
-    "lib",
-    "media",
+    "out",
     "style.css",
   ]);
   // https://microsoft.github.io/vscode-codicons/dist/codicon.html
@@ -44,7 +42,7 @@ export function htmlHeader(
             <title>Information</title>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webviewView.webview.cspSource}; font-src ${webviewView.webview.cspSource}; img-src ${webviewView.webview.cspSource} https:; script-src 'nonce-${nonce}';">
+            <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webviewView.webview.cspSource}; font-src ${webviewView.webview.cspSource} ${codiconsFontUri}; img-src ${webviewView.webview.cspSource} https:; script-src 'nonce-${nonce}';">
             <link href="${styleUri}" rel="stylesheet" type="text/css"/>
             <link href="${codiconsUri}" rel="stylesheet" type="text/css"/>
           </head>`;
@@ -69,18 +67,3 @@ export function htmlContainer(
                 </body>
                 </html>`;
 }
-
-// How to post messages ? (this can be done anywhere in the extension)
-// vscode.postMessage({ type: 'identificationName', value: color });
-//
-// How Handle messages from the webview ?
-// webviewView.webview.onDidReceiveMessage((data) => {
-//   switch (data.type) {
-//     case "identificationName": {
-//       // do something with data.value
-//       break;
-//     }
-//   }
-// });
-//
-// <vscode-link href="command:extension.openTemplatePart?${partName}">

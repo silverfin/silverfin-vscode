@@ -39,7 +39,6 @@ export class TemplateInformationViewProvider
       name_fr: "Name (fr)",
       reconciliation_type: "Reconciliation type",
       virtual_account_number: "Virtual account number",
-      auto_hide_formula: "Auto hide formula",
       is_active: "Active?",
       public: "Public?",
       externally_managed: "Externally managed?",

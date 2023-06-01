@@ -40,13 +40,52 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
         configData,
         webviewView
       );
+    } else if (configData && "used_in" in configData) {
+      // Shared Parts
+      htmlContent = await this.htmlSharedPartUsedIn(
+        firmId,
+        configData,
+        webviewView
+      );
+    } else {
+      webviewView.description = "";
+      webviewView.title = "Template";
     }
-
-    // Shared Parts
-    // Should we show something for shared parts?
 
     // HTML
     webviewView.webview.html = htmlContent;
+  }
+
+  private async htmlSharedPartUsedIn(
+    firmId: any,
+    configData: any,
+    webviewView: vscode.WebviewView
+  ) {
+    webviewView.description = "Reconciliations where this shared part is used";
+    webviewView.title = "SHARED PART";
+    const reconciliationNames =
+      configData.used_in.map((reconciliation: any) => reconciliation.handle) ||
+      [];
+    const sharedPartsRows = reconciliationNames
+      .map(
+        (reconciliationName: string) => /*html*/ `<vscode-data-grid-row>
+                        <vscode-data-grid-cell grid-column="1">
+                          ${reconciliationName}
+                        </vscode-data-grid-cell>
+                        <vscode-data-grid-cell grid-column="2"  class="vs-actions">
+                          <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/reconciliation_texts/${reconciliationName}/main.liquid">
+                            <span class="codicon codicon-file-code"></span>
+                          </vscode-button>
+                        </vscode-data-grid-cell>
+                      </vscode-data-grid-row>`
+      )
+      .join("");
+
+    const gridLayout = `grid-template-columns="3fr 1fr"`;
+    let htmlBody = /*html*/ `<vscode-data-grid aria-label="template shared-parts" ${gridLayout}>
+                              ${sharedPartsRows}
+                             </vscode-data-grid>`;
+    return panelUtils.htmlContainer(webviewView, this._extensionUri, htmlBody);
   }
 
   private async htmlPartsReconciliations(
@@ -54,18 +93,21 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
     configData: any,
     webviewView: vscode.WebviewView
   ) {
+    webviewView.description =
+      "Parts and shared parts used in this reconciliation";
+    webviewView.title = "RECONCILIATION";
     let partNames: string[] = [];
     const handle = configData.handle;
     partNames = Object.keys(configData.text_parts) || [];
     const partsRows = partNames
       .map(
-        (partName) => /*html*/ `<vscode-data-grid-row>
+        (partName: string) => /*html*/ `<vscode-data-grid-row>
                         <vscode-data-grid-cell grid-column="1">
                           ${partName}
                         </vscode-data-grid-cell>
                         <vscode-data-grid-cell grid-column="2"  class="vs-actions">
                           <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/reconciliation_texts/${handle}/text_parts/${partName}.liquid">
-                            <span class="codicon codicon-go-to-file"></span>
+                            <span class="codicon codicon-file-code"></span>
                           </vscode-button>
                         </vscode-data-grid-cell>
                       </vscode-data-grid-row>`
@@ -83,7 +125,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
                                       </vscode-data-grid-cell>
                                       <vscode-data-grid-cell grid-column="2"  class="vs-actions">
                                         <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/shared_parts/${sharedPartName}/${sharedPartName}.liquid">
-                                          <span class="codicon codicon-go-to-file"></span>
+                                          <span class="codicon codicon-file-code"></span>
                                         </vscode-button>
                                       </vscode-data-grid-cell>
                                     </vscode-data-grid-row>`
@@ -101,11 +143,11 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
                       </vscode-data-grid-row>
                       <vscode-data-grid-row>
                         <vscode-data-grid-cell grid-column="1">
-                          Main
+                          main
                         </vscode-data-grid-cell>
                         <vscode-data-grid-cell grid-column="2"  class="vs-actions">
                           <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/reconciliation_texts/${handle}/main.liquid">
-                            <span class="codicon codicon-go-to-file"></span>
+                            <span class="codicon codicon-file-code"></span>
                           </vscode-button>
                         </vscode-data-grid-cell>
                       </vscode-data-grid-row>
@@ -130,7 +172,6 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
         case "open-file":
           // Open file
           const cwd = utils.setCWD();
-          const fileType = ".liquid";
           const fileUri = vscode.Uri.parse(cwd + message.value);
           vscode.window.showTextDocument(fileUri, { preview: true });
           return;
