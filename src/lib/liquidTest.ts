@@ -4,7 +4,7 @@ import * as yaml from "yaml";
 import * as templateUtils from "../utilities/templateUtils";
 import * as utils from "../utilities/utils";
 import * as types from "./types";
-const sfToolkit = require("sf_toolkit");
+const liquidTestRunner = require("sf_toolkit/lib/liquidTestRunner");
 
 export default class LiquidTest {
   errorsCollection: vscode.DiagnosticCollection;
@@ -66,7 +66,7 @@ export default class LiquidTest {
     if (this.statusBarItem) {
       this.statusBarItem.setStateRunning();
     }
-    let response: types.ResponseObject = await sfToolkit.runTests(
+    let response: types.ResponseObject = await liquidTestRunner.runTests(
       firmId,
       templateHandle
     );
@@ -143,10 +143,10 @@ export default class LiquidTest {
     let response: types.ResponseObject;
     if (testSelected === allTests) {
       // Run all tests without HTML
-      response = await sfToolkit.runTests(firmId, templateHandle);
+      response = await liquidTestRunner.runTests(firmId, templateHandle);
     } else {
       // Run specific test with HTML
-      response = await sfToolkit.runTests(
+      response = await liquidTestRunner.runTests(
         firmId,
         templateHandle,
         testSelected,
@@ -184,12 +184,12 @@ export default class LiquidTest {
     }
     if (testSelected !== allTests) {
       try {
-        await sfToolkit.getHTML(
+        await liquidTestRunner.getHTML(
           response.tests[testSelected].html,
           testSelected
         );
         // Open File
-        const filePath = sfToolkit.resolveHTMLPath(testSelected);
+        const filePath = liquidTestRunner.resolveHTMLPath(testSelected);
         const fs = require("fs");
         const fileContent = fs.readFileSync(filePath, "utf8");
         if (!this.htmlPanel) {
@@ -331,7 +331,7 @@ export default class LiquidTest {
     let collectionArray: types.DiagnosticObject[] = [];
     switch (response.status) {
       case "completed":
-        const errorsPresent = sfToolkit.checkAllTestsErrorsPresent(
+        const errorsPresent = liquidTestRunner.checkAllTestsErrorsPresent(
           response.tests
         );
         if (errorsPresent) {

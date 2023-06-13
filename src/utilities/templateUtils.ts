@@ -33,10 +33,11 @@ export async function getTemplateType() {
   const fileParts = filePath.split(posix.sep);
   const fileName = fileParts[fileParts.length - 1];
   const fileType = fileName.split(".")[1];
-  if (fileType !== "liquid") {
-    //vscode.window.showErrorMessage("File is not a liquid file");
-    return false;
-  }
+  // Removed, we want to show parts next to every file (config.json, liquid tests, etc.)
+  // if (fileType !== "liquid") {
+  //   //vscode.window.showErrorMessage("File is not a liquid file");
+  //   return false;
+  // }
   if (fileParts.includes("reconciliation_texts")) {
     return "reconciliationText";
   } else if (fileParts.includes("shared_parts")) {
