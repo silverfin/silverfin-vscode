@@ -32,7 +32,7 @@ export class TemplateInformationViewProvider
 
     const configDataEntries = Object.entries(configData) || [];
     /* eslint-disable */
-    const ITEMS: any = {
+    const reconciliationItems: any = {
       handle: "Handle",
       name_en: "Name (en)",
       name_nl: "Name (nl)",
@@ -43,18 +43,31 @@ export class TemplateInformationViewProvider
       public: "Public?",
       externally_managed: "Externally managed?",
     };
+
+    const sharedPartItems: any = {
+      name: "Name",
+    };
+
     /* eslint-enable */
+    let items: any;
+
+    if (configData.used_in) {
+      items = sharedPartItems;
+    } else {
+      items = reconciliationItems;
+    }
+
     const filtered = configDataEntries.filter(([key, value]) =>
-      Object.keys(ITEMS).includes(key)
+      Object.keys(items).includes(key)
     );
 
     const configItemsRows = filtered
       .map(([key, value]) => {
         return /*html*/ `<vscode-data-grid-row>
                   <vscode-data-grid-cell grid-column="1">
-                    ${ITEMS[key]}
+                    ${items[key]}
                   </vscode-data-grid-cell>
-                  <vscode-data-grid-cell grid-column="2"  class="vs-actions">
+                  <vscode-data-grid-cell grid-column="2" class="vs-actions">
                     ${value}
                   </vscode-data-grid-cell>
                 </vscode-data-grid-row>`;
@@ -62,15 +75,18 @@ export class TemplateInformationViewProvider
       .join("");
 
     const gridLayout = `grid-template-columns="1fr 2fr"`;
-    let htmlBody = /*html*/ `<vscode-data-grid aria-label="template information" ${gridLayout}>
-                      <vscode-data-grid-row row-type="header">
-                        <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
-                        </vscode-data-grid-cell>
-                        <vscode-data-grid-cell cell-type="columnheader" grid-column="2">
-                        </vscode-data-grid-cell>
-                      </vscode-data-grid-row>
-                      ${configItemsRows}
-                    </vscode-data-grid>`;
+    let htmlBody =
+      configItemsRows.length > 0
+        ? `<vscode-data-grid aria-label="template information" ${gridLayout}>
+    <vscode-data-grid-row row-type="header">
+      <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
+      </vscode-data-grid-cell>
+      <vscode-data-grid-cell cell-type="columnheader" grid-column="2">
+      </vscode-data-grid-cell>
+    </vscode-data-grid-row>
+    ${configItemsRows}
+  </vscode-data-grid>`
+        : `Select a template with a valid config file to see its information`;
     let htmlContent = panelUtils.htmlContainer(
       webviewView,
       this._extensionUri,

@@ -3,6 +3,7 @@ import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 import * as panelUtils from "./panelUtils";
 const fsUtils = require("sf_toolkit/lib/utils/fsUtils");
+const fs = require("fs");
 
 export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = "template-parts";
@@ -48,6 +49,8 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
         webviewView
       );
     } else {
+      htmlContent =
+        "Select template with a valid config file to see its parts & shared parts";
       webviewView.description = "";
       webviewView.title = "Template";
     }
@@ -66,19 +69,29 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
     const reconciliationNames =
       configData.used_in.map((reconciliation: any) => reconciliation.handle) ||
       [];
+
     const sharedPartsRows = reconciliationNames
-      .map(
-        (reconciliationName: string) => /*html*/ `<vscode-data-grid-row>
-                        <vscode-data-grid-cell grid-column="1">
-                          ${reconciliationName}
-                        </vscode-data-grid-cell>
-                        <vscode-data-grid-cell grid-column="2"  class="vs-actions">
-                          <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/reconciliation_texts/${reconciliationName}/main.liquid">
-                            <span class="codicon codicon-file-code"></span>
-                          </vscode-button>
-                        </vscode-data-grid-cell>
-                      </vscode-data-grid-row>`
-      )
+      .sort()
+      .map((reconciliationName: string) => {
+        if (reconciliationName) {
+          const templatePath = `/reconciliation_texts/${reconciliationName}/main.liquid`;
+
+          return `<vscode-data-grid-row>
+            <vscode-data-grid-cell grid-column="1">
+              ${reconciliationName}
+            </vscode-data-grid-cell>
+            <vscode-data-grid-cell grid-column="2"  class="vs-actions">
+            ${
+              fs.existsSync(`.${templatePath}`)
+                ? `<vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value=${templatePath}>
+                <span class="codicon codicon-file-code"></span>
+              </vscode-button>`
+                : ""
+            }
+            </vscode-data-grid-cell>
+          </vscode-data-grid-row>`;
+        }
+      })
       .join("");
 
     const gridLayout = `grid-template-columns="3fr 1fr"`;
@@ -101,11 +114,11 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
     partNames = Object.keys(configData.text_parts) || [];
     const partsRows = partNames
       .map(
-        (partName: string) => /*html*/ `<vscode-data-grid-row>
+        (partName: string, index: number) => /*html*/ `<vscode-data-grid-row>
                         <vscode-data-grid-cell grid-column="1">
-                          ${partName}
+                        ${index + 1}. ${partName}
                         </vscode-data-grid-cell>
-                        <vscode-data-grid-cell grid-column="2"  class="vs-actions">
+                        <vscode-data-grid-cell grid-column="2" class="vs-actions">
                           <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/reconciliation_texts/${handle}/text_parts/${partName}.liquid">
                             <span class="codicon codicon-file-code"></span>
                           </vscode-button>
@@ -114,31 +127,35 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
       )
       .join("");
 
-    let sharedParts: string[] = [];
-    sharedParts =
-      (await fsUtils.getSharedParts(firmId, configData.handle)) || [];
+    const sharedParts = await fsUtils.getSharedParts(firmId, handle);
+
     const sharedPartsRows = sharedParts
-      .map(
-        (sharedPartName: string) => /*html*/ `<vscode-data-grid-row>
-                                      <vscode-data-grid-cell grid-column="1">
-                                        ${sharedPartName}
-                                      </vscode-data-grid-cell>
-                                      <vscode-data-grid-cell grid-column="2"  class="vs-actions">
-                                        <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/shared_parts/${sharedPartName}/${sharedPartName}.liquid">
-                                          <span class="codicon codicon-file-code"></span>
-                                        </vscode-button>
-                                      </vscode-data-grid-cell>
-                                    </vscode-data-grid-row>`
-      )
+      .sort()
+      .map((sharedPartName: string) => {
+        const sharedPartPath = `/shared_parts/${sharedPartName}/${sharedPartName}.liquid`;
+
+        return `<vscode-data-grid-row>
+          <vscode-data-grid-cell grid-column="1">
+          ${sharedPartName}
+          </vscode-data-grid-cell>
+          <vscode-data-grid-cell grid-column="2" class="vs-actions">
+          ${
+            fs.existsSync(`.${sharedPartPath}`)
+              ? `<vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value=${sharedPartPath}>
+              <span class="codicon codicon-file-code"></span>
+            </vscode-button>`
+              : ""
+          }
+          </vscode-data-grid-cell>
+        </vscode-data-grid-row>`;
+      })
       .join("");
 
     const gridLayout = `grid-template-columns="3fr 1fr"`;
-    let htmlBody = /*html*/ `<vscode-data-grid aria-label="template parts" ${gridLayout}>
-                      <vscode-data-grid-row row-type="header">
+    let htmlBody = /*html*/ `<vscode-data-grid aria-label="template parts and linked shared parts" ${gridLayout}>
+                      <vscode-data-grid-row row-type="sticky-header"  grid-columns="1">
                         <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
                           Parts
-                        </vscode-data-grid-cell>
-                        <vscode-data-grid-cell cell-type="columnheader" grid-column="2">
                         </vscode-data-grid-cell>
                       </vscode-data-grid-row>
                       <vscode-data-grid-row>
@@ -153,16 +170,23 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
                       </vscode-data-grid-row>
                       ${partsRows}
                     </vscode-data-grid>
-                    <vscode-data-grid aria-label="template shared-parts" ${gridLayout}>
-                      <vscode-data-grid-row row-type="header">
-                        <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
-                          Shared parts
-                        </vscode-data-grid-cell>
-                        <vscode-data-grid-cell cell-type="columnheader" grid-column="2">
-                        </vscode-data-grid-cell>
-                      </vscode-data-grid-row>
-                      ${sharedPartsRows}
-                    </vscode-data-grid>`;
+                    ${
+                      sharedPartsRows.length > 0
+                        ? `<vscode-data-grid aria-label="template shared-parts" ${gridLayout}>
+                            <vscode-data-grid-row row-type="sticky-header" grid-columns="1">
+                              <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
+                                Shared parts
+                              </vscode-data-grid-cell>
+                            </vscode-data-grid-row>
+                            <vscode-data-grid-row row-type="header" grid-columns="1">
+                              <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
+                                Linked to this reconciliation in firm ${firmId}
+                              </vscode-data-grid-cell>
+                            </vscode-data-grid-row>
+                            ${sharedPartsRows}
+                          </vscode-data-grid>`
+                        : ""
+                    }`;
     return panelUtils.htmlContainer(webviewView, this._extensionUri, htmlBody);
   }
 
