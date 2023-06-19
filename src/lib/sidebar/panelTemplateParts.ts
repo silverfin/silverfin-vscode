@@ -49,8 +49,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
         webviewView
       );
     } else {
-      htmlContent =
-        "Select template with a valid config file to see its parts & shared parts";
+      htmlContent = `Select a template with a valid "config.json" file to see its information here`;
       webviewView.description = "";
       webviewView.title = "Template";
     }
@@ -185,8 +184,8 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
           </vscode-data-grid-cell>
         </vscode-data-grid-row>
         <vscode-data-grid-row row-type="header" grid-columns="1">
-          <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
-            Linked to this reconciliation in firm ${firmId}
+          <vscode-data-grid-cell grid-column="1">
+            <i>( Linked to this reconciliation in firm: ${firmId} )</i>
           </vscode-data-grid-cell>
         </vscode-data-grid-row>
         ${sharedPartsRows}

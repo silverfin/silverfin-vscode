@@ -80,23 +80,26 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
       .map((firm: string) => {
         let activeFirmTag = "";
         if (firm.toString() === firmId.toString()) {
-          activeFirmTag = `<vscode-tag>Active</vscode-tag>`;
+          activeFirmTag = /*html*/ `<vscode-tag>Active</vscode-tag>`;
         }
         let firmUrl = `https://live.getsilverfin.com/f/${firm}`;
         return /*html*/ `<vscode-data-grid-row>
                   <vscode-data-grid-cell grid-column="1">
-                    <vscode-link href="${firmUrl}" title="${firmUrl}">
                       ${firm}
-                    </vscode-link>
                   </vscode-data-grid-cell>
                   <vscode-data-grid-cell grid-column="2"  class="vs-actions">
                     ${activeFirmTag}
+                    <vscode-link href="${firmUrl}" title="${firmUrl}">
+                      <vscode-button appearance="icon" aria-label="Open-file">
+                        <span class="codicon codicon-globe"></span>
+                      </vscode-button>
+                    </vscode-link>
                   </vscode-data-grid-cell>
                 </vscode-data-grid-row>`;
       })
       .join("");
 
-    const gridLayout = `grid-template-columns="3fr 1fr"`;
+    const gridLayout = `grid-template-columns="2fr 1fr"`;
 
     const usedInBlock =
       usedInFirmsRows.length > 0

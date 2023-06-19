@@ -88,7 +88,7 @@ export class TemplateInformationViewProvider
             </vscode-data-grid-row>
             ${configItemsRows}
           </vscode-data-grid>`
-        : `Select a template with a valid config file to see its information`;
+        : `Select a template with a valid "config.json" file to see its information here`;
 
     let htmlContent = panelUtils.htmlContainer(
       webviewView,
