@@ -51,6 +51,7 @@ export class TemplateInformationViewProvider
     /* eslint-enable */
     let items: any;
 
+    // Establish if we are using a shared part or a reconciliation
     if (configData.used_in) {
       items = sharedPartItems;
     } else {
@@ -75,18 +76,20 @@ export class TemplateInformationViewProvider
       .join("");
 
     const gridLayout = `grid-template-columns="1fr 2fr"`;
+
     let htmlBody =
       configItemsRows.length > 0
-        ? `<vscode-data-grid aria-label="template information" ${gridLayout}>
-    <vscode-data-grid-row row-type="header">
-      <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
-      </vscode-data-grid-cell>
-      <vscode-data-grid-cell cell-type="columnheader" grid-column="2">
-      </vscode-data-grid-cell>
-    </vscode-data-grid-row>
-    ${configItemsRows}
-  </vscode-data-grid>`
+        ? /*html*/ `<vscode-data-grid aria-label="template information" ${gridLayout}>
+            <vscode-data-grid-row row-type="header">
+              <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
+              </vscode-data-grid-cell>
+              <vscode-data-grid-cell cell-type="columnheader" grid-column="2">
+              </vscode-data-grid-cell>
+            </vscode-data-grid-row>
+            ${configItemsRows}
+          </vscode-data-grid>`
         : `Select a template with a valid config file to see its information`;
+
     let htmlContent = panelUtils.htmlContainer(
       webviewView,
       this._extensionUri,

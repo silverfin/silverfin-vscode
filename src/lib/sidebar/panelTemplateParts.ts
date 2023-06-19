@@ -73,24 +73,26 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
     const sharedPartsRows = reconciliationNames
       .sort()
       .map((reconciliationName: string) => {
-        if (reconciliationName) {
-          const templatePath = `/reconciliation_texts/${reconciliationName}/main.liquid`;
+        if (!reconciliationName) {
+          return;
+        }
 
-          return `<vscode-data-grid-row>
+        const templatePath = `/reconciliation_texts/${reconciliationName}/main.liquid`;
+
+        return /*html*/ `<vscode-data-grid-row>
             <vscode-data-grid-cell grid-column="1">
               ${reconciliationName}
             </vscode-data-grid-cell>
             <vscode-data-grid-cell grid-column="2"  class="vs-actions">
-            ${
-              fs.existsSync(`.${templatePath}`)
-                ? `<vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value=${templatePath}>
-                <span class="codicon codicon-file-code"></span>
-              </vscode-button>`
-                : ""
-            }
+              ${
+                fs.existsSync(`.${templatePath}`)
+                  ? /*html*/ `<vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value=${templatePath}>
+                      <span class="codicon codicon-file-code"></span>
+                    </vscode-button>`
+                  : ""
+              }
             </vscode-data-grid-cell>
           </vscode-data-grid-row>`;
-        }
       })
       .join("");
 
@@ -119,7 +121,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
                         ${index + 1}. ${partName}
                         </vscode-data-grid-cell>
                         <vscode-data-grid-cell grid-column="2" class="vs-actions">
-                          <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/reconciliation_texts/${handle}/text_parts/${partName}.liquid">
+                          <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/reconciliation_texts/${handle}/text_parts/${partName}.liquid" title="Open file in a new tab">
                             <span class="codicon codicon-file-code"></span>
                           </vscode-button>
                         </vscode-data-grid-cell>
@@ -134,59 +136,65 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
       .map((sharedPartName: string) => {
         const sharedPartPath = `/shared_parts/${sharedPartName}/${sharedPartName}.liquid`;
 
-        return `<vscode-data-grid-row>
+        return /*html*/ `<vscode-data-grid-row>
           <vscode-data-grid-cell grid-column="1">
-          ${sharedPartName}
+            ${sharedPartName}
           </vscode-data-grid-cell>
           <vscode-data-grid-cell grid-column="2" class="vs-actions">
-          ${
-            fs.existsSync(`.${sharedPartPath}`)
-              ? `<vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value=${sharedPartPath}>
-              <span class="codicon codicon-file-code"></span>
-            </vscode-button>`
-              : ""
-          }
+            ${
+              fs.existsSync(`.${sharedPartPath}`)
+                ? /*html*/ `<vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value=${sharedPartPath} title="Open file in a new tab">
+                    <span class="codicon codicon-file-code"></span>
+                  </vscode-button>`
+                : ""
+            }
           </vscode-data-grid-cell>
         </vscode-data-grid-row>`;
       })
       .join("");
 
     const gridLayout = `grid-template-columns="3fr 1fr"`;
-    let htmlBody = /*html*/ `<vscode-data-grid aria-label="template parts and linked shared parts" ${gridLayout}>
-                      <vscode-data-grid-row row-type="sticky-header"  grid-columns="1">
-                        <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
-                          Parts
-                        </vscode-data-grid-cell>
-                      </vscode-data-grid-row>
-                      <vscode-data-grid-row>
-                        <vscode-data-grid-cell grid-column="1">
-                          main
-                        </vscode-data-grid-cell>
-                        <vscode-data-grid-cell grid-column="2"  class="vs-actions">
-                          <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/reconciliation_texts/${handle}/main.liquid">
-                            <span class="codicon codicon-file-code"></span>
-                          </vscode-button>
-                        </vscode-data-grid-cell>
-                      </vscode-data-grid-row>
-                      ${partsRows}
-                    </vscode-data-grid>
-                    ${
-                      sharedPartsRows.length > 0
-                        ? `<vscode-data-grid aria-label="template shared-parts" ${gridLayout}>
-                            <vscode-data-grid-row row-type="sticky-header" grid-columns="1">
-                              <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
-                                Shared parts
-                              </vscode-data-grid-cell>
-                            </vscode-data-grid-row>
-                            <vscode-data-grid-row row-type="header" grid-columns="1">
-                              <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
-                                Linked to this reconciliation in firm ${firmId}
-                              </vscode-data-grid-cell>
-                            </vscode-data-grid-row>
-                            ${sharedPartsRows}
-                          </vscode-data-grid>`
-                        : ""
-                    }`;
+
+    const partsBlock =
+      /*html*/
+      `<vscode-data-grid aria-label="template parts and linked shared parts" ${gridLayout}>
+        <vscode-data-grid-row row-type="sticky-header"  grid-columns="1">
+          <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
+            Parts
+          </vscode-data-grid-cell>
+        </vscode-data-grid-row>
+        <vscode-data-grid-row>
+          <vscode-data-grid-cell grid-column="1">
+            main
+          </vscode-data-grid-cell>
+          <vscode-data-grid-cell grid-column="2"  class="vs-actions">
+            <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/reconciliation_texts/${handle}/main.liquid" title="Open file in a new tab">
+              <span class="codicon codicon-file-code"></span>
+            </vscode-button>
+          </vscode-data-grid-cell>
+        </vscode-data-grid-row>
+        ${partsRows}
+      </vscode-data-grid>`;
+
+    const sharedPartsBlock =
+      sharedPartsRows.length > 0
+        ? /*html*/ `<vscode-data-grid aria-label="template shared-parts" ${gridLayout}>
+        <vscode-data-grid-row row-type="sticky-header" grid-columns="1">
+          <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
+            Shared parts
+          </vscode-data-grid-cell>
+        </vscode-data-grid-row>
+        <vscode-data-grid-row row-type="header" grid-columns="1">
+          <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
+            Linked to this reconciliation in firm ${firmId}
+          </vscode-data-grid-cell>
+        </vscode-data-grid-row>
+        ${sharedPartsRows}
+      </vscode-data-grid>`
+        : "";
+
+    let htmlBody = /*html*/ `${partsBlock}${sharedPartsBlock}`;
+
     return panelUtils.htmlContainer(webviewView, this._extensionUri, htmlBody);
   }
 

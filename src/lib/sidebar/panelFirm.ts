@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
-import * as utils from "../../utilities/utils";
 import * as templateUtils from "../../utilities/templateUtils";
+import * as utils from "../../utilities/utils";
 import * as panelUtils from "./panelUtils";
 const { config } = require("sf_toolkit/lib/api/auth");
 
@@ -60,13 +60,16 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
     const firmData = config.storedIds(firmId);
     const usedInFirmsRows = templateUsedInFirmsData
       .map((item: TemplateUsedInFirmData) => {
-        return `<vscode-data-grid-row grid-columns="2">
+        let templateUrl = `https://live.getsilverfin.com/f/${item.firmId}/${item.templateType}/${item.templateId}/edit`;
+        return /*html*/ `<vscode-data-grid-row grid-columns="2">
                 <vscode-data-grid-cell grid-column="1">
                   ${item.firmId}
                 </vscode-data-grid-cell>
                 <vscode-data-grid-cell grid-column="2" class="vs-actions">
-                  <vscode-link href="https://live.getsilverfin.com/f/${item.firmId}/${item.templateType}/${item.templateId}/edit">
-                    ${item.templateId}
+                  <vscode-link href="${templateUrl}" title="${templateUrl}">
+                    <vscode-button appearance="icon" aria-label="Open-file">
+                      <span class="codicon codicon-globe"></span>
+                    </vscode-button>
                   </vscode-link>
                 </vscode-data-grid-cell>
               </vscode-data-grid-row>`;
@@ -79,9 +82,10 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
         if (firm.toString() === firmId.toString()) {
           activeFirmTag = `<vscode-tag>Active</vscode-tag>`;
         }
+        let firmUrl = `https://live.getsilverfin.com/f/${firm}`;
         return /*html*/ `<vscode-data-grid-row>
                   <vscode-data-grid-cell grid-column="1">
-                    <vscode-link href="https://live.getsilverfin.com/f/${firm}">
+                    <vscode-link href="${firmUrl}" title="${firmUrl}">
                       ${firm}
                     </vscode-link>
                   </vscode-data-grid-cell>
@@ -93,24 +97,32 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
       .join("");
 
     const gridLayout = `grid-template-columns="3fr 1fr"`;
-    let htmlBody = /*html*/ `${
+
+    const usedInBlock =
       usedInFirmsRows.length > 0
-        ? `<vscode-data-grid aria-label="authorized firms" ${gridLayout}>
-        <vscode-data-grid-row row-type="sticky-header" grid-template-columns="1">
-          <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
-            Firms this template is used in
-          </vscode-data-grid-cell>
-        </vscode-data-grid-row>
-        ${usedInFirmsRows}`
-        : ""
-    }
-                              
-        <vscode-data-grid-row row-type="sticky-header" grid-template-columns="1">
-          <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
-            Authorized firm IDs
-          </vscode-data-grid-cell>
-        </vscode-data-grid-row>
-        ${authorizedFirmsRows}
+        ? /*html*/
+          `<vscode-data-grid-row row-type="sticky-header" grid-template-columns="1">
+            <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
+              Firms where this template is used in
+            </vscode-data-grid-cell>
+          </vscode-data-grid-row>
+          ${usedInFirmsRows}`
+        : "";
+
+    const authorizedFirmsBlock =
+      /*html*/
+      `<vscode-data-grid-row row-type="sticky-header" grid-template-columns="1">
+        <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
+          Authorized firm IDs
+        </vscode-data-grid-cell>
+      </vscode-data-grid-row>
+      ${authorizedFirmsRows}`;
+
+    let htmlBody =
+      /*html*/
+      `<vscode-data-grid aria-label="authorized firms" ${gridLayout}>
+        ${usedInBlock}                    
+        ${authorizedFirmsBlock}
       </vscode-data-grid>`;
 
     let htmlContent = panelUtils.htmlContainer(
