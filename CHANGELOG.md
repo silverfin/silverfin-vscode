@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.8.0]
+
+- Introduce a Side-Bar panel. Display information about parts, shared parts, template configuration and firm ids authorized.
+
 ## [1.7.0]
 
 - Introduce Quick-Fixes

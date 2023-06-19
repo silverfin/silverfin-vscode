@@ -1,0 +1,22 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+body {
+  padding: 5px 10px;
+}
+
+.vs-actions {
+  text-align: right;
+}

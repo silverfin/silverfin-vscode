@@ -3,8 +3,11 @@ import FirmHandler from "./lib/firmHandler";
 import LiquidLinter from "./lib/liquidLinter";
 import LiquidTest from "./lib/liquidTest";
 import LiquidTestQuickFixes from "./lib/quickFixes";
+import { FirmViewProvider } from "./lib/sidebar/panelFirm";
+import { TemplateInformationViewProvider } from "./lib/sidebar/panelTemplateInfo";
+import { TemplatePartsViewProvider } from "./lib/sidebar/panelTemplateParts";
 import StatusBarItem from "./lib/statusBarItem";
-import * as utils from "./lib/utils";
+import * as utils from "./utilities/utils";
 
 export async function activate(context: vscode.ExtensionContext) {
   // Initializers
@@ -109,6 +112,54 @@ export async function activate(context: vscode.ExtensionContext) {
       }
     )
   );
+
+  // Side-Bar Views
+  // Template Parts
+  const templatePartsProvider = new TemplatePartsViewProvider(
+    context.extensionUri
+  );
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      TemplatePartsViewProvider.viewType,
+      templatePartsProvider
+    )
+  );
+  vscode.window.onDidChangeActiveTextEditor(() => {
+    if (!templatePartsProvider._view) {
+      return;
+    }
+    templatePartsProvider.setContent(templatePartsProvider._view);
+  });
+  // Template Info
+  const templateInfoProvider = new TemplateInformationViewProvider(
+    context.extensionUri
+  );
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      TemplateInformationViewProvider.viewType,
+      templateInfoProvider
+    )
+  );
+  vscode.window.onDidChangeActiveTextEditor(() => {
+    if (!templateInfoProvider._view) {
+      return;
+    }
+    templateInfoProvider.setContent(templateInfoProvider._view);
+  });
+  // Firm Info
+  const firmInfoProvider = new FirmViewProvider(context.extensionUri);
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      FirmViewProvider.viewType,
+      firmInfoProvider
+    )
+  );
+  vscode.window.onDidChangeActiveTextEditor(() => {
+    if (!firmInfoProvider._view) {
+      return;
+    }
+    firmInfoProvider.setContent(firmInfoProvider._view);
+  });
 }
 
 export function deactivate() {}
