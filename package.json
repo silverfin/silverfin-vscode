@@ -22,7 +22,8 @@
   ],
   "main": "./out/extension.js",
   "extensionDependencies": [
-    "redhat.vscode-yaml"
+    "redhat.vscode-yaml",
+    "formulahendry.auto-close-tag"
   ],
   "dependencies": {
     "@vscode/codicons": "^0.0.33",
