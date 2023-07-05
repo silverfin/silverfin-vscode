@@ -130,6 +130,12 @@ export async function activate(context: vscode.ExtensionContext) {
     }
     templatePartsProvider.setContent(templatePartsProvider._view);
   });
+  vscode.workspace.onDidSaveTextDocument(() => {
+    if (!templatePartsProvider._view) {
+      return;
+    }
+    templatePartsProvider.setContent(templatePartsProvider._view);
+  });
   // Template Info
   const templateInfoProvider = new TemplateInformationViewProvider(
     context.extensionUri
@@ -146,6 +152,12 @@ export async function activate(context: vscode.ExtensionContext) {
     }
     templateInfoProvider.setContent(templateInfoProvider._view);
   });
+  vscode.workspace.onDidSaveTextDocument(() => {
+    if (!templateInfoProvider._view) {
+      return;
+    }
+    templateInfoProvider.setContent(templateInfoProvider._view);
+  });
   // Firm Info
   const firmInfoProvider = new FirmViewProvider(context.extensionUri);
   context.subscriptions.push(
@@ -155,6 +167,12 @@ export async function activate(context: vscode.ExtensionContext) {
     )
   );
   vscode.window.onDidChangeActiveTextEditor(() => {
+    if (!firmInfoProvider._view) {
+      return;
+    }
+    firmInfoProvider.setContent(firmInfoProvider._view);
+  });
+  vscode.workspace.onDidSaveTextDocument(() => {
     if (!firmInfoProvider._view) {
       return;
     }
