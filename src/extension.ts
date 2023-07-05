@@ -160,6 +160,16 @@ export async function activate(context: vscode.ExtensionContext) {
     }
     firmInfoProvider.setContent(firmInfoProvider._view);
   });
+  // command that can be used to force a refresh of the firms panel
+  // used when the user changes the firm id to refresh the Active label
+  context.subscriptions.push(
+    vscode.commands.registerCommand("firm-panel.refresh", () => {
+      if (!firmInfoProvider._view) {
+        return;
+      }
+      firmInfoProvider.setContent(firmInfoProvider._view);
+    })
+  );
 }
 
 export function deactivate() {}

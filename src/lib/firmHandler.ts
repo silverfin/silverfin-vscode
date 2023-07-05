@@ -51,6 +51,9 @@ export default class FirmHandler {
       );
       return;
     }
+    // Refresh the Firm Panel (to update the Active label)
+    vscode.commands.executeCommand("firm-panel.refresh");
+    return true;
   }
 
   // Get Firm ID or set a new one via Prompt
