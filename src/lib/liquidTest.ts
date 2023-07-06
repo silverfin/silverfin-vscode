@@ -472,6 +472,21 @@ export default class LiquidTest {
     // Set the right path
     utils.setCWD();
 
+    // Check if the test file stored in the config is the one running
+    const configData = await templateUtils.getTemplateConfigData();
+    const testPath = posix.join(
+      process.cwd(),
+      "reconciliation_texts",
+      templateHandle,
+      configData.test
+    );
+    if (filePath !== testPath) {
+      vscode.window.showErrorMessage(
+        "The test file referenced in the config.json is not the one that your trying to run. Check your config.json"
+      );
+      return false;
+    }
+
     return true;
   }
 }
