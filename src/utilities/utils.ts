@@ -47,3 +47,16 @@ export function setCWD() {
   }
   return newCwdPath;
 }
+
+export function getCurrentFileExtension() {
+  if (!vscode.window.activeTextEditor) {
+    return false;
+  }
+  const filePath = posix.resolve(
+    vscode.window.activeTextEditor.document.uri.path
+  );
+  const pathParts = filePath.split(posix.sep);
+  const fileName = pathParts[pathParts.length - 1];
+  const fileType = fileName.split(".")[1];
+  return fileType;
+}
