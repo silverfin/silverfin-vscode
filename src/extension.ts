@@ -1,13 +1,13 @@
 import * as vscode from "vscode";
+import LiquidTestQuickFixes from "./lib/diagnosticsAndQuickFixes/liquidTestsQuickFixes";
 import FirmHandler from "./lib/firmHandler";
 import LiquidLinter from "./lib/liquidLinter";
 import LiquidTest from "./lib/liquidTest";
-import LiquidTestQuickFixes from "./lib/quickFixes";
 import { FirmViewProvider } from "./lib/sidebar/panelFirm";
 import { TemplateInformationViewProvider } from "./lib/sidebar/panelTemplateInfo";
 import { TemplatePartsViewProvider } from "./lib/sidebar/panelTemplateParts";
 import StatusBarItem from "./lib/statusBarItem";
-import * as utils from "./utilities/utils";
+import * as diagnosticsUtils from "./utilities/diagnosticsUtils";
 
 export async function activate(context: vscode.ExtensionContext) {
   // Initializers
@@ -46,7 +46,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
   // Load Errors stored for open file if any
   if (vscode.window.activeTextEditor) {
-    utils.loadStoredDiagnostics(
+    diagnosticsUtils.loadStoredDiagnostics(
       vscode.window.activeTextEditor.document,
       outputChannel,
       context,
@@ -57,7 +57,7 @@ export async function activate(context: vscode.ExtensionContext) {
   // When a new file is opened for the first time. Load the Diagnostic stored from previous runs
   context.subscriptions.push(
     vscode.workspace.onDidOpenTextDocument(async (currentDocument) => {
-      utils.loadStoredDiagnostics(
+      diagnosticsUtils.loadStoredDiagnostics(
         currentDocument,
         outputChannel,
         context,
