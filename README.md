@@ -14,7 +14,7 @@ This extension provides you with a default set of rules for Silverfin Liquid syn
 
 ### Auto Linting
 
- Whenever you save the template you're currently working on, the extension will analyse the file for any liquid errors. Feedback will then be displayed in the "Problems" panel of VS Code.
+ Whenever you save the template you're currently working on, the extension will analyse the file for any liquid errors. Any mistakes will be highlighted and relevant feedback displayed below in the "Problems" panel of VS Code.
 
 ![image](resources/auto-linting-example.png)
 
