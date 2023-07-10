@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import * as diagnostics from "./liquidTestsDiagnostics";
+import * as diagnosticsUtils from "../../utilities/diagnosticsUtils";
 
 export default class LiquidTestQuickFixes implements vscode.CodeActionProvider {
   public static readonly providedCodeActionKinds = [
@@ -21,7 +21,7 @@ export default class LiquidTestQuickFixes implements vscode.CodeActionProvider {
       // TODO We can use the diagnostic.source to search the item in the YAML tree instead of relying on the line number
       // Amount of rows can change, so we can't rely on the line number
       // Also, using the YAML tree we can add new rows precisely where they should be
-      const expectedAndGot = diagnostics.getExpectedGotFromMessage(
+      const expectedAndGot = diagnosticsUtils.getExpectedGotFromMessage(
         diagnostic.message
       );
       const got = expectedAndGot[1].toString().trim();
@@ -62,7 +62,7 @@ export default class LiquidTestQuickFixes implements vscode.CodeActionProvider {
     range: vscode.Range,
     diagnostic: vscode.Diagnostic
   ): vscode.CodeAction | undefined {
-    const expectedAndGot = diagnostics.getExpectedGotFromMessage(
+    const expectedAndGot = diagnosticsUtils.getExpectedGotFromMessage(
       diagnostic.message
     );
     let got = expectedAndGot[1].toString().trim();

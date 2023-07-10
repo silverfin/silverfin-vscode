@@ -1,12 +1,13 @@
 import * as vscode from "vscode";
-import LiquidTestQuickFixes from "./lib/diagnosticsAndQuickFixes/liquidTestsQuickFixes";
+import LiquidDiagnostics from "./lib/diagnostics/liquidDiagnostics";
 import FirmHandler from "./lib/firmHandler";
 import LiquidLinter from "./lib/liquidLinter";
 import LiquidTest from "./lib/liquidTest";
+import LiquidTestQuickFixes from "./lib/quickFixes/liquidTestsQuickFixes";
 import { FirmViewProvider } from "./lib/sidebar/panelFirm";
 import { TemplateInformationViewProvider } from "./lib/sidebar/panelTemplateInfo";
 import { TemplatePartsViewProvider } from "./lib/sidebar/panelTemplateParts";
-import StatusBarItem from "./lib/statusBarItem";
+import StatusBarItem from "./lib/statusBar/statusBarItem";
 import * as diagnosticsUtils from "./utilities/diagnosticsUtils";
 
 export async function activate(context: vscode.ExtensionContext) {
@@ -19,6 +20,8 @@ export async function activate(context: vscode.ExtensionContext) {
   );
   const liquidLinter = new LiquidLinter(outputChannel);
   const liquidTest = new LiquidTest(context, outputChannel);
+  const liquidDiagnostics = new LiquidDiagnostics(outputChannel);
+
   // References
   firmHandler.statusBarItem = statusBarItemRunTests;
   liquidTest.statusBarItem = statusBarItemRunTests;
@@ -111,6 +114,14 @@ export async function activate(context: vscode.ExtensionContext) {
         providedCodeActionKinds: LiquidTestQuickFixes.providedCodeActionKinds,
       }
     )
+  );
+
+  // Liquid Diagnostics
+  // Check Shared Parts included in templates
+  context.subscriptions.push(
+    vscode.workspace.onDidSaveTextDocument(() => {
+      liquidDiagnostics.verifySharedPartsUsed();
+    })
   );
 
   // Side-Bar Views
