@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.9.0]
+
+- Check if the included shared parts in the liquid code exists or not, and if they are added to the template configuration or not. Create diagnostics for this and also a quick-fix to add the shared part to the template configuration.
+
 ## [1.8.5]
 
 - Reload every panel in the sidebar when a file get's saved (before it was only when the user switch tabs)

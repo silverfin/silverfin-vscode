@@ -3,6 +3,7 @@ import LiquidDiagnostics from "./lib/diagnostics/liquidDiagnostics";
 import FirmHandler from "./lib/firmHandler";
 import LiquidLinter from "./lib/liquidLinter";
 import LiquidTest from "./lib/liquidTest";
+import LiquidQuickFixes from "./lib/quickFixes/liquidQuickFixes";
 import LiquidTestQuickFixes from "./lib/quickFixes/liquidTestsQuickFixes";
 import { FirmViewProvider } from "./lib/sidebar/panelFirm";
 import { TemplateInformationViewProvider } from "./lib/sidebar/panelTemplateInfo";
@@ -20,7 +21,7 @@ export async function activate(context: vscode.ExtensionContext) {
   );
   const liquidLinter = new LiquidLinter(outputChannel);
   const liquidTest = new LiquidTest(context, outputChannel);
-  const liquidDiagnostics = new LiquidDiagnostics(outputChannel);
+  const liquidDiagnostics = new LiquidDiagnostics(context, outputChannel);
 
   // References
   firmHandler.statusBarItem = statusBarItemRunTests;
@@ -112,6 +113,15 @@ export async function activate(context: vscode.ExtensionContext) {
       new LiquidTestQuickFixes(),
       {
         providedCodeActionKinds: LiquidTestQuickFixes.providedCodeActionKinds,
+      }
+    )
+  );
+  context.subscriptions.push(
+    vscode.languages.registerCodeActionsProvider(
+      "liquid",
+      new LiquidQuickFixes(),
+      {
+        providedCodeActionKinds: LiquidQuickFixes.providedCodeActionKinds,
       }
     )
   );
