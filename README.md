@@ -12,6 +12,12 @@ This extension aims to support the creation of **Liquid templates** with the [Si
 
 This extension provides you with a default set of rules for Silverfin Liquid syntax highlighting and you can further customize the colors to your heart's desire.
 
+### Auto Linting
+
+ Whenever you save the template you're currently working on, the extension will analyse the file for any liquid errors. Feedback will then be displayed in the "Problems" panel of VS Code.
+
+![image](resources/auto-linting-example.png)
+
 ### Snippets
 
 This extension adds snippets to make your writing of liquid templates for Silverfin blazingly fast!
