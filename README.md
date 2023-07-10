@@ -161,7 +161,23 @@ You can run your Liquid Tests directly from VS Code with the click of a button a
 
 In addition, this extension will enable **code snippets** for YAML files.
 
-## Requirements
+## Installation
+
+### Step-by-Step Guide
+
+#### Step 1: Install Silverfin extension
+
+The [Silverfin Development Toolkit extension](https://marketplace.visualstudio.com/items?itemName=Silverfin.silverfin-development-toolkit) can be found in the VS Code Marketplace (you will need to have the version 1.0.0 or higher)
+
+![image](resources/download-extension-1.png)
+
+![image](resources/download-extension-2.png)
+
+#### Step 2: Authorise extension
+
+### Troubleshooting
+
+### 3rd Party Requirements
 
 - YAML extension: To apply our Schema to YAML files, we need to have [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) activated (this extension should be added automatically since it is set as a dependency).
 - Auto Close Tag: To enable VS Code to automatically close tags in Liquid files, we need to have [Jun Han's Auto Close Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag) activated (this extension should be added automatically since it is set as a dependency).
