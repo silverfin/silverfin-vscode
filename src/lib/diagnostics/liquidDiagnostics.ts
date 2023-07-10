@@ -3,18 +3,25 @@ import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 const { config } = require("sf_toolkit/lib/api/auth");
 const fsUtils = require("sf_toolkit/lib/utils/fsUtils");
+const sfToolkit = require("sf_toolkit");
 
 export default class LiquidDiagnostics {
   errorsCollection: vscode.DiagnosticCollection;
   output: vscode.OutputChannel;
   currentLiquidFile: vscode.TextDocument | undefined;
   firmId: Number | undefined;
+  templateHandle: string | undefined;
+  context: vscode.ExtensionContext;
 
-  constructor(outputChannel: vscode.OutputChannel) {
+  constructor(
+    context: vscode.ExtensionContext,
+    outputChannel: vscode.OutputChannel
+  ) {
     this.errorsCollection =
       vscode.languages.createDiagnosticCollection(`LiquidCollection`);
     this.output = outputChannel;
     this.currentLiquidFile = undefined;
+    this.context = context;
   }
 
   public async verifySharedPartsUsed() {
@@ -22,12 +29,12 @@ export default class LiquidDiagnostics {
     if (!this.currentLiquidFile) {
       return;
     }
+    this.errorsCollection.set(this.currentLiquidFile!.uri, []);
     const sharedPartsUsed = this.searchForSharedPartsInLiquid();
     if (!sharedPartsUsed) {
       return;
     }
     const sharedPartsAdded = await this.getSharedPartsAdded();
-
     // Compare the two arrays and find the differences (shared parts used but not added)
     const sharedPartsNotAdded = sharedPartsUsed.filter(
       (part) => !sharedPartsAdded.includes(part)
@@ -73,22 +80,25 @@ export default class LiquidDiagnostics {
 
   private async getSharedPartsAdded() {
     const firmId = config.getFirmId();
-    if (!firmId) {
+    const templateHandle = templateUtils.getTemplateHandle();
+    const templateType = await templateUtils.getTemplateType();
+    if (!templateHandle || !firmId || templateType !== "reconciliationText") {
       this.firmId = undefined;
+      this.templateHandle = undefined;
       return;
     }
     this.firmId = firmId;
-    const templateHandle = templateUtils.getTemplateHandle();
+    this.templateHandle = templateHandle;
     const sharedParts = await fsUtils.getSharedParts(firmId, templateHandle);
     return sharedParts;
   }
 
   // Search for the item in the text to identify the line number
   // Create the Diagnostic object and add it to the collection
-  private recreateDiagnosticInformation(items: string[]) {
+  private recreateDiagnosticInformation(sharedParts: string[]) {
     const diagnostics: vscode.Diagnostic[] = [];
-    for (let item of items) {
-      let indexOf = this.currentLiquidFile?.getText().indexOf(item);
+    for (let sharedPartName of sharedParts) {
+      let indexOf = this.currentLiquidFile?.getText().indexOf(sharedPartName);
       if (!indexOf) {
         continue;
       }
@@ -109,15 +119,67 @@ export default class LiquidDiagnostics {
         itemPosition.line,
         highlighEndIndex
       );
-      const message = `Shared part "${item}" is included here but it is not added to this template yet in firm id ${this.firmId}`;
-      const diagnostic = new vscode.Diagnostic(
-        range,
-        message,
-        vscode.DiagnosticSeverity.Warning
+      // Check if shared part exists
+      const allSharedParts = fsUtils.getTemplatePaths("shared_parts");
+      const sharedPartExists = allSharedParts.some(
+        (existingSharedPart: string) =>
+          existingSharedPart.includes(sharedPartName)
       );
+      let diagnostic: vscode.Diagnostic;
+      if (sharedPartExists) {
+        // Create the diagnostic object
+        const message = `Shared part "${sharedPartName}" is included here but it is not added to template "${this.templateHandle}" in firm id "${this.firmId}"`;
+        diagnostic = new vscode.Diagnostic(
+          range,
+          message,
+          vscode.DiagnosticSeverity.Warning
+        );
+        // Create commands to add the shared part
+        this.createCommandAddSharedPart(sharedPartName);
+      } else {
+        // Create the diagnostic object
+        const message = `Shared part "${sharedPartName}" does not exist`;
+        diagnostic = new vscode.Diagnostic(
+          range,
+          message,
+          vscode.DiagnosticSeverity.Error
+        );
+      }
       diagnostics.push(diagnostic);
     }
     this.errorsCollection.set(this.currentLiquidFile!.uri, diagnostics);
     this.output.appendLine("Errors collection of the Liquid Template updated");
+  }
+
+  private async createCommandAddSharedPart(sharedPartName: string) {
+    this.output.appendLine(
+      `Create command to add shared part ${sharedPartName}`
+    );
+    let identifier = `addSharedPart.${sharedPartName}.${this.templateHandle}.${this.firmId}`;
+    // Check if the command already exists
+    const allCommands = await vscode.commands.getCommands();
+    if (allCommands.includes(identifier)) {
+      return;
+    }
+    // registerCommand
+    this.context.subscriptions.push(
+      vscode.commands.registerCommand(identifier, () => {
+        // Run the command to add the shared part
+        sfToolkit
+          .addSharedPartToReconciliation(
+            this.firmId,
+            sharedPartName,
+            this.templateHandle
+          )
+          .then(() => {
+            // Refresh the shared parts
+            this.verifySharedPartsUsed();
+          });
+        // Show a message
+        vscode.window.showInformationMessage(
+          `Adding shared part ${sharedPartName}...`
+        );
+      })
+    );
   }
 }
