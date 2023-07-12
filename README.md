@@ -177,64 +177,7 @@ The [Silverfin Development Toolkit extension](https://marketplace.visualstudio.c
 
 The next stage is to authenticate your device with the Silverfin API so the Silverfin extension can interact with the Silverfin Platform. For this we need to add credentials on our local machine. 
 
----
-
-**_NOTE_**
-
-_If you already have the Silverfin CLI setup, your device should already possess the relevant credentials, in which case please skip steps 2 and 3_
-
----
-
-Open the terminal on your computer and run the following command:
-
-> sudo code ~/ .zshrc
-
-The command above will open the .zshrc in Visual Studio Code, so you can edit it there. 
-
-**_OR_** in case you’re having a problem with the code command (VS Code doesn’t open / you get an error), you can also use nano instead to open this file:
-
-> sudo nano ~/ .zshrc
-
-This will open up the .zshrc file directly in the terminal so you can edit it there, but please be aware you can only navigate using the keyboard. <br>
-To save your changes when using nano, hit ‘control’ (^) + ‘X’, confirm your changes with ‘y’, then hit enter.
-
-You will need to enter the password you use to login to your MacBook. <br> 
-You’ll now get a text editor in your terminal. The file will likely be empty, but if it’s not, you can enter the information at the bottom. <br>
-Add the following:
-
-> export SF_API_CLIENT_ID=<span style="color:lime">"_Insert API Client ID from 1Password_"</span> <br>
-> export SF_API_SECRET=<span style="color:lime">"_Insert API Secret from 1Password_"</span>
-
-The API client ID and API secret are stored in 1Password. 
-Search “API Application: BSO Team CLI” in the vault and fill out the information in your terminal.
-
-In case you opened the file with nano, the file with these two lines of code should look like this:
-
-<img src="resources/authorise-extension-1.png" width="75%">
-
-Close the terminal. Open it again. <br>
-To test if the ID has been saved correctly, run the following command:
-
-> echo $SF_API_CLIENT_ID <br>
-> echo $SF_API_SECRET
-
-It should return the string of characters you entered for the SF_APLI_CLIENT_ID
-
-#### Step 3: Firm Authorisation
-
-Silverfin has now been set up as a dependency on our CLI. <br>
-The last step is to set up the authentication with your Silverfin environment. <br>
-Note down the firm id of the Silverfin environment you want to use. This is typically the DEV environment of your team. <br>
-
-_Regular User_
-* Log out of Silverfin in your browser, then enter the following command in your terminal: <br>
-  > silverfin 
-* 
-
-
-_Admin User_
-
-### Troubleshooting
+If you already have the Silverfin Toolkit installed, your device should already possess the relevant credentials, in which case no action is required. Otherwise, please install the [Silverfin Toolkit](https://github.com/silverfin/sf-toolkit) and follow all the steps on authorising your device.
 
 ### 3rd Party Requirements
 
