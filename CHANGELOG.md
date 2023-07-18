@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.9.0]
+
+- New command to authorize a firm from the Extension.
+
 ## [1.8.5]
 
 - Reload every panel in the sidebar when a file get's saved (before it was only when the user switch tabs)
