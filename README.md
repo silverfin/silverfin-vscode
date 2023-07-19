@@ -6,7 +6,48 @@
 
 This extension aims to support the creation of **Liquid templates** with the [Silverfin Templating Language](https://developer.silverfin.com/docs) and the development of [Liquid testing YAML](https://developer.silverfin.com/docs/liquid-testing) files.
 
+## Setup & Basic Usage
+
+### 3rd Party Prerequisites
+- YAML extension: To apply our Schema to YAML files, we need to have [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) activated (this extension should be added automatically since it is set as a dependency).
+- Auto Close Tag: To enable VS Code to automatically close tags in Liquid files, we need to have [Jun Han's Auto Close Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag) activated (this extension should be added automatically since it is set as a dependency).
+  
+### Install Silverfin Extension
+The [Silverfin Development Toolkit extension](https://marketplace.visualstudio.com/items?itemName=Silverfin.silverfin-development-toolkit) can be found in the VS Code Marketplace (you will need to have the version 1.0.0 or higher)
+
+![image](resources/download-extension-1.png)
+
+![image](resources/download-extension-2.png)
+
+### Extension Authorisation
+
+The next stage is to authenticate your device with the Silverfin API so the Silverfin extension can interact with the Silverfin Platform. For this we need to add credentials on our local machine. 
+
+If you already have the Silverfin Toolkit installed, your device should already possess the relevant credentials, in which case no action is required. Otherwise, please install the [Silverfin Toolkit](https://github.com/silverfin/sf-toolkit) and follow all the steps on authorising your device.
+
+### Liquid testing
+
+#### Basics
+
+Tests for liquid templates are written in YAML, and to support the process of writting those tests, this extension includes a **JSON Schema** which is going to be validated against your YAML files.
+This will help you out to detect possible errors while defining those test (e.g: missing required arguments or duplicated keys) with out having to wait to run those tests.
+This SCHEMA is going to be applied to files which name ends with `_liquid_test.yml`.
+
+#### Integration with Silverfin API
+
+You can run your Liquid Tests directly from VS Code with the click of a button and visualize the test results on top of the YAML file itself (You must have a registered API with Silverfin to have access to this features).
+
 ## Features
+
+### Silverfin Siderbar
+After installing the extension you will have access to the new Silverfin Sidebar:
+
+![image](resources/siderbar-1.png)
+
+The sidebar will display the following information concerning the currently selected liquid template:
+ - Parts: A list of the associated parts, including links to the listed parts enabling easy navigation
+ - Template Information: Meta information such as it appears on the Platform e.g.Handle name, Reconciliation type etc
+ - Firms: A list detailing firms which utilise the selected template
 
 ### Syntax Highlighting
 
@@ -18,7 +59,11 @@ This extension provides you with a default set of rules for Silverfin Liquid syn
 
 ![image](resources/auto-linting-example.png)
 
-### Snippets
+### Code snippets
+
+In addition, this extension will enable **code snippets** for YAML files. Please refer to **Snippets** section below for a full list of snippets.
+
+## Snippets
 
 This extension adds snippets to make your writing of liquid templates for Silverfin blazingly fast!
 
@@ -146,40 +191,3 @@ List of available snippets:
 | usr-indent-               | Add usr-indent class with list of possible values                                      |
 | usr-repeated-header       | Add usr-repeated-header class                                                          |
 | usr-no-left-padding       | Add usr-no-left-padding class                                                          |
-
-### Liquid testing
-
-Tests for liquid templates are written in YAML, and to support the process of writting those tests, this extension includes a **JSON Schema** which is going to be validated against your YAML files.
-This will help you out to detect possible errors while defining those test (e.g: missing required arguments or duplicated keys) with out having to wait to run those tests.
-This SCHEMA is going to be applied to files which name ends with `_liquid_test.yml`.
-
-#### Integration with Silverfin API
-
-You can run your Liquid Tests directly from VS Code with the click of a button and visualize the test results on top of the YAML file itself (You must have a registered API with Silverfin to have access to this features).
-
-#### Code snippets
-
-In addition, this extension will enable **code snippets** for YAML files.
-
-## Installation
-
-### Step-by-Step Guide
-
-#### Step 1: Install Silverfin extension
-
-The [Silverfin Development Toolkit extension](https://marketplace.visualstudio.com/items?itemName=Silverfin.silverfin-development-toolkit) can be found in the VS Code Marketplace (you will need to have the version 1.0.0 or higher)
-
-![image](resources/download-extension-1.png)
-
-![image](resources/download-extension-2.png)
-
-#### Step 2: Extension Authorisation
-
-The next stage is to authenticate your device with the Silverfin API so the Silverfin extension can interact with the Silverfin Platform. For this we need to add credentials on our local machine. 
-
-If you already have the Silverfin Toolkit installed, your device should already possess the relevant credentials, in which case no action is required. Otherwise, please install the [Silverfin Toolkit](https://github.com/silverfin/sf-toolkit) and follow all the steps on authorising your device.
-
-### 3rd Party Requirements
-
-- YAML extension: To apply our Schema to YAML files, we need to have [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) activated (this extension should be added automatically since it is set as a dependency).
-- Auto Close Tag: To enable VS Code to automatically close tags in Liquid files, we need to have [Jun Han's Auto Close Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag) activated (this extension should be added automatically since it is set as a dependency).
