@@ -27,15 +27,27 @@ If you already have the Silverfin Toolkit installed, your device should already 
 
 ### Liquid testing
 
-#### Basics
+#### Prevalidation of YAML files
 
 Tests for liquid templates are written in YAML, and to support the process of writting those tests, this extension includes a **JSON Schema** which is going to be validated against your YAML files.
 This will help you out to detect possible errors while defining those test (e.g: missing required arguments or duplicated keys) with out having to wait to run those tests.
 This SCHEMA is going to be applied to files which name ends with `_liquid_test.yml`.
 
-#### Integration with Silverfin API
+#### Running basic tests
 
-You can run your Liquid Tests directly from VS Code with the click of a button and visualize the test results on top of the YAML file itself (You must have a registered API with Silverfin to have access to this features).
+You can run your Liquid Tests directly from VS Code using the VS Code Command Palette.
+
+First, navigate to the relevant test .yaml file.
+
+ Next, you can either access the Command Palette using the shortcut Shift + Control + P (Shift + Command + P for Mac) or via the Application Menu, clicking View > Command Palette.
+
+From there if you type in Silverfin you will be given a choice of commands. The two most relevant commands are likely to be:
+ - Silvefin: run specific liquid test (with HTML output)
+ - Silverfin: run all liquid tests
+
+The test(s) will either pass, or any issues will be detailed in the problems terminal at the bottom of VS Code. As well as highlighting problems, the extension will also suggest **potential fixes** to issues if the fault lies within the YAML code.
+
+Running a specific test and visualize the test results alongside the YAML file itself, rendering how the template will appear with the inputted dummy data (You must have a registered API with Silverfin to have access to this features).
 
 ## Features
 
@@ -47,7 +59,9 @@ After installing the extension you will have access to the new Silverfin Sidebar
 The sidebar will display the following information concerning the currently selected liquid template:
  - Parts: A list of the associated parts, including links to the listed parts enabling easy navigation
  - Template Information: Meta information such as it appears on the Platform e.g.Handle name, Reconciliation type etc
- - Firms: A list detailing firms which utilise the selected template
+ - Firms: A list of firms which utilise the selected template and a list of firms you are authorised to work with
+
+The sidebar will refresh whenever you save your work, so the information will always be up to date.
 
 ### Syntax Highlighting
 
