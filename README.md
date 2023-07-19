@@ -33,21 +33,44 @@ Tests for liquid templates are written in YAML, and to support the process of wr
 This will help you out to detect possible errors while defining those test (e.g: missing required arguments or duplicated keys) with out having to wait to run those tests.
 This SCHEMA is going to be applied to files which name ends with `_liquid_test.yml`.
 
-#### Running basic tests
+#### Running a test
 
-You can run your Liquid Tests directly from VS Code using the VS Code Command Palette.
+You can run your Liquid Tests directly from VS Code using the button at the bottom of the application.
 
-First, navigate to the relevant test .yaml file.
+![image](resources/test-button.png)
 
- Next, you can either access the Command Palette using the shortcut Shift + Control + P (Shift + Command + P for Mac) or via the Application Menu, clicking View > Command Palette.
+First, navigate to the relevant test .yaml file, then press the "Silverfin: run liquid test" button.
 
-From there if you type in Silverfin you will be given a choice of commands. The two most relevant commands are likely to be:
- - Silvefin: run specific liquid test (with HTML output)
- - Silverfin: run all liquid tests
+---
+ 
+*NOTE: You will need to set the firm ID before you can run any tests. Please refer to "Using the Command Palette" section below*
 
-The test(s) will either pass, or any issues will be detailed in the problems terminal at the bottom of VS Code. As well as highlighting problems, the extension will also suggest **potential fixes** to issues if the fault lies within the YAML code.
+---
 
-Running a specific test and visualize the test results alongside the YAML file itself, rendering how the template will appear with the inputted dummy data (You must have a registered API with Silverfin to have access to this features).
+On pressing the button, a dropdown will appear of all available tests, including the option to run *all* tests. 
+
+Choose the test you wish to run. The test(s) will either pass, or any issues will be detailed in the problems terminal at the bottom of VS Code. As well as highlighting problems, the extension will also suggest **potential fixes** to issues if the fault lies within the YAML code.
+
+Running a specific test will visualize the test results alongside the YAML file itself, rendering how the template will appear with the inputted dummy data (You must have a registered API with Silverfin to have access to this features).
+
+#### Using the Command Palette
+
+You can access additional commands using the VS Code Command Palette.
+
+As before, first navigate to the relevant test .yaml file.
+
+Then access the Command Palette either by using the shortcut Shift + Control + P (Shift + Command + P for Mac) or via the Application Menu, clicking View > Command Palette.
+
+From there if you type in Silverfin you will be given a choice of commands. The most relevant commands are likely to be:
+
+| Command  | Description  |
+| - | - |
+| Silvefin: run specific liquid test (with HTML output) | Same as pressing the test button |
+| Silverfin: run all liquid tests | Shortcut to run all liquid tests |
+| Silverfin: erase stored details of previous test runs (current) | Clears terminal |
+| Silverfin: set firm ID* | Set up which firm will be used as test environment |
+
+*You will need to set the Firm ID *before* you can run any tests
 
 ## Features
 
