@@ -37,7 +37,7 @@ export async function loadStoredDiagnostics(
   }
 }
 
-// From the Messaage of the error, extract the expected and got values
+// From the Message of the error, extract the expected and got values
 // Return: [expected, got]
 export function getExpectedGotFromMessage(message: string): string[] {
   const output = [];

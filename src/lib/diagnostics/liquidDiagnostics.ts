@@ -26,14 +26,21 @@ export default class LiquidDiagnostics {
 
   public async verifySharedPartsUsed() {
     this.setLiquidFile();
+
     if (!this.currentLiquidFile) {
+      this.output.appendLine("Current file is not .liquid");
       return;
     }
+
+    // Clear the collection
     this.errorsCollection.set(this.currentLiquidFile!.uri, []);
     const sharedPartsUsed = this.searchForSharedPartsInLiquid();
+
     if (!sharedPartsUsed) {
+      this.output.appendLine("No shared parts found");
       return;
     }
+
     const sharedPartsAdded = await this.getSharedPartsAdded();
     // Compare the two arrays and find the differences (shared parts used but not added)
     const sharedPartsNotAdded = sharedPartsUsed.filter(
@@ -68,11 +75,12 @@ export default class LiquidDiagnostics {
   private searchForSharedPartsInLiquid() {
     const currentLiquid = this.currentLiquidFile?.getText();
     if (!currentLiquid) {
+      this.output.appendLine("No Liquid code found");
       return;
     }
     // Match a word or everything between quotes ?
-    //const regex = /{%\s*include\s+"shared_part\/(\w+)"\s*%}/g;
-    const regex = /{%\s*include\s+['"]\s*shared_part\/(.*?)\s*['"]\s*%}/g;
+    const regex =
+      /(?<!\{%\s*comment\s*%\}){%\s*include\s+['"]\s*shared\/(.*?)\s*['"]\s*%}(?!\s*\{%\s*endcomment\s*%\})/g;
     const matches = [...currentLiquid.matchAll(regex)];
     const names = matches.map((match) => match[1]);
     return names;
@@ -158,6 +166,7 @@ export default class LiquidDiagnostics {
     let identifier = `addSharedPart.${sharedPartName}.${this.templateHandle}.${this.firmId}`;
     // Check if the command already exists
     const allCommands = await vscode.commands.getCommands();
+
     if (allCommands.includes(identifier)) {
       return;
     }
