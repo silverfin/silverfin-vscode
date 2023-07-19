@@ -175,7 +175,7 @@
         },
         {
           "command": "silverfin-development-toolkit.authorizeFirm",
-          "when": "!silverfin-development-toolkit.apiAuthorized"
+          "when": ""
         }
       ]
     }

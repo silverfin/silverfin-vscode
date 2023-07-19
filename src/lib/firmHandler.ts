@@ -84,7 +84,7 @@ export default class FirmHandler {
 
     // Wait for the user to click the button
     const buttonClicked = await vscode.window.showInformationMessage(
-      "Authorize the firm in the browser and then enter the authorization code provided by Silverfin",
+      "Copy the authorization code of the firm in the browser and then press this button to enter authorization code provided by Silverfin",
       { modal: true },
       ...["Authorization Code"]
     );
