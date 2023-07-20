@@ -27,7 +27,7 @@
   "dependencies": {
     "@vscode/codicons": "^0.0.33",
     "@vscode/webview-ui-toolkit": "^1.2.2",
-    "sf_toolkit": "github:silverfin/sf-toolkit",
+    "sf_toolkit": "github:silverfin/sf_toolkit",
     "yaml": "^2.2.2"
   },
   "contributes": {

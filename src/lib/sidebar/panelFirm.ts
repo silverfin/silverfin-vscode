@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 import * as panelUtils from "./panelUtils";
-const { config } = require("sf_toolkit/lib/api/auth");
+const { firmCredentials } = require("sf_toolkit/lib/api/firmCredentials");
 
 interface FirmsIds {
   [key: string]: string;
@@ -59,7 +59,7 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
     );
 
     const firmId = panelUtils.getFirmIdStored();
-    const firmData = config.storedIds(firmId);
+    const firmData = firmCredentials.listStoredIds(firmId);
     const usedInFirmsRows = templateUsedInFirmsData
       .map((item: TemplateUsedInFirmData) => {
         let templateUrl = `https://live.getsilverfin.com/f/${item.firmId}/${item.templateType}/${item.templateId}/edit`;

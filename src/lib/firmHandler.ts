@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
-const sfToolkit = require("sf_toolkit");
-const { config } = require("sf_toolkit/lib/api/auth");
+const { firmCredentials } = require("sf_toolkit/lib/api/firmCredentials");
 const sfApi = require("sf_toolkit/lib/api/sfApi");
 
 export default class FirmHandler {
@@ -22,7 +21,7 @@ export default class FirmHandler {
       return;
     }
     // Get Firm Stored
-    let firmIdStored = await sfToolkit.getDefaultFirmID();
+    let firmIdStored = await firmCredentials.getDefaultFirmId();
     let promptMessage;
     if (!firmIdStored) {
       promptMessage =
@@ -41,13 +40,13 @@ export default class FirmHandler {
       return;
     }
     // Store the new firm id provided
-    await sfToolkit.setDefaultFirmID(newFirmId);
+    await firmCredentials.setDefaultFirmId(newFirmId);
     vscode.window.showInformationMessage(
       `Firm ID ${newFirmId} stored succesfully`
     );
     // Check firm id's credentials
-    const firmCredentials = config.getTokens(newFirmId);
-    if (!firmCredentials) {
+    const firmTokens = firmCredentials.getTokenPair(newFirmId);
+    if (!firmTokens) {
       vscode.window.showWarningMessage(
         "The firm ID provided is not authorized yet."
       );
@@ -63,7 +62,7 @@ export default class FirmHandler {
     const checkExistingRepo = utils.setCWD();
     if (checkExistingRepo) {
       // Get Firm Stored
-      firmIdStored = await sfToolkit.getDefaultFirmID();
+      firmIdStored = await firmCredentials.getDefaultFirmId();
     }
     // Request Firm ID
     const firmIdProvided = await vscode.window.showInputBox({
@@ -131,7 +130,7 @@ export default class FirmHandler {
   // Get Firm ID or set a new one via Prompt
   public async setFirmID() {
     utils.setCWD();
-    let firmId: Number = config.getFirmId();
+    let firmId: Number = firmCredentials.getDefaultFirmId();
     // Request Firm ID and store it if necessary
     if (!firmId) {
       let newFirmId = await vscode.window.showInputBox({
@@ -149,7 +148,7 @@ export default class FirmHandler {
         return;
       }
       // Store and use new firm id provided
-      await config.setFirmId(newFirmIdNumber);
+      await firmCredentials.setDefaultFirmId(newFirmIdNumber);
       firmId = newFirmIdNumber;
     }
     return firmId;
@@ -157,9 +156,9 @@ export default class FirmHandler {
 
   public async checkFirmCredentials() {
     utils.setCWD();
-    const firmIdStored = config.getFirmId();
-    const firmCredentials = config.getTokens(firmIdStored);
-    if (!firmCredentials) {
+    const firmIdStored = firmCredentials.getDefaultFirmId();
+    const firmTokens = firmCredentials.getTokenPair(firmIdStored);
+    if (!firmTokens) {
       vscode.window.showErrorMessage(
         `Firm ID: ${firmIdStored}. You first need to authorize your firm using the CLI`
       );
