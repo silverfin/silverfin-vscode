@@ -1,7 +1,7 @@
 {
   "name": "silverfin-development-toolkit",
   "displayName": "Silverfin Development Toolkit",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "publisher": "Silverfin",
   "icon": "resources/sf-icon.png",
   "engines": {
@@ -171,10 +171,6 @@
         },
         {
           "command": "silverfin-development-toolkit.setFirm",
-          "when": "silverfin-development-toolkit.apiAuthorized"
-        },
-        {
-          "command": "silverfin-development-toolkit.authorizeFirm",
           "when": "silverfin-development-toolkit.apiAuthorized"
         }
       ]

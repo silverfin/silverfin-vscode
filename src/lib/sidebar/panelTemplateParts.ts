@@ -86,7 +86,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
               ${
                 fs.existsSync(`.${templatePath}`)
                   ? /*html*/ `<vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value=${templatePath}>
-                      <span class="codicon codicon-file-code"></span>
+                      <span class="codicon codicon-go-to-file"></span>
                     </vscode-button>`
                   : ""
               }
@@ -121,7 +121,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
                         </vscode-data-grid-cell>
                         <vscode-data-grid-cell grid-column="2" class="vs-actions">
                           <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/reconciliation_texts/${handle}/text_parts/${partName}.liquid" title="Open file in a new tab">
-                            <span class="codicon codicon-file-code"></span>
+                            <span class="codicon codicon-go-to-file"></span>
                           </vscode-button>
                         </vscode-data-grid-cell>
                       </vscode-data-grid-row>`
@@ -143,7 +143,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
             ${
               fs.existsSync(`.${sharedPartPath}`)
                 ? /*html*/ `<vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value=${sharedPartPath} title="Open file in a new tab">
-                    <span class="codicon codicon-file-code"></span>
+                    <span class="codicon codicon-go-to-file"></span>
                   </vscode-button>`
                 : ""
             }
@@ -168,7 +168,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
           </vscode-data-grid-cell>
           <vscode-data-grid-cell grid-column="2"  class="vs-actions">
             <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/reconciliation_texts/${handle}/main.liquid" title="Open file in a new tab">
-              <span class="codicon codicon-file-code"></span>
+              <span class="codicon codicon-go-to-file"></span>
             </vscode-button>
           </vscode-data-grid-cell>
         </vscode-data-grid-row>
