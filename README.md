@@ -8,11 +8,6 @@ This extension aims to support the creation of **Liquid templates** with the [Si
 
 ## Setup & Basic Usage
 
-### 3rd Party Prerequisites
-
-- YAML extension: To apply our Schema to YAML files, we need to have [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) activated (this extension should be added automatically since it is set as a dependency).
-- Auto Close Tag: To enable VS Code to automatically close HTML tags in Liquid files, we need to have [Jun Han's Auto Close Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag) activated (this extension should be added automatically since it is set as a dependency).
-
 ### Install Silverfin Extension
 
 The [Silverfin Development Toolkit extension](https://marketplace.visualstudio.com/items?itemName=Silverfin.silverfin-development-toolkit) can be found in the VS Code Marketplace (you will need to have the version 1.0.0 or higher)
@@ -236,3 +231,8 @@ List of available snippets:
 | usr-indent-               | Add usr-indent class with list of possible values                                      |
 | usr-repeated-header       | Add usr-repeated-header class                                                          |
 | usr-no-left-padding       | Add usr-no-left-padding class                                                          |
+
+## Third party extensions
+
+- YAML extension: To apply our Schema to YAML files, we need to have [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) activated (this extension should be added automatically since it is set as a dependency).
+- Auto Close Tag: To enable VS Code to automatically close HTML tags in Liquid files, we need to have [Jun Han's Auto Close Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag) activated (this extension should be added automatically since it is set as a dependency).
