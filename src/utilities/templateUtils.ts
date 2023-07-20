@@ -107,9 +107,6 @@ export async function getTemplateLiquidCode() {
   if (!vscode.window.activeTextEditor) {
     return false;
   }
-  const filePath = posix.resolve(
-    vscode.window.activeTextEditor.document.uri.path
-  );
   const fileType = utils.getCurrentFileExtension();
   if (fileType !== "liquid") {
     return false;
