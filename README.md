@@ -8,19 +8,19 @@ This extension aims to support the creation of **Liquid templates** with the [Si
 
 ## Setup & Basic Usage
 
+### Authorisation
+
+Before installing the Silverfin Extension, you should first authenticate your device. Your device must be authenticated with the Silverfin API so the Silverfin extension can interact with the Silverfin Platform. For this you will need to contact Silverfin to receive a **Client ID** and **Client Secret**, and then add these credentials as environment variables on your local machine.
+
+If you already have the Silverfin Toolkit installed, your device should already possess the relevant credentials, in which case no further action is required. Otherwise, please refer to the installation instructions for the [Silverfin Toolkit](https://github.com/silverfin/sf-toolkit). While installing the Silverfin Toolkit CLI itself is optional, the instructions also include detailed step-by-step instructions on how to authenticate your device. Please follow these instuctions to complete authentication.
+
 ### Install Silverfin Extension
 
-The [Silverfin Development Toolkit extension](https://marketplace.visualstudio.com/items?itemName=Silverfin.silverfin-development-toolkit) can be found in the VS Code Marketplace (you will need to have the version 1.0.0 or higher)
+Once your device has been authenticated, the next stage is to download the extension itself. The [Silverfin Development Toolkit extension](https://marketplace.visualstudio.com/items?itemName=Silverfin.silverfin-development-toolkit) can be found in the VS Code Marketplace (you will need to have the version 1.0.0 or higher)
 
 ![image](resources/download-extension-1.png)
 
 ![image](resources/download-extension-2.png)
-
-### Extension Authorisation
-
-The next stage is to authenticate your device with the Silverfin API so the Silverfin extension can interact with the Silverfin Platform. For this you will need to contact Silverfin to receive a client ID and client secret and we need to add these credentials as environment variables on our local machine.
-
-If you already have the Silverfin Toolkit installed, your device should already possess the relevant credentials, in which case no action is required. Otherwise, please install the [Silverfin Toolkit](https://github.com/silverfin/sf-toolkit) and follow all the steps on authorising your device.
 
 ### Liquid testing
 
