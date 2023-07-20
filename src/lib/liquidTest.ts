@@ -35,32 +35,34 @@ export default class LiquidTest {
   public async runAllTestsCommand() {
     try {
       utils.setCWD();
-      this.output.appendLine(`Current working directory: ${process.cwd()}`);
+      this.output.appendLine(
+        `[Liquid Test] Current working directory: ${process.cwd()}`
+      );
       // Check right file
       let checksPassed = await this.checkFilePath();
 
       if (!checksPassed) {
-        this.output.appendLine("Liquid test file checks failed");
+        this.output.appendLine("[Liquid Test] File checks failed");
         return;
       }
       // Get template handle
       let templateHandle = await templateUtils.getTemplateHandle();
 
       if (!templateHandle) {
-        this.output.appendLine("Template handle not found");
+        this.output.appendLine("[Liquid Test] Template handle not found");
         return;
       }
 
       // Check active tab and get document
       if (!vscode.window.activeTextEditor) {
-        this.output.appendLine(`No active text editor found`);
+        this.output.appendLine(`[Liquid Test] No active text editor found`);
         return;
       }
       this.currentYamlDocument = vscode.window.activeTextEditor.document;
 
       // Get Firm
       if (!this.firmHandler) {
-        this.output.appendLine("Firm handler not found");
+        this.output.appendLine("[Liquid Test] Firm handler not found");
         return;
       }
 
@@ -68,7 +70,7 @@ export default class LiquidTest {
       const firmCredentials = this.firmHandler.checkFirmCredentials();
 
       if (!firmCredentials) {
-        this.output.appendLine("Firm credentials not found");
+        this.output.appendLine("[Liquid Test] Firm credentials not found");
         return;
       }
 
@@ -84,7 +86,7 @@ export default class LiquidTest {
         this.statusBarItem.setStateIdle();
       }
       this.output.appendLine(
-        `Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
+        `[Liquid Test] Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
           response
         )}`
       );
@@ -104,7 +106,7 @@ export default class LiquidTest {
         response
       );
     } catch (error) {
-      this.output.appendLine(`Error while running all tests:`);
+      this.output.appendLine(`[Liquid Test] Error while running all tests:`);
       this.output.appendLine(JSON.stringify(error));
     }
   }
@@ -117,26 +119,26 @@ export default class LiquidTest {
       // Check right file
       let checksPassed = await this.checkFilePath();
       if (!checksPassed) {
-        this.output.appendLine("Liquid test file checks failed");
+        this.output.appendLine("[Liquid Test] File checks failed");
         return;
       }
       // Get template handle
       let templateHandle = await templateUtils.getTemplateHandle();
       if (!templateHandle) {
-        this.output.appendLine("Template handle not found");
+        this.output.appendLine("[Liquid Test] Template handle not found");
         return;
       }
 
       // Check active tab and get document
       if (!vscode.window.activeTextEditor) {
-        this.output.appendLine(`No active text editor found`);
+        this.output.appendLine(`[Liquid Test] No active text editor found`);
         return;
       }
       this.currentYamlDocument = vscode.window.activeTextEditor.document;
 
       // Get Firm Stored
       if (!this.firmHandler) {
-        this.output.appendLine("Firm handler not found");
+        this.output.appendLine("[Liquid Test] Firm handler not found");
         return;
       }
 
@@ -144,7 +146,7 @@ export default class LiquidTest {
       const firmCredentials = this.firmHandler.checkFirmCredentials();
 
       if (!firmCredentials) {
-        this.output.appendLine("Firm credentials not found");
+        this.output.appendLine("[Liquid Test] Firm credentials not found");
         return;
       }
 
@@ -160,7 +162,9 @@ export default class LiquidTest {
       const testSelected = await vscode.window.showQuickPick(testNames);
 
       if (!testSelected) {
-        this.output.appendLine("Couldn't find any tests to select");
+        this.output.appendLine(
+          "[Liquid Test] Couldn't find any tests to select"
+        );
         return;
       }
 
@@ -188,7 +192,7 @@ export default class LiquidTest {
       }
 
       this.output.appendLine(
-        `Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
+        `[Liquid Test] Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
           response
         )}`
       );
@@ -242,7 +246,9 @@ export default class LiquidTest {
         }
       }
     } catch (error) {
-      this.output.appendLine(`Error while running test with options:`);
+      this.output.appendLine(
+        `[Liquid Test] Error while running test with options:`
+      );
       this.output.appendLine(JSON.stringify(error));
     }
   }
