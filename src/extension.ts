@@ -138,11 +138,9 @@ export async function activate(context: vscode.ExtensionContext) {
 
   // Liquid Diagnostics
   // Check Shared Parts included in templates
-  context.subscriptions.push(
-    vscode.workspace.onDidSaveTextDocument(() => {
-      liquidDiagnostics.verifySharedPartsUsed();
-    })
-  );
+  vscode.workspace.onDidSaveTextDocument(() => {
+    liquidDiagnostics.verifySharedPartsUsed();
+  });
 
   // Side-Bar Views
   // Template Parts
