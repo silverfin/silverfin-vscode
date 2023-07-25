@@ -46,7 +46,7 @@ _NOTE:_ You will need to set the firm ID before you can run any tests. Please re
 
 On pressing the button, a dropdown will appear of all available tests, including the option to run _all_ tests.
 
-Choose the test you wish to run. The test(s) will either pass, or any issues will be detailed in the problems panel at the bottom of VS Code. As well as highlighting problems, the extension will also suggest **potential fixes** to issues if the fault lies within the YAML code. You can view and apply these suggestions by hovering over the yellow lightbulb (![Yellow Lightbulb](image.png)) that will appear when placing your cursor on the line with the error .
+Choose the test you wish to run. The test(s) will either pass, or any issues will be detailed in the problems panel at the bottom of VS Code. As well as highlighting problems, the extension will also suggest **potential fixes** to issues if the fault lies within the YAML code. You can view and apply these suggestions by hovering over the yellow lightbulb (![Yellow Lightbulb](resources/lightbulb.png)) that will appear when placing your cursor on the line with the error .
 
 Running a specific test will visualize the test results alongside the YAML file itself, rendering how the template will appear with the inputted dummy data.
 
