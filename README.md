@@ -6,13 +6,104 @@
 
 This extension aims to support the creation of **Liquid templates** with the [Silverfin Templating Language](https://developer.silverfin.com/docs) and the development of [Liquid testing YAML](https://developer.silverfin.com/docs/liquid-testing) files.
 
+## Setup & Basic Usage
+
+### Authorisation
+
+Before installing the Silverfin Extension, you should first authenticate your device. Your device must be authenticated with the Silverfin API so the Silverfin extension can interact with the Silverfin Platform. For this you will need to contact Silverfin to receive a **Client ID** and **Client Secret**, and then add these credentials as environment variables on your local machine.
+
+If you already have the Silverfin Toolkit installed, your device should already possess the relevant credentials, in which case no further action is required. Otherwise, please refer to the installation instructions for the [Silverfin Toolkit](https://github.com/silverfin/sf-toolkit). While installing the Silverfin Toolkit CLI itself is optional, the instructions also include detailed step-by-step instructions on how to authenticate your device. Please follow these instuctions to complete authentication.
+
+### Install Silverfin Extension
+
+Once your device has been authenticated, the next stage is to download the extension itself. The [Silverfin Development Toolkit extension](https://marketplace.visualstudio.com/items?itemName=Silverfin.silverfin-development-toolkit) can be found in the VS Code Marketplace (you will need to have the version 1.0.0 or higher)
+
+![image](resources/download-extension-1.png)
+
+![image](resources/download-extension-2.png)
+
+### Liquid testing
+
+#### Prevalidation of YAML files
+
+Tests for liquid templates are written in YAML, and to support the process of writting those tests, this extension includes a **JSON Schema** which is going to be validated against your YAML files.
+This will help you out to detect possible errors while defining those tests (e.g: missing required arguments or duplicated keys) without having to wait to run those tests.
+This SCHEMA is going to be applied to files which name ends with `_liquid_test.yml`.
+
+#### Running a test
+
+You can run your Liquid Tests directly from VS Code using the button at the bottom of the application.
+
+![image](resources/test-button.png)
+
+First, navigate to the relevant test `.yml` file, then press the "Silverfin: run liquid test" button.
+
+---
+
+_NOTE:_ You will need to set the firm ID before you can run any tests. Please refer to "Using the Command Palette" section below\_
+
+---
+
+On pressing the button, a dropdown will appear of all available tests, including the option to run _all_ tests.
+
+Choose the test you wish to run. The test(s) will either pass, or any issues will be detailed in the problems panel at the bottom of VS Code. As well as highlighting problems, the extension will also suggest **potential fixes** to issues if the fault lies within the YAML code. You can view and apply these suggestions by hovering over the yellow lightbulb (![Yellow Lightbulb](resources/lightbulb.png)) that will appear when placing your cursor on the line with the error .
+
+Running a specific test will visualize the test results alongside the YAML file itself, rendering how the template will appear with the inputted dummy data.
+
+#### Using the Command Palette
+
+You can access additional commands using the VS Code Command Palette.
+
+As before, first navigate to the relevant test `.yml` file.
+
+Then access the Command Palette either by using the shortcut Shift + Control + p (Shift + Command + p for Mac) or via the Application Menu by clicking View > Command Palette.
+
+From there if you type in 'Silverfin' you will be given a choice of commands. The most relevant commands are likely to be:
+
+| Command                                                         | Description                                                                                                     |
+| --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Silverfin: run specific liquid test (with HTML output)          | Same as pressing the test button                                                                                |
+| Silverfin: run all liquid tests                                 | Shortcut to run all liquid tests                                                                                |
+| Silverfin: erase stored details of previous test runs (current) | Clears problems panel                                                                                           |
+| Silverfin: set firm ID\*                                        | Set up which firm will be used as a test environment (your tests will be run as if you're working in this firm) |
+
+---
+
+_NOTE:_ You will need to set the Firm ID \*before\* you can run any tests.
+
+---
+
 ## Features
+
+### Silverfin Siderbar
+
+After installing the extension you will have access to the new Silverfin Sidebar:
+
+![image](resources/siderbar-1.png)
+
+The sidebar will display the following information concerning the currently selected liquid template:
+
+- **Parts:** A list of the associated parts and shared parts, including links to the listed (shared) parts enabling easy navigation.
+- **Template Information:** Meta information such as it appears on the Platform e.g. handle, name, reconciliation type, etc.
+- **Firms:** A list of firms which utilise the selected template and a list of firms for which you have authorised the API to work with.
+
+The sidebar will refresh whenever you save your work, so the information will always be up to date.
 
 ### Syntax Highlighting
 
 This extension provides you with a default set of rules for Silverfin Liquid syntax highlighting and you can further customize the colors to your heart's desire.
 
-### Snippets
+### Auto Linting
+
+Whenever you save the template you're currently working on, the extension will analyse the file for any liquid errors. Any mistakes will be highlighted and relevant feedback will be displayed below in the "Problems" panel of VS Code.
+
+![image](resources/auto-linting-example.png)
+
+### Code snippets
+
+In addition, this extension will enable **code snippets** for `.liquid` & liquid testing `.yml` files. Please refer to **Snippets** section below for a full list of snippets.
+
+## Snippets
 
 This extension adds snippets to make your writing of liquid templates for Silverfin blazingly fast!
 
@@ -141,20 +232,7 @@ List of available snippets:
 | usr-repeated-header       | Add usr-repeated-header class                                                          |
 | usr-no-left-padding       | Add usr-no-left-padding class                                                          |
 
-### Liquid testing
+## Third party extensions
 
-Tests for liquid templates are written in YAML, and to support the process of writting those tests, this extension includes a **JSON Schema** which is going to be validated against your YAML files.
-This will help you out to detect possible errors while defining those test (e.g: missing required arguments or duplicated keys) with out having to wait to run those tests.
-This SCHEMA is going to be applied to files which name ends with `_liquid_test.yml`.
-
-#### Integration with Silverfin API
-
-You can run your Liquid Tests directly from VS Code with the click of a button and visualize the test results on top of the YAML file itself (You must have a registered API with Silverfin to have access to this features).
-
-#### Code snippets
-
-In addition, this extension will enable **code snippets** for YAML files.
-
-## Requirements
-
-- YAML extension: to apply our Schema to YAML files, we need to have [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) activated (this extension should be added automatically since it is set as a dependency).
+- YAML extension: To apply our Schema to YAML files, we need to have [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) activated (this extension should be added automatically since it is set as a dependency).
+- Auto Close Tag: To enable VS Code to automatically close HTML tags in Liquid files, we need to have [Jun Han's Auto Close Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag) activated (this extension should be added automatically since it is set as a dependency).
