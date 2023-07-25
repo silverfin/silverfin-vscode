@@ -33,182 +33,223 @@ export default class LiquidTest {
 
   // Run Test Command
   public async runAllTestsCommand() {
-    utils.setCWD();
-    this.output.appendLine(`Current working directory: ${process.cwd()}`);
-    // Check right file
-    let checksPassed = await this.checkFilePath();
-    if (!checksPassed) {
-      return;
-    }
-    // Get template handle
-    let templateHandle = await templateUtils.getTemplateHandle();
-    if (!templateHandle) {
-      return;
-    }
-
-    // Check active tab and get document
-    if (!vscode.window.activeTextEditor) {
-      return;
-    }
-    this.currentYamlDocument = vscode.window.activeTextEditor.document;
-
-    // Get Firm
-    if (this.firmHandler) {
-      return;
-    }
-    let firmId = await this.firmHandler.setFirmID();
-    const firmCredentials = this.firmHandler.checkFirmCredentials();
-    if (!firmCredentials) {
-      return;
-    }
-
-    // Run Test
-    if (this.statusBarItem) {
-      this.statusBarItem.setStateRunning();
-    }
-    let response: types.ResponseObject = await liquidTestRunner.runTests(
-      firmId,
-      templateHandle
-    );
-    if (this.statusBarItem) {
-      this.statusBarItem.setStateIdle();
-    }
-    this.output.appendLine(
-      `Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
-        response
-      )}`
-    );
-
-    if (!response) {
-      // Unhandled errors
-      vscode.window.showErrorMessage(
-        "Unexpected error: use the CLI to get more information"
+    try {
+      utils.setCWD();
+      this.output.appendLine(
+        `[Liquid Test] Current working directory: ${process.cwd()}`
       );
-      return;
-    }
+      // Check right file
+      let checksPassed = await this.checkFilePath();
 
-    // Process response and update collection
-    this.processResponse(
-      this.currentYamlDocument,
-      this.errorsCollection,
-      response
-    );
+      if (!checksPassed) {
+        this.output.appendLine("[Liquid Test] File checks failed");
+        return;
+      }
+      // Get template handle
+      let templateHandle = await templateUtils.getTemplateHandle();
+
+      if (!templateHandle) {
+        this.output.appendLine("[Liquid Test] Template handle not found");
+        return;
+      }
+
+      // Check active tab and get document
+      if (!vscode.window.activeTextEditor) {
+        this.output.appendLine(`[Liquid Test] No active text editor found`);
+        return;
+      }
+      this.currentYamlDocument = vscode.window.activeTextEditor.document;
+
+      // Get Firm
+      if (!this.firmHandler) {
+        this.output.appendLine("[Liquid Test] Firm handler not found");
+        return;
+      }
+
+      const firmId = await this.firmHandler.setFirmID();
+      const firmTokensPresent = this.firmHandler.checkFirmCredentials();
+
+      if (!firmTokensPresent) {
+        this.output.appendLine("[Liquid Test] Firm credentials not found");
+        return;
+      }
+
+      // Run Test
+      if (this.statusBarItem) {
+        this.statusBarItem.setStateRunning();
+      }
+      let response: types.ResponseObject = await liquidTestRunner.runTests(
+        firmId,
+        templateHandle
+      );
+      if (this.statusBarItem) {
+        this.statusBarItem.setStateIdle();
+      }
+      this.output.appendLine(
+        `[Liquid Test] Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
+          response
+        )}`
+      );
+
+      if (!response) {
+        // Unhandled errors
+        vscode.window.showErrorMessage(
+          "Unexpected error: use the CLI to get more information"
+        );
+        return;
+      }
+
+      // Process response and update collection
+      this.processResponse(
+        this.currentYamlDocument,
+        this.errorsCollection,
+        response
+      );
+    } catch (error) {
+      this.output.appendLine(`[Liquid Test] Error while running all tests:`);
+      this.output.appendLine(JSON.stringify(error));
+    }
   }
 
   public async runTestWithOptionsCommand() {
-    utils.setCWD();
-    this.output.appendLine(`Current working directory: ${process.cwd()}`);
-    const allTests = "Run all Liquid Tests";
-    // Check right file
-    let checksPassed = await this.checkFilePath();
-    if (!checksPassed) {
-      return;
-    }
-    // Get template handle
-    let templateHandle = await templateUtils.getTemplateHandle();
-    if (!templateHandle) {
-      return;
-    }
+    try {
+      utils.setCWD();
 
-    // Check active tab and get document
-    if (!vscode.window.activeTextEditor) {
-      return;
-    }
-    this.currentYamlDocument = vscode.window.activeTextEditor.document;
-
-    // Get Firm Stored
-    let firmId = await this.firmHandler.setFirmID();
-    const firmCredentials = this.firmHandler.checkFirmCredentials();
-    if (!firmCredentials) {
-      return;
-    }
-
-    // Identify Test names
-    const testNamesandRows = this.findTestNamesAndRows(
-      this.currentYamlDocument
-    );
-    const testNames = Object.keys(testNamesandRows);
-    testNames.unshift(allTests);
-
-    // Select Test to be run
-    const testSelected = await vscode.window.showQuickPick(testNames);
-    if (!testSelected) {
-      return;
-    }
-
-    // Run Test
-    if (this.statusBarItem) {
-      this.statusBarItem.setStateRunning();
-    }
-    let response: types.ResponseObject;
-    if (testSelected === allTests) {
-      // Run all tests without HTML
-      response = await liquidTestRunner.runTests(firmId, templateHandle);
-    } else {
-      // Run specific test with HTML
-      response = await liquidTestRunner.runTests(
-        firmId,
-        templateHandle,
-        testSelected,
-        true
-      );
-    }
-    if (this.statusBarItem) {
-      this.statusBarItem.setStateIdle();
-    }
-    this.output.appendLine(
-      `Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
-        response
-      )}`
-    );
-
-    if (!response) {
-      // Unhandled errors
-      vscode.window.showErrorMessage(
-        "Unexpected error: use the CLI to get more information"
-      );
-      return;
-    }
-
-    // Process response and update collection
-    this.processResponse(
-      this.currentYamlDocument,
-      this.errorsCollection,
-      response
-    );
-
-    // HANDLE HTML PANEL
-    if (this.htmlPanel) {
-      this.htmlPanel.dispose();
-      this.htmlPanel = undefined;
-    }
-    if (testSelected !== allTests) {
-      try {
-        await liquidTestRunner.getHTML(
-          response.tests[testSelected].html,
-          testSelected
-        );
-        // Open File
-        const filePath = liquidTestRunner.resolveHTMLPath(testSelected);
-        const fs = require("fs");
-        const fileContent = fs.readFileSync(filePath, "utf8");
-        if (!this.htmlPanel) {
-          this.htmlPanel = vscode.window.createWebviewPanel(
-            "htmlWebView",
-            "HTML View",
-            { viewColumn: vscode.ViewColumn.Two, preserveFocus: true }
-          );
-        }
-        // Display HTML
-        this.htmlPanel.webview.html = fileContent;
-      } catch (error) {
-        this.output.appendLine(`Error while opening HTML:`);
-        this.output.appendLine(JSON.stringify(error));
-        if (this.htmlPanel) {
-          this.htmlPanel.dispose();
-          this.htmlPanel = undefined;
-        } // close panel if open
+      const allTests = "Run all Liquid Tests";
+      // Check right file
+      let checksPassed = await this.checkFilePath();
+      if (!checksPassed) {
+        this.output.appendLine("[Liquid Test] File checks failed");
+        return;
       }
+      // Get template handle
+      let templateHandle = await templateUtils.getTemplateHandle();
+      if (!templateHandle) {
+        this.output.appendLine("[Liquid Test] Template handle not found");
+        return;
+      }
+
+      // Check active tab and get document
+      if (!vscode.window.activeTextEditor) {
+        this.output.appendLine(`[Liquid Test] No active text editor found`);
+        return;
+      }
+      this.currentYamlDocument = vscode.window.activeTextEditor.document;
+
+      // Get Firm Stored
+      if (!this.firmHandler) {
+        this.output.appendLine("[Liquid Test] Firm handler not found");
+        return;
+      }
+
+      let firmId = await this.firmHandler.setFirmID();
+      const firmTokensPresent = this.firmHandler.checkFirmCredentials();
+
+      if (!firmTokensPresent) {
+        this.output.appendLine("[Liquid Test] Firm credentials not found");
+        return;
+      }
+
+      // Identify Test names
+      const testNamesandRows = this.findTestNamesAndRows(
+        this.currentYamlDocument
+      );
+
+      const testNames = Object.keys(testNamesandRows);
+      testNames.unshift(allTests);
+
+      // Select Test to be run
+      const testSelected = await vscode.window.showQuickPick(testNames);
+
+      if (!testSelected) {
+        this.output.appendLine(
+          "[Liquid Test] Couldn't find any tests to select"
+        );
+        return;
+      }
+
+      // Run Test
+      if (this.statusBarItem) {
+        this.statusBarItem.setStateRunning();
+      }
+
+      let response: types.ResponseObject;
+      if (testSelected === allTests) {
+        // Run all tests without HTML
+        response = await liquidTestRunner.runTests(firmId, templateHandle);
+      } else {
+        // Run specific test with HTML
+        response = await liquidTestRunner.runTests(
+          firmId,
+          templateHandle,
+          testSelected,
+          true
+        );
+      }
+
+      if (this.statusBarItem) {
+        this.statusBarItem.setStateIdle();
+      }
+
+      this.output.appendLine(
+        `[Liquid Test] Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
+          response
+        )}`
+      );
+
+      if (!response) {
+        // Unhandled errors
+        vscode.window.showErrorMessage(
+          "Unexpected error: use the CLI to get more information"
+        );
+        return;
+      }
+
+      // Process response and update collection
+      this.processResponse(
+        this.currentYamlDocument,
+        this.errorsCollection,
+        response
+      );
+
+      // HANDLE HTML PANEL
+      if (this.htmlPanel) {
+        this.htmlPanel.dispose();
+        this.htmlPanel = undefined;
+      }
+      if (testSelected !== allTests) {
+        try {
+          await liquidTestRunner.getHTML(
+            response.tests[testSelected].html,
+            testSelected
+          );
+          // Open File
+          const filePath = liquidTestRunner.resolveHTMLPath(testSelected);
+          const fs = require("fs");
+          const fileContent = fs.readFileSync(filePath, "utf8");
+          if (!this.htmlPanel) {
+            this.htmlPanel = vscode.window.createWebviewPanel(
+              "htmlWebView",
+              "HTML View",
+              { viewColumn: vscode.ViewColumn.Two, preserveFocus: true }
+            );
+          }
+          // Display HTML
+          this.htmlPanel.webview.html = fileContent;
+        } catch (error) {
+          this.output.appendLine(`Error while opening HTML:`);
+          this.output.appendLine(JSON.stringify(error));
+          if (this.htmlPanel) {
+            this.htmlPanel.dispose();
+            this.htmlPanel = undefined;
+          } // close panel if open
+        }
+      }
+    } catch (error) {
+      this.output.appendLine(
+        `[Liquid Test] Error while running test with options:`
+      );
+      this.output.appendLine(JSON.stringify(error));
     }
   }
 

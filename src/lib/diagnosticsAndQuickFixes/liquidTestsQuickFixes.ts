@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import * as diagnostics from "./diagnostics";
+import * as diagnostics from "./liquidTestsDiagnostics";
 
 export default class LiquidTestQuickFixes implements vscode.CodeActionProvider {
   public static readonly providedCodeActionKinds = [

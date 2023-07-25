@@ -2,6 +2,18 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.9.0]
+
+- New command to authorize a firm from the Extension.
+
+## [1.8.5]
+
+- Reload every panel in the sidebar when a file get's saved (before it was only when the user switch tabs)
+
+## [1.8.4]
+
+- Reload the Firms panel in the sidebar when the user changes the firm id (using the command `Silverfin: Change Firm Id`)
+
 ## [1.8.0]
 
 - Introduce a Side-Bar panel. Display information about parts, shared parts, template configuration and firm ids authorized.

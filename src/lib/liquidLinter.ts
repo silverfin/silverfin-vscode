@@ -2,7 +2,7 @@ import { posix } from "path";
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
 const sfApi = require("sf_toolkit/lib/api/sfApi");
-const { config } = require("sf_toolkit/lib/api/auth");
+const { firmCredentials } = require("sf_toolkit/lib/api/firmCredentials");
 
 export default class LiquidLinter {
   commandName = "silverfin-development-toolkit.liquidLinter";
@@ -68,13 +68,13 @@ export default class LiquidLinter {
 
   private async getFirmId() {
     // Stored firm id
-    let firmId: Number = config.getFirmId();
+    let firmId: Number = firmCredentials.getDefaultFirmId();
     if (!firmId) {
       vscode.window.showErrorMessage(`There is no firm ID registered`);
       return false;
     }
-    const firmCredentials = config.getTokens(firmId);
-    if (!firmCredentials) {
+    const firmTokens = firmCredentials.getTokenPair(firmId);
+    if (!firmTokens) {
       vscode.window.showErrorMessage(
         `Firm ID: ${firmId}. You first need to authorize your firm using the CLI`
       );

@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 import * as panelUtils from "./panelUtils";
-const { config } = require("sf_toolkit/lib/api/auth");
+const { firmCredentials } = require("sf_toolkit/lib/api/firmCredentials");
 
 interface FirmsIds {
   [key: string]: string;
@@ -32,6 +32,8 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
       localResourceRoots: [this._extensionUri],
     };
     await this.setContent(webviewView);
+
+    this.messageHandler(webviewView);
   }
 
   public async setContent(webviewView: vscode.WebviewView) {
@@ -57,7 +59,7 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
     );
 
     const firmId = panelUtils.getFirmIdStored();
-    const firmData = config.storedIds(firmId);
+    const firmData = firmCredentials.listStoredIds(firmId);
     const usedInFirmsRows = templateUsedInFirmsData
       .map((item: TemplateUsedInFirmData) => {
         let templateUrl = `https://live.getsilverfin.com/f/${item.firmId}/${item.templateType}/${item.templateId}/edit`;
@@ -118,6 +120,11 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
         <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
           Authorized firm IDs
         </vscode-data-grid-cell>
+        <vscode-data-grid-cell cell-type="columnheader" grid-column="2" class="vs-actions">
+          <vscode-button appearance="icon" aria-label="authorize-new-firm" class="auth-new-firm" title="Authorize a new firm">
+            <span class="codicon codicon-add"></span>
+          </vscode-button>
+        </vscode-data-grid-cell>
       </vscode-data-grid-row>
       ${authorizedFirmsRows}`;
 
@@ -134,5 +141,18 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
       htmlBody
     );
     webviewView.webview.html = htmlContent;
+  }
+
+  private messageHandler(webviewView: vscode.WebviewView) {
+    webviewView.webview.onDidReceiveMessage((message: any) => {
+      switch (message.type) {
+        case "auth-new-firm":
+          // Run command to authenticate a new firm
+          vscode.commands.executeCommand(
+            "silverfin-development-toolkit.authorizeFirm"
+          );
+          return;
+      }
+    });
   }
 }

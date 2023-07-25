@@ -2,11 +2,11 @@ import * as vscode from "vscode";
 import { getNonce } from "../../utilities/getNonce";
 import { getWebviewUri } from "../../utilities/getUri";
 import * as utils from "../../utilities/utils";
-const { config } = require("sf_toolkit/lib/api/auth");
+const { firmCredentials } = require("sf_toolkit/lib/api/firmCredentials");
 
 export function getFirmIdStored() {
   utils.setCWD();
-  const firmIdStored = config.getFirmId();
+  const firmIdStored = firmCredentials.getDefaultFirmId();
   if (firmIdStored) {
     return firmIdStored;
   }
