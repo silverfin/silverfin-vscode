@@ -275,7 +275,8 @@ Snippets are available for the following categories:
 
 <br>
 
-### Drops snippets
+| <span style="font-size:1.4em;">**DROPS SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
+| ------------------------- | -------------------------------------------------------------------------------------- |
 
 <br>
 
