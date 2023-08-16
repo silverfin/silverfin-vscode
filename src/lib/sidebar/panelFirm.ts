@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 import * as panelUtils from "./panelUtils";
-const { firmCredentials } = require("sf_toolkit/lib/api/firmCredentials");
+const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 
 interface FirmsIds {
   [key: string]: string;

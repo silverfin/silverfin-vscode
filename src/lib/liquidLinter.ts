@@ -1,8 +1,8 @@
 import { posix } from "path";
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
-const sfApi = require("sf_toolkit/lib/api/sfApi");
-const { firmCredentials } = require("sf_toolkit/lib/api/firmCredentials");
+const sfApi = require("silverfin-cli/lib/api/sfApi");
+const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 
 export default class LiquidLinter {
   commandName = "silverfin-development-toolkit.liquidLinter";

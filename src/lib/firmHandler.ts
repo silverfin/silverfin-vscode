@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
-const { firmCredentials } = require("sf_toolkit/lib/api/firmCredentials");
-const sfApi = require("sf_toolkit/lib/api/sfApi");
+const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
+const sfApi = require("silverfin-cli/lib/api/sfApi");
 
 export default class FirmHandler {
   commandNameSetFirm = "silverfin-development-toolkit.setFirm";
