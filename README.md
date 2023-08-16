@@ -113,9 +113,15 @@ This extension adds snippets to make your writing of liquid templates for Silver
 
 Any formatting choices that are made within the Snippets are made according to the [Liquid guidelines](https://developer.silverfin.com/docs/liquid-guidelines).
 
-### Tag snippets
+Snippets are available for the following categories:
+ - Tags
+ - Filters
+ - Drops
+ - Tables
 
-| SHORTCUT                  | DESCRIPTION                                                                            |
+<br>
+
+| <span style="font-size:1.4em;">**TAG SNIPPETS**<br></span>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
 | ------------------------- | -------------------------------------------------------------------------------------- |
 | **COMMENTS**                                                                                                   
 | comment                   | Add opening and closing comment-tags                                                   |
@@ -165,6 +171,7 @@ Any formatting choices that are made within the Snippets are made according to t
 | endunless                 | Only add closing unless-tag                                                            |
 | case                      | Add opening and closing case-tags with a when and else-statement                       |
 | endcase                   | Only add closing case-tag                                                              |
+| when                      | Add a when-tag that is used within case-tags                                           |
 | &emsp;
 | **ITERATIONS**
 | for                       | Add opening and closing forloop-tags                                                   |
@@ -228,6 +235,13 @@ Any formatting choices that are made within the Snippets are made according to t
 | **CHANGE ORIENTATION**
 | changeorientation         | Add a changeorientation tag                                                            |
 | &emsp;
+| **CURRENCY CONFIGURATION**|               
+| currencyconfiguration     | Add opening and closing currencyconfiguration-tags with the possible attributes        |
+| endcurrencyconfiguration  | Only add closing currencyconfiguration-tag                                             |
+| &emsp;
+| **NEW PAGE**
+| newpage                   | Add a newpage tag to signify the start of a new page                                   |
+| &emsp;
 | **STYLING**
 | stripnewlines             | Add opening and closing stripnewlines-tags                                             |
 | endstripnewlines          | Only add closing endstripnewlines-tag                                                  |
@@ -242,13 +256,32 @@ Any formatting choices that are made within the Snippets are made according to t
 | warningtextblock          | Add full-width warningtext inside ic-tags                                              |
 | warningtexthover          | Add an warningtext with the as="hover" attribute                                       |
 
+<br>
+
+| <span style="font-size:1.4em;">**FILTER SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
+| ------------------------- | -------------------------------------------------------------------------------------- |
+| **DATE AND TIME**
+| date:"%d/%m/%Y"           | Add the filter for standard BE date formatting (DD/MM/YYYY)                            |
+| date:"%F"                 | Add the filter for ISO date formatting (YYYY-MM-DD)                                    |
+| &emsp;
+| **LOCALIZED**
+| localized                 | Add the localized filter                                                               |
+| localize:                 | Add the localize attribute                                                             |
+| &emsp;
+| **NUMBER**                
+| int                       | Add the INT type conversion function                                                   |
+| max                       | Add the MAX function to return the largest value in an array of values &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; |
+| min                       | Add the MIN function to return the smallest value in an array of values                |
+
+<br>
+
 ### Drops snippets
 
-### Table snippets
+<br>
 
-| SHORTCUT                  | DESCRIPTION                                                                            |
+| <span style="font-size:1.4em;">**TABLE SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
 | ------------------------- | -------------------------------------------------------------------------------------- |
-| table                     | Add snippet for a minimal HTML table with a header, body and width classes defined     |
+| table                     | Add snippet for a minimal HTML table with a header, body and width classes defined &emsp;&emsp;&emsp; |
 | thead                     | Add opening and closing thead-tags for an HTML table                                   |
 | tbody                     | Add opening and closing tbody-tags for an HTML table                                   |
 | tr                        | Add opening and closing tr-tags for an HTML table with nested td-elements              |
