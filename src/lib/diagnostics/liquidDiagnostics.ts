@@ -2,9 +2,9 @@ import { posix } from "path";
 import * as vscode from "vscode";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
-const { firmCredentials } = require("sf_toolkit/lib/api/firmCredentials");
-const fsUtils = require("sf_toolkit/lib/utils/fsUtils");
-const sfToolkit = require("sf_toolkit");
+const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
+const fsUtils = require("silverfin-cli/lib/utils/fsUtils");
+const sfToolkit = require("silverfin-cli");
 
 export default class LiquidDiagnostics {
   errorsCollection: vscode.DiagnosticCollection;

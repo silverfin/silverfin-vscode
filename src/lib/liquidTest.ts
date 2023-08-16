@@ -4,7 +4,7 @@ import * as yaml from "yaml";
 import * as templateUtils from "../utilities/templateUtils";
 import * as utils from "../utilities/utils";
 import * as types from "./types";
-const liquidTestRunner = require("sf_toolkit/lib/liquidTestRunner");
+const liquidTestRunner = require("silverfin-cli/lib/liquidTestRunner");
 
 export default class LiquidTest {
   errorsCollection: vscode.DiagnosticCollection;

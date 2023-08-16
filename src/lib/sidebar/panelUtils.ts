@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { getNonce } from "../../utilities/getNonce";
 import { getWebviewUri } from "../../utilities/getUri";
 import * as utils from "../../utilities/utils";
-const { firmCredentials } = require("sf_toolkit/lib/api/firmCredentials");
+const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 
 export function getFirmIdStored() {
   utils.setCWD();

@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 import * as panelUtils from "./panelUtils";
-const fsUtils = require("sf_toolkit/lib/utils/fsUtils");
+const fsUtils = require("silverfin-cli/lib/utils/fsUtils");
 const fs = require("fs");
 
 export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
