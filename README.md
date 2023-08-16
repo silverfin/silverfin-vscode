@@ -113,21 +113,28 @@ This extension adds snippets to make your writing of liquid templates for Silver
 
 Any formatting choices that are made within the Snippets are made according to the [Liquid guidelines](https://developer.silverfin.com/docs/liquid-guidelines).
 
-List of available snippets:
+### Tag snippets
 
-| Shortcut                  | Description                                                                            |
+| SHORTCUT                  | DESCRIPTION                                                                            |
 | ------------------------- | -------------------------------------------------------------------------------------- |
+| **COMMENTS**                                                                                                   
 | comment                   | Add opening and closing comment-tags                                                   |
 | endcomment                | Only add the closing comment-tag                                                       |
 | ic                        | Add opening and closing ic-tags                                                        |
 | endic                     | Only add the closing ic-tag                                                            |
 | nic                       | Add opening and closing nic-tags                                                       |
 | endnic                    | Only add the closing nic-tag                                                           |
+| &emsp;
+| **VARIABLES**
 | assign                    | Add an assign-tag                                                                      |
 | capture                   | Add opening and closing capture-tags                                                   |
 | endcapture                | Only add the closing capture-tag                                                       |
+| &emsp;
+| **TRANSLATIONS**
 | t=                        | Set a translation with a default (different languages to be set depending on market)   |
 | t                         | Get a defined translation                                                              |
+| &emsp;
+| **INPUT**
 | input                     | Add a standard text-input                                                              |
 | as:text                   | Add the attribute for a textarea input                                                 |
 | as:currency               | Add the attribute for a currency input                                                 |
@@ -145,6 +152,8 @@ List of available snippets:
 | placeholder:              | Add the placeholder attribute to an input                                              |
 | required:                 | Add the required attribute to an input                                                 |
 | default:                  | Add the default attribute or filter to an input or variable                            |
+| &emsp;
+| **CONTROL FLOW**
 | if                        | Add opening and closing if-tags                                                        |
 | ifelse                    | Add opening and closing if-tags with else-statement                                    |
 | endif                     | Only add closing if-tag                                                                |
@@ -156,6 +165,8 @@ List of available snippets:
 | endunless                 | Only add closing unless-tag                                                            |
 | case                      | Add opening and closing case-tags with a when and else-statement                       |
 | endcase                   | Only add closing case-tag                                                              |
+| &emsp;
+| **ITERATIONS**
 | for                       | Add opening and closing forloop-tags                                                   |
 | endfor                    | Only add closing forloop-tag                                                           |
 | fori                      | Add opening and closing foriloop-tags                                                  |
@@ -169,29 +180,55 @@ List of available snippets:
 | limit                     | Add the limit attribute to a forloop                                                   |
 | offset                    | Add the offset attribute to a forloop                                                  |
 | reversed                  | Add the reversed attribute to a forloop                                                |
+| &emsp;
+| **UNRECONCILED**
 | unreconciled              | Add the unreconciled tag as an indicator with unreconciled text                        |
+| &emsp;
+| **RESULT**
 | result                    | Add a result tag                                                                       |
+| &emsp;
+| **ROLLFORWARD**
 | rollforward               | Add a rollforward tag                                                                  |
 | rollforward.period        | Add the rollforward.period variable                                                    |
+| &emsp;
+| **LOCALE**
 | locale                    | Add opening and closing locale tags                                                    |
 | endlocale                 | Only add closing locale-tag                                                            |
+| &emsp;
+| **INCLUDE**
 | include                   | Add a tag to include a local or shared part                                            |
+| &emsp;
+| **LINKTO**
 | linkto                    | Add opening and closing linkto-tags                                                    |
 | endlinkto                 | Only add closing linkto-tag                                                            |
 | target                    | Add a target tag with an id                                                            |
 | target:                   | Add a target attribute to a linkto tag                                                 |
 | new_tab:                  | Add a new_tab attribute to a linkto tag                                                |
 | as:button                 | Add the attribute for a button to a linkto-tag                                         |
+| &emsp;
+| **ADJUSTMENT BUTTON**
 | adjustmentbutton          | Add opening and closing adjustmentbutton-tags                                          |
 | endadjustmentbutton       | Only add closing adjustmentbutton-tag                                                  |
 | adjustmenttransaction     | Add adjustmenttransaction-tag                                                          |
+| &emsp;
+| **GROUP**
 | group                     | Add a closing and opening group-tag inside nic-tags                                    |
+| &emsp;
+| **ADD NEW INPUTS**
 | addnewinputs              | Add opening and closing addnewinputs-tags                                              |
 | endaddnewinputs           | Only add closing addnewinputs-tag                                                      |
+| &emsp;
+| **SIGNMARKER**
 | signmarker                | Add a signmarker tag                                                                   |
+| &emsp;
+| **PUSH & POP**
 | push                      | Add a push tag                                                                         |
 | pop                       | Add a pop tag                                                                          |
+| &emsp;
+| **CHANGE ORIENTATION**
 | changeorientation         | Add a changeorientation tag                                                            |
+| &emsp;
+| **STYLING**
 | stripnewlines             | Add opening and closing stripnewlines-tags                                             |
 | endstripnewlines          | Only add closing endstripnewlines-tag                                                  |
 | newline                   | Add a newline tag                                                                      |
@@ -204,6 +241,13 @@ List of available snippets:
 | warningtextinline         | Add an inline-warningtext inside ic-tags                                               |
 | warningtextblock          | Add full-width warningtext inside ic-tags                                              |
 | warningtexthover          | Add an warningtext with the as="hover" attribute                                       |
+
+### Drops snippets
+
+### Table snippets
+
+| SHORTCUT                  | DESCRIPTION                                                                            |
+| ------------------------- | -------------------------------------------------------------------------------------- |
 | table                     | Add snippet for a minimal HTML table with a header, body and width classes defined     |
 | thead                     | Add opening and closing thead-tags for an HTML table                                   |
 | tbody                     | Add opening and closing tbody-tags for an HTML table                                   |
@@ -235,6 +279,8 @@ List of available snippets:
 | usr-indent-               | Add usr-indent class with list of possible values                                      |
 | usr-repeated-header       | Add usr-repeated-header class                                                          |
 | usr-no-left-padding       | Add usr-no-left-padding class                                                          |
+
+
 
 ## Third party extensions
 
