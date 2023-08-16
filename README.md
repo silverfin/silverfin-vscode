@@ -87,7 +87,7 @@ The sidebar will display the following information concerning the currently sele
 - **Template Information:** Meta information such as it appears on the Platform e.g. handle, name, reconciliation type, etc.
 - **Firms:** A list of firms which utilise the selected template and a list of firms for which you have authorised the API to work with.
 
-The sidebar will refresh whenever you save your work, so the information will always be up to date.
+This extension will also check if you are trying to include a shared part in your liquid that does not exist (in general / in your current set default firm) or if you are using a shared part that hasn't been added to the template yet. In the last case, it will give you a warning and will suggest to add it with the click of a button.
 
 ### Syntax Highlighting
 
@@ -95,11 +95,15 @@ This extension provides you with a default set of rules for Silverfin Liquid syn
 
 ### Auto Linting
 
-Whenever you save the template you're currently working on, the extension will analyse the file for any liquid errors. Any mistakes will be highlighted and relevant feedback will be displayed below in the "Problems" panel of VS Code.
+Tests for liquid templates are written in YAML, and to support the process of writing those tests, this extension includes a **JSON Schema** which is going to be validated against your YAML files.
+This will help you out to detect possible errors while defining those tests (e.g: missing required arguments or duplicated keys) without having to wait to run those tests.
+
+This SCHEMA is going to be applied to files that end with `_liquid_test.yml`.
 
 ![image](resources/auto-linting-example.png)
 
-### Code snippets
+You can run your Liquid Tests directly from VS Code with the click of a button and visualize the test results on top of the YAML file itself (You must have a registered API with Silverfin to have access to these features).
+If you are running individual tests, you can also see the results of the test in the output panel (an HTML version of your template).
 
 In addition, this extension will enable **code snippets** for `.liquid` & liquid testing `.yml` files. Please refer to **Snippets** section below for a full list of snippets.
 

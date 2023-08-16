@@ -101,3 +101,15 @@ export async function getTemplateConfigData() {
   }
   return JSON.parse(configTextDocument.getText());
 }
+
+export async function getTemplateLiquidCode() {
+  utils.setCWD();
+  if (!vscode.window.activeTextEditor) {
+    return false;
+  }
+  const fileType = utils.getCurrentFileExtension();
+  if (fileType !== "liquid") {
+    return false;
+  }
+  return vscode.window.activeTextEditor.document.getText();
+}

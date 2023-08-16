@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.10.0]
+
+- Check if the included shared parts in the liquid code exists or not, and if they are added to the template configuration or not. Create diagnostics for this and also a quick-fix to add the shared part to the template configuration.
+
 ## [1.9.0]
 
 - New command to authorize a firm from the Extension.
