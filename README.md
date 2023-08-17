@@ -254,14 +254,14 @@ Snippets are available for the following categories:
 | infotexthover             | Add an infotext with the as="hover" attribute                                          |
 | warningtextinline         | Add an inline-warningtext inside ic-tags                                               |
 | warningtextblock          | Add full-width warningtext inside ic-tags                                              |
-| warningtexthover          | Add an warningtext with the as="hover" attribute                                       |
+| warningtexthover&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Add an warningtext with the as="hover" attribute&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|
 
 <br>
 
 | <span style="font-size:1.4em;">**FILTER SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
 | ------------------------- | -------------------------------------------------------------------------------------- |
 | **DATE AND TIME**
-| date:"%d/%m/%Y"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;| Add the filter for standard BE date formatting (DD/MM/YYYY)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;|
+| date:"%d/%m/%Y"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;| Add the filter for standard BE date formatting (DD/MM/YYYY)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;|
 | date:"%F"                 | Add the filter for ISO date formatting (YYYY-MM-DD)                                    |
 | &emsp;
 | **LOCALIZED**
@@ -292,7 +292,20 @@ Snippets are available for the following categories:
 | value | Add the method to return the sum of all values for all accounts in this accounts drop for this period |
 | &emsp;
 | **COMPANY**
-| Some shortcut             | Some description                                         |
+| company.analytical_type_(0..x)_codes | Add the method to return drop with information about dimensions/companies in an analytical/consolidation file |
+| company.city | Add the method to return the city from the company settings |
+| company.company_form | Add the method to return the company form from the company settings |
+| company.country | Add the method to return the country from the company settings |
+| company.country_code | Add the method to return rhe country code based upon the country from the company settings |
+| company.currency | Add the method to return the currency code from the company settings |
+| company.custom | Add the method to attach custom information to a company, independant of the period |
+| company.file_code | Add the method to return the file number from the company settings |
+| company.locales | Add the method to return the available languages for the company |
+| company.name | Add the method to return the company name from the company settings |
+| company.periods_per_year | Add the method to returns 1,4,12 depending on the reporting frequency (yearly, quarterly or monthly)
+| company.postalcode | Add the method to return the post code from the company settings |
+| company.street | Add the method to return the street from the company settings |
+| company.vat_identifier | Add the method to return the vat identifier from the company settings |
 | &emsp;
 | **PEOPLE**
 | Some shortcut             | Some description                                         |
@@ -310,7 +323,7 @@ Snippets are available for the following categories:
 
 | <span style="font-size:1.4em;">**TABLE SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
 | ------------------------- | -------------------------------------------------------------------------------------- |
-| table&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Add snippet for a minimal HTML table with a header, body and width classes defined &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; |
+| table&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Add snippet for a minimal HTML table with a header, body and width classes defined &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; |
 | thead                     | Add opening and closing thead-tags for an HTML table                                   |
 | tbody                     | Add opening and closing tbody-tags for an HTML table                                   |
 | tr                        | Add opening and closing tr-tags for an HTML table with nested td-elements              |
