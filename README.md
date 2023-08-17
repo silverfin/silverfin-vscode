@@ -261,7 +261,7 @@ Snippets are available for the following categories:
 | <span style="font-size:1.4em;">**FILTER SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
 | ------------------------- | -------------------------------------------------------------------------------------- |
 | **DATE AND TIME**
-| date:"%d/%m/%Y"           | Add the filter for standard BE date formatting (DD/MM/YYYY)                            |
+| date:"%d/%m/%Y"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;| Add the filter for standard BE date formatting (DD/MM/YYYY)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;|
 | date:"%F"                 | Add the filter for ISO date formatting (YYYY-MM-DD)                                    |
 | &emsp;
 | **LOCALIZED**
@@ -278,7 +278,18 @@ Snippets are available for the following categories:
 | <span style="font-size:1.4em;">**DROPS SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
 | ------------------------- | -------------------------------------------------------------------------------------- |
 | **ACCOUNTS**
-| Some shortcut             | Some description                                         |
+| accounts.starred<br>accounts.assets<br>accounts.liabilities<br>accounts.revenues<br>accounts.expenses<br>accounts.income<br>accounts.equity| Add the method for returning a new accounts drop with only these accounts<br><br><br><br><br><br><br> |
+| accounts.count            | Add the method which returns the number of account drops in the accounts drop |
+| accounts.credit_value     | Add the method to return the sum of all credit values for all accounts in this accounts drop for this period |
+| accounts.debit_value     | Add the method to return the sum of all debit values for all accounts in this accounts drop for this period |
+| accounts.first | Add the method to return the first account drop of the accounts drop |
+| accounts.include_zeroes | Add the method to return an accounts drop that includes all accounts, including those with a zero balance |
+| accounts.name | Add the method to return the name of the first account in this drop |
+| accounts.p_and_l_rounding_difference<br>accounts.bs_rounding_difference | Add the methods to display the exact rounding difference when using the core rounding functionality |
+| p_and_l_rounding_account<br>bs_rounding_account | Add the methods to return the account drop where the rounding difference is stored |
+| return_values_in_millions | Add the method to display the values of the account drops in the created accounts drop in millions |
+| return_values_in_thousands | Add the method to display the values of the account drops in the created accounts drop in thousands |
+| value | Add the method to return the sum of all values for all accounts in this accounts drop for this period |
 | &emsp;
 | **COMPANY**
 | Some shortcut             | Some description                                         |
@@ -299,7 +310,7 @@ Snippets are available for the following categories:
 
 | <span style="font-size:1.4em;">**TABLE SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
 | ------------------------- | -------------------------------------------------------------------------------------- |
-| table                     | Add snippet for a minimal HTML table with a header, body and width classes defined &emsp;&emsp;&emsp; |
+| table&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Add snippet for a minimal HTML table with a header, body and width classes defined &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; |
 | thead                     | Add opening and closing thead-tags for an HTML table                                   |
 | tbody                     | Add opening and closing tbody-tags for an HTML table                                   |
 | tr                        | Add opening and closing tr-tags for an HTML table with nested td-elements              |
