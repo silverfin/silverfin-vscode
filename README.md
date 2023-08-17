@@ -277,6 +277,23 @@ Snippets are available for the following categories:
 
 | <span style="font-size:1.4em;">**DROPS SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
 | ------------------------- | -------------------------------------------------------------------------------------- |
+| **ACCOUNTS**
+| Some shortcut             | Some description                                         |
+| &emsp;
+| **COMPANY**
+| Some shortcut             | Some description                                         |
+| &emsp;
+| **PEOPLE**
+| Some shortcut             | Some description                                         |
+| &emsp;
+| **PERIOD**
+| Some shortcut             | Some description                                         |
+| &emsp;
+| **RECONCILIATION**
+| Some shortcut             | Some description                                         |
+| &emsp;
+| **USER**
+| Some shortcut             | Some description                                         |
 
 <br>
 
