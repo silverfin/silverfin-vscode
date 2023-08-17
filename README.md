@@ -254,14 +254,14 @@ Snippets are available for the following categories:
 | infotexthover             | Add an infotext with the as="hover" attribute                                          |
 | warningtextinline         | Add an inline-warningtext inside ic-tags                                               |
 | warningtextblock          | Add full-width warningtext inside ic-tags                                              |
-| warningtexthover&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Add an warningtext with the as="hover" attribute&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|
+| warningtexthover&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Add an warningtext with the as="hover" attribute&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|
 
 <br>
 
 | <span style="font-size:1.4em;">**FILTER SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
 | ------------------------- | -------------------------------------------------------------------------------------- |
 | **DATE AND TIME**
-| date:"%d/%m/%Y"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;| Add the filter for standard BE date formatting (DD/MM/YYYY)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;|
+| date:"%d/%m/%Y"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;| Add the filter for standard BE date formatting (DD/MM/YYYY)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;|
 | date:"%F"                 | Add the filter for ISO date formatting (YYYY-MM-DD)                                    |
 | &emsp;
 | **LOCALIZED**
@@ -308,15 +308,20 @@ Snippets are available for the following categories:
 | company.vat_identifier | Add the method to return the vat identifier from the company settings |
 | &emsp;
 | **PEOPLE**
-| people.count             | Add the method to count the number of person drops on the people drop |
-| people.first             | Add the method to return the first person drop in the people drop |
+| people.count | Add the method to count the number of person drops on the people drop |
+| people.first | Add the method to return the first person drop in the people drop |
 | people.directors | Add the special people sub-drop which returns only the directors |
 | people.shareholders | Add the special people sub-drop which returns only the shareholders |
 | people.directors.active_as_director| Add the filter for directors which returns those directors active during the book year |
 | people.directors.active_as_director_on| Add the filter for directors which returns those directors active in a specific date |
 | &emsp;
 | **PERIOD**
-| Some shortcut             | Some description                                         |
+| period.accounts | Add the method to return a collection of all accounts with bookings on this period |
+| period.account_mapping_list.name | Add the method to return the name of the mapping list used for this period |
+| period.account_mapping_list.id | Add the method to return the id of the mapping list on firm level |
+| account_mapping_list.marketplace_template_id | Add the method to return the id of the mapping list on marketplace |
+| period.adjustments | Add the method to return all the adjustments for the period |
+| period.bookyear_index | Add the method to return the  index number of the current book year as an integer. The first book year equals 1 |
 | &emsp;
 | **RECONCILIATION**
 | Some shortcut             | Some description                                         |
@@ -328,7 +333,7 @@ Snippets are available for the following categories:
 
 | <span style="font-size:1.4em;">**TABLE SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
 | ------------------------- | -------------------------------------------------------------------------------------- |
-| table&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Add snippet for a minimal HTML table with a header, body and width classes defined &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; |
+| table&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Add snippet for a minimal HTML table with a header, body and width classes defined &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; |
 | thead                     | Add opening and closing thead-tags for an HTML table                                   |
 | tbody                     | Add opening and closing tbody-tags for an HTML table                                   |
 | tr                        | Add opening and closing tr-tags for an HTML table with nested td-elements              |
