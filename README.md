@@ -254,14 +254,14 @@ Snippets are available for the following categories:
 | infotexthover             | Add an infotext with the as="hover" attribute                                          |
 | warningtextinline         | Add an inline-warningtext inside ic-tags                                               |
 | warningtextblock          | Add full-width warningtext inside ic-tags                                              |
-| warningtexthover&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Add an warningtext with the as="hover" attribute&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|
+| warningtexthover&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; | Add an warningtext with the as="hover" attribute&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|
 
 <br>
 
 | <span style="font-size:1.4em;">**FILTER SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
 | ------------------------- | -------------------------------------------------------------------------------------- |
 | **DATE AND TIME**
-| date:"%d/%m/%Y"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;| Add the filter for standard BE date formatting (DD/MM/YYYY)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;|
+| date:"%d/%m/%Y"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&emsp;&emsp;&emsp;&nbsp;&nbsp; | Add the filter for standard BE date formatting (DD/MM/YYYY)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; |
 | date:"%F"                 | Add the filter for ISO date formatting (YYYY-MM-DD)                                    |
 | &emsp;
 | **LOCALIZED**
@@ -285,8 +285,8 @@ Snippets are available for the following categories:
 | accounts.first | Add the method to return the first account drop of the accounts drop |
 | accounts.include_zeroes | Add the method to return an accounts drop that includes all accounts, including those with a zero balance |
 | accounts.name | Add the method to return the name of the first account in this drop |
-| accounts.p_and_l_rounding_difference<br>accounts.bs_rounding_difference | Add the methods to display the exact rounding difference when using the core rounding functionality |
-| p_and_l_rounding_account<br>bs_rounding_account | Add the methods to return the account drop where the rounding difference is stored |
+| accounts.p_and_l_rounding_difference,<br>accounts.bs_rounding_difference | Add the methods to display the exact rounding difference when using the core rounding functionality |
+| p_and_l_rounding_account,<br>bs_rounding_account | Add the methods to return the account drop where the rounding difference is stored |
 | return_values_in_millions | Add the method to display the values of the account drops in the created accounts drop in millions |
 | return_values_in_thousands | Add the method to display the values of the account drops in the created accounts drop in thousands |
 | value | Add the method to return the sum of all values for all accounts in this accounts drop for this period |
@@ -319,9 +319,30 @@ Snippets are available for the following categories:
 | period.accounts | Add the method to return a collection of all accounts with bookings on this period |
 | period.account_mapping_list.name | Add the method to return the name of the mapping list used for this period |
 | period.account_mapping_list.id | Add the method to return the id of the mapping list on firm level |
-| account_mapping_list.marketplace_template_id | Add the method to return the id of the mapping list on marketplace |
+| period.account_mapping_list.marketplace_template_id | Add the method to return the id of the mapping list on marketplace |
 | period.adjustments | Add the method to return all the adjustments for the period |
 | period.bookyear_index | Add the method to return the  index number of the current book year as an integer. The first book year equals 1 |
+| period.calendar_years | Add the method to add an array of all calendar years in the fiscal year. The information for each calendar year is:<br>start_date, end_date, amount_of_days for the number of days the bookyear has in the calendar year, and<br> amount_of_days_in_full_year for the total number of days in the calendar year |
+| period.custom | Add method to attach custom information to a period. This is done automatically in reconciliations |
+| period.directors | Add method to return people drop of *all* individuals who are directors |
+| period.end_date | Add method to return the date this period ends |
+| period.exists | Add method to return true when the period exists in the Silverfin database |
+| period.fiscal_year | Add method to return the fiscal year of this period |
+| period.is_first_year | Add method to return true if the period is in the first book year of this client file |
+| period.month_end_dates | Add method to return an array of all the end dates of the calendar months in this fiscal year |
+| period.name | Add method to return the name of the period |
+| period.people | Add method to return the people drop of *all* people attached to the period (typically copied from general<br> company level) |
+| period.reconciliations | Add method to return a collection of all reconciliations for this period. You can ask for a specific reconciliation<br> by adding the handle. I.e. period.reconciliations.the_handle. |
+| period.reports | Add method to return a collection of all reports for this period. You can ask for a specific report by adding the<br> handle. I.e. period.reports.the_handle |
+| period.shareholders | Add method to return the people drop of *all* individuals who are shareholders |
+| period.start_date | Add method to return the date this period starts |
+| period.year_end | Add method to return the period at the end of the fiscal year this period is in |
+| period.year_end_date | Add method to return the date of the end of the fiscal year of this period |
+| period.year_start_date | Add method to return the date of the start of the fiscal year of this period |
+| period.minus_1p,<br>period.minus_2p,<br>period.minus_3p,<br>... | Add method to return the period drop of the current period minus the amount of periods defined |
+| period.minus_1y,<br>period.minus_2y,<br>period.minus_3y,<br>... | Add method to return the period drop of the current period minus the amount of years defined |
+| period.plus_1p,<br>period.plus_2p,<br>period.plus_3p,<br>... | Add method to return the period drop of the current period plus the amount of periods defined |
+| period.plus_1y,<br>period.plus_2y,<br>period.plus_3y,<br>... | Add method to return the period drop of the current period plus the amount of years defined |
 | &emsp;
 | **RECONCILIATION**
 | Some shortcut             | Some description                                         |
@@ -333,7 +354,7 @@ Snippets are available for the following categories:
 
 | <span style="font-size:1.4em;">**TABLE SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
 | ------------------------- | -------------------------------------------------------------------------------------- |
-| table&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Add snippet for a minimal HTML table with a header, body and width classes defined &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; |
+| table&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Add snippet for a minimal HTML table with a header, body and width classes defined &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&emsp;&nbsp; |
 | thead                     | Add opening and closing thead-tags for an HTML table                                   |
 | tbody                     | Add opening and closing tbody-tags for an HTML table                                   |
 | tr                        | Add opening and closing tr-tags for an HTML table with nested td-elements              |
