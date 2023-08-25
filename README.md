@@ -344,8 +344,10 @@ Snippets are available for the following categories:
 | period.plus_1p,<br>period.plus_2p,<br>period.plus_3p,<br>... | Add method to return the period drop of the current period plus the amount of periods defined |
 | period.plus_1y,<br>period.plus_2y,<br>period.plus_3y,<br>... | Add method to return the period drop of the current period plus the amount of years defined |
 | &emsp;
-| **RECONCILIATION**
-| Some shortcut             | Some description                                         |
+| **RECONCILIATIONS**
+| reconciliations.count | Add method which returns the amount of active reconciliations |
+| reconciliations.[reconciliation_handle]* | Add method which returns the specific reconcilaition with matching handle<br>**Don't actually use the word handle but use that handle of the specific reconciliation instead* |
+| reconciliations.star | Add method which returns reconciliations that are marked with a star |
 | &emsp;
 | **USER**
 | Some shortcut             | Some description                                         |
