@@ -350,7 +350,8 @@ Snippets are available for the following categories:
 | reconciliations.star | Add method which returns reconciliations that are marked with a star |
 | &emsp;
 | **USER**
-| Some shortcut             | Some description                                         |
+| user.name | Add method to return name of the Silverfin user |
+| user.email | Add method to return Email of the Silverfin user |
 
 <br>
 
