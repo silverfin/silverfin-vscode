@@ -10,6 +10,7 @@ import { TemplateInformationViewProvider } from "./lib/sidebar/panelTemplateInfo
 import { TemplatePartsViewProvider } from "./lib/sidebar/panelTemplateParts";
 import StatusBarItem from "./lib/statusBar/statusBarItem";
 import * as diagnosticsUtils from "./utilities/diagnosticsUtils";
+import insertAutoCloseTag from "./lib/autoCloseTag";
 
 export async function activate(context: vscode.ExtensionContext) {
   // Initializers
@@ -22,6 +23,11 @@ export async function activate(context: vscode.ExtensionContext) {
   const liquidLinter = new LiquidLinter(outputChannel);
   const liquidTest = new LiquidTest(context, outputChannel);
   const liquidDiagnostics = new LiquidDiagnostics(context, outputChannel);
+
+  // Auto Close Tags
+  vscode.workspace.onDidChangeTextDocument((event) => {
+    insertAutoCloseTag(event);
+  });
 
   // References
   firmHandler.statusBarItem = statusBarItemRunTests;

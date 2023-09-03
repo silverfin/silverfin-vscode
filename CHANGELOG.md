@@ -2,6 +2,14 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.10.2]
+
+- Fix dependency on third-party auto-close extension that would block update of the extension on WSL by adding this functionality to the extension itself.
+
+## [1.10.1]
+
+- Updated documentation
+
 ## [1.10.0]
 
 - Check if the included shared parts in the liquid code exists or not, and if they are added to the template configuration or not. Create diagnostics for this and also a quick-fix to add the shared part to the template configuration.
