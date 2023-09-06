@@ -1,7 +1,7 @@
 import { posix } from "path";
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
-const sfApi = require("silverfin-cli/lib/api/sfApi");
+const sfCliApi = require("silverfin-cli/lib/api/sfApi");
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 
 export default class LiquidLinter {
@@ -36,7 +36,7 @@ export default class LiquidLinter {
     const currentTextDocument = vscode.window.activeTextEditor.document;
     const liquidCode = currentTextDocument.getText();
     const requestData = JSON.stringify({ code: liquidCode });
-    const response = await sfApi.verifyLiquid(firmId, requestData);
+    const response = await sfCliApi.verifyLiquid(firmId, requestData);
     if (response || response.status === 200) {
       this.output.appendLine(
         `Liquid Linter run succesfully (${response.status})`

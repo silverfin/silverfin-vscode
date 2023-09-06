@@ -4,7 +4,7 @@ import * as yaml from "yaml";
 import * as templateUtils from "../utilities/templateUtils";
 import * as utils from "../utilities/utils";
 import * as types from "./types";
-const liquidTestRunner = require("silverfin-cli/lib/liquidTestRunner");
+const sfCliLiquidTestRunner = require("silverfin-cli/lib/liquidTestRunner");
 
 export default class LiquidTest {
   errorsCollection: vscode.DiagnosticCollection;
@@ -78,7 +78,7 @@ export default class LiquidTest {
       if (this.statusBarItem) {
         this.statusBarItem.setStateRunning();
       }
-      let response: types.ResponseObject = await liquidTestRunner.runTests(
+      let response: types.ResponseObject = await sfCliLiquidTestRunner.runTests(
         firmId,
         templateHandle
       );
@@ -176,10 +176,10 @@ export default class LiquidTest {
       let response: types.ResponseObject;
       if (testSelected === allTests) {
         // Run all tests without HTML
-        response = await liquidTestRunner.runTests(firmId, templateHandle);
+        response = await sfCliLiquidTestRunner.runTests(firmId, templateHandle);
       } else {
         // Run specific test with HTML
-        response = await liquidTestRunner.runTests(
+        response = await sfCliLiquidTestRunner.runTests(
           firmId,
           templateHandle,
           testSelected,
@@ -219,12 +219,12 @@ export default class LiquidTest {
       }
       if (testSelected !== allTests) {
         try {
-          await liquidTestRunner.getHTML(
+          await sfCliLiquidTestRunner.getHTML(
             response.tests[testSelected].html,
             testSelected
           );
           // Open File
-          const filePath = liquidTestRunner.resolveHTMLPath(testSelected);
+          const filePath = sfCliLiquidTestRunner.resolveHTMLPath(testSelected);
           const fs = require("fs");
           const fileContent = fs.readFileSync(filePath, "utf8");
           if (!this.htmlPanel) {
@@ -372,7 +372,7 @@ export default class LiquidTest {
     let collectionArray: types.DiagnosticObject[] = [];
     switch (response.status) {
       case "completed":
-        const errorsPresent = liquidTestRunner.checkAllTestsErrorsPresent(
+        const errorsPresent = sfCliLiquidTestRunner.checkAllTestsErrorsPresent(
           response.tests
         );
         if (errorsPresent) {

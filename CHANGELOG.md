@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.10.3]
+
+- Update dependencies. silverfin-cli v1.15.5
+
 ## [1.10.2]
 
 - Fix dependency on third-party auto-close extension that would block update of the extension on WSL by adding this functionality to the extension itself.

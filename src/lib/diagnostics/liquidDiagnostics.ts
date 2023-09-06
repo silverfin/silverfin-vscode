@@ -3,8 +3,8 @@ import * as vscode from "vscode";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
-const fsUtils = require("silverfin-cli/lib/utils/fsUtils");
-const sfToolkit = require("silverfin-cli");
+const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");
+const sfCli = require("silverfin-cli");
 
 export default class LiquidDiagnostics {
   errorsCollection: vscode.DiagnosticCollection;
@@ -32,6 +32,11 @@ export default class LiquidDiagnostics {
       this.output.appendLine("Current file is not .liquid");
       return;
     }
+    const templateType = await templateUtils.getTemplateType();
+    if (templateType !== "reconciliationText") {
+      this.output.appendLine("Current file is not a reconciliation text");
+      return;
+    }
 
     // Clear the collection
     this.errorsCollection.set(this.currentLiquidFile!.uri, []);
@@ -42,7 +47,7 @@ export default class LiquidDiagnostics {
       return;
     }
 
-    const sharedPartsAdded = await this.getSharedPartsAdded();
+    const sharedPartsAdded = (await this.getSharedPartsAdded()) || [];
     // Compare the two arrays and find the differences (shared parts used but not added)
     const sharedPartsNotAdded = sharedPartsUsed.filter(
       (part) => !sharedPartsAdded.includes(part)
@@ -99,7 +104,11 @@ export default class LiquidDiagnostics {
     }
     this.firmId = firmId;
     this.templateHandle = templateHandle;
-    const sharedParts = await fsUtils.getSharedParts(firmId, templateHandle);
+    const sharedParts = await sfCliFsUtils.listSharedPartsUsedInTemplate(
+      firmId,
+      "reconciliationText",
+      templateHandle
+    );
     return sharedParts;
   }
 
@@ -131,11 +140,9 @@ export default class LiquidDiagnostics {
       );
 
       // Check if shared part exists in directory
-      const allSharedParts = fsUtils.getTemplatePaths("shared_parts");
-      const sharedPartNames = allSharedParts.map((path: string) =>
-        path.replace("./shared_parts/", "")
-      );
-      const sharedPartExistsInDirectory = sharedPartNames.some(
+      const allSharedPartsNames =
+        sfCliFsUtils.getAllTemplatesOfAType("sharedPart");
+      const sharedPartExistsInDirectory = allSharedPartsNames.some(
         (existingSharedPart: string) =>
           existingSharedPart.includes(sharedPartName)
       );
@@ -246,7 +253,7 @@ export default class LiquidDiagnostics {
   }
 
   private addSharedPart(sharedPartName: string) {
-    sfToolkit
+    sfCli
       .addSharedPartToReconciliation(
         this.firmId,
         sharedPartName,
@@ -263,8 +270,8 @@ export default class LiquidDiagnostics {
   }
 
   private createAndAddSharedPart(sharedPartName: string) {
-    sfToolkit.newSharedPart(this.firmId, sharedPartName).then(() => {
-      sfToolkit
+    sfCli.newSharedPart(this.firmId, sharedPartName).then(() => {
+      sfCli
         .addSharedPartToReconciliation(
           this.firmId,
           sharedPartName,

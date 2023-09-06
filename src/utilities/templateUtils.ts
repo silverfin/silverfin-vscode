@@ -42,6 +42,10 @@ export async function getTemplateType() {
     return "reconciliationText";
   } else if (fileParts.includes("shared_parts")) {
     return "sharedPart";
+  } else if (fileParts.includes("export_files")) {
+    return "exportFile";
+  } else if (fileParts.includes("account_templates")) {
+    return "accountTemplate";
   } else {
     return false;
   }

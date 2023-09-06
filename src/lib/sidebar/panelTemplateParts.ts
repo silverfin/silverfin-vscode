@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 import * as panelUtils from "./panelUtils";
-const fsUtils = require("silverfin-cli/lib/utils/fsUtils");
+const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");
 const fs = require("fs");
 
 export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
@@ -128,9 +128,13 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
       )
       .join("");
 
-    const sharedParts = await fsUtils.getSharedParts(firmId, handle);
+    const sharedPartNames = await sfCliFsUtils.listSharedPartsUsedInTemplate(
+      firmId,
+      "reconciliationText",
+      handle
+    );
 
-    const sharedPartsRows = sharedParts
+    const sharedPartsRows = sharedPartNames
       .sort()
       .map((sharedPartName: string) => {
         const sharedPartPath = `/shared_parts/${sharedPartName}/${sharedPartName}.liquid`;
