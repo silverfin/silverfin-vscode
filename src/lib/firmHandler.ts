@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
-const sfApi = require("silverfin-cli/lib/api/sfApi");
+const sfCliApiUtils = require("silverfin-cli/lib/utils/apiUtils");
 
 export default class FirmHandler {
   commandNameSetFirm = "silverfin-development-toolkit.setFirm";
@@ -101,7 +101,7 @@ export default class FirmHandler {
       });
       // Get Access Token
       if (authorizationCode) {
-        tokenRequest = await sfApi.getAccessToken(
+        tokenRequest = await sfCliApiUtils.getAccessToken(
           firmIdProvided,
           authorizationCode
         );
