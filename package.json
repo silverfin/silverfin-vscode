@@ -74,7 +74,7 @@
         "extensions": [
           ".liquid"
         ],
-        "configuration": "./languages/liquid-language-configuration.json"
+        "configuration": "./languages/language-configuration.json"
       }
     ],
     "grammars": [
@@ -183,7 +183,8 @@
     "watch": "node ./esbuild.js --watch",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "build:language-config": "node scripts/make-language-configuration"
   },
   "devDependencies": {
     "@types/glob": "^7.2.0",
