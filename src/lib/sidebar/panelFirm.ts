@@ -58,8 +58,9 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
       templateType
     );
 
-    const firmId = panelUtils.getFirmIdStored();
-    const firmData = firmCredentials.listStoredIds(firmId);
+    const firmId = await panelUtils.getFirmIdStored();
+    await firmCredentials.loadCredentials(); // refresh credentials
+    const firmData = await firmCredentials.listStoredIds(firmId);
     const usedInFirmsRows = templateUsedInFirmsData
       .map((item: TemplateUsedInFirmData) => {
         let templateUrl = `https://live.getsilverfin.com/f/${item.firmId}/${item.templateType}/${item.templateId}/edit`;

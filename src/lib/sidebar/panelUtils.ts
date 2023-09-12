@@ -4,9 +4,10 @@ import { getWebviewUri } from "../../utilities/getUri";
 import * as utils from "../../utilities/utils";
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 
-export function getFirmIdStored() {
+export async function getFirmIdStored() {
   utils.setCWD();
-  const firmIdStored = firmCredentials.getDefaultFirmId();
+  await firmCredentials.loadCredentials(); // refresh credentials
+  const firmIdStored = await firmCredentials.getDefaultFirmId();
   if (firmIdStored) {
     return firmIdStored;
   }

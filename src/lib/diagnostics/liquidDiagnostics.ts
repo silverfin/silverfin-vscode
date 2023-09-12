@@ -29,12 +29,14 @@ export default class LiquidDiagnostics {
     this.setLiquidFile();
 
     if (!this.currentLiquidFile) {
-      this.output.appendLine("Current file is not .liquid");
+      this.output.appendLine("[Diagnostics] Current file is not .liquid");
       return;
     }
     const templateType = await templateUtils.getTemplateType();
     if (templateType !== "reconciliationText") {
-      this.output.appendLine("Current file is not a reconciliation text");
+      this.output.appendLine(
+        "[Diagnostics] Current file is not a reconciliation text"
+      );
       return;
     }
 
@@ -43,7 +45,7 @@ export default class LiquidDiagnostics {
     const sharedPartsUsed = this.searchForSharedPartsInLiquid();
 
     if (!sharedPartsUsed) {
-      this.output.appendLine("No shared parts found");
+      this.output.appendLine("[Diagnostics] No shared parts found");
       return;
     }
 
@@ -56,7 +58,7 @@ export default class LiquidDiagnostics {
       return;
     }
     this.output.appendLine(
-      "There are shared parts included in liquid but not added to the template"
+      "[Diagnostics] There are shared parts included in liquid but not added to the template"
     );
     await this.recreateDiagnosticInformation(sharedPartsNotAdded);
   }
@@ -74,14 +76,14 @@ export default class LiquidDiagnostics {
     }
     const currentTextDocument = vscode.window.activeTextEditor.document;
     this.currentLiquidFile = currentTextDocument;
-    this.output.appendLine("Liquid File found");
+    this.output.appendLine("[Diagnostics] Liquid File found");
   }
 
   // Inspect the liquid code of the file and search for the use of shared parts
   private searchForSharedPartsInLiquid() {
     const currentLiquid = this.currentLiquidFile?.getText();
     if (!currentLiquid) {
-      this.output.appendLine("No Liquid code found");
+      this.output.appendLine("[Diagnostics] No Liquid code found");
       return;
     }
     // Match the shared parts included in the liquid code
@@ -94,7 +96,8 @@ export default class LiquidDiagnostics {
   }
 
   private async getSharedPartsAdded() {
-    const firmId = firmCredentials.getDefaultFirmId();
+    await firmCredentials.loadCredentials(); // refresh credentials
+    const firmId = await firmCredentials.getDefaultFirmId();
     const templateHandle = templateUtils.getTemplateHandle();
     const templateType = await templateUtils.getTemplateType();
     if (!templateHandle || !firmId || templateType !== "reconciliationText") {
@@ -187,7 +190,9 @@ export default class LiquidDiagnostics {
       diagnostics.push(diagnostic);
     }
     this.errorsCollection.set(this.currentLiquidFile!.uri, diagnostics);
-    this.output.appendLine("Errors collection of the Liquid Template updated");
+    this.output.appendLine(
+      "[Diagnostics] Errors collection of the Liquid Template updated"
+    );
   }
 
   private async createCommandAddSharedPart(
@@ -195,7 +200,7 @@ export default class LiquidDiagnostics {
     existsInFirm: boolean
   ) {
     this.output.appendLine(
-      `Create command to add shared part ${sharedPartName}`
+      `[Diagnostics] Create command to add shared part ${sharedPartName}`
     );
     let identifier = `addSharedPart.${sharedPartName}.${this.templateHandle}.${this.firmId}`;
     // Check if the command already exists
@@ -226,7 +231,9 @@ export default class LiquidDiagnostics {
       sharedPartName,
       "config.json"
     );
-    this.output.appendLine(`Shared Part config path: ${sharedPartConfigPath}`);
+    this.output.appendLine(
+      `[Diagnostics] Shared Part config path: ${sharedPartConfigPath}`
+    );
     return sharedPartConfigPath;
   }
 

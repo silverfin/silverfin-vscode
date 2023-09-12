@@ -8,6 +8,7 @@ export default class LiquidLinter {
   commandName = "silverfin-development-toolkit.liquidLinter";
   errorsCollection: vscode.DiagnosticCollection;
   output: vscode.OutputChannel;
+  firmHandler: any;
   constructor(outputChannel: vscode.OutputChannel) {
     this.errorsCollection = vscode.languages.createDiagnosticCollection(
       `LiquidLinterCollection`
@@ -21,7 +22,7 @@ export default class LiquidLinter {
       return;
     }
     utils.setCWD();
-    const firmId = await this.getFirmId();
+    const firmId = await this.firmHandler.getAuthorizedDefaultFirmId();
     if (!firmId) {
       return;
     }
@@ -39,12 +40,12 @@ export default class LiquidLinter {
     const response = await sfCliApi.verifyLiquid(firmId, requestData);
     if (response || response.status === 200) {
       this.output.appendLine(
-        `Liquid Linter run succesfully (${response.status})`
+        `[Liquid Linter] run succesfully (${response.status})`
       );
       return response.data;
     } else {
       this.output.appendLine(
-        `Liquid Linter run failed (${response.status}): ${response}`
+        `[Liquid Linter] run failed (${response.status}): ${response}`
       );
       return false;
     }
@@ -64,26 +65,6 @@ export default class LiquidLinter {
       return false;
     }
     return true;
-  }
-
-  private async getFirmId() {
-    // Stored firm id
-    let firmId: Number = firmCredentials.getDefaultFirmId();
-    if (!firmId) {
-      vscode.window.showErrorMessage(`There is no firm ID registered`);
-      return false;
-    }
-    const firmTokens = firmCredentials.getTokenPair(firmId);
-    if (!firmTokens) {
-      vscode.window.showErrorMessage(
-        `Firm ID: ${firmId}. You first need to authorize your firm using the CLI`
-      );
-      this.output.appendLine(
-        `Firm ID: ${firmId}. Pair of access/refresh tokens missing from config`
-      );
-      return false;
-    }
-    return firmId;
   }
 
   private populateDiagnosticCollection(data: []) {

@@ -7,11 +7,11 @@ export default class FirmHandler {
   commandNameSetFirm = "silverfin-development-toolkit.setFirm";
   commandNameAuthorizeFirm = "silverfin-development-toolkit.authorizeFirm";
   output: vscode.OutputChannel;
-  credentials: boolean;
+  apiSecretsPresent: boolean;
   statusBarItem: any;
   constructor(outputChannel: vscode.OutputChannel) {
     this.output = outputChannel;
-    this.credentials = this.checkAPICredentials();
+    this.apiSecretsPresent = this.checkApiSecrets();
   }
 
   public async setFirmIdCommand() {
@@ -21,6 +21,7 @@ export default class FirmHandler {
       return;
     }
     // Get Firm Stored
+    await firmCredentials.loadCredentials(); // refresh credentials
     let firmIdStored = await firmCredentials.getDefaultFirmId();
     let promptMessage;
     if (!firmIdStored) {
@@ -45,7 +46,7 @@ export default class FirmHandler {
       `Firm ID ${newFirmId} stored succesfully`
     );
     // Check firm id's credentials
-    const firmTokens = firmCredentials.getTokenPair(newFirmId);
+    const firmTokens = await firmCredentials.getTokenPair(newFirmId);
     if (!firmTokens) {
       vscode.window.showWarningMessage(
         "The firm ID provided is not authorized yet."
@@ -58,6 +59,7 @@ export default class FirmHandler {
   }
 
   public async authorizeFirmCommand() {
+    await firmCredentials.loadCredentials(); // refresh credentials
     let firmIdStored;
     const checkExistingRepo = utils.setCWD();
     if (checkExistingRepo) {
@@ -75,11 +77,15 @@ export default class FirmHandler {
     if (!firmIdProvided) {
       return;
     }
-    this.output.appendLine(`[Auth] firmIdProvided: ${firmIdProvided}`);
+    this.output.appendLine(
+      `[FirmHandler][Auth] firmIdProvided: ${firmIdProvided}`
+    );
 
     // Open Browser to authorize
     const browserOpen = await this.openBrowserAuth(firmIdProvided);
-    this.output.appendLine(`[Auth] browser opened? ${browserOpen}`);
+    this.output.appendLine(
+      `[FirmHandler][Auth] browser opened? ${browserOpen}`
+    );
 
     // Wait for the user to click the button
     const buttonClicked = await vscode.window.showInformationMessage(
@@ -87,7 +93,9 @@ export default class FirmHandler {
       { modal: true },
       ...["Authorization Code"]
     );
-    this.output.appendLine(`[Auth] button clicked? ${buttonClicked}`);
+    this.output.appendLine(
+      `[FirmHandler][Auth] button clicked? ${buttonClicked}`
+    );
 
     // Request Authorization Code
     let authorizationCode;
@@ -108,7 +116,7 @@ export default class FirmHandler {
       }
     }
     this.output.appendLine(
-      `[Auth] token succesfull? ${tokenRequest ? true : false}`
+      `[FirmHandler][Auth] token succesfull? ${tokenRequest ? true : false}`
     );
 
     // Failed to authorized
@@ -130,7 +138,8 @@ export default class FirmHandler {
   // Get Firm ID or set a new one via Prompt
   public async setFirmID() {
     utils.setCWD();
-    let firmId: Number = firmCredentials.getDefaultFirmId();
+    await firmCredentials.loadCredentials(); // refresh credentials
+    let firmId: Number = await firmCredentials.getDefaultFirmId();
     // Request Firm ID and store it if necessary
     if (!firmId) {
       let newFirmId = await vscode.window.showInputBox({
@@ -153,26 +162,43 @@ export default class FirmHandler {
     }
     return firmId;
   }
-
-  public async checkFirmCredentials() {
+  public async getAuthorizedDefaultFirmId() {
     utils.setCWD();
-    const firmIdStored = firmCredentials.getDefaultFirmId();
-    const firmTokens = firmCredentials.getTokenPair(firmIdStored);
-    if (!firmTokens) {
+    await firmCredentials.loadCredentials(); // refresh credentials
+    let firmId: Number = await firmCredentials.getDefaultFirmId();
+    if (!firmId) {
       vscode.window.showErrorMessage(
-        `Firm ID: ${firmIdStored}. You first need to authorize your firm using the CLI`
+        `There is no firm ID registered as default. Please, set one first.`
       );
       this.output.appendLine(
-        `Firm ID: ${firmIdStored}. Pair of access/refresh tokens missing from config`
+        `[FirmHandler] No default firm stored for repository`
+      );
+      return false;
+    }
+    const authorizedFirm = await this.checkFirmCredentials(firmId);
+    if (!authorizedFirm) {
+      return false;
+    }
+    return firmId;
+  }
+
+  public async checkFirmCredentials(firmId: Number) {
+    const firmTokens = await firmCredentials.getTokenPair(firmId);
+    if (!firmTokens) {
+      vscode.window.showErrorMessage(
+        `Missing authorization for Firm ID ${firmId}. Please, authorize it first.`
+      );
+      this.output.appendLine(
+        `[FirmHandler] Firm ID: ${firmId}. Pair of access/refresh tokens missing from config`
       );
       return false;
     }
     return true;
   }
 
-  private checkAPICredentials() {
+  private checkApiSecrets() {
     // API Credentials
-    const credentials =
+    const apiSecrets =
       process.env.SF_API_CLIENT_ID && process.env.SF_API_SECRET ? true : false;
 
     // Set Context Key
@@ -180,11 +206,11 @@ export default class FirmHandler {
     vscode.commands.executeCommand(
       "setContext",
       "silverfin-development-toolkit.apiAuthorized",
-      credentials
+      apiSecrets
     );
 
-    this.output.appendLine(`Credentials stored: ${credentials}`);
-    return credentials;
+    this.output.appendLine(`[FirmHandler] API secrets: ${apiSecrets}`);
+    return apiSecrets;
   }
 
   private async openBrowserAuth(firmId: string) {
