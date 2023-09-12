@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.10.5]
+
+- Update liquid language configuration
+
 ## [1.10.4]
 
 - Reload the stored credentials when needed. It was only done when the extension was loaded previously.
