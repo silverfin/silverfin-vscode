@@ -107,8 +107,16 @@
       "}}"
     ],
     [
+      "{{ ",
+      " }}"
+    ],
+    [
       "{%",
       "%}"
+    ],
+    [
+      "{% ",
+      " %}"
     ],
     [
       "[",
@@ -167,7 +175,7 @@
     ]
   ],
   "indentationRules": {
-    "increaseIndentPattern": "(<(?!\\/|area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr|!--)[^>\\n]+>|{%-?\\s+(?:if|form|comment|case|when|for|unless)[^}%]*?-?%}|<!--[^>\\n]*|<(?!\\/)[^>\\n]+|{%(?:(?!%}).)*|{{(?:(?!}}).)*|{(?:(?!}).)*|\\[(?:(?!\\]).)*|\\((?:(?!\\)).)*|^\\s*>)$",
-    "decreaseIndentPattern": "^\\s*(<\\/[^>]+>|{%-?\\s+(?:endif|endform|endcomment|endcase|endwhen|endfor|endunless).*?-?%}|%}|}}|>|\\/>|-->|}|\\)|\\])"
+    "increaseIndentPattern": "(<(?!\\/|area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr|!--)[^>\\n]+>|{%-?\\s+(?:if|unless|capture|comment|case|when|for|fori|adjustmentbutton|addnewinputs|stripnewlines|locale|currencyconfiguration)[^}%]*?-?%}|<!--[^>\\n]*|<(?!\\/)[^>\\n]+|{%(?:(?!%}).)*|{{(?:(?!}}).)*|{(?:(?!}).)*|\\[(?:(?!\\]).)*|\\((?:(?!\\)).)*|^\\s*>)$",
+    "decreaseIndentPattern": "^\\s*(<\\/[^>]+>|{%-?\\s+(?:endif|endunless|endcapture|endcomment|endcase|endwhen|endfor|endfori|endadjustmentbutton|endaddnewinputs|endstripnewlines|endlocale|endcurrencyconfiguration).*?-?%}|%}|}}|>|\\/>|-->|}|\\)|\\])"
   }
 }

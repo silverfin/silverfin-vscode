@@ -20,11 +20,16 @@ exports.voidElements = [
 
 exports.openingLiquidTags = [
   "if",
+  "unless",
   "capture",
-  "form",
   "comment",
   "case",
   "when",
   "for",
-  "unless",
+  "fori",
+  "adjustmentbutton",
+  "addnewinputs",
+  "stripnewlines",
+  "locale",
+  "currencyconfiguration",
 ];
