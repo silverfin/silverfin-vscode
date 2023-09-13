@@ -1,0 +1,181 @@
+{
+  "comments": {
+    "blockComment": [
+      "{% comment %}",
+      "{% endcomment %}"
+    ]
+  },
+  "brackets": [
+    [
+      "<",
+      ">"
+    ],
+    [
+      "{{-",
+      "-}}"
+    ],
+    [
+      "{{-",
+      "}}"
+    ],
+    [
+      "{{",
+      "-}}"
+    ],
+    [
+      "{{",
+      "}}"
+    ],
+    [
+      "{%-",
+      "-%}"
+    ],
+    [
+      "{%-",
+      "%}"
+    ],
+    [
+      "{%",
+      "-%}"
+    ],
+    [
+      "{%",
+      "%}"
+    ],
+    [
+      "[",
+      "]"
+    ],
+    [
+      "(",
+      ")"
+    ]
+  ],
+  "colorizedBracketPairs": [
+    [
+      "{{-",
+      "-}}"
+    ],
+    [
+      "{{-",
+      "}}"
+    ],
+    [
+      "{{",
+      "-}}"
+    ],
+    [
+      "{{",
+      "}}"
+    ],
+    [
+      "{%",
+      "%}"
+    ],
+    [
+      "{%-",
+      "-%}"
+    ],
+    [
+      "{%-",
+      "%}"
+    ],
+    [
+      "{%",
+      "-%}"
+    ],
+    [
+      "[",
+      "]"
+    ],
+    [
+      "(",
+      ")"
+    ],
+    [
+      "{",
+      "}"
+    ]
+  ],
+  "autoClosingPairs": [
+    [
+      "{",
+      "}"
+    ],
+    [
+      "{{",
+      "}}"
+    ],
+    [
+      "{{ ",
+      " }}"
+    ],
+    [
+      "{%",
+      "%}"
+    ],
+    [
+      "{% ",
+      " %}"
+    ],
+    [
+      "[",
+      "]"
+    ],
+    [
+      "(",
+      ")"
+    ],
+    [
+      "\"",
+      "\""
+    ],
+    [
+      "'",
+      "'"
+    ],
+    [
+      "<",
+      ">"
+    ]
+  ],
+  "autoCloseBefore": "%-:.,=}])>'\"` \n\t",
+  "surroundingPairs": [
+    [
+      "-",
+      "-"
+    ],
+    [
+      "<",
+      ">"
+    ],
+    [
+      "{",
+      "}"
+    ],
+    [
+      "[",
+      "]"
+    ],
+    [
+      "(",
+      ")"
+    ],
+    [
+      "'",
+      "'"
+    ],
+    [
+      "\"",
+      "\""
+    ],
+    [
+      "`",
+      "`"
+    ]
+  ],
+  "indentationRules": {
+    "increaseIndentPattern": "(<(?!\\/|area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr|!--)[^>\\n]+>|{%-?\\s+(?:if|unless|capture|comment|case|when|for|fori|adjustmentbutton|addnewinputs|stripnewlines|locale|currencyconfiguration)[^}%]*?-?%}|<!--[^>\\n]*|<(?!\\/)[^>\\n]+|{%(?:(?!%}).)*|{{(?:(?!}}).)*|{(?:(?!}).)*|\\[(?:(?!\\]).)*|\\((?:(?!\\)).)*|^\\s*>)$",
+    "decreaseIndentPattern": "^\\s*(<\\/[^>]+>|{%-?\\s+(?:endif|endunless|endcapture|endcomment|endcase|endwhen|endfor|endfori|endadjustmentbutton|endaddnewinputs|endstripnewlines|endlocale|endcurrencyconfiguration).*?-?%}|%}|}}|>|\\/>|-->|}|\\)|\\])"
+  }
+}
