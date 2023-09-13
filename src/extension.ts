@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import insertAutoCloseTag from "./lib/autoCloseTag";
 import LiquidDiagnostics from "./lib/diagnostics/liquidDiagnostics";
 import FirmHandler from "./lib/firmHandler";
 import LiquidLinter from "./lib/liquidLinter";
@@ -10,7 +11,6 @@ import { TemplateInformationViewProvider } from "./lib/sidebar/panelTemplateInfo
 import { TemplatePartsViewProvider } from "./lib/sidebar/panelTemplateParts";
 import StatusBarItem from "./lib/statusBar/statusBarItem";
 import * as diagnosticsUtils from "./utilities/diagnosticsUtils";
-import insertAutoCloseTag from "./lib/autoCloseTag";
 
 export async function activate(context: vscode.ExtensionContext) {
   // Initializers
@@ -18,7 +18,7 @@ export async function activate(context: vscode.ExtensionContext) {
   const firmHandler = new FirmHandler(outputChannel);
   const statusBarItemRunTests = new StatusBarItem(
     context,
-    firmHandler.credentials
+    firmHandler.apiSecretsPresent
   );
   const liquidLinter = new LiquidLinter(outputChannel);
   const liquidTest = new LiquidTest(context, outputChannel);
@@ -33,6 +33,7 @@ export async function activate(context: vscode.ExtensionContext) {
   firmHandler.statusBarItem = statusBarItemRunTests;
   liquidTest.statusBarItem = statusBarItemRunTests;
   liquidTest.firmHandler = firmHandler;
+  liquidLinter.firmHandler = firmHandler;
 
   // Command to set Firm ID via prompt and store it
   context.subscriptions.push(

@@ -30,7 +30,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
   // Section's html created based on the ActiveTextEditor
   public async setContent(webviewView: vscode.WebviewView) {
     utils.setCWD();
-    const firmId = panelUtils.getFirmIdStored();
+    const firmId = await panelUtils.getFirmIdStored();
     const configData = await templateUtils.getTemplateConfigData();
     let htmlContent = "";
 

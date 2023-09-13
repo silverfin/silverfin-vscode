@@ -67,7 +67,8 @@ export default class LiquidTest {
       }
 
       const firmId = await this.firmHandler.setFirmID();
-      const firmTokensPresent = this.firmHandler.checkFirmCredentials();
+      const firmTokensPresent =
+        await this.firmHandler.getAuthorizedDefaultFirmId();
 
       if (!firmTokensPresent) {
         this.output.appendLine("[Liquid Test] Firm credentials not found");
@@ -143,7 +144,8 @@ export default class LiquidTest {
       }
 
       let firmId = await this.firmHandler.setFirmID();
-      const firmTokensPresent = this.firmHandler.checkFirmCredentials();
+      const firmTokensPresent =
+        await this.firmHandler.getAuthorizedDefaultFirmId();
 
       if (!firmTokensPresent) {
         this.output.appendLine("[Liquid Test] Firm credentials not found");
