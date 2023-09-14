@@ -610,17 +610,17 @@
     "description": "Use html to create a table with more customization."
   },
   "HTML thead tag": {
-    "prefix": "<thead>",
+    "prefix": "thead",
     "body": ["<thead>", "\t${1:content}", "</thead>"],
     "description": "HTML header tag"
   },
   "HTML tbody tag": {
-    "prefix": "<tbody>",
+    "prefix": "tbody",
     "body": ["<tbody>", "\t${1:content}", "</tbody>"],
     "description": "HTML body tag"
   },
   "HTML tablerow tag": {
-    "prefix": "<tr>",
+    "prefix": "tr",
     "body": [
       "<tr>",
       "\t<td class=\"\">${6:content}</td>",
@@ -630,32 +630,32 @@
     "description": "HTML row tag"
   },
   "HTML tableheader tag": {
-    "prefix": "<th>",
+    "prefix": "th",
     "body": "<th>${2:content}</th>",
     "description": "HTML sub header tag"
   },
   "HTML tabledata tag": {
-    "prefix": "<td>",
+    "prefix": "td",
     "body": "<td>${1:content}</td>",
     "description": "HTML sub body tag"
   },
   "HTML break tag": {
-    "prefix": "<br>",
+    "prefix": "br",
     "body": "<br>",
     "description": "HTML line break tag"
   },
   "HTML bold tag": {
-    "prefix": "<b>",
+    "prefix": "b",
     "body": "<b>${1:content}</b>",
     "description": "HTML bold tag"
   },
   "HTML italic tag": {
-    "prefix": "<i>",
+    "prefix": "i",
     "body": "<i>${1:content}</i>",
     "description": "HTML italic tag"
   },
   "HTML underline tag": {
-    "prefix": "<u>",
+    "prefix": "u",
     "body": "<u>${1:content}</u>",
     "description": "HTML underline tag"
   },

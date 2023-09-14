@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.12.0]
+
+- Update liquid testing JSON schema
+
 ## [1.11.1]
 
 - Update `tr` element snippet to align it with `table` and include two `td` with classes.
