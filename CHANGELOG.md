@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.11.0]
+
+- Display the firm name next to the firm id in the sidebar
+
 ## [1.10.5]
 
 - Update liquid language configuration

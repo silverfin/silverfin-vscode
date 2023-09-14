@@ -60,7 +60,7 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
 
     const firmId = await panelUtils.getFirmIdStored();
     await firmCredentials.loadCredentials(); // refresh credentials
-    const firmData = await firmCredentials.listStoredIds(firmId);
+    const firmData = await firmCredentials.listAuthorizedFirms(firmId); // [[firmId, firmName]...]
     const usedInFirmsRows = templateUsedInFirmsData
       .map((item: TemplateUsedInFirmData) => {
         let templateUrl = `https://live.getsilverfin.com/f/${item.firmId}/${item.templateType}/${item.templateId}/edit`;
@@ -82,13 +82,13 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
     const authorizedFirmsRows = firmData
       .map((firm: string) => {
         let activeFirmTag = "";
-        if (firm.toString() === firmId.toString()) {
+        if (firm[0].toString() === firmId.toString()) {
           activeFirmTag = /*html*/ `<vscode-tag>Active</vscode-tag>`;
         }
-        let firmUrl = `https://live.getsilverfin.com/f/${firm}`;
+        let firmUrl = `https://live.getsilverfin.com/f/${firm[0]}`;
         return /*html*/ `<vscode-data-grid-row>
                   <vscode-data-grid-cell grid-column="1">
-                      ${firm}
+                      ${firm[0]} ${firm[1] ? `(${firm[1]})` : ""}
                   </vscode-data-grid-cell>
                   <vscode-data-grid-cell grid-column="2"  class="vs-actions">
                     ${activeFirmTag}
@@ -119,7 +119,7 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
       /*html*/
       `<vscode-data-grid-row row-type="sticky-header" grid-template-columns="1">
         <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
-          Authorized firm IDs
+          Authorized firms
         </vscode-data-grid-cell>
         <vscode-data-grid-cell cell-type="columnheader" grid-column="2" class="vs-actions">
           <vscode-button appearance="icon" aria-label="authorize-new-firm" class="auth-new-firm" title="Authorize a new firm">
