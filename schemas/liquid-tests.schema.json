@@ -18,6 +18,10 @@
             "rollforward_period": { "type": "string", "format": "date" },
             "account": { "type": "string" },
             "configuration": { "type": "string" },
+            "show_original_accounts_in_reconciliations": {
+              "type": "boolean",
+              "default": false
+            },
             "locale": {
               "type": "string",
               "enum": [
@@ -547,8 +551,73 @@
                 "sync_reference": { "type": "string" },
                 "periods_per_year": { "type": "integer", "enum": [1, 4, 12] },
                 "year_end": { "type": "string", "format": "date" },
-                "custom": { "$ref": "#/$defs/textProperty" }
+                "custom": { "$ref": "#/$defs/textProperty" },
+                "locales": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "nl",
+                      "fr",
+                      "en",
+                      "de",
+                      "da",
+                      "es",
+                      "fi",
+                      "it",
+                      "nb",
+                      "pl",
+                      "se",
+                      "cs",
+                      "ar",
+                      "az",
+                      "bs",
+                      "bg",
+                      "el",
+                      "et",
+                      "hr",
+                      "hu",
+                      "id",
+                      "is",
+                      "ja",
+                      "ka",
+                      "kk",
+                      "km",
+                      "ko",
+                      "lt",
+                      "lv",
+                      "pt",
+                      "ro",
+                      "ru",
+                      "sk",
+                      "sl",
+                      "sr",
+                      "th",
+                      "tr",
+                      "uk",
+                      "vi",
+                      "zh",
+                      "ca"
+                    ]
+                  }
+                }
               }
+            },
+            "analytical_dimensions": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "propertyNames": {
+                    "type": "string",
+                    "enum": ["1", "2", "3", "4"]
+                  },
+                  "patternProperties": {
+                    "": { "$ref": "#/$defs/analytical_dimension" }
+                  }
+                },
+                { "type": "null" }
+              ]
             }
           }
         },
@@ -573,7 +642,51 @@
         "id": { "type": "number" },
         "value": { "type": "number" },
         "name": { "type": "string" },
-        "custom": { "$ref": "#/$defs/textProperty" }
+        "original_name": { "type": "string" },
+        "custom": { "$ref": "#/$defs/textProperty" },
+        "mapped_number": { "type": "string" },
+        "starred": { "type": "boolean" },
+        "results": { "$ref": "#/$defs/namedResult" }
+      }
+    },
+    "analytical_dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "propertyNames": { "type": "string" },
+      "patternProperties": {
+        "": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["periods"],
+          "properties": {
+            "code": { "type": "number" },
+            "periods": {
+              "type": "object",
+              "additionalProperties": false,
+              "propertyNames": { "type": "string", "format": "date" },
+              "patternProperties": {
+                "": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["accounts"],
+                  "properties": {
+                    "accounts": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "patternProperties": {
+                        "": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": { "value": { "type": "number" } }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "reconciliation": {
@@ -591,6 +704,35 @@
         },
         { "type": "null" }
       ]
+    },
+    "adjustment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "purpose": { "type": "string" },
+        "type": {
+          "oneOf": [
+            { "type": "string", "enum": ["reverse", "forward", "copy"] },
+            { "type": "null" }
+          ]
+        },
+        "forward_account": { "type": "number" },
+        "transactions": {
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": { "": { "$ref": "#/$defs/transaction" } }
+        }
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "value": { "type": "number" },
+        "relation": { "type": "string" },
+        "account": { "type": "number" }
+      }
     },
     "textProperty": {
       "type": "object",
@@ -633,6 +775,31 @@
               "additionalProperties": false,
               "patternProperties": { "": { "$ref": "#/$defs/account" } }
             },
+            "adjustments": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "internal": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "patternProperties": {
+                        "^[0-9]+$": { "$ref": "#/$defs/adjustment" }
+                      }
+                    },
+                    "external": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "patternProperties": {
+                        "^[0-9]+$": { "$ref": "#/$defs/adjustment" }
+                      }
+                    }
+                  }
+                },
+                { "type": "null" }
+              ]
+            },
             "reconciliations": {
               "type": "object",
               "additionalProperties": false,
@@ -641,6 +808,22 @@
             "people": {
               "type": "object",
               "patternProperties": { "": { "$ref": "#/$defs/person" } }
+            },
+            "custom": { "$ref": "#/$defs/textProperty" },
+            "reports": {
+              "type": "object",
+              "additionalProperties": false,
+              "patternProperties": { "": { "$ref": "#/$defs/report" } }
+            },
+            "account_mapping_list": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name"],
+              "properties": {
+                "id": { "type": "number" },
+                "name": { "type": "string" },
+                "marketplace_template_id": { "type": "number" }
+              }
             }
           }
         },
@@ -661,11 +844,12 @@
             "address_2": { "type": "string" },
             "shareholder": { "type": "boolean" },
             "director": { "type": "boolean" },
+            "director_start_date": { "type": "string", "format": "date" },
+            "director_end_date": { "type": "string", "format": "date" },
             "statutory": { "type": "boolean" },
             "email": { "type": "string" },
             "phone": { "type": "string" },
-            "role": { "type": "string" },
-            "custom": { "$ref": "#/$defs/objectTextProperty" }
+            "role": { "type": "string" }
           }
         },
         {
@@ -680,14 +864,51 @@
             "address_2": { "type": "string" },
             "shareholder": { "type": "boolean" },
             "director": { "type": "boolean" },
+            "director_start_date": { "type": "string", "format": "date" },
+            "director_end_date": { "type": "string", "format": "date" },
+            "statutory": { "type": "boolean" },
+            "email": { "type": "string" },
+            "phone": { "type": "string" },
+            "role": { "type": "string" },
+            "custom": { "$ref": "#/$defs/objectTextProperty" }
+          },
+          "required": ["custom"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string" },
+            "id": { "type": "number" },
+            "amount_of_shares": { "type": "number" },
+            "amount_of_votes": { "type": "number" },
+            "address_1": { "type": "string" },
+            "address_2": { "type": "string" },
+            "shareholder": { "type": "boolean" },
+            "director": { "type": "boolean" },
+            "director_start_date": { "type": "string", "format": "date" },
+            "director_end_date": { "type": "string", "format": "date" },
             "statutory": { "type": "boolean" },
             "email": { "type": "string" },
             "phone": { "type": "string" },
             "role": { "type": "string" },
             "payload": { "$ref": "#/$defs/objectTextProperty" }
-          }
+          },
+          "required": ["payload"]
         }
       ]
+    },
+    "report": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "results": {
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": { "^[^\\.]+$": { "type": "number" } }
+        }
+      }
     }
   }
 }
