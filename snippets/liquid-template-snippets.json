@@ -621,7 +621,12 @@
   },
   "HTML tablerow tag": {
     "prefix": "tr",
-    "body": ["<tr>", "\t<td>", "\t\t${1:content}", "\t</td>", "</tr>"],
+    "body": [
+      "<tr>",
+      "\t<td class=\"\">${6:content}</td>",
+      "\t<td class=\"\">${6:content}</td>",
+      "</tr>"
+    ],
     "description": "HTML row tag"
   },
   "HTML tableheader tag": {
