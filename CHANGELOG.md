@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.12.1]
+
+- Fix HTML panel view when running a liquid test
+
 ## [1.12.0]
 
 - Update liquid testing JSON schema

@@ -10,11 +10,14 @@ export default class LiquidTest {
   errorsCollection: vscode.DiagnosticCollection;
   output: vscode.OutputChannel;
   context: vscode.ExtensionContext;
-  currentYamlDocument: vscode.TextDocument | undefined;
+  currentYamlDocument!: vscode.TextDocument;
   statusBarItem: any;
   firmHandler: any;
   htmlPanel: vscode.WebviewPanel | undefined;
   firstRowRange: vscode.Range;
+  templateHandle: string | false = false;
+  firmId: Number | undefined = undefined;
+  optionAllTests = "Run all Liquid Tests";
   constructor(
     context: vscode.ExtensionContext,
     outputChannel: vscode.OutputChannel
@@ -23,7 +26,6 @@ export default class LiquidTest {
       vscode.languages.createDiagnosticCollection(`LiquidTestCollection`);
     this.output = outputChannel;
     this.context = context;
-    this.currentYamlDocument = undefined;
     this.htmlPanel = undefined;
     this.firstRowRange = new vscode.Range(
       new vscode.Position(0, 0),
@@ -34,64 +36,18 @@ export default class LiquidTest {
   // Run Test Command
   public async runAllTestsCommand() {
     try {
-      utils.setCWD();
-      this.output.appendLine(
-        `[Liquid Test] Current working directory: ${process.cwd()}`
-      );
-      // Check right file
-      let checksPassed = await this.checkFilePath();
-
-      if (!checksPassed) {
-        this.output.appendLine("[Liquid Test] File checks failed");
+      const prepared = this.prepareToRun();
+      if (!prepared) {
         return;
       }
-      // Get template handle
-      let templateHandle = await templateUtils.getTemplateHandle();
-
-      if (!templateHandle) {
-        this.output.appendLine("[Liquid Test] Template handle not found");
-        return;
-      }
-
-      // Check active tab and get document
-      if (!vscode.window.activeTextEditor) {
-        this.output.appendLine(`[Liquid Test] No active text editor found`);
-        return;
-      }
-      this.currentYamlDocument = vscode.window.activeTextEditor.document;
-
-      // Get Firm
-      if (!this.firmHandler) {
-        this.output.appendLine("[Liquid Test] Firm handler not found");
-        return;
-      }
-
-      const firmId = await this.firmHandler.setFirmID();
-      const firmTokensPresent =
-        await this.firmHandler.getAuthorizedDefaultFirmId();
-
-      if (!firmTokensPresent) {
-        this.output.appendLine("[Liquid Test] Firm credentials not found");
-        return;
-      }
-
-      // Run Test
-      if (this.statusBarItem) {
-        this.statusBarItem.setStateRunning();
-      }
+      // Test Run
+      this.setStatusBarRunning();
       let response: types.ResponseObject = await sfCliLiquidTestRunner.runTests(
-        firmId,
-        templateHandle
+        this.firmId,
+        this.templateHandle
       );
-      if (this.statusBarItem) {
-        this.statusBarItem.setStateIdle();
-      }
-      this.output.appendLine(
-        `[Liquid Test] Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
-          response
-        )}`
-      );
-
+      this.setStatusBarIdle();
+      this.outputResponse(response);
       if (!response) {
         // Unhandled errors
         vscode.window.showErrorMessage(
@@ -99,7 +55,6 @@ export default class LiquidTest {
         );
         return;
       }
-
       // Process response and update collection
       this.processResponse(
         this.currentYamlDocument,
@@ -114,41 +69,8 @@ export default class LiquidTest {
 
   public async runTestWithOptionsCommand() {
     try {
-      utils.setCWD();
-
-      const allTests = "Run all Liquid Tests";
-      // Check right file
-      let checksPassed = await this.checkFilePath();
-      if (!checksPassed) {
-        this.output.appendLine("[Liquid Test] File checks failed");
-        return;
-      }
-      // Get template handle
-      let templateHandle = await templateUtils.getTemplateHandle();
-      if (!templateHandle) {
-        this.output.appendLine("[Liquid Test] Template handle not found");
-        return;
-      }
-
-      // Check active tab and get document
-      if (!vscode.window.activeTextEditor) {
-        this.output.appendLine(`[Liquid Test] No active text editor found`);
-        return;
-      }
-      this.currentYamlDocument = vscode.window.activeTextEditor.document;
-
-      // Get Firm Stored
-      if (!this.firmHandler) {
-        this.output.appendLine("[Liquid Test] Firm handler not found");
-        return;
-      }
-
-      let firmId = await this.firmHandler.setFirmID();
-      const firmTokensPresent =
-        await this.firmHandler.getAuthorizedDefaultFirmId();
-
-      if (!firmTokensPresent) {
-        this.output.appendLine("[Liquid Test] Firm credentials not found");
+      const prepared = this.prepareToRun();
+      if (!prepared) {
         return;
       }
 
@@ -156,49 +78,30 @@ export default class LiquidTest {
       const testNamesandRows = this.findTestNamesAndRows(
         this.currentYamlDocument
       );
-
       const testNames = Object.keys(testNamesandRows);
-      testNames.unshift(allTests);
-
+      testNames.unshift(this.optionAllTests);
       // Select Test to be run
-      const testSelected = await vscode.window.showQuickPick(testNames);
-
+      let testSelected = await vscode.window.showQuickPick(testNames);
       if (!testSelected) {
         this.output.appendLine(
           "[Liquid Test] Couldn't find any tests to select"
         );
         return;
       }
-
-      // Run Test
-      if (this.statusBarItem) {
-        this.statusBarItem.setStateRunning();
-      }
-
-      let response: types.ResponseObject;
-      if (testSelected === allTests) {
-        // Run all tests without HTML
-        response = await sfCliLiquidTestRunner.runTests(firmId, templateHandle);
-      } else {
-        // Run specific test with HTML
-        response = await sfCliLiquidTestRunner.runTests(
-          firmId,
-          templateHandle,
-          testSelected,
-          true
-        );
-      }
-
-      if (this.statusBarItem) {
-        this.statusBarItem.setStateIdle();
-      }
-
-      this.output.appendLine(
-        `[Liquid Test] Firm ID: ${firmId}. Template: ${templateHandle}. Response: ${JSON.stringify(
-          response
-        )}`
+      let testName = testSelected === this.optionAllTests ? "" : testSelected;
+      let htmlRenderMode: types.htmlRenderModes =
+        testSelected === this.optionAllTests ? "none" : "input";
+      // Test Run
+      this.setStatusBarRunning();
+      let response: types.ResponseObject = await sfCliLiquidTestRunner.runTests(
+        this.firmId,
+        this.templateHandle,
+        testName,
+        false,
+        htmlRenderMode
       );
-
+      this.setStatusBarIdle();
+      this.outputResponse(response);
       if (!response) {
         // Unhandled errors
         vscode.window.showErrorMessage(
@@ -206,7 +109,6 @@ export default class LiquidTest {
         );
         return;
       }
-
       // Process response and update collection
       this.processResponse(
         this.currentYamlDocument,
@@ -215,37 +117,8 @@ export default class LiquidTest {
       );
 
       // HANDLE HTML PANEL
-      if (this.htmlPanel) {
-        this.htmlPanel.dispose();
-        this.htmlPanel = undefined;
-      }
-      if (testSelected !== allTests) {
-        try {
-          await sfCliLiquidTestRunner.getHTML(
-            response.tests[testSelected].html,
-            testSelected
-          );
-          // Open File
-          const filePath = sfCliLiquidTestRunner.resolveHTMLPath(testSelected);
-          const fs = require("fs");
-          const fileContent = fs.readFileSync(filePath, "utf8");
-          if (!this.htmlPanel) {
-            this.htmlPanel = vscode.window.createWebviewPanel(
-              "htmlWebView",
-              "HTML View",
-              { viewColumn: vscode.ViewColumn.Two, preserveFocus: true }
-            );
-          }
-          // Display HTML
-          this.htmlPanel.webview.html = fileContent;
-        } catch (error) {
-          this.output.appendLine(`Error while opening HTML:`);
-          this.output.appendLine(JSON.stringify(error));
-          if (this.htmlPanel) {
-            this.htmlPanel.dispose();
-            this.htmlPanel = undefined;
-          } // close panel if open
-        }
+      if (testSelected !== this.optionAllTests) {
+        this.openHtmlPanel(response, testSelected);
       }
     } catch (error) {
       this.output.appendLine(
@@ -258,7 +131,7 @@ export default class LiquidTest {
   // Process errors, create Diagnostic Objects with all the needed information
   private createDiagnostics(
     document: vscode.TextDocument,
-    testFeedback: types.testObject
+    testFeedback: types.TestObject
   ): types.DiagnosticObject[] {
     const collectionArray: types.DiagnosticObject[] = [];
     const testNames = Object.keys(testFeedback);
@@ -372,14 +245,15 @@ export default class LiquidTest {
     response: types.ResponseObject
   ): void {
     let collectionArray: types.DiagnosticObject[] = [];
-    switch (response.status) {
+    let testRun = response.testRun;
+    switch (testRun.status) {
       case "completed":
         const errorsPresent = sfCliLiquidTestRunner.checkAllTestsErrorsPresent(
-          response.tests
+          testRun.tests
         );
         if (errorsPresent) {
           // Errors present after liquid test run
-          collectionArray = this.createDiagnostics(document, response.tests);
+          collectionArray = this.createDiagnostics(document, testRun.tests);
           collection.set(document.uri, collectionArray);
         } else {
           // No errors after liquid test
@@ -395,31 +269,28 @@ export default class LiquidTest {
         // Error that prevented the Liquid Test to be run
         let diagnosticRange: vscode.Range;
         if (
-          response.error_line_number &&
-          response.hasOwnProperty("error_line_number")
+          testRun.error_line_number &&
+          testRun.hasOwnProperty("error_line_number")
         ) {
           let highlightStartIndex = document.lineAt(
-            response.error_line_number - 1
+            testRun.error_line_number - 1
           ).firstNonWhitespaceCharacterIndex;
           let highlighEndIndex =
-            document.lineAt(response.error_line_number - 1).text.split("")
+            document.lineAt(testRun.error_line_number - 1).text.split("")
               .length + 1;
           diagnosticRange = new vscode.Range(
             new vscode.Position(
-              response.error_line_number - 1,
+              testRun.error_line_number - 1,
               highlightStartIndex
             ),
-            new vscode.Position(
-              response.error_line_number - 1,
-              highlighEndIndex
-            )
+            new vscode.Position(testRun.error_line_number - 1, highlighEndIndex)
           );
         } else {
           diagnosticRange = this.firstRowRange;
         }
         let diagnosticMessage;
-        if (response.error_message) {
-          diagnosticMessage = response.error_message;
+        if (testRun.error_message) {
+          diagnosticMessage = testRun.error_message;
         } else {
           diagnosticMessage = "Error message not provided";
         }
@@ -531,5 +402,103 @@ export default class LiquidTest {
     }
 
     return true;
+  }
+
+  private async prepareToRun() {
+    utils.setCWD();
+    this.output.appendLine(
+      `[Liquid Test] Current working directory: ${process.cwd()}`
+    );
+    // Check right file
+    let checksPassed = await this.checkFilePath();
+    if (!checksPassed) {
+      this.output.appendLine("[Liquid Test] File checks failed");
+      return false;
+    }
+    // Get template handle
+    this.templateHandle = await templateUtils.getTemplateHandle();
+    if (!this.templateHandle) {
+      this.output.appendLine("[Liquid Test] Template handle not found");
+      return false;
+    }
+    // Check active tab and get document
+    if (!vscode.window.activeTextEditor) {
+      this.output.appendLine(`[Liquid Test] No active text editor found`);
+      return false;
+    }
+    this.currentYamlDocument = vscode.window.activeTextEditor.document;
+    // Get Firm
+    if (!this.firmHandler) {
+      this.output.appendLine("[Liquid Test] Firm handler not found");
+      return false;
+    }
+    this.firmId = await this.firmHandler.setFirmID();
+    // Check firm credentials
+    const firmTokensPresent =
+      await this.firmHandler.getAuthorizedDefaultFirmId();
+    if (!firmTokensPresent) {
+      this.output.appendLine("[Liquid Test] Firm credentials not found");
+      return false;
+    }
+  }
+
+  private async openHtmlPanel(
+    response: types.ResponseObject,
+    testSelected: string
+  ) {
+    if (this.htmlPanel) {
+      this.htmlPanel.dispose();
+      this.htmlPanel = undefined;
+    }
+    try {
+      await sfCliLiquidTestRunner.getHTML(
+        response.previewRun.tests[testSelected].html_input,
+        testSelected,
+        false,
+        "html_input"
+      );
+      // Open File
+      const filePath = sfCliLiquidTestRunner.resolveHTMLPath(
+        `${testSelected}_html_input`
+      );
+      const fs = require("fs");
+      const fileContent = fs.readFileSync(filePath, "utf8");
+      if (!this.htmlPanel) {
+        this.htmlPanel = vscode.window.createWebviewPanel(
+          "htmlWebView",
+          "HTML View",
+          { viewColumn: vscode.ViewColumn.Two, preserveFocus: true }
+        );
+      }
+      // Display HTML
+      this.htmlPanel.webview.html = fileContent;
+    } catch (error) {
+      this.output.appendLine(`Error while opening HTML:`);
+      this.output.appendLine(JSON.stringify(error));
+      // close panel if open
+      if (this.htmlPanel) {
+        this.htmlPanel.dispose();
+        this.htmlPanel = undefined;
+      }
+    }
+  }
+
+  private setStatusBarRunning() {
+    if (this.statusBarItem) {
+      this.statusBarItem.setStateRunning();
+    }
+  }
+  private setStatusBarIdle() {
+    if (this.statusBarItem) {
+      this.statusBarItem.setStateIdle();
+    }
+  }
+
+  private outputResponse(response: types.ResponseObject) {
+    this.output.appendLine(
+      `[Liquid Test] Firm ID: ${this.firmId}. Template: ${
+        this.templateHandle
+      }. ${JSON.stringify({ response })}`
+    );
   }
 }
