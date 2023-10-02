@@ -1,7 +1,7 @@
 {
   "name": "silverfin-development-toolkit",
   "displayName": "Silverfin Development Toolkit",
-  "version": "1.12.0",
+  "version": "1.12.1",
   "publisher": "Silverfin",
   "icon": "resources/sf-icon.png",
   "engines": {
@@ -110,7 +110,7 @@
       },
       {
         "command": "silverfin-development-toolkit.runTestWithOptions",
-        "title": "Silverfin: run specific liquid test (with HTML output)"
+        "title": "Silverfin: run specific liquid test (with HTML output from Input view)"
       },
       {
         "command": "silverfin-development-toolkit.setFirm",

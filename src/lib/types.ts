@@ -13,21 +13,41 @@ export type ResultObj = {
   [key: string]: ResultDetails;
 };
 
-export type testObject = {
+export type TestObject = {
   [key: string]: {
     reconciled: ResultDetails | null;
     results: ResultObj | {};
     rollforwards: ResultObj | {};
-    html?: string;
   };
 };
 
 export type ResponseObject = {
-  status: "completed" | "internal_error" | "test_error" | "started";
-  tests: testObject;
+  testRun: TestRun;
+  previewRun: PreviewRun;
+};
+
+export type TestRun = {
+  status: TestStatus;
+  tests: TestObject;
   error_line_number?: number;
   error_message?: string;
 };
+
+export type PreviewRun = {
+  status: TestStatus;
+  tests: {
+    [key: string]: {
+      html_input?: string;
+      html_preview?: string;
+    };
+  };
+};
+
+export type TestStatus =
+  | "completed"
+  | "internal_error"
+  | "test_error"
+  | "started";
 
 export type DiagnosticObject = {
   range: vscode.Range;
@@ -82,3 +102,5 @@ export function diagnosticParser(
   };
   return diagnosticRecreated;
 }
+
+export type htmlRenderModes = "all" | "input" | "preview" | "none";
