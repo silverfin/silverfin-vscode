@@ -13,7 +13,10 @@ export function getTemplateHandle() {
   );
   const pathParts = filePath.split(posix.sep);
   const indexCheck = (element: string) =>
-    element === "shared_parts" || element === "reconciliation_texts";
+    element === "shared_parts" ||
+    element === "reconciliation_texts" ||
+    element === "export_files" ||
+    element === "account_templates";
   const index = pathParts.findIndex(indexCheck);
   if (index === -1) {
     return false;
@@ -22,7 +25,7 @@ export function getTemplateHandle() {
   return templateHandle;
 }
 
-// reconciliationText or sharedPart
+// reconciliationText, sharedPart, exportFile, accountTemplate
 export async function getTemplateType() {
   if (!vscode.window.activeTextEditor) {
     return false;
@@ -116,4 +119,43 @@ export async function getTemplateLiquidCode() {
     return false;
   }
   return vscode.window.activeTextEditor.document.getText();
+}
+
+// Check if liquid tests file exists and return its paths
+export async function getTemplateLiquidTestsPath() {
+  try {
+    utils.setCWD();
+    if (!vscode.window.activeTextEditor) {
+      return false;
+    }
+    const templateHandle = getTemplateHandle();
+    if (!templateHandle) {
+      return false;
+    }
+    const filePath = posix.resolve(
+      vscode.window.activeTextEditor.document.uri.path
+    );
+    const fileParts = filePath.split(posix.sep);
+    const indexCheck = (element: string) => element === templateHandle;
+    const index = fileParts.findIndex(indexCheck);
+    if (index === -1) {
+      return false;
+    }
+    const templatePath = fileParts.slice(0, index + 1).join(posix.sep);
+    const folderPath = posix.join(templatePath, "tests");
+    const yamlPath = posix.join(
+      folderPath,
+      `${templateHandle}_liquid_test.yml`
+    );
+    const yamlUri = vscode.window.activeTextEditor.document.uri.with({
+      path: yamlPath,
+    });
+    const yamlExists = await vscode.workspace.fs.stat(yamlUri);
+    if (!yamlExists) {
+      return false;
+    }
+    return yamlPath;
+  } catch (error) {
+    return false;
+  }
 }

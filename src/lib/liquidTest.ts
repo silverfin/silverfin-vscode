@@ -323,6 +323,20 @@ export default class LiquidTest {
     this.context.globalState.update(document.uri.toString(), collectionArray);
   }
 
+  // Return an array with the names of the tests associated to the current template
+  // It should be identified from liquid, yaml, config files (any related file of the template)
+  public async listTestNames() {
+    const yamlPath = await templateUtils.getTemplateLiquidTestsPath();
+    if (!yamlPath) {
+      return false;
+    }
+    const yamlUri = vscode.Uri.file(yamlPath);
+    const yamlDocument = await vscode.workspace.openTextDocument(yamlUri);
+    const testNamesAndRows = this.findTestNamesAndRows(yamlDocument);
+    const testNames = Object.keys(testNamesAndRows);
+    return testNames;
+  }
+
   // Return an array with the names of the unit tests and the row where they are located
   private findTestNamesAndRows(document: vscode.TextDocument) {
     const testContent = document.getText();

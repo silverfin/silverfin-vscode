@@ -9,6 +9,7 @@ import LiquidTestQuickFixes from "./lib/quickFixes/liquidTestsQuickFixes";
 import { FirmViewProvider } from "./lib/sidebar/panelFirm";
 import { TemplateInformationViewProvider } from "./lib/sidebar/panelTemplateInfo";
 import { TemplatePartsViewProvider } from "./lib/sidebar/panelTemplateParts";
+import { TestsViewProvider } from "./lib/sidebar/panelTests";
 import StatusBarItem from "./lib/statusBar/statusBarItem";
 import * as diagnosticsUtils from "./utilities/diagnosticsUtils";
 
@@ -193,6 +194,26 @@ export async function activate(context: vscode.ExtensionContext) {
       return;
     }
     templateInfoProvider.setContent(templateInfoProvider._view);
+  });
+  // Liquid Tests
+  const testsProvider = new TestsViewProvider(context.extensionUri, liquidTest);
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      TestsViewProvider.viewType,
+      testsProvider
+    )
+  );
+  vscode.window.onDidChangeActiveTextEditor(() => {
+    if (!testsProvider._view) {
+      return;
+    }
+    testsProvider.setContent(testsProvider._view);
+  });
+  vscode.workspace.onDidSaveTextDocument(() => {
+    if (!testsProvider._view) {
+      return;
+    }
+    testsProvider.setContent(testsProvider._view);
   });
   // Firm Info
   const firmInfoProvider = new FirmViewProvider(context.extensionUri);
