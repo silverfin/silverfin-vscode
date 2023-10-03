@@ -112,11 +112,15 @@
     "commands": [
       {
         "command": "silverfin-development-toolkit.runAllTests",
-        "title": "Silverfin: run all liquid tests"
+        "title": "Silverfin: run all liquid tests (without HTML output)"
       },
       {
-        "command": "silverfin-development-toolkit.runTestWithOptions",
+        "command": "silverfin-development-toolkit.runTestWithOptionsInputHtml",
         "title": "Silverfin: run specific liquid test (with HTML output from Input view)"
+      },
+      {
+        "command": "silverfin-development-toolkit.runTestWithOptionsPreviewHtml",
+        "title": "Silverfin: run specific liquid test (with HTML output from Preview)"
       },
       {
         "command": "silverfin-development-toolkit.setFirm",
@@ -138,23 +142,28 @@
     "keybindings": [
       {
         "command": "silverfin-development-toolkit.runAllTests",
-        "key": "ctrl+shift+a",
-        "mac": "cmd+shift+a"
+        "key": "shift+alt+a",
+        "mac": "shift+alt+a"
       },
       {
-        "command": "silverfin-development-toolkit.runTestWithOptions",
-        "key": "ctrl+shift+t",
-        "mac": "cmd+shift+t"
+        "command": "silverfin-development-toolkit.runTestWithOptionsInputHtml",
+        "key": "shift+alt+i",
+        "mac": "shift+alt+i"
+      },
+      {
+        "command": "silverfin-development-toolkit.runTestWithOptionsPreviewHtml",
+        "key": "shift+alt+p",
+        "mac": "shift+alt+p"
       },
       {
         "command": "silverfin-development-toolkit.clearCurrentDiagnosticCollection",
-        "key": "ctrl+shift+e",
-        "mac": "cmd+shift+e"
+        "key": "shift+alt+e",
+        "mac": "shift+alt+e"
       },
       {
         "command": "silverfin-development-toolkit.liquidLinter",
-        "key": "ctrl+shift+l",
-        "mac": "cmd+shift+l"
+        "key": "shift+alt+l",
+        "mac": "shift+alt+l"
       }
     ],
     "menus": {
@@ -164,7 +173,11 @@
           "when": "editorLangId == yaml && silverfin-development-toolkit.apiAuthorized"
         },
         {
-          "command": "silverfin-development-toolkit.runTestWithOptions",
+          "command": "silverfin-development-toolkit.runTestWithOptionsInputHtml",
+          "when": "editorLangId == yaml && silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.runTestWithOptionsPreviewHtml",
           "when": "editorLangId == yaml && silverfin-development-toolkit.apiAuthorized"
         },
         {

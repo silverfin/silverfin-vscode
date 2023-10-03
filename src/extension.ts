@@ -25,11 +25,6 @@ export async function activate(context: vscode.ExtensionContext) {
   const liquidTest = new LiquidTest(context, outputChannel);
   const liquidDiagnostics = new LiquidDiagnostics(context, outputChannel);
 
-  // Auto Close Tags
-  vscode.workspace.onDidChangeTextDocument((event) => {
-    insertAutoCloseTag(event);
-  });
-
   // References
   firmHandler.statusBarItem = statusBarItemRunTests;
   liquidTest.statusBarItem = statusBarItemRunTests;
@@ -114,12 +109,22 @@ export async function activate(context: vscode.ExtensionContext) {
     )
   );
 
-  // Command to run specific test
+  // Command to run specific test (with html input)
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "silverfin-development-toolkit.runTestWithOptions",
+      "silverfin-development-toolkit.runTestWithOptionsInputHtml",
       () => {
-        liquidTest.runTestWithOptionsCommand();
+        liquidTest.runTestWithOptionsCommand("input");
+      }
+    )
+  );
+
+  // Command to run specific test (with html preview)
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "silverfin-development-toolkit.runTestWithOptionsPreviewHtml",
+      () => {
+        liquidTest.runTestWithOptionsCommand("preview");
       }
     )
   );
@@ -245,6 +250,11 @@ export async function activate(context: vscode.ExtensionContext) {
       firmInfoProvider.setContent(firmInfoProvider._view);
     })
   );
+
+  // Auto Close Tags
+  vscode.workspace.onDidChangeTextDocument((event) => {
+    insertAutoCloseTag(event);
+  });
 }
 
 export function deactivate() {}

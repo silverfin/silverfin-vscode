@@ -104,3 +104,5 @@ export function diagnosticParser(
 }
 
 export type htmlRenderModes = "all" | "input" | "preview" | "none";
+
+export type htmlOpenModes = "input" | "preview";

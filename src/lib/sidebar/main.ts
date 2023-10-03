@@ -4,9 +4,11 @@
 import {
   provideVSCodeDesignSystem,
   vsCodeButton,
+  vsCodeCheckbox,
   vsCodeDataGrid,
   vsCodeDataGridCell,
   vsCodeDataGridRow,
+  vsCodeDropdown,
   vsCodeLink,
   vsCodeTag,
 } from "@vscode/webview-ui-toolkit";
@@ -17,6 +19,8 @@ provideVSCodeDesignSystem().register(vsCodeTag());
 provideVSCodeDesignSystem().register(vsCodeDataGrid());
 provideVSCodeDesignSystem().register(vsCodeDataGridRow());
 provideVSCodeDesignSystem().register(vsCodeDataGridCell());
+provideVSCodeDesignSystem().register(vsCodeCheckbox());
+provideVSCodeDesignSystem().register(vsCodeDropdown());
 
 const vscode = acquireVsCodeApi();
 
@@ -25,6 +29,7 @@ window.addEventListener("load", main);
 function main() {
   openFileButton();
   authNewFirmButton();
+  runTestButton();
 }
 
 // Add event listener to all buttons with class "open-file"
@@ -63,5 +68,41 @@ function authNewFirmButton() {
 function postMessageAuthNewFirm() {
   vscode.postMessage({
     type: "auth-new-firm",
+  });
+}
+
+// Add event listener to all buttons with class "run-test"
+// They should also have an attribute named "data-html-type" to identify the type of HTML to generate
+// They should also have an attribute named "data-test-name" to identify the test to run
+// They should also have an attribute named "data-template-type" to identify the template type (reconciliationText or accountTemplate)
+// They should also have an attribute named "data-template-handle" to identify the template handle
+// <vscode-button class="run-test" data-html-type="input" data-test-name="test_name">
+function runTestButton() {
+  const buttons = document.getElementsByClassName("run-test");
+  const buttonsArray = Array.from(buttons);
+  buttonsArray.forEach((element) => {
+    element?.addEventListener("click", () => {
+      postMessageRunTest(
+        element.getAttribute("data-template-type"),
+        element.getAttribute("data-template-handle"),
+        element.getAttribute("data-test-name"),
+        element.getAttribute("data-html-type")
+      );
+    });
+  });
+}
+
+function postMessageRunTest(
+  dataTemplateType: string | null,
+  dataTemplateHandle: string | null,
+  dataTestName: string | null,
+  dataHtmlType: string | null
+) {
+  vscode.postMessage({
+    type: "run-test",
+    templateType: dataTemplateType,
+    templateHandle: dataTemplateHandle,
+    testName: dataTestName,
+    htmlType: dataHtmlType,
   });
 }

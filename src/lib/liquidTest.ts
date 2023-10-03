@@ -10,14 +10,15 @@ export default class LiquidTest {
   errorsCollection: vscode.DiagnosticCollection;
   output: vscode.OutputChannel;
   context: vscode.ExtensionContext;
-  currentYamlDocument!: vscode.TextDocument;
+  yamlDocument!: vscode.TextDocument;
   statusBarItem: any;
   firmHandler: any;
   htmlPanel: vscode.WebviewPanel | undefined;
   firstRowRange: vscode.Range;
   templateHandle: string | false = false;
   firmId: Number | undefined = undefined;
-  optionAllTests = "Run all Liquid Tests";
+  optionAllTestsMsg = "Run all Liquid Tests (no html)";
+
   constructor(
     context: vscode.ExtensionContext,
     outputChannel: vscode.OutputChannel
@@ -33,69 +34,63 @@ export default class LiquidTest {
     );
   }
 
-  // Run Test Command
   public async runAllTestsCommand() {
     try {
       const prepared = this.prepareToRun();
-      if (!prepared) {
+      if (!prepared || !this.templateHandle) {
         return;
       }
-      // Test Run
-      this.setStatusBarRunning();
-      let response: types.ResponseObject = await sfCliLiquidTestRunner.runTests(
-        this.firmId,
-        this.templateHandle
-      );
-      this.setStatusBarIdle();
-      this.outputResponse(response);
-      if (!response) {
-        // Unhandled errors
-        vscode.window.showErrorMessage(
-          "Unexpected error: use the CLI to get more information"
-        );
-        return;
-      }
-      // Process response and update collection
-      this.processResponse(
-        this.currentYamlDocument,
-        this.errorsCollection,
-        response
-      );
+      this.runTest(this.templateHandle, "", false, "none");
     } catch (error) {
-      this.output.appendLine(`[Liquid Test] Error while running all tests:`);
-      this.output.appendLine(JSON.stringify(error));
+      this.outputLog(`Error while running command all tests`, { error });
     }
   }
 
-  public async runTestWithOptionsCommand() {
+  public async runTestWithOptionsCommand(mode: types.htmlOpenModes) {
     try {
       const prepared = this.prepareToRun();
-      if (!prepared) {
+      if (!prepared || !this.templateHandle) {
         return;
       }
+      const testName = await this.selectTest();
+      if (testName === false) {
+        return;
+      }
+      const htmlRenderMode: types.htmlRenderModes =
+        testName === "" ? "none" : mode;
+      this.runTest(this.templateHandle, testName, false, htmlRenderMode);
+    } catch (error) {
+      this.outputLog(`Error while running command test with option`, { error });
+    }
+  }
 
-      // Identify Test names
-      const testNamesandRows = this.findTestNamesAndRows(
-        this.currentYamlDocument
-      );
-      const testNames = Object.keys(testNamesandRows);
-      testNames.unshift(this.optionAllTests);
-      // Select Test to be run
-      let testSelected = await vscode.window.showQuickPick(testNames);
-      if (!testSelected) {
-        this.output.appendLine(
-          "[Liquid Test] Couldn't find any tests to select"
-        );
-        return;
-      }
-      let testName = testSelected === this.optionAllTests ? "" : testSelected;
-      let htmlRenderMode: types.htmlRenderModes =
-        testSelected === this.optionAllTests ? "none" : "input";
+  /**
+   * Run test process. Update diagnostic collection if needed. Open HTML panel if needed. Handle Status Bar status.
+   * @param templateHandle Template Handle
+   * @param testName Test Name (empty string for all tests)
+   * @param previewOnly If true, the diagnostic collection won't be updated
+   * @param htmlRenderMode "all" | "input" | "preview" | "none"
+   * */
+  public async runTest(
+    templateHandle: string,
+    testName: string,
+    previewOnly: boolean,
+    htmlRenderMode: types.htmlRenderModes
+  ) {
+    try {
+      this.firmId = await this.firmHandler.setFirmID();
+      this.templateHandle = templateHandle;
+      this.outputLog("[Liquid Test] New test run", {
+        templateHandle,
+        testName,
+        previewOnly,
+        htmlRenderMode,
+      });
       // Test Run
       this.setStatusBarRunning();
       let response: types.ResponseObject = await sfCliLiquidTestRunner.runTests(
         this.firmId,
-        this.templateHandle,
+        templateHandle,
         testName,
         false,
         htmlRenderMode
@@ -109,22 +104,30 @@ export default class LiquidTest {
         );
         return;
       }
-      // Process response and update collection
-      this.processResponse(
-        this.currentYamlDocument,
-        this.errorsCollection,
-        response
-      );
-
+      // Process response and update collection (only when we don't want html to be rendered)
+      if (!previewOnly) {
+        const yamlDocument = await this.openYamlDocument();
+        if (yamlDocument) {
+          this.processResponse(yamlDocument, this.errorsCollection, response);
+        } else {
+          this.output.appendLine(
+            `[Liquid Test] Error while opening yaml file to store results`
+          );
+        }
+      }
       // HANDLE HTML PANEL
-      if (testSelected !== this.optionAllTests) {
-        this.openHtmlPanel(response, testSelected);
+      if (htmlRenderMode === "none") {
+        this.closeHtmlPanel();
+      } else if (htmlRenderMode === "all") {
+        // At the moment, we only handle one tab at a time
+        this.closeHtmlPanel();
+      } else {
+        this.openHtmlPanel(response, testName, htmlRenderMode);
       }
     } catch (error) {
       this.output.appendLine(
-        `[Liquid Test] Error while running test with options:`
+        `[Liquid Test] Error while running a test:${JSON.stringify(error)}`
       );
-      this.output.appendLine(JSON.stringify(error));
     }
   }
 
@@ -326,15 +329,22 @@ export default class LiquidTest {
   // Return an array with the names of the tests associated to the current template
   // It should be identified from liquid, yaml, config files (any related file of the template)
   public async listTestNames() {
+    const yamlDocument = await this.openYamlDocument();
+    if (!yamlDocument) {
+      return false;
+    }
+    const testNamesAndRows = this.findTestNamesAndRows(yamlDocument);
+    const testNames = Object.keys(testNamesAndRows);
+    return testNames;
+  }
+
+  private async openYamlDocument() {
     const yamlPath = await templateUtils.getTemplateLiquidTestsPath();
     if (!yamlPath) {
       return false;
     }
     const yamlUri = vscode.Uri.file(yamlPath);
-    const yamlDocument = await vscode.workspace.openTextDocument(yamlUri);
-    const testNamesAndRows = this.findTestNamesAndRows(yamlDocument);
-    const testNames = Object.keys(testNamesAndRows);
-    return testNames;
+    return await vscode.workspace.openTextDocument(yamlUri);
   }
 
   // Return an array with the names of the unit tests and the row where they are located
@@ -440,7 +450,7 @@ export default class LiquidTest {
       this.output.appendLine(`[Liquid Test] No active text editor found`);
       return false;
     }
-    this.currentYamlDocument = vscode.window.activeTextEditor.document;
+    this.yamlDocument = vscode.window.activeTextEditor.document;
     // Get Firm
     if (!this.firmHandler) {
       this.output.appendLine("[Liquid Test] Firm handler not found");
@@ -458,42 +468,39 @@ export default class LiquidTest {
 
   private async openHtmlPanel(
     response: types.ResponseObject,
-    testSelected: string
+    testSelected: string,
+    htmlRenderMode: types.htmlOpenModes = "input"
   ) {
-    if (this.htmlPanel) {
-      this.htmlPanel.dispose();
-      this.htmlPanel = undefined;
-    }
     try {
+      this.closeHtmlPanel();
+      let htmlType = `html_${htmlRenderMode}`;
       await sfCliLiquidTestRunner.getHTML(
-        response.previewRun.tests[testSelected].html_input,
+        // @ts-ignore
+        response.previewRun.tests[testSelected][htmlType],
         testSelected,
         false,
-        "html_input"
+        htmlType
       );
       // Open File
       const filePath = sfCliLiquidTestRunner.resolveHTMLPath(
-        `${testSelected}_html_input`
+        `${testSelected}_${htmlType}`
       );
       const fs = require("fs");
       const fileContent = fs.readFileSync(filePath, "utf8");
       if (!this.htmlPanel) {
         this.htmlPanel = vscode.window.createWebviewPanel(
           "htmlWebView",
-          "HTML View",
+          `HTML View (${htmlRenderMode})`,
           { viewColumn: vscode.ViewColumn.Two, preserveFocus: true }
         );
       }
       // Display HTML
       this.htmlPanel.webview.html = fileContent;
     } catch (error) {
-      this.output.appendLine(`Error while opening HTML:`);
-      this.output.appendLine(JSON.stringify(error));
-      // close panel if open
-      if (this.htmlPanel) {
-        this.htmlPanel.dispose();
-        this.htmlPanel = undefined;
-      }
+      this.output.appendLine(
+        `Error while opening HTML: ${JSON.stringify(error)}`
+      );
+      this.closeHtmlPanel();
     }
   }
 
@@ -514,5 +521,37 @@ export default class LiquidTest {
         this.templateHandle
       }. ${JSON.stringify({ response })}`
     );
+  }
+
+  private outputLog(message: string, object: object) {
+    this.output.appendLine(
+      `[Liquid Test] ${message}. ${JSON.stringify({ object })}`
+    );
+  }
+
+  private closeHtmlPanel() {
+    if (this.htmlPanel) {
+      this.htmlPanel.dispose();
+      this.htmlPanel = undefined;
+    }
+  }
+
+  /**
+   * Open QuickPick to select the test to be run
+   * @returns Test Name or false if no test is selected
+   */
+  private async selectTest() {
+    // Identify Test names
+    const testNamesandRows = this.findTestNamesAndRows(this.yamlDocument);
+    const testNames = Object.keys(testNamesandRows);
+    testNames.unshift(this.optionAllTestsMsg);
+    // Select Test to be run
+    let testSelected = await vscode.window.showQuickPick(testNames);
+    if (!testSelected) {
+      this.output.appendLine("[Liquid Test] Couldn't find any tests to select");
+      return false;
+    }
+    let testName = testSelected === this.optionAllTestsMsg ? "" : testSelected;
+    return testName;
   }
 }
