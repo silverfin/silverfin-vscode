@@ -81,17 +81,17 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
 
     const authorizedFirmsRows = firmData
       .map((firm: string) => {
-        let activeFirmTag = "";
-        if (firm[0].toString() === firmId.toString()) {
-          activeFirmTag = /*html*/ `<vscode-tag>Active</vscode-tag>`;
-        }
+        let activeFirmTag =
+          firm[0].toString() === firmId.toString()
+            ? /*html*/ `<vscode-tag>Active</vscode-tag>`
+            : "";
         let firmUrl = `https://live.getsilverfin.com/f/${firm[0]}`;
         return /*html*/ `<vscode-data-grid-row>
                   <vscode-data-grid-cell grid-column="1">
                       ${firm[0]} ${firm[1] ? `(${firm[1]})` : ""}
                   </vscode-data-grid-cell>
                   <vscode-data-grid-cell grid-column="2"  class="vs-actions">
-                    ${activeFirmTag}
+                    ${activeFirmTag}                       
                     <vscode-link href="${firmUrl}" title="${firmUrl}">
                       <vscode-button appearance="icon" aria-label="Open-file">
                         <span class="codicon codicon-globe"></span>
@@ -122,6 +122,9 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
           Authorized firms
         </vscode-data-grid-cell>
         <vscode-data-grid-cell cell-type="columnheader" grid-column="2" class="vs-actions">
+          <vscode-button appearance="icon" aria-label="set-active-firm" class="set-active-firm" title="Set the active firm">
+            <span class="codicon codicon-play"></span>
+          </vscode-button>
           <vscode-button appearance="icon" aria-label="authorize-new-firm" class="auth-new-firm" title="Authorize a new firm">
             <span class="codicon codicon-add"></span>
           </vscode-button>
@@ -151,6 +154,12 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
           // Run command to authenticate a new firm
           vscode.commands.executeCommand(
             "silverfin-development-toolkit.authorizeFirm"
+          );
+          return;
+        case "set-active-firm":
+          // Run command to set the default/active firm
+          vscode.commands.executeCommand(
+            "silverfin-development-toolkit.setFirm"
           );
           return;
       }

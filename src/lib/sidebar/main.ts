@@ -29,6 +29,7 @@ window.addEventListener("load", main);
 function main() {
   openFileButton();
   authNewFirmButton();
+  setDefaultFirmButton();
   runTestButton();
 }
 
@@ -68,6 +69,24 @@ function authNewFirmButton() {
 function postMessageAuthNewFirm() {
   vscode.postMessage({
     type: "auth-new-firm",
+  });
+}
+
+// Add event listener to button with class "set-active-firm"
+// This should run the command to set the default/active firm
+function setDefaultFirmButton() {
+  const buttons = document.getElementsByClassName("set-active-firm");
+  const buttonsArray = Array.from(buttons);
+  buttonsArray.forEach((element) => {
+    element?.addEventListener("click", () => {
+      postMessageSetDefaultFirm();
+    });
+  });
+}
+
+function postMessageSetDefaultFirm() {
+  vscode.postMessage({
+    type: "set-active-firm",
   });
 }
 

@@ -65,7 +65,7 @@ From there if you type in 'Silverfin' you will be given a choice of commands. Th
 | Silverfin: run specific liquid test (with HTML output from Input view) | Same as pressing the test button                                                                                |
 | Silverfin: run all liquid tests                                        | Shortcut to run all liquid tests                                                                                |
 | Silverfin: erase stored details of previous test runs (current)        | Clears problems panel                                                                                           |
-| Silverfin: set firm ID\*                                               | Set up which firm will be used as a test environment (your tests will be run as if you're working in this firm) |
+| Silverfin: set active firm ID\*                                        | Set up which firm will be used as a test environment (your tests will be run as if you're working in this firm) |
 
 ---
 

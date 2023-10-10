@@ -31,7 +31,7 @@ export async function activate(context: vscode.ExtensionContext) {
   liquidTest.firmHandler = firmHandler;
   liquidLinter.firmHandler = firmHandler;
 
-  // Command to set Firm ID via prompt and store it
+  // Command to set active Firm ID via prompt and store it
   context.subscriptions.push(
     vscode.commands.registerCommand(firmHandler.commandNameSetFirm, () => {
       firmHandler.setFirmIdCommand();

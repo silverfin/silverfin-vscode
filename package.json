@@ -124,7 +124,7 @@
       },
       {
         "command": "silverfin-development-toolkit.setFirm",
-        "title": "Silverfin: set firm ID"
+        "title": "Silverfin: set active firm ID"
       },
       {
         "command": "silverfin-development-toolkit.clearCurrentDiagnosticCollection",
