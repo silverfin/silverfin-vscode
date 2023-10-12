@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-export default class StatusBarItem {
+export default class StatusBarDevMode {
   item: vscode.StatusBarItem;
   constructor(context: vscode.ExtensionContext, credentials: boolean) {
     this.item = vscode.window.createStatusBarItem(
@@ -27,17 +27,17 @@ export default class StatusBarItem {
   setStateRunning() {
     this.item.show();
     this.setSpin();
-    this.item.tooltip = "Silverfin is running your liquid test";
+    this.item.tooltip = "Silverfin's development mode is running!";
     this.item.backgroundColor = new vscode.ThemeColor(
       "statusBarItem.warningBackground"
     );
   }
 
   setStatic() {
-    this.item.text = "$(sync) Liquid Test";
+    this.item.text = "$(gear) Dev-Mode";
   }
 
   setSpin() {
-    this.item.text = "$(sync~spin) Liquid Test";
+    this.item.text = `$(gear~spin) Dev-Mode`;
   }
 }

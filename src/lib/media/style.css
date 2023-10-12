@@ -20,3 +20,10 @@ body {
 .vs-actions {
   text-align: right;
 }
+
+.dropdown-container {
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}

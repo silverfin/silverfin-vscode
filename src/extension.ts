@@ -10,7 +10,9 @@ import { FirmViewProvider } from "./lib/sidebar/panelFirm";
 import { TemplateInformationViewProvider } from "./lib/sidebar/panelTemplateInfo";
 import { TemplatePartsViewProvider } from "./lib/sidebar/panelTemplateParts";
 import { TestsViewProvider } from "./lib/sidebar/panelTests";
+import StatusBarDevMode from "./lib/statusBar/statusBarDevMode";
 import StatusBarItem from "./lib/statusBar/statusBarItem";
+import { TemplateUpdater } from "./lib/templateUpdater";
 import * as diagnosticsUtils from "./utilities/diagnosticsUtils";
 
 export async function activate(context: vscode.ExtensionContext) {
@@ -21,9 +23,14 @@ export async function activate(context: vscode.ExtensionContext) {
     context,
     firmHandler.apiSecretsPresent
   );
+  const statusBarDevMode = new StatusBarDevMode(
+    context,
+    firmHandler.apiSecretsPresent
+  );
   const liquidLinter = new LiquidLinter(outputChannel);
   const liquidTest = new LiquidTest(context, outputChannel);
   const liquidDiagnostics = new LiquidDiagnostics(context, outputChannel);
+  const templateUpdater = new TemplateUpdater(firmHandler, outputChannel);
 
   // References
   firmHandler.statusBarItem = statusBarItemRunTests;
@@ -201,7 +208,11 @@ export async function activate(context: vscode.ExtensionContext) {
     templateInfoProvider.setContent(templateInfoProvider._view);
   });
   // Liquid Tests
-  const testsProvider = new TestsViewProvider(context.extensionUri, liquidTest);
+  const testsProvider = new TestsViewProvider(
+    context.extensionUri,
+    liquidTest,
+    statusBarDevMode
+  );
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider(
       TestsViewProvider.viewType,
@@ -254,6 +265,30 @@ export async function activate(context: vscode.ExtensionContext) {
   // Auto Close Tags
   vscode.workspace.onDidChangeTextDocument((event) => {
     insertAutoCloseTag(event);
+  });
+
+  // Development Mode
+  vscode.workspace.onDidSaveTextDocument(async (document) => {
+    if (testsProvider.devModeStatus !== "active") {
+      return;
+    }
+    const activeDocument = vscode.window.activeTextEditor?.document;
+    if (activeDocument !== document) {
+      return;
+    }
+    switch (testsProvider.devModeOption) {
+      case "liquid-tests":
+        liquidTest.runTest(
+          testsProvider.testDetails.templateHandle,
+          testsProvider.testDetails.testName,
+          testsProvider.testDetails.previewOnly,
+          testsProvider.testDetails.htmlType
+        );
+        break;
+      case "liquid-updates":
+        templateUpdater.pushToSilverfin();
+        break;
+    }
   });
 }
 

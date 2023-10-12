@@ -10,27 +10,32 @@ import {
   vsCodeDataGridRow,
   vsCodeDropdown,
   vsCodeLink,
+  vsCodeOption,
   vsCodeTag,
 } from "@vscode/webview-ui-toolkit";
 
-provideVSCodeDesignSystem().register(vsCodeButton());
-provideVSCodeDesignSystem().register(vsCodeLink());
-provideVSCodeDesignSystem().register(vsCodeTag());
-provideVSCodeDesignSystem().register(vsCodeDataGrid());
-provideVSCodeDesignSystem().register(vsCodeDataGridRow());
-provideVSCodeDesignSystem().register(vsCodeDataGridCell());
-provideVSCodeDesignSystem().register(vsCodeCheckbox());
-provideVSCodeDesignSystem().register(vsCodeDropdown());
+provideVSCodeDesignSystem().register(
+  vsCodeButton(),
+  vsCodeLink(),
+  vsCodeTag(),
+  vsCodeDataGrid(),
+  vsCodeDataGridRow(),
+  vsCodeDataGridCell(),
+  vsCodeCheckbox(),
+  vsCodeDropdown(),
+  vsCodeOption()
+);
 
 const vscode = acquireVsCodeApi();
 
 window.addEventListener("load", main);
-
 function main() {
   openFileButton();
   authNewFirmButton();
   setDefaultFirmButton();
   runTestButton();
+  devModeLiquidButton();
+  devModeTestsButton();
 }
 
 // Add event listener to all buttons with class "open-file"
@@ -123,5 +128,60 @@ function postMessageRunTest(
     templateHandle: dataTemplateHandle,
     testName: dataTestName,
     htmlType: dataHtmlType,
+  });
+}
+
+// Add event listener to button with class "dev-mode-liquid"
+// This should run the command to toggle dev mode
+function devModeLiquidButton() {
+  const buttons = document.getElementsByClassName("dev-mode-liquid");
+  const buttonsArray = Array.from(buttons);
+  buttonsArray.forEach((element) => {
+    element?.addEventListener("click", () => {
+      postMessageDevModeLiquid(element.getAttribute("data-status"));
+    });
+  });
+}
+
+function postMessageDevModeLiquid(dataStatus: string | null) {
+  vscode.postMessage({
+    type: "dev-mode-liquid",
+    status: dataStatus,
+  });
+}
+
+// Add event listener to button with class "dev-mode"
+// This should run the command to toggle dev mode
+function devModeTestsButton() {
+  const buttons = document.getElementsByClassName("dev-mode-tests");
+  const buttonsArray = Array.from(buttons);
+  buttonsArray.forEach((element) => {
+    element?.addEventListener("click", () => {
+      const dataStatus = element.getAttribute("data-status");
+      const testSelection = <HTMLInputElement>(
+        document.getElementById("test-selection")
+      );
+      const htmlMode = <HTMLInputElement>(
+        document.getElementById("html-mode-selection")
+      );
+      postMessageDevModeTests(
+        dataStatus,
+        testSelection?.value,
+        htmlMode?.value
+      );
+    });
+  });
+}
+
+function postMessageDevModeTests(
+  dataStatus: string | null,
+  dataTestSelection: string,
+  dataHtmlMode: string
+) {
+  vscode.postMessage({
+    type: "dev-mode-tests",
+    status: dataStatus,
+    testName: dataTestSelection,
+    htmlType: dataHtmlMode,
   });
 }

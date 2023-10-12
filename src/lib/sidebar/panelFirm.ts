@@ -9,7 +9,7 @@ interface FirmsIds {
 }
 
 interface TemplateUsedInFirmData {
-  templateType: string;
+  templateFolder: string;
   firmId: string;
   templateId: string;
 }
@@ -39,23 +39,28 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
   public async setContent(webviewView: vscode.WebviewView) {
     utils.setCWD();
     const configData = await templateUtils.getTemplateConfigData();
+    const templateType = await templateUtils.getTemplateType();
+    if (!templateType) {
+      return;
+    }
+    const templateFolder = templateUtils.FOLDERS[templateType];
 
-    const createUsedInFirmsList = (object: FirmsIds, templateType: string) => {
+    const createUsedInFirmsList = (
+      object: FirmsIds,
+      templateFolder: string
+    ) => {
       return Object.keys(object).map((key) => {
         return {
-          templateType: templateType,
+          templateFolder: templateFolder,
           firmId: key,
           templateId: object[key],
         };
       });
     };
 
-    const templateType = configData.used_in
-      ? "shared_parts"
-      : "reconciliation_texts";
     const templateUsedInFirmsData = createUsedInFirmsList(
       configData["id"] || {},
-      templateType
+      templateFolder
     );
 
     const firmId = await panelUtils.getFirmIdStored();
@@ -63,13 +68,13 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
     const firmData = await firmCredentials.listAuthorizedFirms(firmId); // [[firmId, firmName]...]
     const usedInFirmsRows = templateUsedInFirmsData
       .map((item: TemplateUsedInFirmData) => {
-        let templateUrl = `https://live.getsilverfin.com/f/${item.firmId}/${item.templateType}/${item.templateId}/edit`;
+        let templateUrl = `https://live.getsilverfin.com/f/${item.firmId}/${item.templateFolder}/${item.templateId}/edit`;
         return /*html*/ `<vscode-data-grid-row grid-columns="2">
                 <vscode-data-grid-cell grid-column="1">
                   ${item.firmId}
                 </vscode-data-grid-cell>
                 <vscode-data-grid-cell grid-column="2" class="vs-actions">
-                  <vscode-link href="${templateUrl}" title="${templateUrl}">
+                  <vscode-link href="${templateUrl}" title="Go to template's code (in Silverfin)">
                     <vscode-button appearance="icon" aria-label="Open-file">
                       <span class="codicon codicon-globe"></span>
                     </vscode-button>
@@ -92,7 +97,7 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
                   </vscode-data-grid-cell>
                   <vscode-data-grid-cell grid-column="2"  class="vs-actions">
                     ${activeFirmTag}                       
-                    <vscode-link href="${firmUrl}" title="${firmUrl}">
+                    <vscode-link href="${firmUrl}" title="Go to firm (in Silverfin)">
                       <vscode-button appearance="icon" aria-label="Open-file">
                         <span class="codicon codicon-globe"></span>
                       </vscode-button>

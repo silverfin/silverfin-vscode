@@ -2,6 +2,15 @@ import { posix } from "path";
 import * as vscode from "vscode";
 import * as utils from "./utils";
 
+export const FOLDERS = {
+  reconciliationText: "reconciliation_texts",
+  sharedPart: "shared_parts",
+  exportFile: "export_files",
+  accountTemplate: "account_templates",
+};
+
+export const TEMPLATE_TYPES = Object.keys(FOLDERS);
+
 // Get template handle from file path
 // Identify template handle from text_parts or main
 export function getTemplateHandle() {
