@@ -11,9 +11,9 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
   public devModeOption: "liquid-tests" | "liquid-updates" = "liquid-tests";
   public testDetails!: types.TestRunDetails;
   private devModeLiquidInfo =
-    "When you activate this option, updates to liquid files will be automatically pushed to Silverfin. This updates will be executed everytime a change to a file related to the template is saved. Keep in mind that, it will use the firm set as ACTIVE. Make sure you are using a development environment and monitor closely the updates made to Silverfin.";
+    "When you activate this option, updates to liquid files will automatically be pushed to Silverfin. These updates will be executed everytime a change to a file related to the template is saved. Keep in mind that, it will use the firm set as ACTIVE. Make sure you are using a development environment and closely monitor the updates made to Silverfin.";
   private devModeTestInfo =
-    "When you activate this option, a new liquid test run will be initiated every time you save a file related to the template where it was enabeled. Keep in mind that, it will use the firm set as ACTIVE.";
+    "When you activate this option, a new liquid test run will be initiated every time you save a file related to the template where it was enabled. Keep in mind that, it will use the firm set as ACTIVE.";
   liquidTestRunner: any;
   statusBarItem: any;
   constructor(
@@ -126,6 +126,8 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
               </vscode-dropdown>
               <vscode-dropdown id="html-mode-selection" ${disabledLabel}>
                 ${htmlOptions.join("")}
+            <vscode-dropdown class="dropdown-truncate" id="test-selection" ${disabledLabel}>
+              ${testNameOptions.join("")}
             </vscode-dropdown>
             </div>
           </vscode-data-grid-cell>
