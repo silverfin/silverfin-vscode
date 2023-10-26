@@ -56,8 +56,8 @@
         },
         {
           "type": "webview",
-          "id": "liquid-tests",
-          "name": "Liquid Tests",
+          "id": "development",
+          "name": "Development",
           "visibility": "visible"
         },
         {

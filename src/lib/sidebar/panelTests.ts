@@ -5,7 +5,7 @@ import * as utils from "../../utilities/utils";
 import * as panelUtils from "./panelUtils";
 
 export class TestsViewProvider implements vscode.WebviewViewProvider {
-  public static readonly viewType = "liquid-tests";
+  public static readonly viewType = "development";
   public _view?: vscode.WebviewView;
   public devModeStatus: "active" | "inactive" = "inactive";
   public devModeOption: "liquid-tests" | "liquid-updates" = "liquid-tests";
