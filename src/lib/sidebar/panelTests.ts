@@ -8,6 +8,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = "development";
   public _view?: vscode.WebviewView;
   public devModeStatus: "active" | "inactive" = "inactive";
+  public currentDevTestsTemplate = "";
   public devModeOption: "liquid-tests" | "liquid-updates" = "liquid-tests";
   public testDetails!: types.TestRunDetails;
   private devModeLiquidInfo =
@@ -50,7 +51,8 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     const disabledLabel = this.clickableButtons() ? "" : "disabled";
     const disabledReverseLabel = this.clickableButtons() ? "disabled" : "";
     const liquidTestsRows = testNames.map((testName: string) => {
-      return /*html*/ `<vscode-data-grid-row grid-columns="2">
+      return /*html*/ `
+            <vscode-data-grid-row grid-columns="2">
               <vscode-data-grid-cell grid-column="1">
                 ${testName}
               </vscode-data-grid-cell>
@@ -82,7 +84,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
                 <i class="codicon codicon-file-binary"></i>
               </vscode-button>
               <vscode-button appearance="icon" aria-label="generate-html-output" disabled>
-                <i class="codicon codeicon-file-pdf"></i>
+                <i class="codicon codicon-file-pdf"></i>
               </vscode-button>
             </vscode-data-grid-cell>
           </vscode-data-grid-row>`;
@@ -118,32 +120,39 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
 
     const devTestSection =
       /* html */
-      `<vscode-data-grid-row grid-columns="2">
-          <vscode-data-grid-cell grid-column="1">
-            <div class="dropdown-container">
-              <vscode-dropdown class="dropdown-truncate" id="test-selection" ${disabledLabel}>
-                ${testNameOptions.join("")}
-              </vscode-dropdown>
-            </div>
-          </vscode-data-grid-cell>
-        </vscode-data-grid-row>
-        <vscode-data-grid-row grid-columns="2">
-          <vscode-data-grid-cell grid-column="1">
-            <div class="dropdown-container">
-              <vscode-dropdown id="html-mode-selection" ${disabledLabel}>
-                ${htmlOptions.join("")}
-              </vscode-dropdown>
-            </div>
-          </vscode-data-grid-cell>
-          <vscode-data-grid-cell grid-column="2" class="vs-actions">
-            <vscode-button appearance="icon" class="dev-mode-tests" title="Activate" data-status="active" ${disabledLabel}>
-              <i class="codicon codicon-debug-start"></i>
-            </vscode-button>
-            <vscode-button appearance="icon" class="dev-mode-tests" title="Deactivate" data-status="inactive" ${disabledReverseLabel}>
-              <i class="codicon codicon-stop-circle"></i>
-            </vscode-button>
-          </vscode-data-grid-cell>
-        </vscode-data-grid-row>`;
+      `${
+        this.currentDevTestsTemplate ? `<vscode-data-grid-row grid-columns="2">
+        <vscode-data-grid-cell grid-column="1">
+          Running for template: ${this.currentDevTestsTemplate}
+        </vscode-data-grid-cell>
+       </vscode-data-grid-row>`: ""
+      }
+      <vscode-data-grid-row grid-columns="2">
+        <vscode-data-grid-cell grid-column="1">
+          <div class="dropdown-container">
+            <vscode-dropdown class="dropdown-truncate" id="test-selection" ${disabledLabel}>
+              ${testNameOptions.join("")}
+            </vscode-dropdown>
+          </div>
+        </vscode-data-grid-cell>
+      </vscode-data-grid-row>
+      <vscode-data-grid-row grid-columns="2">
+        <vscode-data-grid-cell grid-column="1">
+          <div class="dropdown-container">
+            <vscode-dropdown id="html-mode-selection" ${disabledLabel}>
+              ${htmlOptions.join("")}
+            </vscode-dropdown>
+          </div>
+        </vscode-data-grid-cell>
+        <vscode-data-grid-cell grid-column="2" class="vs-actions">
+          <vscode-button appearance="icon" class="dev-mode-tests" title="Activate" data-status="active" ${disabledLabel}>
+            <i class="codicon codicon-debug-start"></i>
+          </vscode-button>
+          <vscode-button appearance="icon" class="dev-mode-tests" title="Deactivate" data-status="inactive" ${disabledReverseLabel}>
+            <i class="codicon codicon-stop-circle"></i>
+          </vscode-button>
+        </vscode-data-grid-cell>
+      </vscode-data-grid-row>`;
 
     const devTestBlock =
       /*html*/
@@ -233,6 +242,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
           this.devModeOption = "liquid-tests";
           this.devModeStatus = message.status;
           const templateHandle = templateUtils.getTemplateHandle() || "";
+          this.currentDevTestsTemplate = templateHandle;
           previewOnly = message.htmlType === "none" ? false : true;
           this.testDetails = {
             templateHandle,
@@ -251,6 +261,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     if (this.devModeStatus === "active") {
       return false;
     }
+    this.currentDevTestsTemplate = "";
     return true;
   }
 
