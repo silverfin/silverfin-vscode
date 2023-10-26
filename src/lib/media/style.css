@@ -27,3 +27,12 @@ body {
   align-items: flex-start;
   justify-content: flex-start;
 }
+
+.dropdown-truncate {
+  max-width: 200px;
+}
+
+.dropdown-truncate option {
+  white-space: pre-wrap;
+  word-break: break-all;
+}

@@ -56,13 +56,13 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
               </vscode-data-grid-cell>
               <vscode-data-grid-cell grid-column="2" class="vs-actions">
                 <vscode-button appearance="icon" aria-label="Run-test" class="run-test" title="Run liquid test" data-html-type="none" data-test-name="${testName}" data-template-type="${templateType}" data-template-handle="${templateHandle}" ${disabledLabel}>
-                  <span class="codicon codicon-debug-alt"></span>
+                  <i class="codicon codicon-debug-alt"></i>
                 </vscode-button>
                 <vscode-button appearance="icon" aria-label="generate-html-input" class="run-test" title="Generate HTML (Input)" data-html-type="input" data-test-name="${testName}" data-template-type="${templateType}" data-template-handle="${templateHandle}" ${disabledLabel}>
-                  <span class="codicon codicon-vm-outline"></span>
+                  <i class="codicon codicon-file-binary"></i>
                 </vscode-button>
                 <vscode-button appearance="icon" aria-label="generate-html-output" class="run-test" title="Generate HTML (Preview)" data-html-type="preview" data-test-name="${testName}" data-template-type="${templateType}" data-template-handle="${templateHandle}" ${disabledLabel}>
-                  <span class="codicon codicon-vm-running"></span>
+                  <i class="codicon codicon-file-pdf"></i>
                 </vscode-button>
               </vscode-data-grid-cell>
             </vscode-data-grid-row>`;
@@ -76,13 +76,13 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
             </vscode-data-grid-cell>
             <vscode-data-grid-cell grid-column="2" class="vs-actions">
               <vscode-button appearance="icon" aria-label="Run-all-test" class="run-test" title="Run all liquid test" data-html-type="none" data-test-name="" data-template-type="${templateType}" data-template-handle="${templateHandle}" ${disabledLabel}>
-                <span class="codicon codicon-debug-alt"></span>
+                <i class="codicon codicon-debug-alt"></i>
               </vscode-button>
               <vscode-button appearance="icon" aria-label="generate-html-input" disabled>
-                <span class="codicon codicon-vm-outline"></span>
+                <i class="codicon codicon-file-binary"></i>
               </vscode-button>
               <vscode-button appearance="icon" aria-label="generate-html-output" disabled>
-                <span class="codicon codicon-vm-running"></span>
+                <i class="codicon codeicon-file-pdf"></i>
               </vscode-button>
             </vscode-data-grid-cell>
           </vscode-data-grid-row>`;
@@ -121,22 +121,26 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
       `<vscode-data-grid-row grid-columns="2">
           <vscode-data-grid-cell grid-column="1">
             <div class="dropdown-container">
-              <vscode-dropdown id="test-selection" ${disabledLabel}>
+              <vscode-dropdown class="dropdown-truncate" id="test-selection" ${disabledLabel}>
                 ${testNameOptions.join("")}
               </vscode-dropdown>
+            </div>
+          </vscode-data-grid-cell>
+        </vscode-data-grid-row>
+        <vscode-data-grid-row grid-columns="2">
+          <vscode-data-grid-cell grid-column="1">
+            <div class="dropdown-container">
               <vscode-dropdown id="html-mode-selection" ${disabledLabel}>
                 ${htmlOptions.join("")}
-            <vscode-dropdown class="dropdown-truncate" id="test-selection" ${disabledLabel}>
-              ${testNameOptions.join("")}
-            </vscode-dropdown>
+              </vscode-dropdown>
             </div>
           </vscode-data-grid-cell>
           <vscode-data-grid-cell grid-column="2" class="vs-actions">
             <vscode-button appearance="icon" class="dev-mode-tests" title="Activate" data-status="active" ${disabledLabel}>
-              <span class="codicon codicon-circle-large"></span>
+              <i class="codicon codicon-debug-start"></i>
             </vscode-button>
             <vscode-button appearance="icon" class="dev-mode-tests" title="Deactivate" data-status="inactive" ${disabledReverseLabel}>
-              <span class="codicon codicon-circle-slash"></span>
+              <i class="codicon codicon-stop-circle"></i>
             </vscode-button>
           </vscode-data-grid-cell>
         </vscode-data-grid-row>`;
@@ -146,12 +150,12 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
       `<vscode-data-grid-row row-type="sticky-header" grid-template-columns="1">
           <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
             <span>
-              Liquid tests
+              Development mode - local
             </span>
           </vscode-data-grid-cell>
           <vscode-data-grid-cell cell-type="columnheader" grid-column="2" class="vs-actions">
             <vscode-button appearance="icon" title="${this.devModeTestInfo}">
-              <span class="codicon codicon-info"></span>
+              <i class="codicon codicon-info"></i>
             </vscode-button>
           </vscode-data-grid-cell>
         </vscode-data-grid-row>
@@ -165,10 +169,10 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
         </vscode-data-grid-cell>
         <vscode-data-grid-cell grid-column="2" class="vs-actions">
           <vscode-button appearance="icon" class="dev-mode-liquid" title="Activate" data-status="active" ${disabledLabel}>
-            <span class="codicon codicon-circle-large"></span>
+            <i class="codicon codicon-debug-start"></i>
           </vscode-button>
           <vscode-button appearance="icon" class="dev-mode-liquid" title="Deactivate" data-status="inactive" ${disabledReverseLabel}>
-            <span class="codicon codicon-circle-slash"></span>
+            <i class="codicon codicon-stop-circle"></i>
           </vscode-button>
         </vscode-data-grid-cell>
       </vscode-data-grid-row>`;
@@ -178,12 +182,12 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
       `<vscode-data-grid-row row-type="sticky-header" grid-template-columns="1">
         <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
           <span>
-            Liquid files
+            Development mode - platform
           </span>
         </vscode-data-grid-cell>
         <vscode-data-grid-cell cell-type="columnheader" grid-column="2" class="vs-actions">
           <vscode-button appearance="icon" title="${this.devModeLiquidInfo}">
-            <span class="codicon codicon-info"></span>
+            <i class="codicon codicon-info"></i>
           </vscode-button>
         </vscode-data-grid-cell>
       </vscode-data-grid-row>
@@ -192,9 +196,9 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     let htmlBody =
       /*html*/
       `<vscode-data-grid aria-label="liquid tests" ${gridLayout}>
-        ${liquidTestsBlock}
-        ${devTestBlock}
-        ${devLiquidBlock}
+      ${devTestBlock}
+      ${devLiquidBlock}
+      ${liquidTestsBlock}
       </vscode-data-grid>`;
 
     let htmlContent = panelUtils.htmlContainer(

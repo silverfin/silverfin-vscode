@@ -76,7 +76,7 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
                 <vscode-data-grid-cell grid-column="2" class="vs-actions">
                   <vscode-link href="${templateUrl}" title="Go to template's code (in Silverfin)">
                     <vscode-button appearance="icon" aria-label="Open-file">
-                      <span class="codicon codicon-globe"></span>
+                      <i class="codicon codicon-globe"></i>
                     </vscode-button>
                   </vscode-link>
                 </vscode-data-grid-cell>
@@ -99,7 +99,7 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
                     ${activeFirmTag}                       
                     <vscode-link href="${firmUrl}" title="Go to firm (in Silverfin)">
                       <vscode-button appearance="icon" aria-label="Open-file">
-                        <span class="codicon codicon-globe"></span>
+                        <i class="codicon codicon-globe"></i>
                       </vscode-button>
                     </vscode-link>
                   </vscode-data-grid-cell>
@@ -128,10 +128,10 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
         </vscode-data-grid-cell>
         <vscode-data-grid-cell cell-type="columnheader" grid-column="2" class="vs-actions">
           <vscode-button appearance="icon" aria-label="set-active-firm" class="set-active-firm" title="Set the active firm">
-            <span class="codicon codicon-play"></span>
+            <i class="codicon codicon-home"></i>
           </vscode-button>
           <vscode-button appearance="icon" aria-label="authorize-new-firm" class="auth-new-firm" title="Authorize a new firm">
-            <span class="codicon codicon-add"></span>
+            <i class="codicon codicon-add"></i>
           </vscode-button>
         </vscode-data-grid-cell>
       </vscode-data-grid-row>
