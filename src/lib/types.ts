@@ -104,3 +104,12 @@ export function diagnosticParser(
 }
 
 export type htmlRenderModes = "all" | "input" | "preview" | "none";
+
+export type htmlOpenModes = "input" | "preview";
+
+export type TestRunDetails = {
+  templateHandle: string;
+  testName: string;
+  previewOnly: boolean;
+  htmlType: htmlRenderModes;
+};
