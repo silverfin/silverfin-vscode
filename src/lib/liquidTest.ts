@@ -473,11 +473,10 @@ export default class LiquidTest {
   ) {
     try {
       this.closeHtmlPanel();
-      let htmlType = `html_${htmlRenderMode}`;
+      let htmlType =
+        `html_${htmlRenderMode}` as keyof (typeof response.previewRun.tests)[typeof testSelected];
       await sfCliLiquidTestRunner.getHTML(
-        response.previewRun.tests[testSelected][
-          htmlType as keyof (typeof response.previewRun.tests)[typeof testSelected]
-        ],
+        response.previewRun.tests[testSelected][htmlType],
         testSelected,
         false,
         htmlType

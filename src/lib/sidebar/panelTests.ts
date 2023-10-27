@@ -8,7 +8,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = "development";
   public _view?: vscode.WebviewView;
   public devModeStatus: "active" | "inactive" = "inactive";
-  public currentDevTestsTemplate = "";
+  public lockedHandle!: string;
   public devModeOption: "liquid-tests" | "liquid-updates" = "liquid-tests";
   public testDetails!: types.TestRunDetails;
   private devModeLiquidInfo =
@@ -118,16 +118,21 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
       return /*html*/ `<vscode-option value="${htmlType[0]}" ${selected}>${htmlType[1]}</vscode-option>`;
     });
 
+    const runningHandle = this.lockedHandle
+      ? /*html*/
+        `<vscode-data-grid-row>
+          <vscode-data-grid-cell grid-column="1">
+            Running for: ${this.lockedHandle}
+          </vscode-data-grid-cell>
+          <vscode-data-grid-cell grid-column="2">
+          </vscode-data-grid-cell>
+        </vscode-data-grid-row>`
+      : "";
+
     const devTestSection =
       /* html */
-      `${
-        this.currentDevTestsTemplate ? `<vscode-data-grid-row grid-columns="2">
-        <vscode-data-grid-cell grid-column="1">
-          Running for template: ${this.currentDevTestsTemplate}
-        </vscode-data-grid-cell>
-       </vscode-data-grid-row>`: ""
-      }
-      <vscode-data-grid-row grid-columns="2">
+      `${runningHandle}
+      <vscode-data-grid-row>
         <vscode-data-grid-cell grid-column="1">
           <div class="dropdown-container">
             <vscode-dropdown class="dropdown-truncate" id="test-selection" ${disabledLabel}>
@@ -136,7 +141,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
           </div>
         </vscode-data-grid-cell>
       </vscode-data-grid-row>
-      <vscode-data-grid-row grid-columns="2">
+      <vscode-data-grid-row>
         <vscode-data-grid-cell grid-column="1">
           <div class="dropdown-container">
             <vscode-dropdown id="html-mode-selection" ${disabledLabel}>
@@ -156,7 +161,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
 
     const devTestBlock =
       /*html*/
-      `<vscode-data-grid-row row-type="sticky-header" grid-template-columns="1">
+      `<vscode-data-grid-row row-type="sticky-header">
           <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
             <span>
               Development mode - local
@@ -188,7 +193,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
 
     const devLiquidBlock =
       /*html*/
-      `<vscode-data-grid-row row-type="sticky-header" grid-template-columns="1">
+      `<vscode-data-grid-row row-type="sticky-header">
         <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
           <span>
             Development mode - platform
@@ -205,9 +210,9 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     let htmlBody =
       /*html*/
       `<vscode-data-grid aria-label="liquid tests" ${gridLayout}>
-      ${devTestBlock}
-      ${devLiquidBlock}
-      ${liquidTestsBlock}
+        ${devTestBlock}
+        ${devLiquidBlock}
+        ${liquidTestsBlock}
       </vscode-data-grid>`;
 
     let htmlContent = panelUtils.htmlContainer(
@@ -242,7 +247,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
           this.devModeOption = "liquid-tests";
           this.devModeStatus = message.status;
           const templateHandle = templateUtils.getTemplateHandle() || "";
-          this.currentDevTestsTemplate = templateHandle;
+          this.lockedHandle = templateHandle;
           previewOnly = message.htmlType === "none" ? false : true;
           this.testDetails = {
             templateHandle,
@@ -261,7 +266,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     if (this.devModeStatus === "active") {
       return false;
     }
-    this.currentDevTestsTemplate = "";
+    this.lockedHandle = "";
     return true;
   }
 
