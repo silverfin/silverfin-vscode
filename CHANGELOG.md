@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.13.3]
+
+- Fix issue where 'Start' buttons for development mode was disabled even though the default firm was set
+
 ## [1.13.2]
 
 - Testname visually dissapeared when moving across templates after the development mode for liquid tests was activated, now this will keep being displayed
