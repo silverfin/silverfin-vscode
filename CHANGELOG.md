@@ -2,6 +2,12 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.13.2]
+
+- Testname visually dissapeared when moving across templates after the development mode for liquid tests was activated, now this will keep being displayed
+- When no liquid tests exist or are not possible (i.e. shared parts), then we'll hide the liquid test development sections
+- Development mode - platform was not working for shared parts
+
 ## [1.13.1]
 
 - Remove conflicting keybinding for "Silverfin: verify liquid syntax (linter)"
