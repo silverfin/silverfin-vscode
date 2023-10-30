@@ -288,7 +288,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
   }
 
   private clickableButtons() {
-    if (!this.firmIdStored || this.devModeStatus === "active") {
+    if (this.devModeStatus === "active") {
       return false;
     }
     this.lockedHandle = "";
