@@ -7,6 +7,8 @@ All notable changes to the "silverfin-development-toolkit" extension will be doc
 - Testname visually dissapeared when moving across templates after the development mode for liquid tests was activated, now this will keep being displayed
 - When no liquid tests exist or are not possible (i.e. shared parts), then we'll hide the liquid test development sections
 - Development mode - platform was not working for shared parts
+- Add default firm to text of "Development mode - platform" so users are reminded to which firm they're pushing
+- Don't enable development mode if no default firm is set + add message to inform the user that they still need to set one
 
 ## [1.13.1]
 

@@ -3,12 +3,14 @@ import * as types from "../../lib/types";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 import * as panelUtils from "./panelUtils";
+const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 
 export class TestsViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = "development";
   public _view?: vscode.WebviewView;
   public devModeStatus: "active" | "inactive" = "inactive";
   public lockedHandle!: string;
+  public firmIdStored: string | undefined;
   public devModeOption: "liquid-tests" | "liquid-updates" = "liquid-tests";
   public testDetails!: types.TestRunDetails;
   private devModeLiquidInfo =
@@ -50,6 +52,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     const gridLayout = `grid-template-columns="2fr 1fr"`;
     const disabledLabel = this.clickableButtons() ? "" : "disabled";
     const disabledReverseLabel = this.clickableButtons() ? "disabled" : "";
+    this.firmIdStored = await firmCredentials.getDefaultFirmId();
     const liquidTestsRows = testNames.map((testName: string) => {
       return /*html*/ `
             <vscode-data-grid-row grid-columns="2">
@@ -163,7 +166,9 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
           <vscode-button appearance="icon" class="dev-mode-tests" title="Activate" data-status="active" ${disabledLabel}>
             <i class="codicon codicon-debug-start"></i>
           </vscode-button>
-          <vscode-button appearance="icon" class="dev-mode-tests" title="Deactivate" data-status="inactive" ${disabledReverseLabel}>
+          <vscode-button appearance="icon" class="dev-mode-tests" title="Deactivate" data-status="inactive" ${
+            !this.firmIdStored ? "disabled" : ""
+          } ${disabledReverseLabel}>
             <i class="codicon codicon-stop-circle"></i>
           </vscode-button>
         </vscode-data-grid-cell>
@@ -189,13 +194,19 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
       /* html */
       `<vscode-data-grid-row grid-columns="2">
         <vscode-data-grid-cell grid-column="1">
-          Push updates to Silverfin (on save)
+          ${
+            this.firmIdStored
+              ? `Push updates to Silverfin in firm ${this.firmIdStored}`
+              : "You need to add a default firm before you can activate development mode to push automatically to Silverfin"
+          } <i>(on save)</i>
         </vscode-data-grid-cell>
         <vscode-data-grid-cell grid-column="2" class="vs-actions">
           <vscode-button appearance="icon" class="dev-mode-liquid" title="Activate" data-status="active" ${disabledLabel}>
             <i class="codicon codicon-debug-start"></i>
           </vscode-button>
-          <vscode-button appearance="icon" class="dev-mode-liquid" title="Deactivate" data-status="inactive" ${disabledReverseLabel}>
+          <vscode-button appearance="icon" class="dev-mode-liquid" title="Deactivate" data-status="inactive" ${
+            !this.firmIdStored ? "disabled" : ""
+          } ${disabledReverseLabel}>
             <i class="codicon codicon-stop-circle"></i>
           </vscode-button>
         </vscode-data-grid-cell>
@@ -220,9 +231,13 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     let htmlBody =
       /*html*/
       `<vscode-data-grid aria-label="liquid tests" ${gridLayout}>
-        ${this.lockedHandle || testNames.length > 0 ? devTestBlock : ""}
+        ${
+          this.firmIdStored && (this.lockedHandle || testNames.length > 0)
+            ? devTestBlock
+            : ""
+        }
         ${devLiquidBlock}
-        ${testNames.length > 0 ? liquidTestsBlock : ""}
+        ${this.firmIdStored && testNames.length > 0 ? liquidTestsBlock : ""}
       </vscode-data-grid>`;
 
     let htmlContent = panelUtils.htmlContainer(
@@ -273,7 +288,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
   }
 
   private clickableButtons() {
-    if (this.devModeStatus === "active") {
+    if (!this.firmIdStored || this.devModeStatus === "active") {
       return false;
     }
     this.lockedHandle = "";
