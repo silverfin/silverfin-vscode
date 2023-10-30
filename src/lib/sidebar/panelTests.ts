@@ -101,10 +101,16 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
           ${liquidTestsRows.join("")}`
         : "";
 
+    // Show options of tests if not running, but hardcode to the current test if running across templates
+    const createTestOption = (testName: string, selected: boolean) => {
+      return /*html*/ `<vscode-option value="${testName}" ${
+        selected ? "selected" : ""
+      }>${testName}</vscode-option>`;
+    };
+
     const testNameOptions = testNames.map((testName: string) => {
-      const selected =
-        this.testDetails?.testName === testName ? "selected" : "";
-      return /*html*/ `<vscode-option value="${testName}" ${selected}>${testName}</vscode-option>`;
+      const selected = this.testDetails?.testName === testName ? true : false;
+      return createTestOption(testName, selected);
     });
 
     const htmlOptionValues = [
@@ -136,7 +142,11 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
         <vscode-data-grid-cell grid-column="1">
           <div class="dropdown-container">
             <vscode-dropdown class="dropdown-truncate" id="test-selection" ${disabledLabel}>
-              ${testNameOptions.join("")}
+              ${
+                this.testDetails?.testName
+                  ? createTestOption(this.testDetails?.testName, true)
+                  : testNameOptions.join("")
+              }
             </vscode-dropdown>
           </div>
         </vscode-data-grid-cell>
@@ -210,9 +220,9 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     let htmlBody =
       /*html*/
       `<vscode-data-grid aria-label="liquid tests" ${gridLayout}>
-        ${devTestBlock}
+        ${this.lockedHandle || testNames.length > 0 ? devTestBlock : ""}
         ${devLiquidBlock}
-        ${liquidTestsBlock}
+        ${testNames.length > 0 ? liquidTestsBlock : ""}
       </vscode-data-grid>`;
 
     let htmlContent = panelUtils.htmlContainer(
@@ -267,6 +277,12 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
       return false;
     }
     this.lockedHandle = "";
+    this.testDetails = {
+      templateHandle: "",
+      testName: "",
+      previewOnly: false,
+      htmlType: "none",
+    };
     return true;
   }
 
