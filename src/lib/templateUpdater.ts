@@ -34,7 +34,7 @@ export class TemplateUpdater {
         updateFunction = sfCli.publishReconciliationByHandle;
         break;
       case "sharedPart":
-        updateFunction = sfCli.publishSharedPartByHandle;
+        updateFunction = sfCli.publishSharedPartByName;
         break;
       case "exportFile":
         updateFunction = sfCli.publishExportFileByName;
