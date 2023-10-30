@@ -2,7 +2,11 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
-## [1.12.1]
+## [1.13.1]
+
+- Remove conflicting keybinding for "Silverfin: verify liquid syntax (linter)"
+
+## [1.13.0]
 
 - Fix HTML panel view when running a liquid test
 
