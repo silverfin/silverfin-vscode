@@ -333,7 +333,7 @@ export default class LiquidTest {
     if (!yamlDocument) {
       return false;
     }
-    const testNamesAndRows = this.findTestNamesAndRows(yamlDocument);
+    const testNamesAndRows = this.findTestNamesAndRows(yamlDocument) || {};
     const testNames = Object.keys(testNamesAndRows);
     return testNames;
   }
@@ -350,7 +350,7 @@ export default class LiquidTest {
   // Return an array with the names of the unit tests and the row where they are located
   private findTestNamesAndRows(document: vscode.TextDocument) {
     const testContent = document.getText();
-    const testYAML = yaml.parse(testContent);
+    const testYAML = yaml.parse(testContent) || {};
     const testNames = Object.keys(testYAML);
     const testRows = testContent.split("\n");
     const indexes: { [index: string]: number } = {};
