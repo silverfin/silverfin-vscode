@@ -2,6 +2,7 @@ import { posix } from "path";
 import * as vscode from "vscode";
 import * as utils from "./utils";
 
+// also update in utils.ts
 export const FOLDERS = {
   reconciliationText: "reconciliation_texts",
   sharedPart: "shared_parts",
@@ -16,6 +17,13 @@ export const SILVERFIN_URL_PATHS = {
   sharedPart: "shared_parts",
   exportFile: "export_files",
   accountTemplate: "account_detail_templates",
+};
+
+export const TEMPLATE_TYPES_NAMES = {
+  reconciliationText: "Reconciliation text",
+  sharedPart: "Shared part",
+  exportFile: "Export file",
+  accountTemplate: "Account template",
 };
 
 // Get template handle from file path

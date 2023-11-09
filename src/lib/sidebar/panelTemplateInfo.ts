@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
+import * as types from "../types";
 import * as panelUtils from "./panelUtils";
 
 export class TemplateInformationViewProvider
@@ -8,6 +9,7 @@ export class TemplateInformationViewProvider
 {
   public static readonly viewType = "template-info";
   public _view?: vscode.WebviewView;
+  private templateType!: types.templateTypes | false;
   constructor(private readonly _extensionUri: vscode.Uri) {
     this._extensionUri = _extensionUri;
   }
@@ -29,36 +31,48 @@ export class TemplateInformationViewProvider
   public async setContent(webviewView: vscode.WebviewView) {
     utils.setCWD();
     const configData = await templateUtils.getTemplateConfigData();
+    this.templateType = await templateUtils.getTemplateType();
 
     const configDataEntries = Object.entries(configData) || [];
     /* eslint-disable */
-    const reconciliationItems: any = {
-      handle: "Handle",
-      name_en: "Name (en)",
-      name_nl: "Name (nl)",
-      name_fr: "Name (fr)",
-      reconciliation_type: "Reconciliation type",
-      virtual_account_number: "Virtual account number",
-      is_active: "Active?",
-      public: "Public?",
-      externally_managed: "Externally managed?",
-    };
-
-    const sharedPartItems: any = {
-      name: "Name",
+    const configItems: any = {
+      reconciliationText: {
+        handle: "Handle",
+        name_en: "Name (en)",
+        name_nl: "Name (nl)",
+        name_fr: "Name (fr)",
+        reconciliation_type: "Reconciliation type",
+        virtual_account_number: "Virtual account number",
+        is_active: "Active?",
+        public: "Public?",
+        externally_managed: "Externally managed?",
+      },
+      sharedPart: {
+        name: "Name",
+      },
+      accountTemplate: {
+        name_en: "Name (en)",
+        name_nl: "Name (nl)",
+        name_fr: "Name (fr)",
+        account_range: "Account range",
+        mapping_list_ranges: "Mapping list ranges",
+      },
+      exportFile: {
+        name: "Name",
+        file_name: "File name",
+        encoding: "Encoding",
+      },
     };
 
     /* eslint-enable */
-    let items: any;
 
-    // Establish if we are using a shared part or a reconciliation
-    if (configData.used_in) {
-      items = sharedPartItems;
-    } else {
-      items = reconciliationItems;
+    // Establish which type of template is being used
+    let items: { [index: string]: any } = {};
+    if (this.templateType) {
+      items = configItems[this.templateType];
     }
 
-    const filtered = configDataEntries.filter(([key, value]) =>
+    const filtered = configDataEntries.filter(([key, _]) =>
       Object.keys(items).includes(key)
     );
 
@@ -69,7 +83,7 @@ export class TemplateInformationViewProvider
                     ${items[key]}
                   </vscode-data-grid-cell>
                   <vscode-data-grid-cell grid-column="2" class="vs-actions">
-                    ${value}
+                    ${value ? value : ""}
                   </vscode-data-grid-cell>
                 </vscode-data-grid-row>`;
       })

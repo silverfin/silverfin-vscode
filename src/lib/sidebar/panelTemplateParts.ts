@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import * as types from "../../lib/types";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 import * as panelUtils from "./panelUtils";
@@ -8,6 +9,7 @@ const fs = require("fs");
 export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = "template-parts";
   public _view?: vscode.WebviewView;
+  private templateType!: types.templateTypes | false;
   constructor(private readonly _extensionUri: vscode.Uri) {
     this._extensionUri = _extensionUri;
   }
@@ -30,13 +32,14 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
   // Section's html created based on the ActiveTextEditor
   public async setContent(webviewView: vscode.WebviewView) {
     utils.setCWD();
+    this.templateType = await templateUtils.getTemplateType();
     const firmId = await panelUtils.getFirmIdStored();
     const configData = await templateUtils.getTemplateConfigData();
     let htmlContent = "";
 
     // Reconciliations
     if (configData && "text_parts" in configData) {
-      htmlContent = await this.htmlPartsReconciliations(
+      htmlContent = await this.htmlPartsTemplates(
         firmId,
         configData,
         webviewView
@@ -63,24 +66,25 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
     configData: any,
     webviewView: vscode.WebviewView
   ) {
-    webviewView.description = "Reconciliations where this shared part is used";
+    webviewView.description = "Templates where this shared part is used";
     webviewView.title = "SHARED PART";
-    const reconciliationNames =
-      configData.used_in.map((reconciliation: any) => reconciliation.handle) ||
-      [];
+    const templates = configData.used_in || [];
 
-    const sharedPartsRows = reconciliationNames
+    const sharedPartsRows = templates
       .sort()
-      .map((reconciliationName: string) => {
-        if (!reconciliationName) {
+      .map((template: types.sharedPartUsedIn) => {
+        if (!template) {
           return;
         }
 
-        const templatePath = `/reconciliation_texts/${reconciliationName}/main.liquid`;
+        const folderPath = templateUtils.FOLDERS[template.type];
+        const templatePath = `/${folderPath}/${template.handle}/main.liquid`;
+        const templateTypeName =
+          templateUtils.TEMPLATE_TYPES_NAMES[template.type];
 
         return /*html*/ `<vscode-data-grid-row>
             <vscode-data-grid-cell grid-column="1">
-              ${reconciliationName}
+              ${template.handle} (${templateTypeName})
             </vscode-data-grid-cell>
             <vscode-data-grid-cell grid-column="2"  class="vs-actions">
               ${
@@ -102,16 +106,26 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
     return panelUtils.htmlContainer(webviewView, this._extensionUri, htmlBody);
   }
 
-  private async htmlPartsReconciliations(
+  private async htmlPartsTemplates(
     firmId: any,
     configData: any,
     webviewView: vscode.WebviewView
   ) {
-    webviewView.description =
-      "Parts and shared parts used in this reconciliation";
-    webviewView.title = "RECONCILIATION";
+    webviewView.description = "Parts and shared parts used in this template";
+    const titleToUse = await this.setTitle();
+    webviewView.title = titleToUse;
+
+    if (!this.templateType) {
+      return panelUtils.htmlContainer(
+        webviewView,
+        this._extensionUri,
+        "Template not identified"
+      );
+    }
+    const templateFolder = templateUtils.FOLDERS[this.templateType];
+
     let partNames: string[] = [];
-    const handle = configData.handle;
+    const handle = configData.handle || configData.name || configData.name_nl;
     partNames = Object.keys(configData.text_parts) || [];
     const partsRows = partNames
       .map(
@@ -120,7 +134,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
                         ${index + 1}. ${partName}
                         </vscode-data-grid-cell>
                         <vscode-data-grid-cell grid-column="2" class="vs-actions">
-                          <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/reconciliation_texts/${handle}/text_parts/${partName}.liquid" title="Open file in a new tab">
+                          <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/${templateFolder}/${handle}/text_parts/${partName}.liquid" title="Open file in a new tab">
                             <i class="codicon codicon-go-to-file"></i>
                           </vscode-button>
                         </vscode-data-grid-cell>
@@ -130,7 +144,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
 
     const sharedPartNames = await sfCliFsUtils.listSharedPartsUsedInTemplate(
       firmId,
-      "reconciliationText",
+      this.templateType,
       handle
     );
 
@@ -171,7 +185,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
             main
           </vscode-data-grid-cell>
           <vscode-data-grid-cell grid-column="2"  class="vs-actions">
-            <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/reconciliation_texts/${handle}/main.liquid" title="Open file in a new tab">
+            <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/${templateFolder}/${handle}/main.liquid" title="Open file in a new tab">
               <i class="codicon codicon-go-to-file"></i>
             </vscode-button>
           </vscode-data-grid-cell>
@@ -189,7 +203,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
         </vscode-data-grid-row>
         <vscode-data-grid-row row-type="header" grid-columns="1">
           <vscode-data-grid-cell grid-column="1">
-            <i>( Linked to this reconciliation in firm: ${firmId} )</i>
+            <i>( Linked to this template in firm: ${firmId} )</i>
           </vscode-data-grid-cell>
         </vscode-data-grid-row>
         ${sharedPartsRows}
@@ -199,6 +213,13 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
     let htmlBody = /*html*/ `${partsBlock}${sharedPartsBlock}`;
 
     return panelUtils.htmlContainer(webviewView, this._extensionUri, htmlBody);
+  }
+
+  private async setTitle() {
+    const templateTypeName = this.templateType
+      ? templateUtils.TEMPLATE_TYPES_NAMES[this.templateType].toUpperCase()
+      : "TEMPLATE";
+    return templateTypeName;
   }
 
   private messageHandler(webviewView: vscode.WebviewView) {

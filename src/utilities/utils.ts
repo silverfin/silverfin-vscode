@@ -1,6 +1,13 @@
 import { posix } from "path";
 import * as vscode from "vscode";
 
+const FOLDERS = [
+  "reconciliation_texts",
+  "shared_parts",
+  "export_files",
+  "account_templates",
+];
+
 // Find in which row of the document a text is located
 // It will return only the first match if repeated
 export function findIndexRow(
@@ -31,8 +38,7 @@ export function setCWD() {
     vscode.window.activeTextEditor.document.uri.path
   );
   const pathParts = filePath.split(posix.sep);
-  const indexCheck = (element: string) =>
-    element === "shared_parts" || element === "reconciliation_texts";
+  const indexCheck = (element: string) => FOLDERS.includes(element);
   const index = pathParts.findIndex(indexCheck);
   if (index === -1) {
     return false;
