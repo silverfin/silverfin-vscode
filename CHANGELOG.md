@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.13.7]
+
+- Fix issues with panels (parts and info) related to new template types (export files and account templates)
+
 ## [1.13.6]
 
 - Fix: block clickable buttons in Development panel when there is no default firm set

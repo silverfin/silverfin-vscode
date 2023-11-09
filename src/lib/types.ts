@@ -113,3 +113,15 @@ export type TestRunDetails = {
   previewOnly: boolean;
   htmlType: htmlRenderModes;
 };
+
+export type templateTypes =
+  | "reconciliationText"
+  | "exportFile"
+  | "accountTemplate"
+  | "sharedPart";
+
+export type sharedPartUsedIn = {
+  id: { [key: string]: Number };
+  type: templateTypes;
+  handle: string;
+};

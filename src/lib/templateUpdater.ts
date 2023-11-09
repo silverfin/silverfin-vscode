@@ -39,9 +39,9 @@ export class TemplateUpdater {
       case "exportFile":
         updateFunction = sfCli.publishExportFileByName;
         break;
-      // case "accountTemplate":
-      //   updateFunction = sfCli.publishAccountTemplateByName;
-      //   break;
+      case "accountTemplate":
+        updateFunction = sfCli.publishAccountTemplateByName;
+        break;
     }
     const functionName = updateFunction.name;
     this.outputLog("Updating template", { parameters, functionName });
