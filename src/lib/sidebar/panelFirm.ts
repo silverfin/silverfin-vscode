@@ -43,7 +43,7 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
     if (!templateType) {
       return;
     }
-    const templateFolder = templateUtils.FOLDERS[templateType];
+    const templateFolder = templateUtils.SILVERFIN_URL_PATHS[templateType];
 
     const createUsedInFirmsList = (
       object: FirmsIds,

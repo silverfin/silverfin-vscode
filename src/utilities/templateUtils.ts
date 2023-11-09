@@ -11,6 +11,13 @@ export const FOLDERS = {
 
 export const TEMPLATE_TYPES = Object.keys(FOLDERS);
 
+export const SILVERFIN_URL_PATHS = {
+  reconciliationText: "reconciliation_texts",
+  sharedPart: "shared_parts",
+  exportFile: "export_files",
+  accountTemplate: "account_detail_templates",
+};
+
 // Get template handle from file path
 // Identify template handle from text_parts or main
 export function getTemplateHandle() {
