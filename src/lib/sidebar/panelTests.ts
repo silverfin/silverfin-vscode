@@ -10,7 +10,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
   public _view?: vscode.WebviewView;
   public devModeStatus: "active" | "inactive" = "inactive";
   public lockedHandle!: string;
-  public firmIdStored: string | undefined;
+  public firmIdStored!: string;
   public devModeOption: "liquid-tests" | "liquid-updates" = "liquid-tests";
   public testDetails!: types.TestRunDetails;
   private devModeLiquidInfo =
@@ -50,9 +50,9 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     const templateType = await templateUtils.getTemplateType();
     const testNames = (await this.liquidTestRunner.listTestNames()) || [];
     const gridLayout = `grid-template-columns="2fr 1fr"`;
+    this.firmIdStored = await firmCredentials.getDefaultFirmId();
     const disabledLabel = this.clickableButtons() ? "" : "disabled";
     const disabledReverseLabel = this.clickableButtons() ? "disabled" : "";
-    this.firmIdStored = await firmCredentials.getDefaultFirmId();
     const liquidTestsRows = testNames.map((testName: string) => {
       return /*html*/ `
             <vscode-data-grid-row grid-columns="2">
@@ -288,6 +288,9 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
   }
 
   private clickableButtons() {
+    if (!this.firmIdStored) {
+      return false;
+    }
     if (this.devModeStatus === "active") {
       return false;
     }

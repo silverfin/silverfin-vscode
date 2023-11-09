@@ -2,10 +2,18 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.13.6]
+
+- Fix: block clickable buttons in Development panel when there is no default firm set
+
+## [1.13.5]
+
+- Fix link to account templates in firm panel
+
 ## [1.13.4]
 
 - Fix case where development panel was throwing an error for empty liquid testing YAMLs
-  
+
 ## [1.13.3]
 
 - Fix issue where 'Start' buttons for development mode was disabled even though the default firm was set
