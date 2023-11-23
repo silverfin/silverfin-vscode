@@ -37,8 +37,9 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
     const configData = await templateUtils.getTemplateConfigData();
     let htmlContent = "";
 
-    // Reconciliations
+    // Templates
     if (configData && "text_parts" in configData) {
+      templateUtils.removeDeletedParts();
       htmlContent = await this.htmlPartsTemplates(
         firmId,
         configData,

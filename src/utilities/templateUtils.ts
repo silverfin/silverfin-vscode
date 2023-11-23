@@ -204,6 +204,47 @@ async function getTemplateParts() {
   return Object.keys(templateConfigData.text_parts);
 }
 
+export async function removeDeletedParts() {
+  const templateBasePath = await getTemplateBasePath();
+  if (!templateBasePath) {
+    return false;
+  }
+  const partsPath = posix.join(templateBasePath, "text_parts");
+  const parts = await vscode.workspace.fs.readDirectory(
+    vscode.Uri.file(partsPath)
+  );
+  const partsInDirectory = parts.map((part) => part[0].replace(".liquid", ""));
+  const partsInConfig = await getTemplateParts();
+
+  const partsToDelete = partsInConfig.filter(
+    (part) => !partsInDirectory.includes(part)
+  );
+
+  if (partsToDelete.length === 0) {
+    return false;
+  }
+
+  const configPath = await getTemplateConfigPath();
+  const configData = await getTemplateConfigData();
+  if (!configPath || !configData) {
+    return false;
+  }
+
+  partsToDelete.forEach((part) => {
+    delete configData.text_parts[part];
+  });
+
+  const newConfigData = Uint8Array.from(
+    Buffer.from(JSON.stringify(configData, null, 2), "utf8")
+  );
+  await vscode.workspace.fs.writeFile(
+    vscode.Uri.file(configPath),
+    newConfigData
+  );
+
+  return true;
+}
+
 async function createTemplatePart(partName: string) {
   const configPath = await getTemplateConfigPath();
   if (!configPath) {
