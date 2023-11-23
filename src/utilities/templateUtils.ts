@@ -99,15 +99,15 @@ export async function getTemplateConfigPath() {
   if (!vscode.window.activeTextEditor) {
     return false;
   }
-  const templateHanlde = getTemplateHandle();
-  if (!templateHanlde) {
+  const templateHandle = getTemplateHandle();
+  if (!templateHandle) {
     return false;
   }
   const filePath = posix.resolve(
     vscode.window.activeTextEditor.document.uri.path
   );
   const fileParts = filePath.split(posix.sep);
-  const indexCheck = (element: string) => element === templateHanlde;
+  const indexCheck = (element: string) => element === templateHandle;
   const index = fileParts.findIndex(indexCheck);
   if (index === -1) {
     return false;
