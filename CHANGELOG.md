@@ -2,6 +2,14 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.13.9]
+
+- Update liquid testing JSON schema for validation
+
+## [1.13.8]
+
+- Support shared part quick fixes for account templates & export files
+
 ## [1.13.7]
 
 - Fix issues with panels (parts and info) related to new template types (export files and account templates)
