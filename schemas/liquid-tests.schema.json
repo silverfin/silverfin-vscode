@@ -67,7 +67,8 @@
                 "zh",
                 "ca"
               ]
-            }
+            },
+            "current_account": { "type": "string" }
           }
         },
         "data": {
@@ -80,6 +81,29 @@
               "additionalProperties": false,
               "propertyNames": { "type": "string", "format": "date" },
               "patternProperties": { "": { "$ref": "#/$defs/period" } }
+            },
+            "shared_template_configurations": {
+              "type": "object",
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[a-zA-Z0-9_]+$": {
+                  "type": "object",
+                  "patternProperties": {
+                    "^[0-9]{4}$": {
+                      "type": "object",
+                      "patternProperties": {
+                        "": {
+                          "type": "object",
+                          "properties": {
+                            "results": { "type": "object" }
+                          },
+                          "required": ["results"]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             },
             "special_book_years": {
               "type": "object",
@@ -636,18 +660,23 @@
   },
   "$defs": {
     "account": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "id": { "type": "number" },
-        "value": { "type": "number" },
-        "name": { "type": "string" },
-        "original_name": { "type": "string" },
-        "custom": { "$ref": "#/$defs/textProperty" },
-        "mapped_number": { "type": "string" },
-        "starred": { "type": "boolean" },
-        "results": { "$ref": "#/$defs/namedResult" }
-      }
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": { "type": "number" },
+            "value": { "type": "number" },
+            "name": { "type": "string" },
+            "original_name": { "type": "string" },
+            "custom": { "$ref": "#/$defs/textProperty" },
+            "mapped_number": { "type": "string" },
+            "starred": { "type": "boolean" },
+            "results": { "$ref": "#/$defs/namedResult" }
+          }
+        },
+        { "type": "null" }
+      ]
     },
     "analytical_dimension": {
       "type": "object",
