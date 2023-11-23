@@ -12,6 +12,7 @@ export default class LiquidDiagnostics {
   currentLiquidFile: vscode.TextDocument | undefined;
   firmId: Number | undefined;
   templateHandle: string | undefined;
+  templateType: string | undefined;
   context: vscode.ExtensionContext;
 
   constructor(
@@ -26,16 +27,15 @@ export default class LiquidDiagnostics {
   }
 
   public async verifySharedPartsUsed() {
-    this.setLiquidFile();
-
+    this.setLiquidFile(); // sets this.currentLiquidFile
     if (!this.currentLiquidFile) {
       this.output.appendLine("[Diagnostics] Current file is not .liquid");
       return;
     }
     const templateType = await templateUtils.getTemplateType();
-    if (templateType !== "reconciliationText") {
+    if (templateType === "sharedPart" || !templateType) {
       this.output.appendLine(
-        "[Diagnostics] Current file is not a reconciliation text"
+        `[Diagnostics] Current template type not supported (type: ${templateType})`
       );
       return;
     }
@@ -55,6 +55,9 @@ export default class LiquidDiagnostics {
       (part) => !sharedPartsAdded.includes(part)
     );
     if (sharedPartsNotAdded.length === 0) {
+      this.output.appendLine(
+        "[Diagnostics] All shared parts are already added."
+      );
       return;
     }
     this.output.appendLine(
@@ -66,17 +69,18 @@ export default class LiquidDiagnostics {
   // Establish which one is the current Liquid File based on activeTextEditor
   private setLiquidFile() {
     this.currentLiquidFile = undefined;
-    utils.setCWD();
-    if (!vscode.window.activeTextEditor) {
-      return;
+    const cwd = utils.setCWD();
+    if (!vscode.window.activeTextEditor || !cwd) {
+      return false;
     }
     const fileType = utils.getCurrentFileExtension();
     if (fileType !== "liquid") {
-      return;
+      return false;
     }
     const currentTextDocument = vscode.window.activeTextEditor.document;
     this.currentLiquidFile = currentTextDocument;
     this.output.appendLine("[Diagnostics] Liquid File found");
+    return true;
   }
 
   // Inspect the liquid code of the file and search for the use of shared parts
@@ -100,17 +104,24 @@ export default class LiquidDiagnostics {
     const firmId = await firmCredentials.getDefaultFirmId();
     const templateHandle = templateUtils.getTemplateHandle();
     const templateType = await templateUtils.getTemplateType();
-    if (!templateHandle || !firmId || templateType !== "reconciliationText") {
+    if (
+      !templateHandle ||
+      !firmId ||
+      templateType === "sharedPart" ||
+      !templateType
+    ) {
       this.firmId = undefined;
       this.templateHandle = undefined;
+      this.templateType = undefined;
       return;
     }
     this.firmId = firmId;
     this.templateHandle = templateHandle;
+    this.templateType = templateType;
     const sharedParts = await sfCliFsUtils.listSharedPartsUsedInTemplate(
-      firmId,
-      "reconciliationText",
-      templateHandle
+      this.firmId,
+      this.templateType,
+      this.templateHandle
     );
     return sharedParts;
   }
@@ -161,13 +172,15 @@ export default class LiquidDiagnostics {
           );
         }
         // Create the diagnostic object
-        // The message must include the shared part name, template handle, and firm id
+        // The message must include the shared part name, template handle, template type and firm id
         // They are used to create the quick fix command
         const message = `Shared part "${sharedPartName}" is included here. It does ${
           sharedPartExistsInFirm ? "" : "not "
         }exist in firm id "${this.firmId}" ${
           sharedPartExistsInFirm ? "but" : "and"
-        } it is not added to template "${this.templateHandle}"`;
+        } it is not added to template "${
+          this.templateHandle
+        }" (template type: "${this.templateType}")`;
         diagnostic = new vscode.Diagnostic(
           range,
           message,
@@ -199,10 +212,10 @@ export default class LiquidDiagnostics {
     sharedPartName: string,
     existsInFirm: boolean
   ) {
+    let identifier = `addSharedPart.${sharedPartName}.${this.templateHandle}.${this.templateType}.${this.firmId}`;
     this.output.appendLine(
-      `[Diagnostics] Create command to add shared part ${sharedPartName}`
+      `[Diagnostics] Create command to add shared part ${sharedPartName}. Identifier: ${identifier}`
     );
-    let identifier = `addSharedPart.${sharedPartName}.${this.templateHandle}.${this.firmId}`;
     // Check if the command already exists
     const allCommands = await vscode.commands.getCommands();
     if (allCommands.includes(identifier)) {
@@ -261,10 +274,11 @@ export default class LiquidDiagnostics {
 
   private addSharedPart(sharedPartName: string) {
     sfCli
-      .addSharedPartToReconciliation(
+      .addSharedPart(
         this.firmId,
         sharedPartName,
-        this.templateHandle
+        this.templateHandle,
+        this.templateType
       )
       .then(() => {
         // Refresh the shared parts
@@ -272,17 +286,18 @@ export default class LiquidDiagnostics {
       });
     // Show a message
     vscode.window.showInformationMessage(
-      `Adding shared part ${sharedPartName} to ${this.templateHandle}`
+      `Adding shared part ${sharedPartName} to ${this.templateHandle} (${this.templateType})`
     );
   }
 
   private createAndAddSharedPart(sharedPartName: string) {
     sfCli.newSharedPart(this.firmId, sharedPartName).then(() => {
       sfCli
-        .addSharedPartToReconciliation(
+        .addSharedPart(
           this.firmId,
           sharedPartName,
-          this.templateHandle
+          this.templateHandle,
+          this.templateType
         )
         .then(() => {
           // Refresh the shared parts
@@ -291,7 +306,7 @@ export default class LiquidDiagnostics {
     });
     // Show a message
     vscode.window.showInformationMessage(
-      `Creating and adding shared part ${sharedPartName} in firm ${this.firmId} to ${this.templateHandle}`
+      `Creating and adding shared part ${sharedPartName} in firm ${this.firmId} to ${this.templateHandle} (${this.templateType})`
     );
   }
 }
