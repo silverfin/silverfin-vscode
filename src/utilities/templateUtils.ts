@@ -78,6 +78,21 @@ export async function getTemplateType() {
   }
 }
 
+export async function getTemplateBasePath() {
+  const cwd = utils.setCWD();
+  const templateType = await getTemplateType();
+  const templateHandle = getTemplateHandle();
+  if (!cwd || !templateType || !templateHandle) {
+    return false;
+  }
+  const templateBasePath = posix.join(
+    cwd,
+    FOLDERS[templateType],
+    templateHandle
+  );
+  return templateBasePath;
+}
+
 // Check if Config file exists and return its paths
 export async function getTemplateConfigPath() {
   utils.setCWD();
@@ -182,4 +197,89 @@ export async function getTemplateLiquidTestsPath() {
   } catch (error) {
     return false;
   }
+}
+
+async function getTemplateParts() {
+  const templateConfigData = await getTemplateConfigData();
+  return Object.keys(templateConfigData.text_parts);
+}
+
+async function createTemplatePart(partName: string) {
+  const configPath = await getTemplateConfigPath();
+  if (!configPath) {
+    return false;
+  }
+  const templateConfigData = await getTemplateConfigData();
+  const templateBasePath = await getTemplateBasePath();
+  if (!templateConfigData || !templateBasePath) {
+    return false;
+  }
+  const newPartPath = posix.join(
+    templateBasePath,
+    `text_parts`,
+    `${partName}.liquid`
+  );
+  const newPartContent = Uint8Array.from(
+    Buffer.from("{% comment %} New part {% endcomment %}", "utf8")
+  );
+  await vscode.workspace.fs.writeFile(
+    vscode.Uri.file(newPartPath),
+    newPartContent
+  );
+
+  templateConfigData.text_parts[partName] = `text_parts/${partName}.liquid`;
+  const newConfigData = Uint8Array.from(
+    Buffer.from(JSON.stringify(templateConfigData, null, 2), "utf8")
+  );
+  await vscode.workspace.fs.writeFile(
+    vscode.Uri.file(configPath),
+    newConfigData
+  );
+
+  return true;
+}
+
+export async function createTemplatePartPrompt() {
+  utils.setCWD();
+
+  const writableCheck = vscode.workspace.fs.isWritableFileSystem("file");
+  if (!writableCheck) {
+    vscode.window.showErrorMessage(
+      `VS Code isn't able to create new files in this workspace.`
+    );
+    return false;
+  }
+
+  const templateType = await getTemplateType();
+  const templateHandle = getTemplateHandle();
+  const existingParts = await getTemplateParts();
+
+  let newPartName = await vscode.window.showInputBox({
+    prompt:
+      "Enter the name of the new part. Use only letters, numbers and underscores.",
+    placeHolder: "new_part_name",
+    title: "NEW PART",
+  });
+
+  if (!newPartName) {
+    return false;
+  }
+  if (existingParts.includes(newPartName)) {
+    vscode.window.showErrorMessage(
+      `Part "${newPartName}" already exists in this template`
+    );
+    return false;
+  }
+  const newPart = await createTemplatePart(newPartName);
+  if (!newPart) {
+    vscode.window.showErrorMessage(
+      `Something went wrong while creating the part.`
+    );
+    return false;
+  }
+  vscode.window.showInformationMessage(
+    `"${newPartName}" part created for "${templateHandle}" (${templateType})`
+  );
+
+  return true;
 }

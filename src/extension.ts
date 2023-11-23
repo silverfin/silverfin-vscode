@@ -173,17 +173,19 @@ export async function activate(context: vscode.ExtensionContext) {
       templatePartsProvider
     )
   );
+  context.subscriptions.push(
+    vscode.commands.registerCommand("template-parts-panel.refresh", () => {
+      if (!templatePartsProvider._view) {
+        return;
+      }
+      templatePartsProvider.setContent(templatePartsProvider._view);
+    })
+  );
   vscode.window.onDidChangeActiveTextEditor(() => {
-    if (!templatePartsProvider._view) {
-      return;
-    }
-    templatePartsProvider.setContent(templatePartsProvider._view);
+    vscode.commands.executeCommand("template-parts-panel.refresh");
   });
   vscode.workspace.onDidSaveTextDocument(() => {
-    if (!templatePartsProvider._view) {
-      return;
-    }
-    templatePartsProvider.setContent(templatePartsProvider._view);
+    vscode.commands.executeCommand("template-parts-panel.refresh");
   });
   // Template Info
   const templateInfoProvider = new TemplateInformationViewProvider(
@@ -195,17 +197,19 @@ export async function activate(context: vscode.ExtensionContext) {
       templateInfoProvider
     )
   );
+  context.subscriptions.push(
+    vscode.commands.registerCommand("template-info-panel.refresh", () => {
+      if (!templateInfoProvider._view) {
+        return;
+      }
+      templateInfoProvider.setContent(templateInfoProvider._view);
+    })
+  );
   vscode.window.onDidChangeActiveTextEditor(() => {
-    if (!templateInfoProvider._view) {
-      return;
-    }
-    templateInfoProvider.setContent(templateInfoProvider._view);
+    vscode.commands.executeCommand("template-info-panel.refresh");
   });
   vscode.workspace.onDidSaveTextDocument(() => {
-    if (!templateInfoProvider._view) {
-      return;
-    }
-    templateInfoProvider.setContent(templateInfoProvider._view);
+    vscode.commands.executeCommand("template-info-panel.refresh");
   });
   // Liquid Tests
   const testsProvider = new TestsViewProvider(
@@ -219,17 +223,19 @@ export async function activate(context: vscode.ExtensionContext) {
       testsProvider
     )
   );
+  context.subscriptions.push(
+    vscode.commands.registerCommand("tests-panel.refresh", () => {
+      if (!testsProvider._view) {
+        return;
+      }
+      testsProvider.setContent(testsProvider._view);
+    })
+  );
   vscode.window.onDidChangeActiveTextEditor(() => {
-    if (!testsProvider._view) {
-      return;
-    }
-    testsProvider.setContent(testsProvider._view);
+    vscode.commands.executeCommand("tests-panel.refresh");
   });
   vscode.workspace.onDidSaveTextDocument(() => {
-    if (!testsProvider._view) {
-      return;
-    }
-    testsProvider.setContent(testsProvider._view);
+    vscode.commands.executeCommand("tests-panel.refresh");
   });
   // Firm Info
   const firmInfoProvider = new FirmViewProvider(context.extensionUri);
@@ -239,20 +245,7 @@ export async function activate(context: vscode.ExtensionContext) {
       firmInfoProvider
     )
   );
-  vscode.window.onDidChangeActiveTextEditor(() => {
-    if (!firmInfoProvider._view) {
-      return;
-    }
-    firmInfoProvider.setContent(firmInfoProvider._view);
-  });
-  vscode.workspace.onDidSaveTextDocument(() => {
-    if (!firmInfoProvider._view) {
-      return;
-    }
-    firmInfoProvider.setContent(firmInfoProvider._view);
-  });
   // command that can be used to force a refresh of the firms panel
-  // used when the user changes the firm id to refresh the Active label
   context.subscriptions.push(
     vscode.commands.registerCommand("firm-panel.refresh", () => {
       if (!firmInfoProvider._view) {
@@ -261,6 +254,12 @@ export async function activate(context: vscode.ExtensionContext) {
       firmInfoProvider.setContent(firmInfoProvider._view);
     })
   );
+  vscode.window.onDidChangeActiveTextEditor(() => {
+    vscode.commands.executeCommand("firm-panel.refresh");
+  });
+  vscode.workspace.onDidSaveTextDocument(() => {
+    vscode.commands.executeCommand("firm-panel.refresh");
+  });
 
   // Auto Close Tags
   vscode.workspace.onDidChangeTextDocument((event) => {

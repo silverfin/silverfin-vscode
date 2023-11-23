@@ -125,7 +125,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
     const templateFolder = templateUtils.FOLDERS[this.templateType];
 
     let partNames: string[] = [];
-    const handle = configData.handle || configData.name || configData.name_nl;
+    const handle = templateUtils.getTemplateHandle();
     partNames = Object.keys(configData.text_parts) || [];
     const partsRows = partNames
       .map(
@@ -179,6 +179,11 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
           <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
             Parts
           </vscode-data-grid-cell>
+          <vscode-data-grid-cell cell-type="columnheader" grid-column="2" class="vs-actions">
+          <vscode-button appearance="icon" aria-label="create-new-part" class="create-new-part" title="Create a new part for this template">
+            <i class="codicon codicon-add"></i>
+          </vscode-button>
+        </vscode-data-grid-cell>
         </vscode-data-grid-row>
         <vscode-data-grid-row>
           <vscode-data-grid-cell grid-column="1">
@@ -223,13 +228,20 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
   }
 
   private messageHandler(webviewView: vscode.WebviewView) {
-    webviewView.webview.onDidReceiveMessage((message: any) => {
+    webviewView.webview.onDidReceiveMessage(async (message: any) => {
+      const cwd = utils.setCWD();
       switch (message.type) {
         case "open-file":
-          // Open file
-          const cwd = utils.setCWD();
           const fileUri = vscode.Uri.parse(cwd + message.value);
           vscode.window.showTextDocument(fileUri, { preview: true });
+          return;
+        case "create-new-part":
+          await templateUtils.createTemplatePartPrompt();
+          // delay the refresh to allow the file to be created
+          setTimeout(() => {
+            vscode.commands.executeCommand("template-parts-panel.refresh");
+            vscode.commands.executeCommand("template-info-panel.refresh");
+          }, 1000);
           return;
       }
     });
