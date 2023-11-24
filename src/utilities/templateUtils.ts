@@ -78,21 +78,36 @@ export async function getTemplateType() {
   }
 }
 
+export async function getTemplateBasePath() {
+  const cwd = utils.setCWD();
+  const templateType = await getTemplateType();
+  const templateHandle = getTemplateHandle();
+  if (!cwd || !templateType || !templateHandle) {
+    return false;
+  }
+  const templateBasePath = posix.join(
+    cwd,
+    FOLDERS[templateType],
+    templateHandle
+  );
+  return templateBasePath;
+}
+
 // Check if Config file exists and return its paths
 export async function getTemplateConfigPath() {
   utils.setCWD();
   if (!vscode.window.activeTextEditor) {
     return false;
   }
-  const templateHanlde = getTemplateHandle();
-  if (!templateHanlde) {
+  const templateHandle = getTemplateHandle();
+  if (!templateHandle) {
     return false;
   }
   const filePath = posix.resolve(
     vscode.window.activeTextEditor.document.uri.path
   );
   const fileParts = filePath.split(posix.sep);
-  const indexCheck = (element: string) => element === templateHanlde;
+  const indexCheck = (element: string) => element === templateHandle;
   const index = fileParts.findIndex(indexCheck);
   if (index === -1) {
     return false;
@@ -182,4 +197,130 @@ export async function getTemplateLiquidTestsPath() {
   } catch (error) {
     return false;
   }
+}
+
+async function getTemplateParts() {
+  const templateConfigData = await getTemplateConfigData();
+  return Object.keys(templateConfigData.text_parts);
+}
+
+export async function removeDeletedParts() {
+  const templateBasePath = await getTemplateBasePath();
+  if (!templateBasePath) {
+    return false;
+  }
+  const partsPath = posix.join(templateBasePath, "text_parts");
+  const parts = await vscode.workspace.fs.readDirectory(
+    vscode.Uri.file(partsPath)
+  );
+  const partsInDirectory = parts.map((part) => part[0].replace(".liquid", ""));
+  const partsInConfig = await getTemplateParts();
+
+  const partsToDelete = partsInConfig.filter(
+    (part) => !partsInDirectory.includes(part)
+  );
+
+  if (partsToDelete.length === 0) {
+    return false;
+  }
+
+  const configPath = await getTemplateConfigPath();
+  const configData = await getTemplateConfigData();
+  if (!configPath || !configData) {
+    return false;
+  }
+
+  partsToDelete.forEach((part) => {
+    delete configData.text_parts[part];
+  });
+
+  const newConfigData = Uint8Array.from(
+    Buffer.from(JSON.stringify(configData, null, 2), "utf8")
+  );
+  await vscode.workspace.fs.writeFile(
+    vscode.Uri.file(configPath),
+    newConfigData
+  );
+
+  return true;
+}
+
+async function createTemplatePart(partName: string) {
+  const configPath = await getTemplateConfigPath();
+  if (!configPath) {
+    return false;
+  }
+  const templateConfigData = await getTemplateConfigData();
+  const templateBasePath = await getTemplateBasePath();
+  if (!templateConfigData || !templateBasePath) {
+    return false;
+  }
+  const newPartPath = posix.join(
+    templateBasePath,
+    `text_parts`,
+    `${partName}.liquid`
+  );
+  const newPartContent = Uint8Array.from(
+    Buffer.from("{% comment %} New part {% endcomment %}", "utf8")
+  );
+  await vscode.workspace.fs.writeFile(
+    vscode.Uri.file(newPartPath),
+    newPartContent
+  );
+
+  templateConfigData.text_parts[partName] = `text_parts/${partName}.liquid`;
+  const newConfigData = Uint8Array.from(
+    Buffer.from(JSON.stringify(templateConfigData, null, 2), "utf8")
+  );
+  await vscode.workspace.fs.writeFile(
+    vscode.Uri.file(configPath),
+    newConfigData
+  );
+
+  return true;
+}
+
+export async function createTemplatePartPrompt() {
+  utils.setCWD();
+
+  const writableCheck = vscode.workspace.fs.isWritableFileSystem("file");
+  if (!writableCheck) {
+    vscode.window.showErrorMessage(
+      `VS Code isn't able to create new files in this workspace.`
+    );
+    return false;
+  }
+
+  const templateType = await getTemplateType();
+  const templateHandle = getTemplateHandle();
+  const existingParts = await getTemplateParts();
+
+  let newPartName = await vscode.window.showInputBox({
+    prompt:
+      "Enter the name of the new part. Use only letters, numbers and underscores.",
+    placeHolder: "new_part_name",
+    title: "NEW PART",
+  });
+
+  if (!newPartName) {
+    return false;
+  }
+  if (existingParts.includes(newPartName)) {
+    vscode.window.showErrorMessage(
+      `Part "${newPartName}" already exists in this template`
+    );
+    return false;
+  }
+  const newPart = await createTemplatePart(newPartName);
+  if (!newPart) {
+    vscode.window.showErrorMessage(
+      `Something went wrong while creating the part.`
+    );
+    return false;
+  }
+  vscode.window.showInformationMessage(
+    `"${newPartName}" part created for "${templateHandle}" (${templateType})`
+  );
+
+  return true;
 }

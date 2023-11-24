@@ -36,6 +36,7 @@ function main() {
   runTestButton();
   devModeLiquidButton();
   devModeTestsButton();
+  createNewPartButton();
 }
 
 // Add event listener to all buttons with class "open-file"
@@ -183,5 +184,22 @@ function postMessageDevModeTests(
     status: dataStatus,
     testName: dataTestSelection,
     htmlType: dataHtmlMode,
+  });
+}
+
+// Add event listener to button with class "create-new-part"
+function createNewPartButton() {
+  const buttons = document.getElementsByClassName("create-new-part");
+  const buttonsArray = Array.from(buttons);
+  buttonsArray.forEach((element) => {
+    element?.addEventListener("click", () => {
+      postMessageCreateNewPart();
+    });
+  });
+}
+
+function postMessageCreateNewPart() {
+  vscode.postMessage({
+    type: "create-new-part",
   });
 }

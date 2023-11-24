@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.14.0]
+
+- New button in side-bar to create text parts. Also, automatically checks if part has been deleted to update it's reference in the corresponding config.json file
+
 ## [1.13.9]
 
 - Update liquid testing JSON schema for validation
