@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.15.0]
+
+- New buttons in the side-bar to add or remove shared parts.
+
 ## [1.14.1]
 
 - Side-bar. Development-mode. When one of the options in enabeled (local or platform), only show as enabled the button to stop that specific action.

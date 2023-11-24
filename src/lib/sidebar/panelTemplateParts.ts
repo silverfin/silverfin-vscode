@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import * as types from "../../lib/types";
+import * as userActions from "../../lib/userActions";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 import * as panelUtils from "./panelUtils";
@@ -149,12 +150,14 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
       handle
     );
 
-    const sharedPartsRows = sharedPartNames
-      .sort()
-      .map((sharedPartName: string) => {
-        const sharedPartPath = `/shared_parts/${sharedPartName}/${sharedPartName}.liquid`;
+    const sharedPartsRows =
+      sharedPartNames.length > 0
+        ? sharedPartNames
+            .sort()
+            .map((sharedPartName: string) => {
+              const sharedPartPath = `/shared_parts/${sharedPartName}/${sharedPartName}.liquid`;
 
-        return /*html*/ `<vscode-data-grid-row>
+              return /*html*/ `<vscode-data-grid-row>
           <vscode-data-grid-cell grid-column="1">
             ${sharedPartName}
           </vscode-data-grid-cell>
@@ -168,8 +171,12 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
             }
           </vscode-data-grid-cell>
         </vscode-data-grid-row>`;
-      })
-      .join("");
+            })
+            .join("")
+        : /*html*/
+          `<vscode-data-grid-cell grid-column="1">
+            There are no shared parts linked to this templates currently
+          </vscode-data-grid-cell>`;
 
     const gridLayout = `grid-template-columns="3fr 1fr"`;
 
@@ -199,12 +206,18 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
         ${partsRows}
       </vscode-data-grid>`;
 
-    const sharedPartsBlock =
-      sharedPartsRows.length > 0
-        ? /*html*/ `<vscode-data-grid aria-label="template shared-parts" ${gridLayout}>
+    const sharedPartsBlock = /*html*/ `<vscode-data-grid aria-label="template shared-parts" ${gridLayout}>
         <vscode-data-grid-row row-type="sticky-header" grid-columns="1">
           <vscode-data-grid-cell cell-type="columnheader" grid-column="1">
             Shared parts
+          </vscode-data-grid-cell> 
+          <vscode-data-grid-cell cell-type="columnheader" grid-column="2" class="vs-actions">
+            <vscode-button appearance="icon" aria-label="add-shared-part" class="add-shared-part" title="Add a shared part">
+              <i class="codicon codicon-add"></i>
+            </vscode-button>
+            <vscode-button appearance="icon" aria-label="remove-shared-part" class="remove-shared-part" title="Remove a shared part">
+              <i class="codicon codicon-remove"></i>
+            </vscode-button>
           </vscode-data-grid-cell>
         </vscode-data-grid-row>
         <vscode-data-grid-row row-type="header" grid-columns="1">
@@ -213,8 +226,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
           </vscode-data-grid-cell>
         </vscode-data-grid-row>
         ${sharedPartsRows}
-      </vscode-data-grid>`
-        : "";
+      </vscode-data-grid>`;
 
     let htmlBody = /*html*/ `${partsBlock}${sharedPartsBlock}`;
 
@@ -231,6 +243,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
   private messageHandler(webviewView: vscode.WebviewView) {
     webviewView.webview.onDidReceiveMessage(async (message: any) => {
       const cwd = utils.setCWD();
+      const firmId = await panelUtils.getFirmIdStored();
       switch (message.type) {
         case "open-file":
           const fileUri = vscode.Uri.parse(cwd + message.value);
@@ -238,13 +251,24 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
           return;
         case "create-new-part":
           await templateUtils.createTemplatePartPrompt();
-          // delay the refresh to allow the file to be created
-          setTimeout(() => {
-            vscode.commands.executeCommand("template-parts-panel.refresh");
-            vscode.commands.executeCommand("template-info-panel.refresh");
-          }, 1000);
+          this.refreshPanels();
+          return;
+        case "add-shared-part":
+          await userActions.addSharedPartPrompt(firmId);
+          this.refreshPanels();
+          return;
+        case "remove-shared-part":
+          await userActions.removeSharedPartsPrompt(firmId);
+          this.refreshPanels();
           return;
       }
     });
+  }
+
+  private refreshPanels() {
+    setTimeout(() => {
+      vscode.commands.executeCommand("template-parts-panel.refresh");
+      vscode.commands.executeCommand("template-info-panel.refresh");
+    }, 1000);
   }
 }
