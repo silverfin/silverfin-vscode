@@ -52,7 +52,22 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     const gridLayout = `grid-template-columns="2fr 1fr"`;
     this.firmIdStored = await firmCredentials.getDefaultFirmId();
     const disabledLabel = this.clickableButtons() ? "" : "disabled";
-    const disabledReverseLabel = this.clickableButtons() ? "disabled" : "";
+    let disabledStopTestsLabel = "disabled";
+    let disabledStopUpdatesLabel = "disabled";
+    if (
+      this.firmIdStored &&
+      !this.clickableButtons() &&
+      this.devModeOption === "liquid-tests"
+    ) {
+      disabledStopTestsLabel = "";
+    }
+    if (
+      this.firmIdStored &&
+      !this.clickableButtons() &&
+      this.devModeOption === "liquid-updates"
+    ) {
+      disabledStopUpdatesLabel = "";
+    }
     const liquidTestsRows = testNames.map((testName: string) => {
       return /*html*/ `
             <vscode-data-grid-row grid-columns="2">
@@ -166,9 +181,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
           <vscode-button appearance="icon" class="dev-mode-tests" title="Activate" data-status="active" ${disabledLabel}>
             <i class="codicon codicon-debug-start"></i>
           </vscode-button>
-          <vscode-button appearance="icon" class="dev-mode-tests" title="Deactivate" data-status="inactive" ${
-            !this.firmIdStored ? "disabled" : ""
-          } ${disabledReverseLabel}>
+          <vscode-button appearance="icon" class="dev-mode-tests" title="Deactivate" data-status="inactive" ${disabledStopTestsLabel}>
             <i class="codicon codicon-stop-circle"></i>
           </vscode-button>
         </vscode-data-grid-cell>
@@ -204,9 +217,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
           <vscode-button appearance="icon" class="dev-mode-liquid" title="Activate" data-status="active" ${disabledLabel}>
             <i class="codicon codicon-debug-start"></i>
           </vscode-button>
-          <vscode-button appearance="icon" class="dev-mode-liquid" title="Deactivate" data-status="inactive" ${
-            !this.firmIdStored ? "disabled" : ""
-          } ${disabledReverseLabel}>
+          <vscode-button appearance="icon" class="dev-mode-liquid" title="Deactivate" data-status="inactive" ${disabledStopUpdatesLabel}>
             <i class="codicon codicon-stop-circle"></i>
           </vscode-button>
         </vscode-data-grid-cell>

@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.14.1]
+
+- Side-bar. Development-mode. When one of the options in enabeled (local or platform), only show as enabled the button to stop that specific action.
+
 ## [1.14.0]
 
 - New button in side-bar to create text parts. Also, automatically checks if part has been deleted to update it's reference in the corresponding config.json file
