@@ -175,7 +175,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
             .join("")
         : /*html*/
           `<vscode-data-grid-cell grid-column="1">
-            There are no shared parts linked to this templates currently
+            There are currently no shared parts linked to this template
           </vscode-data-grid-cell>`;
 
     const gridLayout = `grid-template-columns="3fr 1fr"`;
