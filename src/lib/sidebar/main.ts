@@ -37,6 +37,8 @@ function main() {
   devModeLiquidButton();
   devModeTestsButton();
   createNewPartButton();
+  addSharedPartButton();
+  removeSharedPartButton();
 }
 
 // Add event listener to all buttons with class "open-file"
@@ -201,5 +203,37 @@ function createNewPartButton() {
 function postMessageCreateNewPart() {
   vscode.postMessage({
     type: "create-new-part",
+  });
+}
+
+function addSharedPartButton() {
+  const buttons = document.getElementsByClassName("add-shared-part");
+  const buttonsArray = Array.from(buttons);
+  buttonsArray.forEach((element) => {
+    element?.addEventListener("click", () => {
+      postMessageAddSharedPart();
+    });
+  });
+}
+
+function postMessageAddSharedPart() {
+  vscode.postMessage({
+    type: "add-shared-part",
+  });
+}
+
+function removeSharedPartButton() {
+  const buttons = document.getElementsByClassName("remove-shared-part");
+  const buttonsArray = Array.from(buttons);
+  buttonsArray.forEach((element) => {
+    element?.addEventListener("click", () => {
+      postMessageRemoveSharedPart();
+    });
+  });
+}
+
+function postMessageRemoveSharedPart() {
+  vscode.postMessage({
+    type: "remove-shared-part",
   });
 }
