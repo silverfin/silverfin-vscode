@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.15.1]
+
+- Show an error when the template update fails.
+
 ## [1.15.0]
 
 - New buttons in the side-bar to add or remove shared parts.

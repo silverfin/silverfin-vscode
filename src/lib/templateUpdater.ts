@@ -65,6 +65,10 @@ export class TemplateUpdater {
       vscode.window.showInformationMessage(
         `${templateHandle} updated in firm ${this.firmId}`
       );
+    } else {
+      vscode.window.showErrorMessage(
+        `Update failed. If the issue persists, try to authorize firm ${this.firmId} again.`
+      );
     }
   }
 }
