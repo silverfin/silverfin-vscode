@@ -102,7 +102,7 @@ export default class LiquidDiagnostics {
   private async getSharedPartsAdded() {
     await firmCredentials.loadCredentials(); // refresh credentials
     const firmId = await firmCredentials.getDefaultFirmId();
-    const templateHandle = templateUtils.getTemplateHandle();
+    const templateHandle = await templateUtils.getTemplateHandle();
     const templateType = await templateUtils.getTemplateType();
     if (
       !templateHandle ||

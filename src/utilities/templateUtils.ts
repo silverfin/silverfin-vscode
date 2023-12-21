@@ -26,45 +26,47 @@ export const TEMPLATE_TYPES_NAMES = {
   accountTemplate: "Account template",
 };
 
-// Get template handle from file path
-// Identify template handle from text_parts or main
-export function getTemplateHandle() {
-  if (!vscode.window.activeTextEditor) {
-    return false;
+/**
+ *
+ * @param filePath - Optional. File path to identify the template handle. If it is not provided, it will look at the file path of the ActiveTextEditor.
+ * @returns `templateHandle: string` or `false: boolean` if it is not identified.
+ * @example `getTemplateHandle("/Users/username/.../reconciliation_texts/template_handle/main.liquid")` returns `"template_handle"`
+ */
+export async function getTemplateHandle(filePath?: string) {
+  if (!filePath) {
+    if (!vscode.window.activeTextEditor) {
+      return false;
+    }
+    filePath = posix.resolve(vscode.window.activeTextEditor.document.uri.path);
   }
-  const filePath = posix.resolve(
-    vscode.window.activeTextEditor.document.uri.path
-  );
-  const pathParts = filePath.split(posix.sep);
+  const fileParts = filePath.split(posix.sep);
   const indexCheck = (element: string) =>
     element === "shared_parts" ||
     element === "reconciliation_texts" ||
     element === "export_files" ||
     element === "account_templates";
-  const index = pathParts.findIndex(indexCheck);
+  const index = fileParts.findIndex(indexCheck);
   if (index === -1) {
     return false;
   }
-  const templateHandle = pathParts[index + 1];
+  const templateHandle = fileParts[index + 1];
   return templateHandle;
 }
 
-// reconciliationText, sharedPart, exportFile, accountTemplate
-export async function getTemplateType() {
-  if (!vscode.window.activeTextEditor) {
-    return false;
+/**
+ * Identify the type of template from any file (main, text_parts, config, tests). It does it by looking at the file path
+ * @param path - Optional. File path to identify the template type. If it is not provided, it will look at the file path of the ActiveTextEditor.
+ * @returns `reconciliationText` | `sharedPart` | `exportFile` | `accountTemplate` or `false` if it is not identified.
+ * @example `getTemplateType("/Users/username/.../reconciliation_texts/template_handle/main.liquid")` returns `"reconciliationText"`
+ */
+export async function getTemplateType(filePath?: string) {
+  if (!filePath) {
+    if (!vscode.window.activeTextEditor) {
+      return false;
+    }
+    filePath = posix.resolve(vscode.window.activeTextEditor.document.uri.path);
   }
-  const filePath = posix.resolve(
-    vscode.window.activeTextEditor.document.uri.path
-  );
   const fileParts = filePath.split(posix.sep);
-  const fileName = fileParts[fileParts.length - 1];
-  const fileType = fileName.split(".")[1];
-  // Removed, we want to show parts next to every file (config.json, liquid tests, etc.)
-  // if (fileType !== "liquid") {
-  //   //vscode.window.showErrorMessage("File is not a liquid file");
-  //   return false;
-  // }
   if (fileParts.includes("reconciliation_texts")) {
     return "reconciliationText";
   } else if (fileParts.includes("shared_parts")) {
@@ -81,7 +83,7 @@ export async function getTemplateType() {
 export async function getTemplateBasePath() {
   const cwd = utils.setCWD();
   const templateType = await getTemplateType();
-  const templateHandle = getTemplateHandle();
+  const templateHandle = await getTemplateHandle();
   if (!cwd || !templateType || !templateHandle) {
     return false;
   }
@@ -99,7 +101,7 @@ export async function getTemplateConfigPath() {
   if (!vscode.window.activeTextEditor) {
     return false;
   }
-  const templateHandle = getTemplateHandle();
+  const templateHandle = await getTemplateHandle();
   if (!templateHandle) {
     return false;
   }
@@ -130,7 +132,7 @@ export async function getTemplateConfigData() {
     return false;
   }
   const templateType = await getTemplateType();
-  const templateHandle = getTemplateHandle();
+  const templateHandle = await getTemplateHandle();
   if (!templateType || !templateHandle) {
     return false;
   }
@@ -167,7 +169,7 @@ export async function getTemplateLiquidTestsPath() {
     if (!vscode.window.activeTextEditor) {
       return false;
     }
-    const templateHandle = getTemplateHandle();
+    const templateHandle = await getTemplateHandle();
     if (!templateHandle) {
       return false;
     }
@@ -292,7 +294,7 @@ export async function createTemplatePartPrompt() {
   }
 
   const templateType = await getTemplateType();
-  const templateHandle = getTemplateHandle();
+  const templateHandle = await getTemplateHandle();
   const existingParts = await getTemplateParts();
 
   let newPartName = await vscode.window.showInputBox({

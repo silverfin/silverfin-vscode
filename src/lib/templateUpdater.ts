@@ -11,10 +11,10 @@ export class TemplateUpdater {
     this.output = outputChannel;
   }
 
-  async pushToSilverfin() {
+  async pushToSilverfin(filePath: string) {
     this.firmId = await this.firmHandler.setFirmID();
-    const templateHandle = await templateUtils.getTemplateHandle();
-    const templateType = await templateUtils.getTemplateType();
+    const templateHandle = await templateUtils.getTemplateHandle(filePath);
+    const templateType = await templateUtils.getTemplateType(filePath);
     const parameters = {
       firmId: this.firmId,
       templateHandle,
@@ -67,7 +67,7 @@ export class TemplateUpdater {
       );
     } else {
       vscode.window.showErrorMessage(
-        `Update failed. If the issue persists, try to authorize firm ${this.firmId} again.`
+        `Update failed for ${templateHandle}. Use the CLI to get more details about the issue. If the issue persists, try to authorize firm ${this.firmId} again.`
       );
     }
   }

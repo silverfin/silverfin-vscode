@@ -46,7 +46,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
 
   public async setContent(webviewView: vscode.WebviewView) {
     utils.setCWD();
-    const templateHandle = templateUtils.getTemplateHandle();
+    const templateHandle = await templateUtils.getTemplateHandle();
     const templateType = await templateUtils.getTemplateType();
     const testNames = (await this.liquidTestRunner.listTestNames()) || [];
     const gridLayout = `grid-template-columns="2fr 1fr"`;
@@ -282,7 +282,8 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
         case "dev-mode-tests":
           this.devModeOption = "liquid-tests";
           this.devModeStatus = message.status;
-          const templateHandle = templateUtils.getTemplateHandle() || "";
+          const templateHandle =
+            (await templateUtils.getTemplateHandle()) || "";
           this.lockedHandle = templateHandle;
           previewOnly = message.htmlType === "none" ? false : true;
           this.testDetails = {

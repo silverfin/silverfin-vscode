@@ -127,7 +127,7 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
     const templateFolder = templateUtils.FOLDERS[this.templateType];
 
     let partNames: string[] = [];
-    const handle = templateUtils.getTemplateHandle();
+    const handle = await templateUtils.getTemplateHandle();
     partNames = Object.keys(configData.text_parts) || [];
     const partsRows = partNames
       .map(

@@ -271,10 +271,10 @@ export async function activate(context: vscode.ExtensionContext) {
     if (testsProvider.devModeStatus !== "active") {
       return;
     }
-    const activeDocument = vscode.window.activeTextEditor?.document;
-    if (activeDocument !== document) {
-      return;
-    }
+    // const activeDocument = vscode.window.activeTextEditor?.document;
+    // if (activeDocument !== document) {
+    //   return;
+    // }
     switch (testsProvider.devModeOption) {
       case "liquid-tests":
         liquidTest.runTest(
@@ -285,7 +285,7 @@ export async function activate(context: vscode.ExtensionContext) {
         );
         break;
       case "liquid-updates":
-        templateUpdater.pushToSilverfin();
+        await templateUpdater.pushToSilverfin(document.uri.path);
         break;
     }
   });
