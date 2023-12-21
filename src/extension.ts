@@ -18,6 +18,9 @@ import * as diagnosticsUtils from "./utilities/diagnosticsUtils";
 export async function activate(context: vscode.ExtensionContext) {
   // Initializers
   const outputChannel = vscode.window.createOutputChannel("Silverfin");
+  const outputChannelDevMode = vscode.window.createOutputChannel(
+    "Silverfin - Dev Mode"
+  );
   const firmHandler = new FirmHandler(outputChannel);
   const statusBarItemRunTests = new StatusBarItem(
     context,
@@ -30,7 +33,11 @@ export async function activate(context: vscode.ExtensionContext) {
   const liquidLinter = new LiquidLinter(outputChannel);
   const liquidTest = new LiquidTest(context, outputChannel);
   const liquidDiagnostics = new LiquidDiagnostics(context, outputChannel);
-  const templateUpdater = new TemplateUpdater(firmHandler, outputChannel);
+  const templateUpdater = new TemplateUpdater(
+    firmHandler,
+    outputChannel,
+    outputChannelDevMode
+  );
 
   // References
   firmHandler.statusBarItem = statusBarItemRunTests;

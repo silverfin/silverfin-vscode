@@ -4,11 +4,17 @@ import * as templateUtils from "../utilities/templateUtils";
 
 export class TemplateUpdater {
   output: vscode.OutputChannel;
+  outputDevMode: vscode.OutputChannel;
   firmHandler: any;
   firmId: Number | undefined = undefined;
-  constructor(firmHandler: any, outputChannel: vscode.OutputChannel) {
+  constructor(
+    firmHandler: any,
+    outputChannel: vscode.OutputChannel,
+    outputChannelDevMode: vscode.OutputChannel
+  ) {
     this.firmHandler = firmHandler;
     this.output = outputChannel;
+    this.outputDevMode = outputChannelDevMode;
   }
 
   async pushToSilverfin(filePath: string) {
@@ -51,7 +57,7 @@ export class TemplateUpdater {
       functionName,
       updated,
     });
-    this.updateMessage(updated, templateHandle);
+    this.updateMessage(updated, templateHandle, templateType);
   }
 
   private outputLog(message: string, object: object) {
@@ -60,10 +66,14 @@ export class TemplateUpdater {
     );
   }
 
-  private updateMessage(updated: boolean, templateHandle: string) {
+  private updateMessage(
+    updated: boolean,
+    templateHandle: string,
+    templateType: string
+  ) {
     if (updated) {
-      vscode.window.showInformationMessage(
-        `${templateHandle} updated in firm ${this.firmId}`
+      this.outputDevMode.appendLine(
+        `${templateHandle} (${templateType}) updated in firm ${this.firmId}`
       );
     } else {
       vscode.window.showErrorMessage(
