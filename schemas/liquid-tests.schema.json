@@ -1,7 +1,4 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "JSON Schema for Silverfin Liquid Test",
-  "description": "Validate YAML properties for Silverfin liquid template testing",
   "type": "object",
   "patternProperties": {
     "": {
@@ -94,10 +91,8 @@
                       "patternProperties": {
                         "": {
                           "type": "object",
-                          "properties": {
-                            "results": { "type": "object" }
-                          },
-                          "required": ["results"]
+                          "required": ["results"],
+                          "properties": { "results": { "type": "object" } }
                         }
                       }
                     }
@@ -652,7 +647,11 @@
           "properties": {
             "results": { "$ref": "#/$defs/namedResult" },
             "reconciled": { "type": "boolean" },
-            "rollforward": { "$ref": "#/$defs/textProperty" }
+            "rollforward": { "$ref": "#/$defs/textProperty" },
+            "excluded_results": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
           }
         }
       }
