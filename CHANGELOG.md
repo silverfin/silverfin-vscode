@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.15.2]
+
+- Update liquid testing JSON schema to support exclude_results in expectation block
+
 ## [1.15.1]
 
 - Show an error when the template update fails.
