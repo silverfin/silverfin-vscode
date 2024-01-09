@@ -1,4 +1,7 @@
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "JSON Schema for Silverfin Liquid Test",
+  "description": "Validate YAML properties for Silverfin liquid template testing",
   "type": "object",
   "patternProperties": {
     "": {
@@ -112,9 +115,16 @@
               "type": "object",
               "additionalProperties": false,
               "properties": {
-                "name": { "type": "string" },
-                "company_type": { "type": "string" },
-                "company_form": { "type": "string" },
+                "company_type": {
+                  "default": "regular",
+                  "enum": [
+                    "regular",
+                    "analytical",
+                    "consolidation",
+                    "small",
+                    "personal"
+                  ]
+                },
                 "currency": {
                   "type": "string",
                   "enum": [
@@ -565,7 +575,6 @@
                 },
                 "city": { "type": "string" },
                 "street": { "type": "string" },
-                "vat_identifier": { "type": "string" },
                 "file_code": { "type": "string" },
                 "sync_reference": { "type": "string" },
                 "periods_per_year": { "type": "integer", "enum": [1, 4, 12] },
@@ -619,6 +628,33 @@
                       "ca"
                     ]
                   }
+                },
+                "first_name": { "type": "string" },
+                "last_name": { "type": "string" },
+                "national_insurance_number": { "type": "string" },
+                "company_form": { "type": "string" },
+                "name": { "type": "string" },
+                "vat_identifier": { "type": "string" }
+              },
+              "if": {
+                "properties": {
+                  "company_type": {
+                    "enum": ["regular", "analytical", "consolidation", "small"]
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "first_name": false,
+                  "last_name": false,
+                  "national_insurance_number": false
+                }
+              },
+              "else": {
+                "properties": {
+                  "company_form": false,
+                  "name": false,
+                  "vat_identifier": false
                 }
               }
             },
