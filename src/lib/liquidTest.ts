@@ -21,11 +21,11 @@ export default class LiquidTest {
 
   constructor(
     context: vscode.ExtensionContext,
-    outputChannel: vscode.OutputChannel
+    outputChannelLog: vscode.OutputChannel
   ) {
     this.errorsCollection =
       vscode.languages.createDiagnosticCollection(`LiquidTestCollection`);
-    this.output = outputChannel;
+    this.output = outputChannelLog;
     this.context = context;
     this.htmlPanel = undefined;
     this.firstRowRange = new vscode.Range(

@@ -4,17 +4,17 @@ import * as templateUtils from "../utilities/templateUtils";
 
 export class TemplateUpdater {
   output: vscode.OutputChannel;
-  outputDevMode: vscode.OutputChannel;
+  outputUser: vscode.OutputChannel;
   firmHandler: any;
   firmId: Number | undefined = undefined;
   constructor(
     firmHandler: any,
-    outputChannel: vscode.OutputChannel,
-    outputChannelDevMode: vscode.OutputChannel
+    outputChannelLog: vscode.OutputChannel,
+    outputChannelUser: vscode.OutputChannel
   ) {
     this.firmHandler = firmHandler;
-    this.output = outputChannel;
-    this.outputDevMode = outputChannelDevMode;
+    this.output = outputChannelLog;
+    this.outputUser = outputChannelUser;
   }
 
   async pushToSilverfin(filePath: string) {
@@ -72,7 +72,7 @@ export class TemplateUpdater {
     templateType: string
   ) {
     if (updated) {
-      this.outputDevMode.appendLine(
+      this.outputUser.appendLine(
         `${templateHandle} (${templateType}) updated in firm ${this.firmId}`
       );
     } else {

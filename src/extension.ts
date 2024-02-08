@@ -17,11 +17,12 @@ import * as diagnosticsUtils from "./utilities/diagnosticsUtils";
 
 export async function activate(context: vscode.ExtensionContext) {
   // Initializers
-  const outputChannel = vscode.window.createOutputChannel("Silverfin");
-  const outputChannelDevMode = vscode.window.createOutputChannel(
-    "Silverfin - Dev Mode"
+  const outputChannelLog = vscode.window.createOutputChannel(
+    "Silverfin (Extension Logs)"
   );
-  const firmHandler = new FirmHandler(outputChannel);
+  const outputChannelUser =
+    vscode.window.createOutputChannel("Silverfin (Users)");
+  const firmHandler = new FirmHandler(outputChannelLog);
   const statusBarItemRunTests = new StatusBarItem(
     context,
     firmHandler.apiSecretsPresent
@@ -30,13 +31,13 @@ export async function activate(context: vscode.ExtensionContext) {
     context,
     firmHandler.apiSecretsPresent
   );
-  const liquidLinter = new LiquidLinter(outputChannel);
-  const liquidTest = new LiquidTest(context, outputChannel);
-  const liquidDiagnostics = new LiquidDiagnostics(context, outputChannel);
+  const liquidLinter = new LiquidLinter(outputChannelLog);
+  const liquidTest = new LiquidTest(context, outputChannelLog);
+  const liquidDiagnostics = new LiquidDiagnostics(context, outputChannelLog);
   const templateUpdater = new TemplateUpdater(
     firmHandler,
-    outputChannel,
-    outputChannelDevMode
+    outputChannelLog,
+    outputChannelUser
   );
 
   // References
@@ -79,7 +80,7 @@ export async function activate(context: vscode.ExtensionContext) {
   if (vscode.window.activeTextEditor) {
     diagnosticsUtils.loadStoredDiagnostics(
       vscode.window.activeTextEditor.document,
-      outputChannel,
+      outputChannelLog,
       context,
       liquidTest.errorsCollection
     );
@@ -90,7 +91,7 @@ export async function activate(context: vscode.ExtensionContext) {
     vscode.workspace.onDidOpenTextDocument(async (currentDocument) => {
       diagnosticsUtils.loadStoredDiagnostics(
         currentDocument,
-        outputChannel,
+        outputChannelLog,
         context,
         liquidTest.errorsCollection
       );

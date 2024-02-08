@@ -2,18 +2,17 @@ import { posix } from "path";
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
 const sfCliApi = require("silverfin-cli/lib/api/sfApi");
-const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 
 export default class LiquidLinter {
   commandName = "silverfin-development-toolkit.liquidLinter";
   errorsCollection: vscode.DiagnosticCollection;
   output: vscode.OutputChannel;
   firmHandler: any;
-  constructor(outputChannel: vscode.OutputChannel) {
+  constructor(outputChannelLog: vscode.OutputChannel) {
     this.errorsCollection = vscode.languages.createDiagnosticCollection(
       `LiquidLinterCollection`
     );
-    this.output = outputChannel;
+    this.output = outputChannelLog;
   }
 
   public async verifyLiquidCommand() {

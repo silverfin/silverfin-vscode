@@ -9,8 +9,8 @@ export default class FirmHandler {
   output: vscode.OutputChannel;
   apiSecretsPresent: boolean;
   statusBarItem: any;
-  constructor(outputChannel: vscode.OutputChannel) {
-    this.output = outputChannel;
+  constructor(outputChannelLog: vscode.OutputChannel) {
+    this.output = outputChannelLog;
     this.apiSecretsPresent = this.checkApiSecrets();
   }
 

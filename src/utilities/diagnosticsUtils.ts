@@ -6,7 +6,7 @@ import * as types from "../lib/types";
 // Return the collection as array for further use if needed
 export async function loadStoredDiagnostics(
   currentDocument: vscode.TextDocument,
-  outputChannel: vscode.OutputChannel,
+  outputChannelLog: vscode.OutputChannel,
   context: vscode.ExtensionContext,
   errorsCollection: vscode.DiagnosticCollection
 ) {
@@ -21,7 +21,7 @@ export async function loadStoredDiagnostics(
   // Open Diagnostic Stored in Global State
   let storedDiagnostics: types.StoredDiagnostic[] | undefined =
     await context.globalState.get(currentDocument.uri.toString());
-  outputChannel.appendLine(
+  outputChannelLog.appendLine(
     `[Stored diagnostics] loaded: ${JSON.stringify(currentDocument.fileName)}`
   );
   if (storedDiagnostics) {

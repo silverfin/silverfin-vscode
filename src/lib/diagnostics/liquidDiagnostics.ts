@@ -17,11 +17,11 @@ export default class LiquidDiagnostics {
 
   constructor(
     context: vscode.ExtensionContext,
-    outputChannel: vscode.OutputChannel
+    outputChannelLog: vscode.OutputChannel
   ) {
     this.errorsCollection =
       vscode.languages.createDiagnosticCollection(`LiquidCollection`);
-    this.output = outputChannel;
+    this.output = outputChannelLog;
     this.currentLiquidFile = undefined;
     this.context = context;
   }
