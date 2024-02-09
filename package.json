@@ -137,6 +137,10 @@
       {
         "command": "silverfin-development-toolkit.authorizeFirm",
         "title": "Silverfin: authorize firm"
+      },
+      {
+        "command": "silverfin-development-toolkit.templateCommandsInBulk",
+        "title": "Silverfin: run a template command"
       }
     ],
     "keybindings": [

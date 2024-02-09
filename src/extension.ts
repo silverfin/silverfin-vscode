@@ -12,6 +12,7 @@ import { TemplatePartsViewProvider } from "./lib/sidebar/panelTemplateParts";
 import { TestsViewProvider } from "./lib/sidebar/panelTests";
 import StatusBarDevMode from "./lib/statusBar/statusBarDevMode";
 import StatusBarItem from "./lib/statusBar/statusBarItem";
+import { TemplateCommander } from "./lib/templateCommander";
 import { TemplateUpdater } from "./lib/templateUpdater";
 import * as diagnosticsUtils from "./utilities/diagnosticsUtils";
 
@@ -297,6 +298,13 @@ export async function activate(context: vscode.ExtensionContext) {
         break;
     }
   });
+
+  new TemplateCommander(
+    firmHandler,
+    outputChannelLog,
+    outputChannelUser,
+    context
+  );
 }
 
 export function deactivate() {}
