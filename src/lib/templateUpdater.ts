@@ -1,20 +1,19 @@
 const sfCli = require("silverfin-cli");
 import * as vscode from "vscode";
 import * as templateUtils from "../utilities/templateUtils";
+import FirmHandler from "./firmHandler";
+import ExtensionLogger from "./outputChannels/extensionLogger";
+import UserLogger from "./outputChannels/userLogger";
 
 export default class TemplateUpdater {
-  output: vscode.OutputChannel;
-  outputUser: vscode.OutputChannel;
-  firmHandler: any;
+  private extensionLogger: ExtensionLogger;
+  private userLogger: UserLogger;
+  private firmHandler: FirmHandler;
   firmId: Number | undefined = undefined;
-  constructor(
-    firmHandler: any,
-    outputChannelLog: vscode.OutputChannel,
-    outputChannelUser: vscode.OutputChannel
-  ) {
+  constructor(firmHandler: any) {
     this.firmHandler = firmHandler;
-    this.output = outputChannelLog;
-    this.outputUser = outputChannelUser;
+    this.extensionLogger = ExtensionLogger.plug();
+    this.userLogger = UserLogger.plug();
   }
 
   async pushToSilverfin(filePath: string) {
@@ -24,10 +23,10 @@ export default class TemplateUpdater {
     const parameters = {
       firmId: this.firmId,
       templateHandle,
-      templateType,
+      templateType
     };
     if (!this.firmId || !templateHandle || !templateType) {
-      this.outputLog(
+      this.extensionLogger.log(
         "Could not push to Silverfin. Parameter missing",
         parameters
       );
@@ -50,30 +49,25 @@ export default class TemplateUpdater {
         break;
     }
     const functionName = updateFunction.name;
-    this.outputLog("Updating template", { parameters, functionName });
+    this.extensionLogger.log("Updating template", { parameters, functionName });
+
     const updated = await updateFunction(this.firmId, templateHandle, message);
-    this.outputLog("Template updated?", {
+    this.extensionLogger.log("Template updated?", {
       parameters,
       functionName,
-      updated,
+      updated
     });
-    this.updateMessage(updated, templateHandle, templateType);
+    this.displayUserMessage(updated, templateHandle, templateType);
   }
 
-  private outputLog(message: string, object: object) {
-    this.output.appendLine(
-      `[Template Updater] ${message}. ${JSON.stringify({ object })}`
-    );
-  }
-
-  private updateMessage(
+  private displayUserMessage(
     updated: boolean,
     templateHandle: string,
     templateType: string
   ) {
     if (updated) {
-      this.outputUser.appendLine(
-        `${templateHandle} (${templateType}) updated in firm ${this.firmId}`
+      this.userLogger.log(
+        `${templateHandle} (${this.templateTypeMapper[templateType]}) updated in firm ${this.firmId}`
       );
     } else {
       vscode.window.showErrorMessage(
@@ -81,4 +75,11 @@ export default class TemplateUpdater {
       );
     }
   }
+
+  private templateTypeMapper: { [index: string]: string } = {
+    reconciliationText: "Reconciliation Text",
+    sharedPart: "Shared Part",
+    accountTemplate: "Account Template",
+    exportFile: "Export File"
+  };
 }

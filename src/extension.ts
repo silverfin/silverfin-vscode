@@ -37,11 +37,7 @@ export async function activate(context: vscode.ExtensionContext) {
   const liquidLinter = new LiquidLinter(outputChannelLog);
   const liquidTest = new LiquidTest(context, outputChannelLog);
 
-  const templateUpdater = new TemplateUpdater(
-    firmHandler,
-    outputChannelLog,
-    outputChannelUser
-  );
+  const templateUpdater = new TemplateUpdater(firmHandler);
 
   // References
   firmHandler.statusBarItem = statusBarItemRunTests;

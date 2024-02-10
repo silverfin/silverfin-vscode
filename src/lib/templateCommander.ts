@@ -11,9 +11,9 @@ import UserLogger from "./outputChannels/userLogger";
  * Registers the command `silverfin-development-toolkit.templateCommandsInBulk` to run the `runCommandOnTemplatesInBulk` method.
  */
 export default class TemplateCommander {
-  extensionLogger: ExtensionLogger;
-  userLogger: UserLogger;
-  firmHandler: any;
+  private extensionLogger: ExtensionLogger;
+  private userLogger: UserLogger;
+  private firmHandler: any;
   firmId: Number | undefined = undefined;
   vscodeContext: vscode.ExtensionContext;
 
@@ -320,7 +320,7 @@ export default class TemplateCommander {
     );
   }
 
-  commandMapper: { [index: string]: { [index: string]: any } } = {
+  private commandMapper: { [index: string]: { [index: string]: any } } = {
     create: {
       reconciliationText: sfCli.newReconciliation,
       sharedPart: sfCli.newSharedPart,
@@ -341,14 +341,14 @@ export default class TemplateCommander {
     }
   };
 
-  templateTypeMapper: { [index: string]: string } = {
+  private templateTypeMapper: { [index: string]: string } = {
     reconciliationText: "Reconciliation Text",
     sharedPart: "Shared Part",
     accountTemplate: "Account Template",
     exportFile: "Export File"
   };
 
-  commandLabelMapper: { [index: string]: string } = {
+  private commandLabelMapper: { [index: string]: string } = {
     create: "Create",
     import: "Import",
     update: "Update",
