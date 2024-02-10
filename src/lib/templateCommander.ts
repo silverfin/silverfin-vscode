@@ -11,16 +11,14 @@ import UserLogger from "./outputChannels/userLogger";
  * Registers the command `silverfin-development-toolkit.templateCommandsInBulk` to run the `runCommandOnTemplatesInBulk` method.
  */
 export default class TemplateCommander {
-  private extensionLogger: ExtensionLogger;
-  private userLogger: UserLogger;
+  private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
+  private userLogger: UserLogger = UserLogger.plug();
   private firmHandler: any;
   firmId: Number | undefined = undefined;
   vscodeContext: vscode.ExtensionContext;
 
   constructor(firmHandler: any, vscodeContext: vscode.ExtensionContext) {
     this.firmHandler = firmHandler;
-    this.extensionLogger = ExtensionLogger.plug();
-    this.userLogger = UserLogger.plug();
     this.vscodeContext = vscodeContext;
     this.registerCommands();
   }

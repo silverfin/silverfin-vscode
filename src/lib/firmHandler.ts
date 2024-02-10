@@ -1,16 +1,16 @@
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
+import ExtensionLogger from "./outputChannels/extensionLogger";
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 const sfCliApiUtils = require("silverfin-cli/lib/utils/apiUtils");
 
 export default class FirmHandler {
   commandNameSetFirm = "silverfin-development-toolkit.setFirm";
   commandNameAuthorizeFirm = "silverfin-development-toolkit.authorizeFirm";
-  output: vscode.OutputChannel;
+  private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
   apiSecretsPresent: boolean;
   statusBarItem: any;
-  constructor(outputChannelLog: vscode.OutputChannel) {
-    this.output = outputChannelLog;
+  constructor() {
     this.apiSecretsPresent = this.checkApiSecrets();
   }
 
@@ -34,7 +34,7 @@ export default class FirmHandler {
     const newFirmId = await vscode.window.showInputBox({
       prompt: promptMessage,
       placeHolder: "123456",
-      title: "STORE FIRM ID",
+      title: "STORE FIRM ID"
     });
     // Empty prompt
     if (!newFirmId) {
@@ -71,21 +71,17 @@ export default class FirmHandler {
       prompt: "Firm ID to authorize",
       placeHolder: "123456",
       title: "AUTHORIZE SILVERFIN API",
-      value: firmIdStored ? firmIdStored : "",
+      value: firmIdStored ? firmIdStored : ""
     });
     // Empty prompt
     if (!firmIdProvided) {
       return;
     }
-    this.output.appendLine(
-      `[FirmHandler][Auth] firmIdProvided: ${firmIdProvided}`
-    );
+    this.extensionLogger.log(`[Auth] firmIdProvided: ${firmIdProvided}`);
 
     // Open Browser to authorize
     const browserOpen = await this.openBrowserAuth(firmIdProvided);
-    this.output.appendLine(
-      `[FirmHandler][Auth] browser opened? ${browserOpen}`
-    );
+    this.extensionLogger.log(`[Auth] browser opened? ${browserOpen}`);
 
     // Wait for the user to click the button
     const buttonClicked = await vscode.window.showInformationMessage(
@@ -93,9 +89,7 @@ export default class FirmHandler {
       { modal: true },
       ...["Authorization Code"]
     );
-    this.output.appendLine(
-      `[FirmHandler][Auth] button clicked? ${buttonClicked}`
-    );
+    this.extensionLogger.log(`[Auth] button clicked? ${buttonClicked}`);
 
     // Request Authorization Code
     let authorizationCode;
@@ -105,7 +99,7 @@ export default class FirmHandler {
       authorizationCode = await vscode.window.showInputBox({
         prompt: "Enter the authorization code provided by Silverfin",
         placeHolder: "authorization code",
-        title: "AUTHORIZE SILVERFIN API",
+        title: "AUTHORIZE SILVERFIN API"
       });
       // Get Access Token
       if (authorizationCode) {
@@ -115,8 +109,8 @@ export default class FirmHandler {
         );
       }
     }
-    this.output.appendLine(
-      `[FirmHandler][Auth] token succesfull? ${tokenRequest ? true : false}`
+    this.extensionLogger.log(
+      `[Auth] token succesfull? ${tokenRequest ? true : false}`
     );
 
     // Failed to authorized
@@ -146,7 +140,7 @@ export default class FirmHandler {
         prompt:
           "There is no Firm ID stored. Provide one to run the liquid test",
         placeHolder: "123456",
-        title: "FIRM ID",
+        title: "FIRM ID"
       });
       let newFirmIdNumber = Number(newFirmId);
       // No valid firm id provided via prompt
@@ -170,9 +164,7 @@ export default class FirmHandler {
       vscode.window.showErrorMessage(
         `There is no firm ID registered as default. Please, set one first.`
       );
-      this.output.appendLine(
-        `[FirmHandler] No default firm stored for repository`
-      );
+      this.extensionLogger.log(`No default firm stored for repository`);
       return false;
     }
     const authorizedFirm = await this.checkFirmCredentials(firmId);
@@ -188,8 +180,8 @@ export default class FirmHandler {
       vscode.window.showErrorMessage(
         `Missing authorization for Firm ID ${firmId}. Please, authorize it first.`
       );
-      this.output.appendLine(
-        `[FirmHandler] Firm ID: ${firmId}. Pair of access/refresh tokens missing from config`
+      this.extensionLogger.log(
+        `Firm ID: ${firmId}. Pair of access/refresh tokens missing from config`
       );
       return false;
     }
@@ -209,7 +201,7 @@ export default class FirmHandler {
       apiSecrets
     );
 
-    this.output.appendLine(`[FirmHandler] API secrets: ${apiSecrets}`);
+    this.extensionLogger.log(`API secrets: ${apiSecrets}`);
     return apiSecrets;
   }
 

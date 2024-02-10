@@ -25,7 +25,7 @@ export async function activate(context: vscode.ExtensionContext) {
   const outputChannelUser =
     vscode.window.createOutputChannel("Silverfin (Users)");
 
-  const firmHandler = new FirmHandler(outputChannelLog);
+  const firmHandler = new FirmHandler();
   const statusBarItemRunTests = new StatusBarItem(
     context,
     firmHandler.apiSecretsPresent

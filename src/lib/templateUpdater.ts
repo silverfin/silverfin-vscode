@@ -6,14 +6,12 @@ import ExtensionLogger from "./outputChannels/extensionLogger";
 import UserLogger from "./outputChannels/userLogger";
 
 export default class TemplateUpdater {
-  private extensionLogger: ExtensionLogger;
-  private userLogger: UserLogger;
+  private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
+  private userLogger: UserLogger = UserLogger.plug();
   private firmHandler: FirmHandler;
   firmId: Number | undefined = undefined;
   constructor(firmHandler: any) {
     this.firmHandler = firmHandler;
-    this.extensionLogger = ExtensionLogger.plug();
-    this.userLogger = UserLogger.plug();
   }
 
   async pushToSilverfin(filePath: string) {
