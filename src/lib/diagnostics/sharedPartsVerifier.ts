@@ -6,7 +6,7 @@ const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");
 const sfCli = require("silverfin-cli");
 
-export default class LiquidDiagnostics {
+export default class SharedPartsVerifier {
   errorsCollection: vscode.DiagnosticCollection;
   output: vscode.OutputChannel;
   currentLiquidFile: vscode.TextDocument | undefined;
@@ -24,9 +24,17 @@ export default class LiquidDiagnostics {
     this.output = outputChannelLog;
     this.currentLiquidFile = undefined;
     this.context = context;
+    this.registerActions();
   }
 
-  public async verifySharedPartsUsed() {
+  /**
+   * Verify if the shared parts used in the liquid file are added to the template.
+   * If not, create a diagnostic object and add it to the collection.
+   * The diagnostic object includes a message and a quick fix command to add the shared part.
+   * If the shared part does not exist in the directory, the diagnostic object includes an error message.
+   * @returns void
+   */
+  private async verifySharedPartsUsed() {
     this.setLiquidFile(); // sets this.currentLiquidFile
     if (!this.currentLiquidFile) {
       this.output.appendLine("[Diagnostics] Current file is not .liquid");
@@ -66,7 +74,11 @@ export default class LiquidDiagnostics {
     await this.recreateDiagnosticInformation(sharedPartsNotAdded);
   }
 
-  // Establish which one is the current Liquid File based on activeTextEditor
+  /**
+   * Establish which one is the current Liquid File based on activeTextEditor.
+   * If the file is not a Liquid file, return false.
+   * @returns boolean
+   */
   private setLiquidFile() {
     this.currentLiquidFile = undefined;
     const cwd = utils.setCWD();
@@ -83,7 +95,12 @@ export default class LiquidDiagnostics {
     return true;
   }
 
-  // Inspect the liquid code of the file and search for the use of shared parts
+  /**
+   * Inspect the liquid code of the file and search for the use of shared parts
+   * @returns string[] | undefined
+   * @example
+   * // Returns ["shared_header", "footer"]
+   */
   private searchForSharedPartsInLiquid() {
     const currentLiquid = this.currentLiquidFile?.getText();
     if (!currentLiquid) {
@@ -99,6 +116,10 @@ export default class LiquidDiagnostics {
     return names;
   }
 
+  /**
+   * Get the shared parts added to the template
+   * @returns string[] | undefined
+   */
   private async getSharedPartsAdded() {
     await firmCredentials.loadCredentials(); // refresh credentials
     const firmId = await firmCredentials.getDefaultFirmId();
@@ -126,8 +147,11 @@ export default class LiquidDiagnostics {
     return sharedParts;
   }
 
-  // Search for the item in the text to identify the line number
-  // Create the Diagnostic object and add it to the collection
+  /**
+   * Search for the item in the text to identify the line number
+   * Create the Diagnostic object and add it to the collection
+   * @param sharedParts
+   */
   private async recreateDiagnosticInformation(sharedParts: string[]) {
     const diagnostics: vscode.Diagnostic[] = [];
     for (let sharedPartName of sharedParts) {
@@ -308,5 +332,11 @@ export default class LiquidDiagnostics {
     vscode.window.showInformationMessage(
       `Creating and adding shared part ${sharedPartName} in firm ${this.firmId} to ${this.templateHandle} (${this.templateType})`
     );
+  }
+
+  private async registerActions() {
+    vscode.workspace.onDidSaveTextDocument(() => {
+      this.verifySharedPartsUsed();
+    });
   }
 }

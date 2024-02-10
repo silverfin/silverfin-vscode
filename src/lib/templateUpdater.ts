@@ -2,7 +2,7 @@ const sfCli = require("silverfin-cli");
 import * as vscode from "vscode";
 import * as templateUtils from "../utilities/templateUtils";
 
-export class TemplateUpdater {
+export default class TemplateUpdater {
   output: vscode.OutputChannel;
   outputUser: vscode.OutputChannel;
   firmHandler: any;

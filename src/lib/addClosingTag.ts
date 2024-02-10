@@ -1,5 +1,28 @@
 "use strict";
+
 import * as vscode from "vscode";
+
+/**
+ * Class that adds closing HTML tag.
+ * It is used to add closing HTML tag when user types opening tag.
+ * It gets executed every time user types in the editor.
+ */
+export default class AddClosingTag {
+  constructor() {
+    this.registerEvents();
+  }
+
+  /**
+   * Register events.
+   * Insert auto close tag.
+   * @returns void
+   */
+  private registerEvents() {
+    vscode.workspace.onDidChangeTextDocument((event) => {
+      insertAutoCloseTag(event);
+    });
+  }
+}
 
 function insertAutoCloseTag(event: vscode.TextDocumentChangeEvent): void {
   if (!event.contentChanges[0]) {
@@ -226,5 +249,3 @@ function moveSelectionRight(
 function occurrenceCount(source: string, find: string): number {
   return source.split(find).length - 1;
 }
-
-export default insertAutoCloseTag;

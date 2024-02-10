@@ -8,7 +8,7 @@ import * as utils from "../utilities/utils";
  * A class to handle the commands to run on the templates, interacting with the Silverfin API (using the `silverfin-cli` package).
  * Registers the command `silverfin-development-toolkit.templateCommandsInBulk` to run the `runCommandOnTemplatesInBulk` method.
  */
-export class TemplateCommander {
+export default class TemplateCommander {
   output: vscode.OutputChannel;
   outputUser: vscode.OutputChannel;
   firmHandler: any;

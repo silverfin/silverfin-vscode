@@ -3,6 +3,14 @@ import * as templateUtils from "../utilities/templateUtils";
 const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");
 const sfCli = require("silverfin-cli");
 
+/**
+ * QuickPick for the user.
+ * It will list all the shared parts available (except the ones already added to the template) in the firm and prompt the user to select which ones to add.
+ * It works with the template open in the current ActiveTextEditor.
+ * It will perform the Silverfin API calls to add each selected shared part to the template.
+ * @param firmId
+ * @returns boolean
+ */
 export async function addSharedPartPrompt(firmId: Number) {
   const templateType = await templateUtils.getTemplateType();
   const templateHandle = await templateUtils.getTemplateHandle();
@@ -35,6 +43,14 @@ export async function addSharedPartPrompt(firmId: Number) {
   return true;
 }
 
+/**
+ * QuickPick for the user.
+ * It will list all the shared parts used in the template and prompt the user to select which ones to remove.
+ * It works with the template open in the current ActiveTextEditor.
+ * It will perform the Silverfin API calls to remove each selected shared part from the template.
+ * @param firmId
+ * @returns boolean
+ */
 export async function removeSharedPartsPrompt(firmId: Number) {
   const templateType = await templateUtils.getTemplateType();
   const templateHandle = await templateUtils.getTemplateHandle();

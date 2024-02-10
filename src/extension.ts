@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
-import insertAutoCloseTag from "./lib/autoCloseTag";
-import LiquidDiagnostics from "./lib/diagnostics/liquidDiagnostics";
+import AddClosingTag from "./lib/addClosingTag";
+import SharedPartsVerifier from "./lib/diagnostics/sharedPartsVerifier";
 import FirmHandler from "./lib/firmHandler";
 import LiquidLinter from "./lib/liquidLinter";
 import LiquidTest from "./lib/liquidTest";
@@ -12,17 +12,17 @@ import { TemplatePartsViewProvider } from "./lib/sidebar/panelTemplateParts";
 import { TestsViewProvider } from "./lib/sidebar/panelTests";
 import StatusBarDevMode from "./lib/statusBar/statusBarDevMode";
 import StatusBarItem from "./lib/statusBar/statusBarItem";
-import { TemplateCommander } from "./lib/templateCommander";
-import { TemplateUpdater } from "./lib/templateUpdater";
+import TemplateCommander from "./lib/templateCommander";
+import TemplateUpdater from "./lib/templateUpdater";
 import * as diagnosticsUtils from "./utilities/diagnosticsUtils";
 
 export async function activate(context: vscode.ExtensionContext) {
-  // Initializers
   const outputChannelLog = vscode.window.createOutputChannel(
     "Silverfin (Extension Logs)"
   );
   const outputChannelUser =
     vscode.window.createOutputChannel("Silverfin (Users)");
+
   const firmHandler = new FirmHandler(outputChannelLog);
   const statusBarItemRunTests = new StatusBarItem(
     context,
@@ -34,7 +34,7 @@ export async function activate(context: vscode.ExtensionContext) {
   );
   const liquidLinter = new LiquidLinter(outputChannelLog);
   const liquidTest = new LiquidTest(context, outputChannelLog);
-  const liquidDiagnostics = new LiquidDiagnostics(context, outputChannelLog);
+
   const templateUpdater = new TemplateUpdater(
     firmHandler,
     outputChannelLog,
@@ -151,7 +151,7 @@ export async function activate(context: vscode.ExtensionContext) {
       "yaml",
       new LiquidTestQuickFixes(),
       {
-        providedCodeActionKinds: LiquidTestQuickFixes.providedCodeActionKinds,
+        providedCodeActionKinds: LiquidTestQuickFixes.providedCodeActionKinds
       }
     )
   );
@@ -160,16 +160,10 @@ export async function activate(context: vscode.ExtensionContext) {
       "liquid",
       new LiquidQuickFixes(),
       {
-        providedCodeActionKinds: LiquidQuickFixes.providedCodeActionKinds,
+        providedCodeActionKinds: LiquidQuickFixes.providedCodeActionKinds
       }
     )
   );
-
-  // Liquid Diagnostics
-  // Check Shared Parts included in templates
-  vscode.workspace.onDidSaveTextDocument(() => {
-    liquidDiagnostics.verifySharedPartsUsed();
-  });
 
   // Side-Bar Views
   // Template Parts
@@ -270,20 +264,11 @@ export async function activate(context: vscode.ExtensionContext) {
     vscode.commands.executeCommand("firm-panel.refresh");
   });
 
-  // Auto Close Tags
-  vscode.workspace.onDidChangeTextDocument((event) => {
-    insertAutoCloseTag(event);
-  });
-
   // Development Mode
   vscode.workspace.onDidSaveTextDocument(async (document) => {
     if (testsProvider.devModeStatus !== "active") {
       return;
     }
-    // const activeDocument = vscode.window.activeTextEditor?.document;
-    // if (activeDocument !== document) {
-    //   return;
-    // }
     switch (testsProvider.devModeOption) {
       case "liquid-tests":
         liquidTest.runTest(
@@ -299,12 +284,16 @@ export async function activate(context: vscode.ExtensionContext) {
     }
   });
 
+  new SharedPartsVerifier(context, outputChannelLog);
+
   new TemplateCommander(
     firmHandler,
     outputChannelLog,
     outputChannelUser,
     context
   );
+
+  new AddClosingTag();
 }
 
 export function deactivate() {}
