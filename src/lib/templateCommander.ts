@@ -3,27 +3,24 @@ const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
+import ExtensionLogger from "./outputChannels/extensionLogger";
+import UserLogger from "./outputChannels/userLogger";
 
 /**
  * A class to handle the commands to run on the templates, interacting with the Silverfin API (using the `silverfin-cli` package).
  * Registers the command `silverfin-development-toolkit.templateCommandsInBulk` to run the `runCommandOnTemplatesInBulk` method.
  */
 export default class TemplateCommander {
-  output: vscode.OutputChannel;
-  outputUser: vscode.OutputChannel;
+  extensionLogger: ExtensionLogger;
+  userLogger: UserLogger;
   firmHandler: any;
   firmId: Number | undefined = undefined;
   vscodeContext: vscode.ExtensionContext;
 
-  constructor(
-    firmHandler: any,
-    outputChannelLog: vscode.OutputChannel,
-    outputChannelUser: vscode.OutputChannel,
-    vscodeContext: vscode.ExtensionContext
-  ) {
+  constructor(firmHandler: any, vscodeContext: vscode.ExtensionContext) {
     this.firmHandler = firmHandler;
-    this.output = outputChannelLog;
-    this.outputUser = outputChannelUser;
+    this.extensionLogger = ExtensionLogger.plug();
+    this.userLogger = UserLogger.plug();
     this.vscodeContext = vscodeContext;
     this.registerCommands();
   }
@@ -32,7 +29,7 @@ export default class TemplateCommander {
    * A VSCode command that open a Quick Pick panel to select a command to run.
    * It works in three steps. First you select the command to run (`import`, `create`, `update`, `get-id`).
    * Then you select the templates to run the command on. Finally, you select the firm to run the command on.
-   * The command is then run and the output is logged to the output channel.
+   * The command is then run and the output is logged to the user channel.
    */
   private async runCommandOnTemplatesInBulk() {
     const check = utils.setCWD();
@@ -46,24 +43,48 @@ export default class TemplateCommander {
       return;
     }
 
-    const selectedTemplates = await this.selectTemplates();
-    if (selectedTemplates?.length === 0 || !selectedTemplates) {
-      vscode.window.showErrorMessage(`No template was selected`);
-      return;
-    }
-
-    const selectedFirm = await this.selectFirm();
-    if (selectedFirm?.length !== 1 || !selectedFirm) {
-      vscode.window.showErrorMessage(`One and only one firm must be selected`);
-      return;
-    }
-
-    // TODO: Run the specific command to each template individually. Log the output to the output channel for Users.
-    await this.runEachSilverfinAction(
-      selectedOption.label,
-      selectedTemplates,
-      Number(selectedFirm[0].label)
+    const addOrRemoveSharedPart = this.checkIfCommandIsSharedPart(
+      selectedOption.label
     );
+
+    if (addOrRemoveSharedPart) {
+      const selectedSharedParts = await this.selectTemplates(true, false);
+      if (selectedSharedParts?.length === 0 || !selectedSharedParts) {
+        vscode.window.showErrorMessage(`No template was selected`);
+        return;
+      }
+
+      const selectedTemplates = await this.selectTemplates(false, true);
+      if (selectedTemplates?.length === 0 || !selectedTemplates) {
+        vscode.window.showErrorMessage(`No template was selected`);
+        return;
+      }
+
+      vscode.window.showErrorMessage(
+        `Shared parts commands are not yet implemented`
+      );
+      return;
+    } else {
+      const selectedTemplates = await this.selectTemplates();
+      if (selectedTemplates?.length === 0 || !selectedTemplates) {
+        vscode.window.showErrorMessage(`No template was selected`);
+        return;
+      }
+
+      const selectedFirm = await this.selectFirm();
+      if (selectedFirm?.length !== 1 || !selectedFirm) {
+        vscode.window.showErrorMessage(
+          `One and only one firm must be selected`
+        );
+        return;
+      }
+
+      await this.runEachSilverfinAction(
+        Number(selectedFirm[0].label),
+        selectedOption.label,
+        selectedTemplates
+      );
+    }
   }
 
   /**
@@ -75,36 +96,47 @@ export default class TemplateCommander {
     const optionCreate: vscode.QuickPickItem = {
       label: this.commandLabelMapper.create,
       description:
-        "Create template in the Platform using code from this repository",
+        "Create template in the Platform using code from this repository"
     };
     const optionImport: vscode.QuickPickItem = {
       label: this.commandLabelMapper.import,
-      description: "Import template's code from Platform into this repository",
+      description:
+        "Import template's code from Platform into this repository (existing files will be overwritten)"
     };
     const optionUpdate: vscode.QuickPickItem = {
       label: this.commandLabelMapper.update,
       description:
-        "Update template's code in the Platform using code from this repository",
+        "Update template's code in the Platform using code from this repository"
     };
     const optionGetId: vscode.QuickPickItem = {
       label: this.commandLabelMapper.getTemplateId,
-      description: "Get the template id from the Platform",
+      description: "Get the template id from the Platform"
+    };
+    const optionAddSharedPart: vscode.QuickPickItem = {
+      label: this.commandLabelMapper.addSharedPart,
+      description: "Add a shared part to a template"
+    };
+    const optionRemoveSharedPart: vscode.QuickPickItem = {
+      label: this.commandLabelMapper.removeSharedPart,
+      description: "Remove a shared part from a template"
     };
     const optionsToSelect: vscode.QuickPickItem[] = [
       optionCreate,
       optionImport,
       optionUpdate,
-      optionGetId,
+      optionAddSharedPart,
+      optionRemoveSharedPart,
+      optionGetId
     ];
 
     const selectedOption = await vscode.window.showQuickPick(optionsToSelect, {
       placeHolder: "Which command do you want to run?",
       title: "Select a command",
       canPickMany: false,
-      matchOnDescription: true,
+      matchOnDescription: true
     });
 
-    this.outputLog("Selected command", selectedOption);
+    this.extensionLogger.log("Selected command", selectedOption);
 
     return selectedOption;
   }
@@ -112,53 +144,64 @@ export default class TemplateCommander {
   /**
    * Show a QuickPick panel to select the templates to run the command on.
    * The options are all the templates in the repository.
-   * @returns A QuickPickItem with the selected templates
+   * @param includeSharedParts Whether to include shared parts in the options
+   * @param includeTemplates Whether to include templates in the options (reconciliationText, accountTemplate, exportFile)
+   * @returns A `QuickPickItem` with the selected templates
    */
-  private async selectTemplates() {
-    const reconciliations = await sfCliFsUtils.getAllTemplatesOfAType(
-      "reconciliationText"
-    );
-    const sharedParts = await sfCliFsUtils.getAllTemplatesOfAType("sharedPart");
-    const accountTemplates = await sfCliFsUtils.getAllTemplatesOfAType(
-      "accountTemplate"
-    );
-    const exportFiles = await sfCliFsUtils.getAllTemplatesOfAType("exportFile");
-
+  private async selectTemplates(
+    includeSharedParts: boolean = true,
+    includeTemplates: boolean = true
+  ) {
     const optionsToSelect: vscode.QuickPickItem[] = [];
-
-    for (const template of reconciliations) {
-      optionsToSelect.push({
-        label: template,
-        description: this.templateTypeMapper.reconciliationText,
-      });
+    if (includeSharedParts) {
+      const sharedParts = await sfCliFsUtils.getAllTemplatesOfAType(
+        "sharedPart"
+      );
+      for (const template of sharedParts) {
+        optionsToSelect.push({
+          label: template,
+          description: this.templateTypeMapper.sharedPart
+        });
+      }
     }
-    for (const template of sharedParts) {
-      optionsToSelect.push({
-        label: template,
-        description: this.templateTypeMapper.sharedPart,
-      });
-    }
-    for (const template of accountTemplates) {
-      optionsToSelect.push({
-        label: template,
-        description: this.templateTypeMapper.accountTemplate,
-      });
-    }
-    for (const template of exportFiles) {
-      optionsToSelect.push({
-        label: template,
-        description: this.templateTypeMapper.exportFile,
-      });
+    if (includeTemplates) {
+      const reconciliations = await sfCliFsUtils.getAllTemplatesOfAType(
+        "reconciliationText"
+      );
+      for (const template of reconciliations) {
+        optionsToSelect.push({
+          label: template,
+          description: this.templateTypeMapper.reconciliationText
+        });
+      }
+      const accountTemplates = await sfCliFsUtils.getAllTemplatesOfAType(
+        "accountTemplate"
+      );
+      for (const template of accountTemplates) {
+        optionsToSelect.push({
+          label: template,
+          description: this.templateTypeMapper.accountTemplate
+        });
+      }
+      const exportFiles = await sfCliFsUtils.getAllTemplatesOfAType(
+        "exportFile"
+      );
+      for (const template of exportFiles) {
+        optionsToSelect.push({
+          label: template,
+          description: this.templateTypeMapper.exportFile
+        });
+      }
     }
 
     const selectedOption = await vscode.window.showQuickPick(optionsToSelect, {
       placeHolder: "Which template/s do you want to use?",
       title: "Select templates",
       canPickMany: true,
-      matchOnDescription: true,
+      matchOnDescription: true
     });
 
-    this.outputLog("Selected template/s", selectedOption);
+    this.extensionLogger.log("Selected template/s", selectedOption);
 
     return selectedOption;
   }
@@ -182,7 +225,7 @@ export default class TemplateCommander {
       optionsToSelect.push({
         label: firm[0],
         description: firm[1],
-        picked: alreadyPicked,
+        picked: alreadyPicked
       });
     }
 
@@ -190,61 +233,74 @@ export default class TemplateCommander {
       placeHolder: "Which firm do you want to use?",
       title: "Select a firm",
       canPickMany: true,
-      matchOnDescription: true,
+      matchOnDescription: true
     });
 
-    this.outputLog("Selected firm", selectedOption);
+    this.extensionLogger.log("Selected firm", selectedOption);
 
     return selectedOption;
   }
 
   private async runEachSilverfinAction(
+    firmId: Number,
     commandChoiceLabel: string,
-    templates: vscode.QuickPickItem[],
-    firmId: Number
+    templates: vscode.QuickPickItem[]
   ) {
-    this.outputLog("Start command run", {
+    this.extensionLogger.log("Start command run", {
       commandChoiceLabel,
       templates,
-      firmId,
+      firmId
     });
+
+    const commandType = Object.keys(this.commandLabelMapper).find(
+      (key) => this.commandLabelMapper[key] === commandChoiceLabel
+    );
 
     for (const template of templates) {
       const templateType = Object.keys(this.templateTypeMapper).find(
         (key) => this.templateTypeMapper[key] === template.description
       );
       const templateHandle = template.label;
-      const commandType = Object.keys(this.commandLabelMapper).find(
-        (key) => this.commandLabelMapper[key] === commandChoiceLabel
-      );
 
       if (!templateType || !templateHandle || !commandType) {
-        this.outputLog("Could not run command. Parameter missing", {
+        this.extensionLogger.log("Could not run command. Parameter missing", {
           templateType,
           templateHandle,
-          commandType,
+          commandType
         });
         return false;
       }
 
-      let commandToRun = "";
+      let commandToRun;
+      let resultRun;
       if (commandType === "getTemplateId") {
-        commandToRun = "sfCli.getTemplateId";
+        commandToRun = sfCli.getTemplateId;
+        resultRun = await commandToRun(firmId, templateType, templateHandle);
       } else {
         commandToRun = this.commandMapper[commandType][templateType];
+        resultRun = await commandToRun(firmId, templateHandle);
       }
 
-      this.outputLog("Running command", {
-        commandToRun,
+      this.extensionLogger.log("Command run", {
+        commandChoiceLabel,
         templateType,
         templateHandle,
+        resultRun
       });
+
+      const userMessage = `${commandChoiceLabel}: ${templateHandle} (${this.templateTypeMapper[templateType]}) in firm ${firmId}`;
+      if (resultRun) {
+        this.userLogger.log(userMessage + " - Success");
+      } else {
+        this.userLogger.log(userMessage + " - Failed");
+      }
     }
   }
 
-  private outputLog(message: string, object: any) {
-    this.output.appendLine(
-      `[Template Commands] ${message}. ${JSON.stringify({ object })}`
+  private checkIfCommandIsSharedPart(command: string) {
+    return (
+      command === this.commandLabelMapper.addSharedPart ||
+      command === this.commandLabelMapper.removeSharedPart
     );
   }
 
@@ -266,30 +322,30 @@ export default class TemplateCommander {
 
   commandMapper: { [index: string]: { [index: string]: any } } = {
     create: {
-      reconciliationText: "sfCli.newReconciliation",
-      sharedPart: "sfCli.newSharedPart",
-      accountTemplate: "sfCli.newAccountTemplate",
-      exportFile: "sfCli.newExportFile",
+      reconciliationText: sfCli.newReconciliation,
+      sharedPart: sfCli.newSharedPart,
+      accountTemplate: sfCli.newAccountTemplate,
+      exportFile: sfCli.newExportFile
     },
     import: {
-      reconciliationText: "sfCli.fetchReconciliationByHandle",
-      sharedPart: "sfCli.fetchSharedPartByName",
-      accountTemplate: "sfCli.fetchAccountTemplateByName",
-      exportFile: "sfCli.fetchExportFileByName",
+      reconciliationText: sfCli.fetchReconciliationByHandle,
+      sharedPart: sfCli.fetchSharedPartByName,
+      accountTemplate: sfCli.fetchAccountTemplateByName,
+      exportFile: sfCli.fetchExportFileByName
     },
     update: {
-      reconciliationText: "sfCli.publishReconciliationByHandle",
-      sharedPart: "sfCli.publishSharedPartByName",
-      accountTemplate: "sfCli.publishAccountTemplateByName",
-      exportFile: "sfCli.publishExportFileByName",
-    },
+      reconciliationText: sfCli.publishReconciliationByHandle,
+      sharedPart: sfCli.publishSharedPartByName,
+      accountTemplate: sfCli.publishAccountTemplateByName,
+      exportFile: sfCli.publishExportFileByName
+    }
   };
 
   templateTypeMapper: { [index: string]: string } = {
     reconciliationText: "Reconciliation Text",
     sharedPart: "Shared Part",
     accountTemplate: "Account Template",
-    exportFile: "Export File",
+    exportFile: "Export File"
   };
 
   commandLabelMapper: { [index: string]: string } = {
@@ -297,5 +353,7 @@ export default class TemplateCommander {
     import: "Import",
     update: "Update",
     getTemplateId: "Get template id",
+    addSharedPart: "Add Shared Part",
+    removeSharedPart: "Remove Shared Part"
   };
 }

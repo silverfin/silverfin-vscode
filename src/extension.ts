@@ -17,9 +17,11 @@ import TemplateUpdater from "./lib/templateUpdater";
 import * as diagnosticsUtils from "./utilities/diagnosticsUtils";
 
 export async function activate(context: vscode.ExtensionContext) {
+  // Replace with ExtensionLogger
   const outputChannelLog = vscode.window.createOutputChannel(
     "Silverfin (Extension Logs)"
   );
+  // replace with UserLogger
   const outputChannelUser =
     vscode.window.createOutputChannel("Silverfin (Users)");
 
@@ -286,12 +288,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
   new SharedPartsVerifier(context, outputChannelLog);
 
-  new TemplateCommander(
-    firmHandler,
-    outputChannelLog,
-    outputChannelUser,
-    context
-  );
+  new TemplateCommander(firmHandler, context);
 
   new AddClosingTag();
 }
