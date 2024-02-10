@@ -3,7 +3,7 @@ import AddClosingTag from "./lib/addClosingTag";
 import SharedPartsVerifier from "./lib/diagnostics/sharedPartsVerifier";
 import FirmHandler from "./lib/firmHandler";
 import LiquidLinter from "./lib/liquidLinter";
-import LiquidTest from "./lib/liquidTest";
+import LiquidTestHandler from "./lib/liquidTestHandler";
 import LiquidQuickFixes from "./lib/quickFixes/liquidQuickFixes";
 import LiquidTestQuickFixes from "./lib/quickFixes/liquidTestsQuickFixes";
 import { FirmViewProvider } from "./lib/sidebar/panelFirm";
@@ -35,14 +35,14 @@ export async function activate(context: vscode.ExtensionContext) {
     firmHandler.apiSecretsPresent
   );
   const liquidLinter = new LiquidLinter(outputChannelLog);
-  const liquidTest = new LiquidTest(context, outputChannelLog);
+  const liquidTestHandler = new LiquidTestHandler(context, outputChannelLog);
 
   const templateUpdater = new TemplateUpdater(firmHandler);
 
   // References
   firmHandler.statusBarItem = statusBarItemRunTests;
-  liquidTest.statusBarItem = statusBarItemRunTests;
-  liquidTest.firmHandler = firmHandler;
+  liquidTestHandler.statusBarItem = statusBarItemRunTests;
+  liquidTestHandler.firmHandler = firmHandler;
   liquidLinter.firmHandler = firmHandler;
 
   // Command to set active Firm ID via prompt and store it
@@ -81,7 +81,7 @@ export async function activate(context: vscode.ExtensionContext) {
       vscode.window.activeTextEditor.document,
       outputChannelLog,
       context,
-      liquidTest.errorsCollection
+      liquidTestHandler.errorsCollection
     );
   }
 
@@ -92,7 +92,7 @@ export async function activate(context: vscode.ExtensionContext) {
         currentDocument,
         outputChannelLog,
         context,
-        liquidTest.errorsCollection
+        liquidTestHandler.errorsCollection
       );
     })
   );
@@ -105,7 +105,7 @@ export async function activate(context: vscode.ExtensionContext) {
         if (!vscode.window.activeTextEditor) {
           return;
         }
-        liquidTest.errorsCollection.set(
+        liquidTestHandler.errorsCollection.set(
           vscode.window.activeTextEditor.document.uri,
           []
         );
@@ -118,7 +118,7 @@ export async function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand(
       "silverfin-development-toolkit.runAllTests",
       () => {
-        liquidTest.runAllTestsCommand();
+        liquidTestHandler.runAllTestsCommand();
       }
     )
   );
@@ -128,7 +128,7 @@ export async function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand(
       "silverfin-development-toolkit.runTestWithOptionsInputHtml",
       () => {
-        liquidTest.runTestWithOptionsCommand("input");
+        liquidTestHandler.runTestWithOptionsCommand("input");
       }
     )
   );
@@ -138,7 +138,7 @@ export async function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand(
       "silverfin-development-toolkit.runTestWithOptionsPreviewHtml",
       () => {
-        liquidTest.runTestWithOptionsCommand("preview");
+        liquidTestHandler.runTestWithOptionsCommand("preview");
       }
     )
   );
@@ -215,7 +215,7 @@ export async function activate(context: vscode.ExtensionContext) {
   // Liquid Tests
   const testsProvider = new TestsViewProvider(
     context.extensionUri,
-    liquidTest,
+    liquidTestHandler,
     statusBarDevMode
   );
   context.subscriptions.push(
@@ -269,7 +269,7 @@ export async function activate(context: vscode.ExtensionContext) {
     }
     switch (testsProvider.devModeOption) {
       case "liquid-tests":
-        liquidTest.runTest(
+        liquidTestHandler.runTest(
           testsProvider.testDetails.templateHandle,
           testsProvider.testDetails.testName,
           testsProvider.testDetails.previewOnly,

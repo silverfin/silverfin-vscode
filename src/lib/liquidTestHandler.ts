@@ -6,7 +6,7 @@ import * as utils from "../utilities/utils";
 import * as types from "./types";
 const sfCliLiquidTestRunner = require("silverfin-cli/lib/liquidTestRunner");
 
-export default class LiquidTest {
+export default class LiquidTestHandler {
   errorsCollection: vscode.DiagnosticCollection;
   output: vscode.OutputChannel;
   context: vscode.ExtensionContext;
@@ -84,7 +84,7 @@ export default class LiquidTest {
         templateHandle,
         testName,
         previewOnly,
-        htmlRenderMode,
+        htmlRenderMode
       });
       // Test Run
       this.setStatusBarRunning();
@@ -145,7 +145,7 @@ export default class LiquidTest {
       );
       let resultsAndRollforwardsObjects = {
         ...testObject.results,
-        ...testObject.rollforwards,
+        ...testObject.rollforwards
       };
 
       if (testObject.reconciled) {
@@ -173,7 +173,7 @@ export default class LiquidTest {
           message: diagnosticMessage,
           severity: vscode.DiagnosticSeverity.Error,
           source: `${testName}.expectation.reconciled`, // to identify object in tree
-          code: testName,
+          code: testName
         };
         collectionArray.push(diagnostic);
       }
@@ -233,7 +233,7 @@ export default class LiquidTest {
           message: diagnosticMessage,
           severity: vscode.DiagnosticSeverity.Error,
           source: `${testName}.expectation.${itemType}.${itemName}`, // to identify object in tree
-          code: testName,
+          code: testName
         };
         collectionArray.push(diagnostic);
       });
@@ -301,7 +301,7 @@ export default class LiquidTest {
           range: diagnosticRange,
           message: diagnosticMessage,
           severity: vscode.DiagnosticSeverity.Error,
-          source: "error_message",
+          source: "error_message"
         };
         collectionArray.push(diagnosticError);
         collection.set(document.uri, collectionArray);
@@ -316,7 +316,7 @@ export default class LiquidTest {
           message:
             "Internal error. Try to run the test again. If the issue persists, contact support",
           severity: vscode.DiagnosticSeverity.Error,
-          source: "internal_error",
+          source: "internal_error"
         };
         collectionArray.push(diagnosticInternal);
         collection.set(document.uri, collectionArray);
@@ -399,7 +399,7 @@ export default class LiquidTest {
     // Check Config File
     const configPath = posix.join(templatePath, "config.json");
     const configUri = vscode.window.activeTextEditor.document.uri.with({
-      path: configPath,
+      path: configPath
     });
     try {
       await vscode.workspace.fs.stat(configUri);
