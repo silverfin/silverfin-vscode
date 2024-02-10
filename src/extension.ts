@@ -34,7 +34,7 @@ export async function activate(context: vscode.ExtensionContext) {
     context,
     firmHandler.apiSecretsPresent
   );
-  const liquidLinter = new LiquidLinter();
+  const liquidLinter = new LiquidLinter(context);
   const liquidTestHandler = new LiquidTestHandler(context, outputChannelLog);
 
   const templateUpdater = new TemplateUpdater(firmHandler);
@@ -61,19 +61,6 @@ export async function activate(context: vscode.ExtensionContext) {
       }
     )
   );
-
-  // Command to run the liquid linter
-  context.subscriptions.push(
-    vscode.commands.registerCommand(liquidLinter.commandName, () => {
-      liquidLinter.verifyLiquidCommand();
-    })
-  );
-  // Liquid Linter Command is run when you save a liquid file
-  vscode.workspace.onDidSaveTextDocument(() => {
-    if (LiquidLinter.isLiquidFileCheck()) {
-      liquidLinter.verifyLiquidCommand();
-    }
-  });
 
   // Load Errors stored for open file if any
   if (vscode.window.activeTextEditor) {

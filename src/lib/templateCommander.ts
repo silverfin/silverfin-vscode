@@ -20,7 +20,7 @@ export default class TemplateCommander {
   constructor(firmHandler: any, vscodeContext: vscode.ExtensionContext) {
     this.firmHandler = firmHandler;
     this.vscodeContext = vscodeContext;
-    this.registerCommands();
+    this.registerEvents();
   }
 
   /**
@@ -307,7 +307,7 @@ export default class TemplateCommander {
    * The command is available in the Command Palette.
    * @returns void
    */
-  private registerCommands() {
+  private registerEvents() {
     this.vscodeContext.subscriptions.push(
       vscode.commands.registerCommand(
         "silverfin-development-toolkit.templateCommandsInBulk",

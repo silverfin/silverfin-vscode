@@ -24,7 +24,7 @@ export default class SharedPartsVerifier {
     this.output = outputChannelLog;
     this.currentLiquidFile = undefined;
     this.context = context;
-    this.registerActions();
+    this.registerEvents();
   }
 
   /**
@@ -280,7 +280,7 @@ export default class SharedPartsVerifier {
     }
     const configPath = this.getSharedPartConfigPath(sharedPartName);
     const configUri = vscode.window.activeTextEditor.document.uri.with({
-      path: configPath,
+      path: configPath
     });
     const fs = require("fs");
     const configExists = fs.existsSync(configPath);
@@ -334,7 +334,7 @@ export default class SharedPartsVerifier {
     );
   }
 
-  private async registerActions() {
+  private async registerEvents() {
     vscode.workspace.onDidSaveTextDocument(() => {
       this.verifySharedPartsUsed();
     });
