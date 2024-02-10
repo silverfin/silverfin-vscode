@@ -1,18 +1,18 @@
 import { posix } from "path";
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
+import ExtensionLogger from "./outputChannels/extensionLogger";
 const sfCliApi = require("silverfin-cli/lib/api/sfApi");
 
 export default class LiquidLinter {
   commandName = "silverfin-development-toolkit.liquidLinter";
   errorsCollection: vscode.DiagnosticCollection;
-  output: vscode.OutputChannel;
+  private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
   firmHandler: any;
-  constructor(outputChannelLog: vscode.OutputChannel) {
+  constructor() {
     this.errorsCollection = vscode.languages.createDiagnosticCollection(
       `LiquidLinterCollection`
     );
-    this.output = outputChannelLog;
   }
 
   public async verifyLiquidCommand() {
@@ -37,15 +37,12 @@ export default class LiquidLinter {
     const liquidCode = currentTextDocument.getText();
     const requestData = JSON.stringify({ code: liquidCode });
     const response = await sfCliApi.verifyLiquid(firmId, requestData);
+
     if (response || response.status === 200) {
-      this.output.appendLine(
-        `[Liquid Linter] run succesfully (${response.status})`
-      );
+      this.extensionLogger.log(`Run succesfully`, response.status);
       return response.data;
     } else {
-      this.output.appendLine(
-        `[Liquid Linter] run failed (${response.status}): ${response}`
-      );
+      this.extensionLogger.log(`Run failed (${response.status})`, response);
       return false;
     }
   }

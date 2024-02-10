@@ -34,7 +34,7 @@ export async function activate(context: vscode.ExtensionContext) {
     context,
     firmHandler.apiSecretsPresent
   );
-  const liquidLinter = new LiquidLinter(outputChannelLog);
+  const liquidLinter = new LiquidLinter();
   const liquidTestHandler = new LiquidTestHandler(context, outputChannelLog);
 
   const templateUpdater = new TemplateUpdater(firmHandler);
