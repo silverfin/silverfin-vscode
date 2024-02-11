@@ -33,7 +33,7 @@ export async function activate(context: vscode.ExtensionContext) {
   StatusBarItem.plug();
   StatusBarDevMode.plug();
 
-  const liquidTestHandler = new LiquidTestHandler(context, outputChannelLog);
+  const liquidTestHandler = new LiquidTestHandler();
   const templateUpdater = new TemplateUpdater();
 
   new LiquidLinter(context);
