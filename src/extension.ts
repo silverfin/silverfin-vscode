@@ -7,8 +7,7 @@ import LiquidLinter from "./lib/liquidLinter";
 import LiquidTestHandler from "./lib/liquidTestHandler";
 import ExtensionLogger from "./lib/outputChannels/extensionLogger";
 import UserLogger from "./lib/outputChannels/userLogger";
-import LiquidQuickFixes from "./lib/quickFixes/liquidQuickFixes";
-import LiquidTestQuickFixes from "./lib/quickFixes/liquidTestsQuickFixes";
+import QuickFixesProviders from "./lib/quickFixes/quickFixes";
 import { FirmViewProvider } from "./lib/sidebar/panelFirm";
 import { TemplateInformationViewProvider } from "./lib/sidebar/panelTemplateInfo";
 import { TemplatePartsViewProvider } from "./lib/sidebar/panelTemplateParts";
@@ -40,6 +39,7 @@ export async function activate(context: vscode.ExtensionContext) {
   new SharedPartsVerifier();
   new TemplateCommander();
   new AddClosingTag();
+  new QuickFixesProviders();
 
   // Load Errors stored for open file if any
   if (vscode.window.activeTextEditor) {
@@ -61,26 +61,6 @@ export async function activate(context: vscode.ExtensionContext) {
         liquidTestHandler.errorsCollection
       );
     })
-  );
-
-  // Quick Fixes Provider
-  context.subscriptions.push(
-    vscode.languages.registerCodeActionsProvider(
-      "yaml",
-      new LiquidTestQuickFixes(),
-      {
-        providedCodeActionKinds: LiquidTestQuickFixes.providedCodeActionKinds
-      }
-    )
-  );
-  context.subscriptions.push(
-    vscode.languages.registerCodeActionsProvider(
-      "liquid",
-      new LiquidQuickFixes(),
-      {
-        providedCodeActionKinds: LiquidQuickFixes.providedCodeActionKinds
-      }
-    )
   );
 
   // Side-Bar Views
