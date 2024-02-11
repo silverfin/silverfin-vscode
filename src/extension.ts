@@ -27,7 +27,7 @@ export async function activate(context: vscode.ExtensionContext) {
     "Silverfin (Extension Logs)"
   );
 
-  FirmHandler.plug().registerEvents(context);
+  FirmHandler.plug();
   ExtensionLogger.plug();
   UserLogger.plug();
   StatusBarItem.plug();

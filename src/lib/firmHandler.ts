@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
+import ExtensionContext from "./ExtensionContext";
 import ExtensionLogger from "./outputChannels/extensionLogger";
 import StatusBarItem from "./statusBar/statusBarItem";
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
@@ -15,6 +16,7 @@ export default class FirmHandler {
 
   constructor() {
     this.apiSecretsPresent = this.checkApiSecrets();
+    this.registerEvents();
   }
 
   /**
@@ -234,16 +236,17 @@ export default class FirmHandler {
    * Command to set active Firm ID via prompt and store it.
    * Command to authorize a Firm via prompt and store it.
    */
-  public registerEvents(vscodeContext: vscode.ExtensionContext) {
+  private registerEvents() {
+    const extensionContext = ExtensionContext.get();
     // Command to set active Firm ID via prompt and store it
-    vscodeContext.subscriptions.push(
+    extensionContext.subscriptions.push(
       vscode.commands.registerCommand(this.commandNameSetFirm, () => {
         this.setFirmIdCommand();
       })
     );
 
     // Command to authorize a Firm via prompt and store it
-    vscodeContext.subscriptions.push(
+    extensionContext.subscriptions.push(
       vscode.commands.registerCommand(this.commandNameAuthorizeFirm, () => {
         this.authorizeFirmCommand();
       })
