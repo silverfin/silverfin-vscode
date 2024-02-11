@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import ExtensionContext from "./lib/ExtensionContext";
 import AddClosingTag from "./lib/addClosingTag";
 import SharedPartsVerifier from "./lib/diagnostics/sharedPartsVerifier";
 import FirmHandler from "./lib/firmHandler";
@@ -19,6 +20,7 @@ import TemplateUpdater from "./lib/templateUpdater";
 import * as diagnosticsUtils from "./utilities/diagnosticsUtils";
 
 export async function activate(context: vscode.ExtensionContext) {
+  ExtensionContext.set(context);
   // Replace with ExtensionLogger
   const outputChannelLog = vscode.window.createOutputChannel(
     "Silverfin (Extension Logs)"
