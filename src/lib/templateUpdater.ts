@@ -8,11 +8,9 @@ import UserLogger from "./outputChannels/userLogger";
 export default class TemplateUpdater {
   private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
   private userLogger: UserLogger = UserLogger.plug();
-  private firmHandler: FirmHandler;
+  private firmHandler: FirmHandler = FirmHandler.plug();
   firmId: Number | undefined = undefined;
-  constructor(firmHandler: any) {
-    this.firmHandler = firmHandler;
-  }
+  constructor() {}
 
   async pushToSilverfin(filePath: string) {
     this.firmId = await this.firmHandler.setFirmID();

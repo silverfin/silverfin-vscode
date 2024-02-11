@@ -4,6 +4,8 @@ import SharedPartsVerifier from "./lib/diagnostics/sharedPartsVerifier";
 import FirmHandler from "./lib/firmHandler";
 import LiquidLinter from "./lib/liquidLinter";
 import LiquidTestHandler from "./lib/liquidTestHandler";
+import ExtensionLogger from "./lib/outputChannels/extensionLogger";
+import UserLogger from "./lib/outputChannels/userLogger";
 import LiquidQuickFixes from "./lib/quickFixes/liquidQuickFixes";
 import LiquidTestQuickFixes from "./lib/quickFixes/liquidTestsQuickFixes";
 import { FirmViewProvider } from "./lib/sidebar/panelFirm";
@@ -21,46 +23,26 @@ export async function activate(context: vscode.ExtensionContext) {
   const outputChannelLog = vscode.window.createOutputChannel(
     "Silverfin (Extension Logs)"
   );
-  // replace with UserLogger
-  const outputChannelUser =
-    vscode.window.createOutputChannel("Silverfin (Users)");
 
-  const firmHandler = new FirmHandler();
-  const statusBarItemRunTests = new StatusBarItem(
-    context,
-    firmHandler.apiSecretsPresent
-  );
-  const statusBarDevMode = new StatusBarDevMode(
-    context,
-    firmHandler.apiSecretsPresent
-  );
-  const liquidLinter = new LiquidLinter(context);
+  ExtensionLogger.plug();
+  UserLogger.plug();
+
+  const firmHandler = FirmHandler.plug();
+  firmHandler.registerEvents(context);
+
+  const statusBarItemRunTests = new StatusBarItem(context);
+  const statusBarDevMode = new StatusBarDevMode(context);
   const liquidTestHandler = new LiquidTestHandler(context, outputChannelLog);
+  const templateUpdater = new TemplateUpdater();
 
-  const templateUpdater = new TemplateUpdater(firmHandler);
+  new LiquidLinter(context);
+  new SharedPartsVerifier(context, outputChannelLog);
+  new TemplateCommander(context);
+  new AddClosingTag();
 
   // References
   firmHandler.statusBarItem = statusBarItemRunTests;
   liquidTestHandler.statusBarItem = statusBarItemRunTests;
-  liquidTestHandler.firmHandler = firmHandler;
-  liquidLinter.firmHandler = firmHandler;
-
-  // Command to set active Firm ID via prompt and store it
-  context.subscriptions.push(
-    vscode.commands.registerCommand(firmHandler.commandNameSetFirm, () => {
-      firmHandler.setFirmIdCommand();
-    })
-  );
-
-  // Command to authorize a Firm via prompt and store it
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      firmHandler.commandNameAuthorizeFirm,
-      () => {
-        firmHandler.authorizeFirmCommand();
-      }
-    )
-  );
 
   // Load Errors stored for open file if any
   if (vscode.window.activeTextEditor) {
@@ -268,12 +250,6 @@ export async function activate(context: vscode.ExtensionContext) {
         break;
     }
   });
-
-  new SharedPartsVerifier(context, outputChannelLog);
-
-  new TemplateCommander(firmHandler, context);
-
-  new AddClosingTag();
 }
 
 export function deactivate() {}

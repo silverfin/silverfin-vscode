@@ -15,6 +15,10 @@ export default class UserLogger {
     this.outputChannel = vscode.window.createOutputChannel("Silverfin (Users)");
   }
 
+  /**
+   * @returns The unique instance of the UserLogger.
+   * If it does not exist, it will create it.
+   */
   public static plug(): UserLogger {
     if (!UserLogger.uniqueInstance) {
       UserLogger.uniqueInstance = new UserLogger();

@@ -13,12 +13,10 @@ import UserLogger from "./outputChannels/userLogger";
 export default class TemplateCommander {
   private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
   private userLogger: UserLogger = UserLogger.plug();
-  private firmHandler: any;
   firmId: Number | undefined = undefined;
-  vscodeContext: vscode.ExtensionContext;
+  private vscodeContext: vscode.ExtensionContext;
 
-  constructor(firmHandler: any, vscodeContext: vscode.ExtensionContext) {
-    this.firmHandler = firmHandler;
+  constructor(vscodeContext: vscode.ExtensionContext) {
     this.vscodeContext = vscodeContext;
     this.registerEvents();
   }

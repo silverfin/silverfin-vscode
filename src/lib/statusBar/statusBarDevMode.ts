@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 
 export default class StatusBarDevMode {
   item: vscode.StatusBarItem;
-  constructor(context: vscode.ExtensionContext, credentials: boolean) {
+  constructor(context: vscode.ExtensionContext) {
     this.item = vscode.window.createStatusBarItem(
       vscode.StatusBarAlignment.Left,
       100

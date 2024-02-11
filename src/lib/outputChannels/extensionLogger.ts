@@ -17,6 +17,10 @@ export default class ExtensionLogger {
     );
   }
 
+  /**
+   * @returns The unique instance of the ExtensionLogger class.
+   * If it does not exist, it will create it.
+   */
   public static plug(): ExtensionLogger {
     if (!ExtensionLogger.uniqueInstance) {
       ExtensionLogger.uniqueInstance = new ExtensionLogger();

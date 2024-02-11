@@ -5,6 +5,7 @@ const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 const sfCliApiUtils = require("silverfin-cli/lib/utils/apiUtils");
 
 export default class FirmHandler {
+  private static uniqueInstance: FirmHandler | null = null;
   commandNameSetFirm = "silverfin-development-toolkit.setFirm";
   commandNameAuthorizeFirm = "silverfin-development-toolkit.authorizeFirm";
   private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
@@ -12,6 +13,17 @@ export default class FirmHandler {
   statusBarItem: any;
   constructor() {
     this.apiSecretsPresent = this.checkApiSecrets();
+  }
+
+  /**
+   * @returns The unique instance of the FirmHandler class.
+   * If it does not exist, it will create it.
+   */
+  public static plug(): FirmHandler {
+    if (!FirmHandler.uniqueInstance) {
+      FirmHandler.uniqueInstance = new FirmHandler();
+    }
+    return FirmHandler.uniqueInstance;
   }
 
   public async setFirmIdCommand() {
@@ -213,5 +225,26 @@ export default class FirmHandler {
     const url = `${baseURL}/f/${firmId}/oauth/authorize?client_id=${process.env.SF_API_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
     const browser = vscode.env.openExternal(vscode.Uri.parse(url));
     return browser;
+  }
+
+  /**
+   * Register the commands to the context.
+   * Command to set active Firm ID via prompt and store it.
+   * Command to authorize a Firm via prompt and store it.
+   */
+  public registerEvents(vscodeContext: vscode.ExtensionContext) {
+    // Command to set active Firm ID via prompt and store it
+    vscodeContext.subscriptions.push(
+      vscode.commands.registerCommand(this.commandNameSetFirm, () => {
+        this.setFirmIdCommand();
+      })
+    );
+
+    // Command to authorize a Firm via prompt and store it
+    vscodeContext.subscriptions.push(
+      vscode.commands.registerCommand(this.commandNameAuthorizeFirm, () => {
+        this.authorizeFirmCommand();
+      })
+    );
   }
 }
