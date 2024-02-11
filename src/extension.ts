@@ -36,9 +36,9 @@ export async function activate(context: vscode.ExtensionContext) {
   const liquidTestHandler = new LiquidTestHandler();
   const templateUpdater = new TemplateUpdater();
 
-  new LiquidLinter(context);
-  new SharedPartsVerifier(context, outputChannelLog);
-  new TemplateCommander(context);
+  new LiquidLinter();
+  new SharedPartsVerifier();
+  new TemplateCommander();
   new AddClosingTag();
 
   // Load Errors stored for open file if any
@@ -61,52 +61,6 @@ export async function activate(context: vscode.ExtensionContext) {
         liquidTestHandler.errorsCollection
       );
     })
-  );
-
-  // Command to clean Diagnostic Collection of current file
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "silverfin-development-toolkit.clearCurrentDiagnosticCollection",
-      () => {
-        if (!vscode.window.activeTextEditor) {
-          return;
-        }
-        liquidTestHandler.errorsCollection.set(
-          vscode.window.activeTextEditor.document.uri,
-          []
-        );
-      }
-    )
-  );
-
-  // Command to run all tests
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "silverfin-development-toolkit.runAllTests",
-      () => {
-        liquidTestHandler.runAllTestsCommand();
-      }
-    )
-  );
-
-  // Command to run specific test (with html input)
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "silverfin-development-toolkit.runTestWithOptionsInputHtml",
-      () => {
-        liquidTestHandler.runTestWithOptionsCommand("input");
-      }
-    )
-  );
-
-  // Command to run specific test (with html preview)
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "silverfin-development-toolkit.runTestWithOptionsPreviewHtml",
-      () => {
-        liquidTestHandler.runTestWithOptionsCommand("preview");
-      }
-    )
   );
 
   // Quick Fixes Provider

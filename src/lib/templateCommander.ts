@@ -3,6 +3,7 @@ const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
+import ExtensionContext from "./ExtensionContext";
 import ExtensionLogger from "./outputChannels/extensionLogger";
 import UserLogger from "./outputChannels/userLogger";
 
@@ -13,11 +14,7 @@ import UserLogger from "./outputChannels/userLogger";
 export default class TemplateCommander {
   private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
   private userLogger: UserLogger = UserLogger.plug();
-  firmId: Number | undefined = undefined;
-  private vscodeContext: vscode.ExtensionContext;
-
-  constructor(vscodeContext: vscode.ExtensionContext) {
-    this.vscodeContext = vscodeContext;
+  constructor() {
     this.registerEvents();
   }
 
@@ -306,7 +303,8 @@ export default class TemplateCommander {
    * @returns void
    */
   private registerEvents() {
-    this.vscodeContext.subscriptions.push(
+    const extensionContext = ExtensionContext.get();
+    extensionContext.subscriptions.push(
       vscode.commands.registerCommand(
         "silverfin-development-toolkit.templateCommandsInBulk",
         () => {

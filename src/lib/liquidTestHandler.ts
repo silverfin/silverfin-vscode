@@ -30,6 +30,7 @@ export default class LiquidTestHandler {
       new vscode.Position(0, 0),
       new vscode.Position(0, 500)
     );
+    this.registerEvents();
   }
 
   public async runAllTestsCommand() {
@@ -553,8 +554,64 @@ export default class LiquidTestHandler {
     try {
       return yaml.parse(testContent) || {};
     } catch (err) {
-      this.output.appendLine("Parsing YAML file failed");
+      this.extensionLogger.log("Parsing YAML file failed");
       return {};
     }
+  }
+
+  /**
+   * Register all the events to the Extension
+   * Commands:
+   * - Run all tests
+   * - Run test with options (input html)
+   * - Run test with options (preview html)
+   */
+  private registerEvents() {
+    const extensionContext = ExtensionContext.get();
+    // Command to run all tests
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(
+        "silverfin-development-toolkit.runAllTests",
+        () => {
+          this.runAllTestsCommand();
+        }
+      )
+    );
+
+    // Command to run specific test (with html input)
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(
+        "silverfin-development-toolkit.runTestWithOptionsInputHtml",
+        () => {
+          this.runTestWithOptionsCommand("input");
+        }
+      )
+    );
+
+    // Command to run specific test (with html preview)
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(
+        "silverfin-development-toolkit.runTestWithOptionsPreviewHtml",
+        () => {
+          this.runTestWithOptionsCommand("preview");
+        }
+      )
+    );
+
+    // Command to clean Diagnostic Collection of current file
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(
+        "silverfin-development-toolkit.clearCurrentDiagnosticCollection",
+        () => {
+          if (!vscode.window.activeTextEditor) {
+            return;
+          }
+          this.errorsCollection.set(
+            vscode.window.activeTextEditor.document.uri,
+            []
+          );
+        }
+      )
+    );
   }
 }

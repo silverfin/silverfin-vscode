@@ -1,6 +1,7 @@
 import { posix } from "path";
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
+import ExtensionContext from "./ExtensionContext";
 import FirmHandler from "./firmHandler";
 import ExtensionLogger from "./outputChannels/extensionLogger";
 const sfCliApi = require("silverfin-cli/lib/api/sfApi");
@@ -11,13 +12,11 @@ const sfCliApi = require("silverfin-cli/lib/api/sfApi");
  * - Run the liquid linter.
  */
 export default class LiquidLinter {
-  context: vscode.ExtensionContext;
   commandName = "silverfin-development-toolkit.liquidLinter";
   errorsCollection: vscode.DiagnosticCollection;
   private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
   private firmHandler: FirmHandler = FirmHandler.plug();
-  constructor(context: vscode.ExtensionContext) {
-    this.context = context;
+  constructor() {
     this.errorsCollection = vscode.languages.createDiagnosticCollection(
       `LiquidLinterCollection`
     );
@@ -113,7 +112,8 @@ export default class LiquidLinter {
    */
   private registerEvents() {
     // Command to run the liquid linter
-    this.context.subscriptions.push(
+    const extensionContext = ExtensionContext.get();
+    extensionContext.subscriptions.push(
       vscode.commands.registerCommand(this.commandName, () => {
         this.verifyLiquidCommand();
       })
