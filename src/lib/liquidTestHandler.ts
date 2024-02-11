@@ -4,16 +4,17 @@ import * as yaml from "yaml";
 import * as templateUtils from "../utilities/templateUtils";
 import * as utils from "../utilities/utils";
 import FirmHandler from "./firmHandler";
+import StatusBarItem from "./statusBar/statusBarItem";
 import * as types from "./types";
 const sfCliLiquidTestRunner = require("silverfin-cli/lib/liquidTestRunner");
 
 export default class LiquidTestHandler {
   private firmHandler: FirmHandler = FirmHandler.plug();
+  private statusBarItem: StatusBarItem = StatusBarItem.plug();
   errorsCollection: vscode.DiagnosticCollection;
   output: vscode.OutputChannel;
   context: vscode.ExtensionContext;
   yamlDocument!: vscode.TextDocument;
-  statusBarItem: any;
   htmlPanel: vscode.WebviewPanel | undefined;
   firstRowRange: vscode.Range;
   templateHandle: string | false = false;

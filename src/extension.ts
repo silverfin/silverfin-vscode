@@ -21,19 +21,18 @@ import * as diagnosticsUtils from "./utilities/diagnosticsUtils";
 
 export async function activate(context: vscode.ExtensionContext) {
   ExtensionContext.set(context);
+
   // Replace with ExtensionLogger
   const outputChannelLog = vscode.window.createOutputChannel(
     "Silverfin (Extension Logs)"
   );
 
+  FirmHandler.plug().registerEvents(context);
   ExtensionLogger.plug();
   UserLogger.plug();
+  StatusBarItem.plug();
+  StatusBarDevMode.plug();
 
-  const firmHandler = FirmHandler.plug();
-  firmHandler.registerEvents(context);
-
-  const statusBarItemRunTests = new StatusBarItem(context);
-  const statusBarDevMode = new StatusBarDevMode(context);
   const liquidTestHandler = new LiquidTestHandler(context, outputChannelLog);
   const templateUpdater = new TemplateUpdater();
 
@@ -41,10 +40,6 @@ export async function activate(context: vscode.ExtensionContext) {
   new SharedPartsVerifier(context, outputChannelLog);
   new TemplateCommander(context);
   new AddClosingTag();
-
-  // References
-  firmHandler.statusBarItem = statusBarItemRunTests;
-  liquidTestHandler.statusBarItem = statusBarItemRunTests;
 
   // Load Errors stored for open file if any
   if (vscode.window.activeTextEditor) {
@@ -186,8 +181,7 @@ export async function activate(context: vscode.ExtensionContext) {
   // Liquid Tests
   const testsProvider = new TestsViewProvider(
     context.extensionUri,
-    liquidTestHandler,
-    statusBarDevMode
+    liquidTestHandler
   );
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider(

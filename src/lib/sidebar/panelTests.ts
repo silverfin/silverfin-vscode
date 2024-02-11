@@ -2,10 +2,12 @@ import * as vscode from "vscode";
 import * as types from "../../lib/types";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
+import StatusBarDevMode from "../statusBar/statusBarDevMode";
 import * as panelUtils from "./panelUtils";
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 
 export class TestsViewProvider implements vscode.WebviewViewProvider {
+  private statusBarItem: StatusBarDevMode = StatusBarDevMode.plug();
   public static readonly viewType = "development";
   public _view?: vscode.WebviewView;
   public devModeStatus: "active" | "inactive" = "inactive";
@@ -18,15 +20,12 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
   private devModeTestInfo =
     "When you activate this option, a new liquid test run will be initiated every time you save a file related to the template where it was enabled. Keep in mind that, it will use the firm set as ACTIVE.";
   liquidTestRunner: any;
-  statusBarItem: any;
   constructor(
     private readonly _extensionUri: vscode.Uri,
-    liquidTestRunner: any,
-    statusBarDevMode: any
+    liquidTestRunner: any
   ) {
     this._extensionUri = _extensionUri;
     this.liquidTestRunner = liquidTestRunner;
-    this.statusBarItem = statusBarDevMode;
   }
 
   public async resolveWebviewView(
@@ -37,7 +36,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     this._view = webviewView;
     webviewView.webview.options = {
       enableScripts: true,
-      localResourceRoots: [this._extensionUri],
+      localResourceRoots: [this._extensionUri]
     };
     await this.setContent(webviewView);
 
@@ -134,7 +133,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     const htmlOptionValues = [
       ["none", "No view"],
       ["input", "Input (HTML"],
-      ["preview", "Preview (HTML)"],
+      ["preview", "Preview (HTML)"]
     ];
     const htmlOptions = htmlOptionValues.map((htmlType) => {
       const selected =
@@ -290,7 +289,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
             templateHandle,
             testName: message.testName,
             previewOnly: previewOnly,
-            htmlType: message.htmlType,
+            htmlType: message.htmlType
           };
           this.setBarStatus();
           this.refreshPanel();
@@ -311,7 +310,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
       templateHandle: "",
       testName: "",
       previewOnly: false,
-      htmlType: "none",
+      htmlType: "none"
     };
     return true;
   }

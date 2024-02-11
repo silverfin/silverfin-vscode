@@ -1,16 +1,18 @@
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
 import ExtensionLogger from "./outputChannels/extensionLogger";
+import StatusBarItem from "./statusBar/statusBarItem";
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 const sfCliApiUtils = require("silverfin-cli/lib/utils/apiUtils");
 
 export default class FirmHandler {
   private static uniqueInstance: FirmHandler | null = null;
+  private statusBarItem: StatusBarItem = StatusBarItem.plug();
   commandNameSetFirm = "silverfin-development-toolkit.setFirm";
   commandNameAuthorizeFirm = "silverfin-development-toolkit.authorizeFirm";
   private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
   apiSecretsPresent: boolean;
-  statusBarItem: any;
+
   constructor() {
     this.apiSecretsPresent = this.checkApiSecrets();
   }
