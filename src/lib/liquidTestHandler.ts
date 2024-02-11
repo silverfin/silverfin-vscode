@@ -3,7 +3,7 @@ import * as vscode from "vscode";
 import * as yaml from "yaml";
 import * as templateUtils from "../utilities/templateUtils";
 import * as utils from "../utilities/utils";
-import ExtensionContext from "./ExtensionContext";
+import ExtensionContext from "./extensionContext";
 import FirmHandler from "./firmHandler";
 import ExtensionLogger from "./outputChannels/extensionLogger";
 import StatusBarItem from "./statusBar/statusBarItem";

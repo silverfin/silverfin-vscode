@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import ExtensionContext from "../ExtensionContext";
+import ExtensionContext from "../extensionContext";
 
 /**
  * StatusBarItem class to handle the status bar item for the extension.

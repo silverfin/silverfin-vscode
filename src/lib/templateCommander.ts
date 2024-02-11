@@ -3,7 +3,7 @@ const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
-import ExtensionContext from "./ExtensionContext";
+import ExtensionContext from "./extensionContext";
 import ExtensionLogger from "./outputChannels/extensionLogger";
 import UserLogger from "./outputChannels/userLogger";
 

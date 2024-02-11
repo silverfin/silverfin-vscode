@@ -2,7 +2,7 @@ import { posix } from "path";
 import * as vscode from "vscode";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
-import ExtensionContext from "../ExtensionContext";
+import ExtensionContext from "../extensionContext";
 import ExtensionLogger from "../outputChannels/extensionLogger";
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");

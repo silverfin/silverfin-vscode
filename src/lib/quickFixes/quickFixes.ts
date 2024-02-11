@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import ExtensionContext from "../ExtensionContext";
+import ExtensionContext from "../extensionContext";
 import LiquidQuickFixes from "./liquidQuickFixes";
 import LiquidTestQuickFixes from "./liquidTestsQuickFixes";
 

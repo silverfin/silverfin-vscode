@@ -1,7 +1,7 @@
 import { posix } from "path";
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
-import ExtensionContext from "./ExtensionContext";
+import ExtensionContext from "./extensionContext";
 import FirmHandler from "./firmHandler";
 import ExtensionLogger from "./outputChannels/extensionLogger";
 const sfCliApi = require("silverfin-cli/lib/api/sfApi");

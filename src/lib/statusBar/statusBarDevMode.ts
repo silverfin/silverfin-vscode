@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import ExtensionContext from "../ExtensionContext";
+import ExtensionContext from "../extensionContext";
 
 /**
  * It will show the status of the development mode.

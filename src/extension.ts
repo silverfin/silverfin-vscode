@@ -1,7 +1,8 @@
 import * as vscode from "vscode";
-import ExtensionContext from "./lib/ExtensionContext";
 import AddClosingTag from "./lib/addClosingTag";
+import DiagnosticLoader from "./lib/diagnostics/diagnosticsLoader";
 import SharedPartsVerifier from "./lib/diagnostics/sharedPartsVerifier";
+import ExtensionContext from "./lib/extensionContext";
 import FirmHandler from "./lib/firmHandler";
 import LiquidLinter from "./lib/liquidLinter";
 import LiquidTestHandler from "./lib/liquidTestHandler";
@@ -16,15 +17,9 @@ import StatusBarDevMode from "./lib/statusBar/statusBarDevMode";
 import StatusBarItem from "./lib/statusBar/statusBarItem";
 import TemplateCommander from "./lib/templateCommander";
 import TemplateUpdater from "./lib/templateUpdater";
-import * as diagnosticsUtils from "./utilities/diagnosticsUtils";
 
 export async function activate(context: vscode.ExtensionContext) {
   ExtensionContext.set(context);
-
-  // Replace with ExtensionLogger
-  const outputChannelLog = vscode.window.createOutputChannel(
-    "Silverfin (Extension Logs)"
-  );
 
   FirmHandler.plug();
   ExtensionLogger.plug();
@@ -35,33 +30,12 @@ export async function activate(context: vscode.ExtensionContext) {
   const liquidTestHandler = new LiquidTestHandler();
   const templateUpdater = new TemplateUpdater();
 
+  new DiagnosticLoader();
   new LiquidLinter();
   new SharedPartsVerifier();
   new TemplateCommander();
   new AddClosingTag();
   new QuickFixesProviders();
-
-  // Load Errors stored for open file if any
-  if (vscode.window.activeTextEditor) {
-    diagnosticsUtils.loadStoredDiagnostics(
-      vscode.window.activeTextEditor.document,
-      outputChannelLog,
-      context,
-      liquidTestHandler.errorsCollection
-    );
-  }
-
-  // When a new file is opened for the first time. Load the Diagnostic stored from previous runs
-  context.subscriptions.push(
-    vscode.workspace.onDidOpenTextDocument(async (currentDocument) => {
-      diagnosticsUtils.loadStoredDiagnostics(
-        currentDocument,
-        outputChannelLog,
-        context,
-        liquidTestHandler.errorsCollection
-      );
-    })
-  );
 
   // Side-Bar Views
   // Template Parts
