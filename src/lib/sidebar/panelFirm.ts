@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
+import ExtensionContext from "../extensionContext";
 import * as panelUtils from "./panelUtils";
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 
@@ -14,11 +15,15 @@ interface TemplateUsedInFirmData {
   templateId: string;
 }
 
+/**
+ * Provider that handles the view for Firm details
+ */
 export class FirmViewProvider implements vscode.WebviewViewProvider {
-  public static readonly viewType = "firm-info";
-  public _view?: vscode.WebviewView;
+  private readonly viewType = "firm-info";
+  private _view?: vscode.WebviewView;
   constructor(private readonly _extensionUri: vscode.Uri) {
     this._extensionUri = _extensionUri;
+    this.registerEvents();
   }
 
   public async resolveWebviewView(
@@ -29,7 +34,7 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
     this._view = webviewView;
     webviewView.webview.options = {
       enableScripts: true,
-      localResourceRoots: [this._extensionUri],
+      localResourceRoots: [this._extensionUri]
     };
     await this.setContent(webviewView);
 
@@ -53,7 +58,7 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
         return {
           templateFolder: templateFolder,
           firmId: key,
-          templateId: object[key],
+          templateId: object[key]
         };
       });
     };
@@ -168,6 +173,28 @@ export class FirmViewProvider implements vscode.WebviewViewProvider {
           );
           return;
       }
+    });
+  }
+
+  private registerEvents() {
+    const extensionContext = ExtensionContext.get();
+    extensionContext.subscriptions.push(
+      vscode.window.registerWebviewViewProvider(this.viewType, this)
+    );
+    // command that can be used to force a refresh of the firms panel
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand("firm-panel.refresh", () => {
+        if (!this._view) {
+          return;
+        }
+        this.setContent(this._view);
+      })
+    );
+    vscode.window.onDidChangeActiveTextEditor(() => {
+      vscode.commands.executeCommand("firm-panel.refresh");
+    });
+    vscode.workspace.onDidSaveTextDocument(() => {
+      vscode.commands.executeCommand("firm-panel.refresh");
     });
   }
 }

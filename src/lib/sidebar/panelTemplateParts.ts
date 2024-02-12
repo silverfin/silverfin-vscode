@@ -3,27 +3,34 @@ import * as types from "../../lib/types";
 import * as userActions from "../../lib/userActions";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
+import ExtensionContext from "../extensionContext";
 import * as panelUtils from "./panelUtils";
 const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");
 const fs = require("fs");
 
-export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
-  public static readonly viewType = "template-parts";
-  public _view?: vscode.WebviewView;
+/**
+ * Provider that handles the view for Template Parts
+ */
+export default class TemplatePartsViewProvider
+  implements vscode.WebviewViewProvider
+{
+  private readonly viewType = "template-parts";
+  private _view?: vscode.WebviewView;
   private templateType!: types.templateTypes | false;
   constructor(private readonly _extensionUri: vscode.Uri) {
     this._extensionUri = _extensionUri;
+    this.registerEvents();
   }
 
   public async resolveWebviewView(
     webviewView: vscode.WebviewView,
-    context: vscode.WebviewViewResolveContext,
+    _context: vscode.WebviewViewResolveContext,
     _token: vscode.CancellationToken
   ) {
     this._view = webviewView;
     webviewView.webview.options = {
       enableScripts: true,
-      localResourceRoots: [vscode.Uri.joinPath(this._extensionUri)],
+      localResourceRoots: [vscode.Uri.joinPath(this._extensionUri)]
     };
     await this.setContent(webviewView);
 
@@ -270,5 +277,26 @@ export class TemplatePartsViewProvider implements vscode.WebviewViewProvider {
       vscode.commands.executeCommand("template-parts-panel.refresh");
       vscode.commands.executeCommand("template-info-panel.refresh");
     }, 1000);
+  }
+
+  private registerEvents() {
+    const extensionContext = ExtensionContext.get();
+    extensionContext.subscriptions.push(
+      vscode.window.registerWebviewViewProvider(this.viewType, this)
+    );
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand("template-parts-panel.refresh", () => {
+        if (!this._view) {
+          return;
+        }
+        this.setContent(this._view);
+      })
+    );
+    vscode.window.onDidChangeActiveTextEditor(() => {
+      vscode.commands.executeCommand("template-parts-panel.refresh");
+    });
+    vscode.workspace.onDidSaveTextDocument(() => {
+      vscode.commands.executeCommand("template-parts-panel.refresh");
+    });
   }
 }

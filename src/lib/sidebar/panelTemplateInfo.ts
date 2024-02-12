@@ -1,17 +1,22 @@
 import * as vscode from "vscode";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
+import ExtensionContext from "../extensionContext";
 import * as types from "../types";
 import * as panelUtils from "./panelUtils";
 
+/**
+ * Provider that handles the view for Template Information
+ */
 export class TemplateInformationViewProvider
   implements vscode.WebviewViewProvider
 {
-  public static readonly viewType = "template-info";
-  public _view?: vscode.WebviewView;
+  private readonly viewType = "template-info";
+  private _view?: vscode.WebviewView;
   private templateType!: types.templateTypes | false;
   constructor(private readonly _extensionUri: vscode.Uri) {
     this._extensionUri = _extensionUri;
+    this.registerEvents();
   }
 
   public async resolveWebviewView(
@@ -22,7 +27,7 @@ export class TemplateInformationViewProvider
     this._view = webviewView;
     webviewView.webview.options = {
       enableScripts: true,
-      localResourceRoots: [this._extensionUri],
+      localResourceRoots: [this._extensionUri]
     };
     await this.setContent(webviewView);
   }
@@ -45,23 +50,23 @@ export class TemplateInformationViewProvider
         virtual_account_number: "Virtual account number",
         is_active: "Active?",
         public: "Public?",
-        externally_managed: "Externally managed?",
+        externally_managed: "Externally managed?"
       },
       sharedPart: {
-        name: "Name",
+        name: "Name"
       },
       accountTemplate: {
         name_en: "Name (en)",
         name_nl: "Name (nl)",
         name_fr: "Name (fr)",
         account_range: "Account range",
-        mapping_list_ranges: "Mapping list ranges",
+        mapping_list_ranges: "Mapping list ranges"
       },
       exportFile: {
         name: "Name",
         file_name: "File name",
-        encoding: "Encoding",
-      },
+        encoding: "Encoding"
+      }
     };
 
     /* eslint-enable */
@@ -110,5 +115,26 @@ export class TemplateInformationViewProvider
       htmlBody
     );
     webviewView.webview.html = htmlContent;
+  }
+
+  private registerEvents() {
+    const extensionContext = ExtensionContext.get();
+    extensionContext.subscriptions.push(
+      vscode.window.registerWebviewViewProvider(this.viewType, this)
+    );
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand("template-info-panel.refresh", () => {
+        if (!this._view) {
+          return;
+        }
+        this.setContent(this._view);
+      })
+    );
+    vscode.window.onDidChangeActiveTextEditor(() => {
+      vscode.commands.executeCommand("template-info-panel.refresh");
+    });
+    vscode.workspace.onDidSaveTextDocument(() => {
+      vscode.commands.executeCommand("template-info-panel.refresh");
+    });
   }
 }

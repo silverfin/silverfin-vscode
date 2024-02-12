@@ -2,14 +2,18 @@ import * as vscode from "vscode";
 import * as types from "../../lib/types";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
+import ExtensionContext from "../extensionContext";
 import StatusBarDevMode from "../statusBar/statusBarDevMode";
 import * as panelUtils from "./panelUtils";
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 
+/**
+ * Provider that handles the view for Liquid Tests
+ */
 export class TestsViewProvider implements vscode.WebviewViewProvider {
   private statusBarItem: StatusBarDevMode = StatusBarDevMode.plug();
-  public static readonly viewType = "development";
-  public _view?: vscode.WebviewView;
+  private readonly viewType = "development";
+  private _view?: vscode.WebviewView;
   public devModeStatus: "active" | "inactive" = "inactive";
   public lockedHandle!: string;
   public firmIdStored!: string;
@@ -26,6 +30,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
   ) {
     this._extensionUri = _extensionUri;
     this.liquidTestRunner = liquidTestRunner;
+    this.registerEvents();
   }
 
   public async resolveWebviewView(
@@ -327,5 +332,26 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     } else {
       this.statusBarItem.setStateIdle();
     }
+  }
+
+  private registerEvents() {
+    const extensionContext = ExtensionContext.get();
+    extensionContext.subscriptions.push(
+      vscode.window.registerWebviewViewProvider(this.viewType, this)
+    );
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand("tests-panel.refresh", () => {
+        if (!this._view) {
+          return;
+        }
+        this.setContent(this._view);
+      })
+    );
+    vscode.window.onDidChangeActiveTextEditor(() => {
+      vscode.commands.executeCommand("tests-panel.refresh");
+    });
+    vscode.workspace.onDidSaveTextDocument(() => {
+      vscode.commands.executeCommand("tests-panel.refresh");
+    });
   }
 }
