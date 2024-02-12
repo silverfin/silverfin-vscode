@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import ExtensionContext from "../extensionContext";
-import ExtensionLogger from "../outputChannels/extensionLogger";
+import ExtensionLoggerWrapper from "../outputChannels/extensionLoggerWrapper";
 import * as types from "../types";
 
 /**
@@ -18,7 +18,9 @@ import * as types from "../types";
 export default class DiagnosticCollectionsHandler {
   private static uniqueInstance: DiagnosticCollectionsHandler | null = null;
   private collections: { [name: string]: vscode.DiagnosticCollection };
-  private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
+  private extensionLogger: ExtensionLoggerWrapper = new ExtensionLoggerWrapper(
+    "DiagnosticCollectionsHandler"
+  );
   constructor() {
     this.collections = {};
     this.registerEvents();

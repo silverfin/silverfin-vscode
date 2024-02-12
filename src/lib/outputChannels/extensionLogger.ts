@@ -44,8 +44,6 @@ export default class ExtensionLogger {
         }
       })
       .join(" || ");
-    const callingClassName = this.constructor.name;
-    message = `[${callingClassName}] ${message}`;
     this.outputChannel.appendLine(message);
   }
 }

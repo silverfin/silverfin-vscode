@@ -6,7 +6,7 @@ import * as utils from "../utilities/utils";
 import DiagnosticCollectionsHandler from "./diagnostics/diagnosticCollectionsHandler";
 import ExtensionContext from "./extensionContext";
 import FirmHandler from "./firmHandler";
-import ExtensionLogger from "./outputChannels/extensionLogger";
+import ExtensionLoggerWrapper from "./outputChannels/extensionLoggerWrapper";
 import StatusBarItem from "./statusBar/statusBarItem";
 import * as types from "./types";
 const sfCliLiquidTestRunner = require("silverfin-cli/lib/liquidTestRunner");
@@ -14,7 +14,9 @@ const sfCliLiquidTestRunner = require("silverfin-cli/lib/liquidTestRunner");
 export default class LiquidTestHandler {
   private firmHandler: FirmHandler = FirmHandler.plug();
   private statusBarItem: StatusBarItem = StatusBarItem.plug();
-  private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
+  private extensionLogger: ExtensionLoggerWrapper = new ExtensionLoggerWrapper(
+    "LiquidTestHandler"
+  );
   private errorsCollection: vscode.DiagnosticCollection;
   yamlDocument!: vscode.TextDocument;
   htmlPanel: vscode.WebviewPanel | undefined;

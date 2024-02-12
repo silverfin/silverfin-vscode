@@ -3,7 +3,7 @@ import * as vscode from "vscode";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 import ExtensionContext from "../extensionContext";
-import ExtensionLogger from "../outputChannels/extensionLogger";
+import ExtensionLoggerWrapper from "../outputChannels/extensionLoggerWrapper";
 import DiagnosticCollectionsHandler from "./diagnosticCollectionsHandler";
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");
@@ -13,7 +13,9 @@ const sfCli = require("silverfin-cli");
  * This class is responsible for verifying if the shared parts used in the liquid file are added to the template.
  */
 export default class SharedPartsVerifier {
-  private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
+  private extensionLogger: ExtensionLoggerWrapper = new ExtensionLoggerWrapper(
+    "SharedPartsVerifier"
+  );
   private errorsCollection: vscode.DiagnosticCollection;
   currentLiquidFile: vscode.TextDocument | undefined;
   firmId: Number | undefined;

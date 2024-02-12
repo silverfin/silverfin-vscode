@@ -2,11 +2,13 @@ const sfCli = require("silverfin-cli");
 import * as vscode from "vscode";
 import * as templateUtils from "../utilities/templateUtils";
 import FirmHandler from "./firmHandler";
-import ExtensionLogger from "./outputChannels/extensionLogger";
+import ExtensionLoggerWrapper from "./outputChannels/extensionLoggerWrapper";
 import UserLogger from "./outputChannels/userLogger";
 
 export default class TemplateUpdater {
-  private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
+  private extensionLogger: ExtensionLoggerWrapper = new ExtensionLoggerWrapper(
+    "TemplateUpdater"
+  );
   private userLogger: UserLogger = UserLogger.plug();
   private firmHandler: FirmHandler = FirmHandler.plug();
   firmId: Number | undefined = undefined;

@@ -4,7 +4,7 @@ const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
 import ExtensionContext from "./extensionContext";
-import ExtensionLogger from "./outputChannels/extensionLogger";
+import ExtensionLoggerWrapper from "./outputChannels/extensionLoggerWrapper";
 import UserLogger from "./outputChannels/userLogger";
 
 /**
@@ -12,7 +12,9 @@ import UserLogger from "./outputChannels/userLogger";
  * Registers the command `silverfin-development-toolkit.templateCommandsInBulk` to run the `runCommandOnTemplatesInBulk` method.
  */
 export default class TemplateCommander {
-  private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
+  private extensionLogger: ExtensionLoggerWrapper = new ExtensionLoggerWrapper(
+    "TemplateCommander"
+  );
   private userLogger: UserLogger = UserLogger.plug();
   constructor() {
     this.registerEvents();
