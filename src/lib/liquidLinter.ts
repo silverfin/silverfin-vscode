@@ -1,6 +1,7 @@
 import { posix } from "path";
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
+import DiagnosticCollectionsHandler from "./diagnostics/diagnosticCollectionsHandler";
 import ExtensionContext from "./extensionContext";
 import FirmHandler from "./firmHandler";
 import ExtensionLogger from "./outputChannels/extensionLogger";
@@ -13,11 +14,11 @@ const sfCliApi = require("silverfin-cli/lib/api/sfApi");
  */
 export default class LiquidLinter {
   commandName = "silverfin-development-toolkit.liquidLinter";
-  errorsCollection: vscode.DiagnosticCollection;
+  private errorsCollection: vscode.DiagnosticCollection;
   private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
   private firmHandler: FirmHandler = FirmHandler.plug();
   constructor() {
-    this.errorsCollection = vscode.languages.createDiagnosticCollection(
+    this.errorsCollection = DiagnosticCollectionsHandler.getCollection(
       `LiquidLinterCollection`
     );
     this.registerEvents();

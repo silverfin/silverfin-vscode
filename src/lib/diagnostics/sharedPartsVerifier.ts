@@ -4,6 +4,7 @@ import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 import ExtensionContext from "../extensionContext";
 import ExtensionLogger from "../outputChannels/extensionLogger";
+import DiagnosticCollectionsHandler from "./diagnosticCollectionsHandler";
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");
 const sfCli = require("silverfin-cli");
@@ -13,7 +14,7 @@ const sfCli = require("silverfin-cli");
  */
 export default class SharedPartsVerifier {
   private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
-  errorsCollection: vscode.DiagnosticCollection;
+  private errorsCollection: vscode.DiagnosticCollection;
   currentLiquidFile: vscode.TextDocument | undefined;
   firmId: Number | undefined;
   templateHandle: string | undefined;
@@ -21,7 +22,7 @@ export default class SharedPartsVerifier {
 
   constructor() {
     this.errorsCollection =
-      vscode.languages.createDiagnosticCollection(`LiquidCollection`);
+      DiagnosticCollectionsHandler.getCollection(`LiquidCollection`);
     this.currentLiquidFile = undefined;
     this.registerEvents();
   }

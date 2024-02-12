@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import AddClosingTag from "./lib/addClosingTag";
-import DiagnosticLoader from "./lib/diagnostics/diagnosticsLoader";
+import DiagnosticCollectionsHandler from "./lib/diagnostics/diagnosticCollectionsHandler";
 import SharedPartsVerifier from "./lib/diagnostics/sharedPartsVerifier";
 import ExtensionContext from "./lib/extensionContext";
 import FirmHandler from "./lib/firmHandler";
@@ -26,11 +26,11 @@ export async function activate(context: vscode.ExtensionContext) {
   UserLogger.plug();
   StatusBarItem.plug();
   StatusBarDevMode.plug();
+  DiagnosticCollectionsHandler.plug();
 
   const liquidTestHandler = new LiquidTestHandler();
   const templateUpdater = new TemplateUpdater();
 
-  new DiagnosticLoader();
   new LiquidLinter();
   new SharedPartsVerifier();
   new TemplateCommander();

@@ -3,6 +3,7 @@ import * as vscode from "vscode";
 import * as yaml from "yaml";
 import * as templateUtils from "../utilities/templateUtils";
 import * as utils from "../utilities/utils";
+import DiagnosticCollectionsHandler from "./diagnostics/diagnosticCollectionsHandler";
 import ExtensionContext from "./extensionContext";
 import FirmHandler from "./firmHandler";
 import ExtensionLogger from "./outputChannels/extensionLogger";
@@ -14,7 +15,7 @@ export default class LiquidTestHandler {
   private firmHandler: FirmHandler = FirmHandler.plug();
   private statusBarItem: StatusBarItem = StatusBarItem.plug();
   private extensionLogger: ExtensionLogger = ExtensionLogger.plug();
-  errorsCollection: vscode.DiagnosticCollection;
+  private errorsCollection: vscode.DiagnosticCollection;
   yamlDocument!: vscode.TextDocument;
   htmlPanel: vscode.WebviewPanel | undefined;
   firstRowRange: vscode.Range;
@@ -24,7 +25,7 @@ export default class LiquidTestHandler {
 
   constructor() {
     this.errorsCollection =
-      vscode.languages.createDiagnosticCollection(`LiquidTestCollection`);
+      DiagnosticCollectionsHandler.getCollection(`LiquidTestCollection`);
     this.htmlPanel = undefined;
     this.firstRowRange = new vscode.Range(
       new vscode.Position(0, 0),
