@@ -350,6 +350,15 @@ export default class LiquidTestHandler {
     return await vscode.workspace.openTextDocument(yamlUri);
   }
 
+  private parseYaml(testContent: string) {
+    try {
+      return yaml.parse(testContent) || {};
+    } catch (err) {
+      this.extensionLogger.log("Parsing YAML file failed");
+      return {};
+    }
+  }
+
   // Return an array with the names of the unit tests and the row where they are located
   private findTestNamesAndRows(document: vscode.TextDocument) {
     const testContent = document.getText();
