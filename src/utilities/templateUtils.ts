@@ -7,7 +7,7 @@ export const FOLDERS = {
   reconciliationText: "reconciliation_texts",
   sharedPart: "shared_parts",
   exportFile: "export_files",
-  accountTemplate: "account_templates",
+  accountTemplate: "account_templates"
 };
 
 export const TEMPLATE_TYPES = Object.keys(FOLDERS);
@@ -16,18 +16,18 @@ export const SILVERFIN_URL_PATHS = {
   reconciliationText: "reconciliation_texts",
   sharedPart: "shared_parts",
   exportFile: "export_files",
-  accountTemplate: "account_detail_templates",
+  accountTemplate: "account_detail_templates"
 };
 
 export const TEMPLATE_TYPES_NAMES = {
   reconciliationText: "Reconciliation text",
   sharedPart: "Shared part",
   exportFile: "Export file",
-  accountTemplate: "Account template",
+  accountTemplate: "Account template"
 };
 
 /**
- *
+ * Identify the template handle from any file (main, text_parts, config, tests). It does it by looking at the file path
  * @param filePath - Optional. File path to identify the template handle. If it is not provided, it will look at the file path of the ActiveTextEditor.
  * @returns `templateHandle: string` or `false: boolean` if it is not identified.
  * @example `getTemplateHandle("/Users/username/.../reconciliation_texts/template_handle/main.liquid")` returns `"template_handle"`
@@ -95,7 +95,10 @@ export async function getTemplateBasePath() {
   return templateBasePath;
 }
 
-// Check if Config file exists and return its paths
+/**
+ * Identify the path of the config.json file of the template. It does it by looking at the file path of the ActiveTextEditor
+ * @returns `configPath: string` or `false: boolean` if it is not identified.
+ */
 export async function getTemplateConfigPath() {
   utils.setCWD();
   if (!vscode.window.activeTextEditor) {
@@ -117,7 +120,7 @@ export async function getTemplateConfigPath() {
   const templatePath = fileParts.slice(0, index + 1).join(posix.sep);
   const configPath = posix.join(templatePath, "config.json");
   const configUri = vscode.window.activeTextEditor.document.uri.with({
-    path: configPath,
+    path: configPath
   });
   const configExists = await vscode.workspace.fs.stat(configUri);
   if (!configExists) {
@@ -126,6 +129,10 @@ export async function getTemplateConfigPath() {
   return configPath;
 }
 
+/**
+ * Get the data from the config.json file of the current template (activeTextEditor)
+ * @returns `configData: object` or `false: boolean` if it is not identified.
+ */
 export async function getTemplateConfigData() {
   utils.setCWD();
   if (!vscode.window.activeTextEditor) {
@@ -141,7 +148,7 @@ export async function getTemplateConfigData() {
     return false;
   }
   const configUri = vscode.window.activeTextEditor.document.uri.with({
-    path: templateConfigPath,
+    path: templateConfigPath
   });
   const configTextDocument = await vscode.workspace.openTextDocument(configUri);
   if (!configTextDocument) {
@@ -150,6 +157,10 @@ export async function getTemplateConfigData() {
   return JSON.parse(configTextDocument.getText());
 }
 
+/**
+ * Get the liquid code of the current template (activeTextEditor)
+ * @returns `liquidCode: string` or `false: boolean` if it is not identified.
+ */
 export async function getTemplateLiquidCode() {
   utils.setCWD();
   if (!vscode.window.activeTextEditor) {
@@ -162,7 +173,9 @@ export async function getTemplateLiquidCode() {
   return vscode.window.activeTextEditor.document.getText();
 }
 
-// Check if liquid tests file exists and return its paths
+/**
+ * Check if liquid tests file exists and return its paths
+ */
 export async function getTemplateLiquidTestsPath() {
   try {
     utils.setCWD();
@@ -189,7 +202,7 @@ export async function getTemplateLiquidTestsPath() {
       `${templateHandle}_liquid_test.yml`
     );
     const yamlUri = vscode.window.activeTextEditor.document.uri.with({
-      path: yamlPath,
+      path: yamlPath
     });
     const yamlExists = await vscode.workspace.fs.stat(yamlUri);
     if (!yamlExists) {
@@ -301,7 +314,7 @@ export async function createTemplatePartPrompt() {
     prompt:
       "Enter the name of the new part. Use only letters, numbers and underscores.",
     placeHolder: "new_part_name",
-    title: "NEW PART",
+    title: "NEW PART"
   });
 
   if (!newPartName) {

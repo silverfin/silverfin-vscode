@@ -1,5 +1,10 @@
-// From the Message of the error, extract the expected and got values
-// Return: [expected, got]
+/**
+ * From a diagnostic message, get the expected and got values
+ * @param message - The message of the error
+ * @returns  - The expected and got values
+ * @example
+ * getExpectedGotFromMessage("Expected: 1 Got: 2") // ["1", "2"]
+ */
 export function getExpectedGotFromMessage(message: string): string[] {
   const output = [];
   const expectedRegex = /Expected:\s*([^(]+)/g;
