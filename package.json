@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/silverfin/silverfin-vscode#readme",
   "activationEvents": [
-    "onLanguage:yaml"
+    "workspaceContains:**/*.liquid"
   ],
   "main": "./out/extension.js",
   "extensionDependencies": [
@@ -189,6 +189,10 @@
         },
         {
           "command": "silverfin-development-toolkit.setFirm",
+          "when": "silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.templateCommandsInBulk",
           "when": "silverfin-development-toolkit.apiAuthorized"
         }
       ]
