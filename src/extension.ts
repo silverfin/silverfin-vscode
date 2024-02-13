@@ -8,7 +8,7 @@ import LiquidLinter from "./lib/liquidLinter";
 import LiquidTestHandler from "./lib/liquidTestHandler";
 import ExtensionLogger from "./lib/outputChannels/extensionLogger";
 import UserLogger from "./lib/outputChannels/userLogger";
-import QuickFixesProviders from "./lib/quickFixes/quickFixes";
+import QuickFixesProviders from "./lib/quickFixes/quickFixesProviders";
 import FirmViewProvider from "./lib/sidebar/panelFirm";
 import TemplateInformationViewProvider from "./lib/sidebar/panelTemplateInfo";
 import TemplatePartsViewProvider from "./lib/sidebar/panelTemplateParts";

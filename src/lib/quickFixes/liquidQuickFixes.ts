@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 
 export default class LiquidQuickFixes implements vscode.CodeActionProvider {
   public static readonly providedCodeActionKinds = [
-    vscode.CodeActionKind.QuickFix,
+    vscode.CodeActionKind.QuickFix
   ];
   // Provide the QuickFixes for each diagnostic
   // It looks at the existing collection of diagnostics in the context
@@ -29,7 +29,7 @@ export default class LiquidQuickFixes implements vscode.CodeActionProvider {
       // Attach command to quickFix
       codeActionAddSharedPart.command = {
         command: identifier,
-        title: title,
+        title: title
       };
       quickFixes.push(codeActionAddSharedPart);
     }
@@ -60,7 +60,7 @@ export default class LiquidQuickFixes implements vscode.CodeActionProvider {
       templateHandle: templateHandle,
       templateType: templateType,
       firmId: firmId,
-      missing: missing,
+      missing: missing
     };
   }
 }
