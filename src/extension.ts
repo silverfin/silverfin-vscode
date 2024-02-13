@@ -28,43 +28,24 @@ export async function activate(context: vscode.ExtensionContext) {
   StatusBarDevMode.plug();
   DiagnosticCollectionsHandler.plug();
 
-  const liquidTestHandler = new LiquidTestHandler();
-  const templateUpdater = new TemplateUpdater();
-
   new LiquidLinter();
   new SharedPartsVerifier();
-  new TemplateCommander();
   new AddClosingTag();
   new QuickFixesProviders();
+  new TemplateCommander();
+
+  const liquidTestHandler = new LiquidTestHandler();
+  const templateUpdater = new TemplateUpdater();
 
   // Side-Bar Views
   new TemplatePartsViewProvider(context.extensionUri);
   new TemplateInformationViewProvider(context.extensionUri);
   new FirmViewProvider(context.extensionUri);
-  const testsProvider = new TestsViewProvider(
+  new TestsViewProvider(
     context.extensionUri,
-    liquidTestHandler
+    liquidTestHandler,
+    templateUpdater
   );
-
-  // Development Mode
-  vscode.workspace.onDidSaveTextDocument(async (document) => {
-    if (testsProvider.devModeStatus !== "active") {
-      return;
-    }
-    switch (testsProvider.devModeOption) {
-      case "liquid-tests":
-        liquidTestHandler.runTest(
-          testsProvider.testDetails.templateHandle,
-          testsProvider.testDetails.testName,
-          testsProvider.testDetails.previewOnly,
-          testsProvider.testDetails.htmlType
-        );
-        break;
-      case "liquid-updates":
-        await templateUpdater.pushToSilverfin(document.uri.path);
-        break;
-    }
-  });
 }
 
 export function deactivate() {}
