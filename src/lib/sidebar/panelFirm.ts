@@ -18,7 +18,7 @@ interface TemplateUsedInFirmData {
 /**
  * Provider that handles the view for Firm details
  */
-export class FirmViewProvider implements vscode.WebviewViewProvider {
+export default class FirmViewProvider implements vscode.WebviewViewProvider {
   private readonly viewType = "firm-info";
   private _view?: vscode.WebviewView;
   constructor(private readonly _extensionUri: vscode.Uri) {

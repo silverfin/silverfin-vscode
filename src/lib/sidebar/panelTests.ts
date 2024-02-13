@@ -12,7 +12,7 @@ const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 /**
  * Provider that handles the view for Liquid Tests
  */
-export class TestsViewProvider implements vscode.WebviewViewProvider {
+export default class TestsViewProvider implements vscode.WebviewViewProvider {
   private statusBarItem: StatusBarDevMode = StatusBarDevMode.plug();
   private readonly viewType = "development";
   private _view?: vscode.WebviewView;

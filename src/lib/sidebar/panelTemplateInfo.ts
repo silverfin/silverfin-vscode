@@ -8,7 +8,7 @@ import * as panelUtils from "./panelUtils";
 /**
  * Provider that handles the view for Template Information
  */
-export class TemplateInformationViewProvider
+export default class TemplateInformationViewProvider
   implements vscode.WebviewViewProvider
 {
   private readonly viewType = "template-info";
