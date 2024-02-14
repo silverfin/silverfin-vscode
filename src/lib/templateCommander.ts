@@ -267,21 +267,24 @@ export default class TemplateCommander {
       }
 
       let commandToRun;
+      let commandArgs;
       let resultRun;
+
       if (commandType === "getTemplateId") {
         commandToRun = sfCli.getTemplateId;
-        resultRun = await commandToRun(firmId, templateType, templateHandle);
+        commandArgs = [String(firmId), templateType, templateHandle];
       } else {
         commandToRun = this.commandMapper[commandType][templateType];
-        resultRun = await commandToRun(firmId, templateHandle);
+        commandArgs = [String(firmId), templateHandle];
       }
 
-      this.extensionLogger.log("Command run", {
+      this.extensionLogger.log("Run command", {
         commandChoiceLabel,
         templateType,
-        templateHandle,
-        resultRun
+        templateHandle
       });
+
+      resultRun = await this.callSilverfinApi(commandToRun, ...commandArgs);
 
       const userMessage = `${commandChoiceLabel}: ${templateHandle} (${this.templateTypeMapper[templateType]}) in firm ${firmId}`;
       if (resultRun) {
@@ -309,8 +312,8 @@ export default class TemplateCommander {
     extensionContext.subscriptions.push(
       vscode.commands.registerCommand(
         "silverfin-development-toolkit.templateCommandsInBulk",
-        () => {
-          this.runCommandOnTemplatesInBulk();
+        async () => {
+          await this.runCommandOnTemplatesInBulk();
         }
       )
     );
@@ -352,4 +355,19 @@ export default class TemplateCommander {
     addSharedPart: "Add Shared Part",
     removeSharedPart: "Remove Shared Part"
   };
+
+  // THIS WON'T WORK UNTIL SILVERFIN-CLI IS UPDATED
+  // it does not return any value, it just logs to the console
+  private async callSilverfinApi(command: FunctionType, ...args: string[]) {
+    try {
+      const result = await command(...args);
+      this.extensionLogger.log("Command result", result);
+      return result;
+    } catch (error) {
+      this.extensionLogger.log("Error running command", error);
+      return false;
+    }
+  }
 }
+
+type FunctionType = (...args: string[]) => any;
