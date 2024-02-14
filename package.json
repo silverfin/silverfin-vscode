@@ -218,7 +218,7 @@
     "@typescript-eslint/parser": "^5.12.1",
     "@vscode/test-electron": "^2.1.2",
     "esbuild": "^0.16.17",
-    "eslint": "^8.9.0",
+    "eslint": "^8.56.0",
     "glob": "^7.2.0",
     "mocha": "^9.2.1",
     "typescript": "^4.5.5"
