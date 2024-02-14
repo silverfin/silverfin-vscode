@@ -4,11 +4,8 @@ import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 import ExtensionContext from "../extensionContext";
 import ExtensionLoggerWrapper from "../outputChannels/extensionLoggerWrapper";
+import SilverfinToolkit from "../silverfinToolkit";
 import DiagnosticCollectionsHandler from "./diagnosticCollectionsHandler";
-const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
-const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");
-const sfCli = require("silverfin-cli");
-
 /**
  * This class is responsible for verifying if the shared parts used in the liquid file are added to the template.
  */
@@ -121,8 +118,8 @@ export default class SharedPartsVerifier {
    * @returns string[] | undefined
    */
   private async getSharedPartsAdded() {
-    await firmCredentials.loadCredentials(); // refresh credentials
-    const firmId = await firmCredentials.getDefaultFirmId();
+    await SilverfinToolkit.firmCredentials.loadCredentials(); // refresh credentials
+    const firmId = await SilverfinToolkit.firmCredentials.getDefaultFirmId();
     const templateHandle = await templateUtils.getTemplateHandle();
     const templateType = await templateUtils.getTemplateType();
     if (
@@ -139,11 +136,12 @@ export default class SharedPartsVerifier {
     this.firmId = firmId;
     this.templateHandle = templateHandle;
     this.templateType = templateType;
-    const sharedParts = await sfCliFsUtils.listSharedPartsUsedInTemplate(
-      this.firmId,
-      this.templateType,
-      this.templateHandle
-    );
+    const sharedParts =
+      await SilverfinToolkit.fsUtils.listSharedPartsUsedInTemplate(
+        this.firmId,
+        this.templateType,
+        this.templateHandle
+      );
     return sharedParts;
   }
 
@@ -179,7 +177,7 @@ export default class SharedPartsVerifier {
 
       // Check if shared part exists in directory
       const allSharedPartsNames =
-        sfCliFsUtils.getAllTemplatesOfAType("sharedPart");
+        SilverfinToolkit.fsUtils.getAllTemplatesOfAType("sharedPart");
       const sharedPartExistsInDirectory = allSharedPartsNames.some(
         (existingSharedPart: string) =>
           existingSharedPart.includes(sharedPartName)
@@ -298,7 +296,7 @@ export default class SharedPartsVerifier {
   }
 
   private addSharedPart(sharedPartName: string) {
-    sfCli
+    SilverfinToolkit.toolkit
       .addSharedPart(
         this.firmId,
         sharedPartName,
@@ -316,19 +314,21 @@ export default class SharedPartsVerifier {
   }
 
   private createAndAddSharedPart(sharedPartName: string) {
-    sfCli.newSharedPart(this.firmId, sharedPartName).then(() => {
-      sfCli
-        .addSharedPart(
-          this.firmId,
-          sharedPartName,
-          this.templateHandle,
-          this.templateType
-        )
-        .then(() => {
-          // Refresh the shared parts
-          this.verifySharedPartsUsed();
-        });
-    });
+    SilverfinToolkit.toolkit
+      .newSharedPart(this.firmId, sharedPartName)
+      .then(() => {
+        SilverfinToolkit.toolkit
+          .addSharedPart(
+            this.firmId,
+            sharedPartName,
+            this.templateHandle,
+            this.templateType
+          )
+          .then(() => {
+            // Refresh the shared parts
+            this.verifySharedPartsUsed();
+          });
+      });
     // Show a message
     vscode.window.showInformationMessage(
       `Creating and adding shared part ${sharedPartName} in firm ${this.firmId} to ${this.templateHandle} (${this.templateType})`

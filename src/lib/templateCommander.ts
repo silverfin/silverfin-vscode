@@ -1,11 +1,9 @@
-const sfCli = require("silverfin-cli");
-const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");
-const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
 import ExtensionContext from "./extensionContext";
 import ExtensionLoggerWrapper from "./outputChannels/extensionLoggerWrapper";
 import UserLogger from "./outputChannels/userLogger";
+import SilverfinToolkit from "./silverfinToolkit";
 
 /**
  * A class to handle the commands to run on the templates, interacting with the Silverfin API (using the `silverfin-cli` package).
@@ -149,7 +147,7 @@ export default class TemplateCommander {
   ) {
     const optionsToSelect: vscode.QuickPickItem[] = [];
     if (includeSharedParts) {
-      const sharedParts = await sfCliFsUtils.getAllTemplatesOfAType(
+      const sharedParts = await SilverfinToolkit.fsUtils.getAllTemplatesOfAType(
         "sharedPart"
       );
       for (const template of sharedParts) {
@@ -160,25 +158,27 @@ export default class TemplateCommander {
       }
     }
     if (includeTemplates) {
-      const reconciliations = await sfCliFsUtils.getAllTemplatesOfAType(
-        "reconciliationText"
-      );
+      const reconciliations =
+        await SilverfinToolkit.fsUtils.getAllTemplatesOfAType(
+          "reconciliationText"
+        );
       for (const template of reconciliations) {
         optionsToSelect.push({
           label: template,
           description: this.templateTypeMapper.reconciliationText
         });
       }
-      const accountTemplates = await sfCliFsUtils.getAllTemplatesOfAType(
-        "accountTemplate"
-      );
+      const accountTemplates =
+        await SilverfinToolkit.fsUtils.getAllTemplatesOfAType(
+          "accountTemplate"
+        );
       for (const template of accountTemplates) {
         optionsToSelect.push({
           label: template,
           description: this.templateTypeMapper.accountTemplate
         });
       }
-      const exportFiles = await sfCliFsUtils.getAllTemplatesOfAType(
+      const exportFiles = await SilverfinToolkit.fsUtils.getAllTemplatesOfAType(
         "exportFile"
       );
       for (const template of exportFiles) {
@@ -208,8 +208,10 @@ export default class TemplateCommander {
    * @returns A QuickPickItem with the selected firm
    */
   private async selectFirm() {
-    const firmData = await firmCredentials.listAuthorizedFirms(); // [[firmId, firmName]...]
-    const defaultFirm = await firmCredentials.getDefaultFirmId();
+    const firmData =
+      await SilverfinToolkit.firmCredentials.listAuthorizedFirms(); // [[firmId, firmName]...]
+    const defaultFirm =
+      await SilverfinToolkit.firmCredentials.getDefaultFirmId();
     const optionsToSelect: vscode.QuickPickItem[] = [];
 
     for (const firm of firmData) {
@@ -271,7 +273,7 @@ export default class TemplateCommander {
       let resultRun;
 
       if (commandType === "getTemplateId") {
-        commandToRun = sfCli.getTemplateId;
+        commandToRun = SilverfinToolkit.toolkit.getTemplateId;
         commandArgs = [String(firmId), templateType, templateHandle];
       } else {
         commandToRun = this.commandMapper[commandType][templateType];
@@ -321,22 +323,23 @@ export default class TemplateCommander {
 
   private commandMapper: { [index: string]: { [index: string]: any } } = {
     create: {
-      reconciliationText: sfCli.newReconciliation,
-      sharedPart: sfCli.newSharedPart,
-      accountTemplate: sfCli.newAccountTemplate,
-      exportFile: sfCli.newExportFile
+      reconciliationText: SilverfinToolkit.toolkit.newReconciliation,
+      sharedPart: SilverfinToolkit.toolkit.newSharedPart,
+      accountTemplate: SilverfinToolkit.toolkit.newAccountTemplate,
+      exportFile: SilverfinToolkit.toolkit.newExportFile
     },
     import: {
-      reconciliationText: sfCli.fetchReconciliationByHandle,
-      sharedPart: sfCli.fetchSharedPartByName,
-      accountTemplate: sfCli.fetchAccountTemplateByName,
-      exportFile: sfCli.fetchExportFileByName
+      reconciliationText: SilverfinToolkit.toolkit.fetchReconciliationByHandle,
+      sharedPart: SilverfinToolkit.toolkit.fetchSharedPartByName,
+      accountTemplate: SilverfinToolkit.toolkit.fetchAccountTemplateByName,
+      exportFile: SilverfinToolkit.toolkit.fetchExportFileByName
     },
     update: {
-      reconciliationText: sfCli.publishReconciliationByHandle,
-      sharedPart: sfCli.publishSharedPartByName,
-      accountTemplate: sfCli.publishAccountTemplateByName,
-      exportFile: sfCli.publishExportFileByName
+      reconciliationText:
+        SilverfinToolkit.toolkit.publishReconciliationByHandle,
+      sharedPart: SilverfinToolkit.toolkit.publishSharedPartByName,
+      accountTemplate: SilverfinToolkit.toolkit.publishAccountTemplateByName,
+      exportFile: SilverfinToolkit.toolkit.publishExportFileByName
     }
   };
 

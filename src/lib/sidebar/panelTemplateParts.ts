@@ -4,8 +4,8 @@ import * as userActions from "../../lib/userActions";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 import ExtensionContext from "../extensionContext";
+import SilverfinToolkit from "../silverfinToolkit";
 import * as panelUtils from "./panelUtils";
-const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");
 const fs = require("fs");
 
 /**
@@ -151,11 +151,12 @@ export default class TemplatePartsViewProvider
       )
       .join("");
 
-    const sharedPartNames = await sfCliFsUtils.listSharedPartsUsedInTemplate(
-      firmId,
-      this.templateType,
-      handle
-    );
+    const sharedPartNames =
+      await SilverfinToolkit.fsUtils.listSharedPartsUsedInTemplate(
+        firmId,
+        this.templateType,
+        handle
+      );
 
     const sharedPartsRows =
       sharedPartNames.length > 0

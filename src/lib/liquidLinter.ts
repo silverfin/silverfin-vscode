@@ -5,7 +5,7 @@ import DiagnosticCollectionsHandler from "./diagnostics/diagnosticCollectionsHan
 import ExtensionContext from "./extensionContext";
 import FirmHandler from "./firmHandler";
 import ExtensionLoggerWrapper from "./outputChannels/extensionLoggerWrapper";
-const sfCliApi = require("silverfin-cli/lib/api/sfApi");
+import SilverfinToolkit from "./silverfinToolkit";
 
 /**
  * LiquidLinter class to handle the Liquid Linter functionality.
@@ -63,7 +63,10 @@ export default class LiquidLinter {
     const currentTextDocument = vscode.window.activeTextEditor.document;
     const liquidCode = currentTextDocument.getText();
     const requestData = JSON.stringify({ code: liquidCode });
-    const response = await sfCliApi.verifyLiquid(firmId, requestData);
+    const response = await SilverfinToolkit.api.verifyLiquid(
+      firmId,
+      requestData
+    );
 
     if (response || response.status === 200) {
       this.extensionLogger.log(`Run succesfully`, response.status);

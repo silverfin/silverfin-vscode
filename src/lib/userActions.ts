@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 import * as templateUtils from "../utilities/templateUtils";
-const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");
-const sfCli = require("silverfin-cli");
+import SilverfinToolkit from "./silverfinToolkit";
 
 /**
  * QuickPick for the user.
@@ -19,12 +18,13 @@ export async function addSharedPartPrompt(firmId: Number) {
   }
 
   const allExistingSharedParts =
-    sfCliFsUtils.getAllTemplatesOfAType("sharedPart");
-  const sharedPartsUsed = sfCliFsUtils.listSharedPartsUsedInTemplate(
-    firmId,
-    templateType,
-    templateHandle
-  );
+    SilverfinToolkit.fsUtils.getAllTemplatesOfAType("sharedPart");
+  const sharedPartsUsed =
+    SilverfinToolkit.fsUtils.listSharedPartsUsedInTemplate(
+      firmId,
+      templateType,
+      templateHandle
+    );
   const sharedPartsNotUsed = allExistingSharedParts.filter(
     (sharedPart: string) => !sharedPartsUsed.includes(sharedPart)
   );
@@ -38,7 +38,12 @@ export async function addSharedPartPrompt(firmId: Number) {
   }
 
   selectedSharedParts.forEach((sharedPartName) => {
-    sfCli.addSharedPart(firmId, sharedPartName, templateHandle, templateType);
+    SilverfinToolkit.toolkit.addSharedPart(
+      firmId,
+      sharedPartName,
+      templateHandle,
+      templateType
+    );
   });
   return true;
 }
@@ -58,11 +63,12 @@ export async function removeSharedPartsPrompt(firmId: Number) {
     return false;
   }
 
-  const sharedPartsUsed = sfCliFsUtils.listSharedPartsUsedInTemplate(
-    firmId,
-    templateType,
-    templateHandle
-  );
+  const sharedPartsUsed =
+    SilverfinToolkit.fsUtils.listSharedPartsUsedInTemplate(
+      firmId,
+      templateType,
+      templateHandle
+    );
   const selectedSharedParts = await vscode.window.showQuickPick(
     sharedPartsUsed,
     { canPickMany: true }
@@ -72,7 +78,7 @@ export async function removeSharedPartsPrompt(firmId: Number) {
   }
 
   selectedSharedParts.forEach((sharedPartName) => {
-    sfCli.removeSharedPart(
+    SilverfinToolkit.toolkit.removeSharedPart(
       firmId,
       sharedPartName,
       templateHandle,

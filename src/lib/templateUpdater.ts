@@ -1,9 +1,9 @@
-const sfCli = require("silverfin-cli");
 import * as vscode from "vscode";
 import * as templateUtils from "../utilities/templateUtils";
 import FirmHandler from "./firmHandler";
 import ExtensionLoggerWrapper from "./outputChannels/extensionLoggerWrapper";
 import UserLogger from "./outputChannels/userLogger";
+import SilverfinToolkit from "./silverfinToolkit";
 
 export default class TemplateUpdater {
   private extensionLogger: ExtensionLoggerWrapper = new ExtensionLoggerWrapper(
@@ -34,16 +34,16 @@ export default class TemplateUpdater {
     let updateFunction;
     switch (templateType) {
       case "reconciliationText":
-        updateFunction = sfCli.publishReconciliationByHandle;
+        updateFunction = SilverfinToolkit.toolkit.publishReconciliationByHandle;
         break;
       case "sharedPart":
-        updateFunction = sfCli.publishSharedPartByName;
+        updateFunction = SilverfinToolkit.toolkit.publishSharedPartByName;
         break;
       case "exportFile":
-        updateFunction = sfCli.publishExportFileByName;
+        updateFunction = SilverfinToolkit.toolkit.publishExportFileByName;
         break;
       case "accountTemplate":
-        updateFunction = sfCli.publishAccountTemplateByName;
+        updateFunction = SilverfinToolkit.toolkit.publishAccountTemplateByName;
         break;
     }
     const functionName = updateFunction.name;

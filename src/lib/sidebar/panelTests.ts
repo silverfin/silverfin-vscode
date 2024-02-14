@@ -4,10 +4,10 @@ import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 import ExtensionContext from "../extensionContext";
 import LiquidTestHandler from "../liquidTestHandler";
+import SilverfinToolkit from "../silverfinToolkit";
 import StatusBarDevMode from "../statusBar/statusBarDevMode";
 import TemplateUpdater from "../templateUpdater";
 import * as panelUtils from "./panelUtils";
-const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 
 /**
  * Provider that handles the view for Liquid Tests
@@ -59,7 +59,8 @@ export default class TestsViewProvider implements vscode.WebviewViewProvider {
     const templateType = await templateUtils.getTemplateType();
     const testNames = (await this.liquidTestRunner.listTestNames()) || [];
     const gridLayout = `grid-template-columns="2fr 1fr"`;
-    this.firmIdStored = await firmCredentials.getDefaultFirmId();
+    this.firmIdStored =
+      await SilverfinToolkit.firmCredentials.getDefaultFirmId();
     const disabledLabel = this.clickableButtons() ? "" : "disabled";
     let disabledStopTestsLabel = "disabled";
     let disabledStopUpdatesLabel = "disabled";

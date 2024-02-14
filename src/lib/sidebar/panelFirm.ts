@@ -2,8 +2,8 @@ import * as vscode from "vscode";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
 import ExtensionContext from "../extensionContext";
+import SilverfinToolkit from "../silverfinToolkit";
 import * as panelUtils from "./panelUtils";
-const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 
 interface FirmsIds {
   [key: string]: string;
@@ -69,8 +69,10 @@ export default class FirmViewProvider implements vscode.WebviewViewProvider {
     );
 
     const firmId = await panelUtils.getFirmIdStored();
-    await firmCredentials.loadCredentials(); // refresh credentials
-    const firmData = await firmCredentials.listAuthorizedFirms(firmId); // [[firmId, firmName]...]
+    await SilverfinToolkit.firmCredentials.loadCredentials(); // refresh credentials
+    const firmData = await SilverfinToolkit.firmCredentials.listAuthorizedFirms(
+      firmId
+    ); // [[firmId, firmName]...]
     const usedInFirmsRows = templateUsedInFirmsData
       .map((item: TemplateUsedInFirmData) => {
         let templateUrl = `https://live.getsilverfin.com/f/${item.firmId}/${item.templateFolder}/${item.templateId}/edit`;

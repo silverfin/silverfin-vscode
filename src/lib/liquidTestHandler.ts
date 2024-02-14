@@ -7,9 +7,9 @@ import DiagnosticCollectionsHandler from "./diagnostics/diagnosticCollectionsHan
 import ExtensionContext from "./extensionContext";
 import FirmHandler from "./firmHandler";
 import ExtensionLoggerWrapper from "./outputChannels/extensionLoggerWrapper";
+import SilverfinToolkit from "./silverfinToolkit";
 import StatusBarItem from "./statusBar/statusBarItem";
 import * as types from "./types";
-const sfCliLiquidTestRunner = require("silverfin-cli/lib/liquidTestRunner");
 
 export default class LiquidTestHandler {
   private firmHandler: FirmHandler = FirmHandler.plug();
@@ -90,13 +90,14 @@ export default class LiquidTestHandler {
       });
       // Test Run
       this.setStatusBarRunning();
-      let response: types.ResponseObject = await sfCliLiquidTestRunner.runTests(
-        this.firmId,
-        templateHandle,
-        testName,
-        false,
-        htmlRenderMode
-      );
+      let response: types.ResponseObject =
+        await SilverfinToolkit.liquidTestRunner.runTests(
+          this.firmId,
+          templateHandle,
+          testName,
+          false,
+          htmlRenderMode
+        );
       this.setStatusBarIdle();
       this.outputResponse(response);
       if (!response) {
@@ -253,9 +254,10 @@ export default class LiquidTestHandler {
     let testRun = response.testRun;
     switch (testRun.status) {
       case "completed":
-        const errorsPresent = sfCliLiquidTestRunner.checkAllTestsErrorsPresent(
-          testRun.tests
-        );
+        const errorsPresent =
+          SilverfinToolkit.liquidTestRunner.checkAllTestsErrorsPresent(
+            testRun.tests
+          );
         if (errorsPresent) {
           // Errors present after liquid test run
           collectionArray = this.createDiagnostics(document, testRun.tests);
@@ -485,14 +487,14 @@ export default class LiquidTestHandler {
       this.closeHtmlPanel();
       let htmlType =
         `html_${htmlRenderMode}` as keyof (typeof response.previewRun.tests)[typeof testSelected];
-      await sfCliLiquidTestRunner.getHTML(
+      await SilverfinToolkit.liquidTestRunner.getHTML(
         response.previewRun.tests[testSelected][htmlType],
         testSelected,
         false,
         htmlType
       );
       // Open File
-      const filePath = sfCliLiquidTestRunner.resolveHTMLPath(
+      const filePath = SilverfinToolkit.liquidTestRunner.resolveHTMLPath(
         `${testSelected}_${htmlType}`
       );
       const fs = require("fs");

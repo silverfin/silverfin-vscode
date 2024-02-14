@@ -2,12 +2,13 @@ import * as vscode from "vscode";
 import { getNonce } from "../../utilities/getNonce";
 import { getWebviewUri } from "../../utilities/getUri";
 import * as utils from "../../utilities/utils";
-const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
+import SilverfinToolkit from "../silverfinToolkit";
 
 export async function getFirmIdStored() {
   utils.setCWD();
-  await firmCredentials.loadCredentials(); // refresh credentials
-  const firmIdStored = await firmCredentials.getDefaultFirmId();
+  await SilverfinToolkit.firmCredentials.loadCredentials(); // refresh credentials
+  const firmIdStored =
+    await SilverfinToolkit.firmCredentials.getDefaultFirmId();
   if (firmIdStored) {
     return firmIdStored;
   }
@@ -22,7 +23,7 @@ export function htmlHeader(
   // Custom CSS
   const styleUri = getWebviewUri(webviewView.webview, extensionUri, [
     "out",
-    "style.css",
+    "style.css"
   ]);
   // https://microsoft.github.io/vscode-codicons/dist/codicon.html
   // https://github.com/microsoft/vscode-extension-samples/blob/main/webview-codicons-sample/src/extension.ts
@@ -31,13 +32,13 @@ export function htmlHeader(
     "node_modules",
     "@vscode/codicons",
     "dist",
-    "codicon.css",
+    "codicon.css"
   ]);
   const codiconsFontUri = getWebviewUri(webviewView.webview, extensionUri, [
     "node_modules",
     "@vscode/codicons",
     "dist",
-    "codicon.ttf",
+    "codicon.ttf"
   ]);
   return `<head>
             <title>Information</title>
@@ -56,7 +57,7 @@ export function htmlContainer(
 ) {
   const webviewUri = getWebviewUri(webviewView.webview, extensionUri, [
     "out",
-    "webview.js",
+    "webview.js"
   ]);
   const nonce = getNonce();
   return `<!DOCTYPE html>
