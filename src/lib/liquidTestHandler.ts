@@ -562,15 +562,6 @@ export default class LiquidTestHandler {
     return testName;
   }
 
-  private parseYaml(testContent: string) {
-    try {
-      return yaml.parse(testContent) || {};
-    } catch (err) {
-      this.extensionLogger.log("Parsing YAML file failed");
-      return {};
-    }
-  }
-
   /**
    * Register all the events to the Extension
    * Commands:
