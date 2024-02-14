@@ -87,30 +87,30 @@ export default class TemplateCommander {
    */
   private async selectCommand() {
     const optionCreate: vscode.QuickPickItem = {
-      label: this.commandLabelMapper.create,
+      label: SilverfinToolkit.commandLabelMapper.create,
       description:
         "Create template in the Platform using code from this repository"
     };
     const optionImport: vscode.QuickPickItem = {
-      label: this.commandLabelMapper.import,
+      label: SilverfinToolkit.commandLabelMapper.import,
       description:
         "Import template's code from Platform into this repository (existing files will be overwritten)"
     };
     const optionUpdate: vscode.QuickPickItem = {
-      label: this.commandLabelMapper.update,
+      label: SilverfinToolkit.commandLabelMapper.update,
       description:
         "Update template's code in the Platform using code from this repository"
     };
     const optionGetId: vscode.QuickPickItem = {
-      label: this.commandLabelMapper.getTemplateId,
+      label: SilverfinToolkit.commandLabelMapper.getTemplateId,
       description: "Get the template id from the Platform"
     };
     const optionAddSharedPart: vscode.QuickPickItem = {
-      label: this.commandLabelMapper.addSharedPart,
+      label: SilverfinToolkit.commandLabelMapper.addSharedPart,
       description: "Add a shared part to a template"
     };
     const optionRemoveSharedPart: vscode.QuickPickItem = {
-      label: this.commandLabelMapper.removeSharedPart,
+      label: SilverfinToolkit.commandLabelMapper.removeSharedPart,
       description: "Remove a shared part from a template"
     };
     const optionsToSelect: vscode.QuickPickItem[] = [
@@ -153,7 +153,7 @@ export default class TemplateCommander {
       for (const template of sharedParts) {
         optionsToSelect.push({
           label: template,
-          description: this.templateTypeMapper.sharedPart
+          description: SilverfinToolkit.templateTypeMapper.sharedPart
         });
       }
     }
@@ -165,7 +165,7 @@ export default class TemplateCommander {
       for (const template of reconciliations) {
         optionsToSelect.push({
           label: template,
-          description: this.templateTypeMapper.reconciliationText
+          description: SilverfinToolkit.templateTypeMapper.reconciliationText
         });
       }
       const accountTemplates =
@@ -175,7 +175,7 @@ export default class TemplateCommander {
       for (const template of accountTemplates) {
         optionsToSelect.push({
           label: template,
-          description: this.templateTypeMapper.accountTemplate
+          description: SilverfinToolkit.templateTypeMapper.accountTemplate
         });
       }
       const exportFiles = await SilverfinToolkit.fsUtils.getAllTemplatesOfAType(
@@ -184,7 +184,7 @@ export default class TemplateCommander {
       for (const template of exportFiles) {
         optionsToSelect.push({
           label: template,
-          description: this.templateTypeMapper.exportFile
+          description: SilverfinToolkit.templateTypeMapper.exportFile
         });
       }
     }
@@ -249,13 +249,16 @@ export default class TemplateCommander {
       firmId
     });
 
-    const commandType = Object.keys(this.commandLabelMapper).find(
-      (key) => this.commandLabelMapper[key] === commandChoiceLabel
+    const commandType = Object.keys(SilverfinToolkit.commandLabelMapper).find(
+      (key) => SilverfinToolkit.commandLabelMapper[key] === commandChoiceLabel
     );
 
     for (const template of templates) {
-      const templateType = Object.keys(this.templateTypeMapper).find(
-        (key) => this.templateTypeMapper[key] === template.description
+      const templateType = Object.keys(
+        SilverfinToolkit.templateTypeMapper
+      ).find(
+        (key) =>
+          SilverfinToolkit.templateTypeMapper[key] === template.description
       );
       const templateHandle = template.label;
 
@@ -276,7 +279,8 @@ export default class TemplateCommander {
         commandToRun = SilverfinToolkit.toolkit.getTemplateId;
         commandArgs = [String(firmId), templateType, templateHandle];
       } else {
-        commandToRun = this.commandMapper[commandType][templateType];
+        commandToRun =
+          SilverfinToolkit.commandMapper[commandType][templateType];
         commandArgs = [String(firmId), templateHandle];
       }
 
@@ -286,9 +290,10 @@ export default class TemplateCommander {
         templateHandle
       });
 
-      resultRun = await this.callSilverfinApi(commandToRun, ...commandArgs);
+      const sfApi = new SilverfinToolkit();
+      resultRun = await sfApi.callCommand(commandToRun, ...commandArgs);
 
-      const userMessage = `${commandChoiceLabel}: ${templateHandle} (${this.templateTypeMapper[templateType]}) in firm ${firmId}`;
+      const userMessage = `${commandChoiceLabel}: ${templateHandle} (${SilverfinToolkit.templateTypeMapper[templateType]}) in firm ${firmId}`;
       if (resultRun) {
         this.userLogger.log(userMessage + " - Success");
       } else {
@@ -299,8 +304,8 @@ export default class TemplateCommander {
 
   private checkIfCommandIsSharedPart(command: string) {
     return (
-      command === this.commandLabelMapper.addSharedPart ||
-      command === this.commandLabelMapper.removeSharedPart
+      command === SilverfinToolkit.commandLabelMapper.addSharedPart ||
+      command === SilverfinToolkit.commandLabelMapper.removeSharedPart
     );
   }
 
@@ -320,57 +325,4 @@ export default class TemplateCommander {
       )
     );
   }
-
-  private commandMapper: { [index: string]: { [index: string]: any } } = {
-    create: {
-      reconciliationText: SilverfinToolkit.toolkit.newReconciliation,
-      sharedPart: SilverfinToolkit.toolkit.newSharedPart,
-      accountTemplate: SilverfinToolkit.toolkit.newAccountTemplate,
-      exportFile: SilverfinToolkit.toolkit.newExportFile
-    },
-    import: {
-      reconciliationText: SilverfinToolkit.toolkit.fetchReconciliationByHandle,
-      sharedPart: SilverfinToolkit.toolkit.fetchSharedPartByName,
-      accountTemplate: SilverfinToolkit.toolkit.fetchAccountTemplateByName,
-      exportFile: SilverfinToolkit.toolkit.fetchExportFileByName
-    },
-    update: {
-      reconciliationText:
-        SilverfinToolkit.toolkit.publishReconciliationByHandle,
-      sharedPart: SilverfinToolkit.toolkit.publishSharedPartByName,
-      accountTemplate: SilverfinToolkit.toolkit.publishAccountTemplateByName,
-      exportFile: SilverfinToolkit.toolkit.publishExportFileByName
-    }
-  };
-
-  private templateTypeMapper: { [index: string]: string } = {
-    reconciliationText: "Reconciliation Text",
-    sharedPart: "Shared Part",
-    accountTemplate: "Account Template",
-    exportFile: "Export File"
-  };
-
-  private commandLabelMapper: { [index: string]: string } = {
-    create: "Create",
-    import: "Import",
-    update: "Update",
-    getTemplateId: "Get template id",
-    addSharedPart: "Add Shared Part",
-    removeSharedPart: "Remove Shared Part"
-  };
-
-  // THIS WON'T WORK UNTIL SILVERFIN-CLI IS UPDATED
-  // it does not return any value, it just logs to the console
-  private async callSilverfinApi(command: FunctionType, ...args: string[]) {
-    try {
-      const result = await command(...args);
-      this.extensionLogger.log("Command result", result);
-      return result;
-    } catch (error) {
-      this.extensionLogger.log("Error running command", error);
-      return false;
-    }
-  }
 }
-
-type FunctionType = (...args: string[]) => any;
