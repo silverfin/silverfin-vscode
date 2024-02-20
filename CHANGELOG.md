@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.16.0]
+
+- New command to run Silverfin-Cli commands in bulk. Create, update, import, add shared part, remove shared part, get template id.
+
 ## [1.15.5]
 
 - Fix for search and replace and dev-mode. So far, dev-mode was only working with the ActiveTextEditor. Changed to work on any saved file.
