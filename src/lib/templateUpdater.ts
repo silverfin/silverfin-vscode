@@ -64,6 +64,10 @@ export default class TemplateUpdater {
     templateType: string
   ) {
     if (updated) {
+      // To be removed and only use the userLogger
+      vscode.window.showInformationMessage(
+        `${templateHandle} updated in firm ${this.firmId}`
+      );
       this.userLogger.log(
         `${templateHandle} (${this.templateTypeMapper[templateType]}) updated in firm ${this.firmId}`
       );

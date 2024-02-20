@@ -363,11 +363,14 @@ export default class LiquidTestHandler {
 
   // Return an array with the names of the unit tests and the row where they are located
   private findTestNamesAndRows(document: vscode.TextDocument) {
+    const indexes: { [index: string]: number } = {};
     const testContent = document.getText();
     const testYAML = this.parseYaml(testContent);
+    if (!testYAML) {
+      return indexes;
+    }
     const testNames = Object.keys(testYAML);
     const testRows = testContent.split("\n");
-    const indexes: { [index: string]: number } = {};
     testNames.forEach((testName) => {
       let index = testRows.findIndex((element) => element.includes(testName));
       indexes[testName] = index;

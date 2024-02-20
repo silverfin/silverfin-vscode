@@ -2,9 +2,14 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
-## [1.15.XX]
+## [1.16.0]
+
+- New Command to run Silverfin actions (create, read, update, get id, add shared part, remove shared part)
+
+## [1.15.5]
 
 - Fix for search and replace and dev-mode. So far, dev-mode was only working with the ActiveTextEditor. Changed to work on any saved file.
+- Fix to yaml parser failing.
 
 ## [1.15.4]
 
