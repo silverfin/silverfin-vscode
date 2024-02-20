@@ -3,35 +3,37 @@ import * as vscode from "vscode";
 import * as yaml from "yaml";
 import * as templateUtils from "../utilities/templateUtils";
 import * as utils from "../utilities/utils";
+import DiagnosticCollectionsHandler from "./diagnostics/diagnosticCollectionsHandler";
+import ExtensionContext from "./extensionContext";
+import FirmHandler from "./firmHandler";
+import ExtensionLoggerWrapper from "./outputChannels/extensionLoggerWrapper";
+import SilverfinToolkit from "./silverfinToolkit";
+import StatusBarItem from "./statusBar/statusBarItem";
 import * as types from "./types";
-const sfCliLiquidTestRunner = require("silverfin-cli/lib/liquidTestRunner");
 
-export default class LiquidTest {
-  errorsCollection: vscode.DiagnosticCollection;
-  output: vscode.OutputChannel;
-  context: vscode.ExtensionContext;
+export default class LiquidTestHandler {
+  private firmHandler: FirmHandler = FirmHandler.plug();
+  private statusBarItem: StatusBarItem = StatusBarItem.plug();
+  private extensionLogger: ExtensionLoggerWrapper = new ExtensionLoggerWrapper(
+    "LiquidTestHandler"
+  );
+  private errorsCollection: vscode.DiagnosticCollection;
   yamlDocument!: vscode.TextDocument;
-  statusBarItem: any;
-  firmHandler: any;
   htmlPanel: vscode.WebviewPanel | undefined;
   firstRowRange: vscode.Range;
   templateHandle: string | false = false;
   firmId: Number | undefined = undefined;
   optionAllTestsMsg = "Run all Liquid Tests (no html)";
 
-  constructor(
-    context: vscode.ExtensionContext,
-    outputChannel: vscode.OutputChannel
-  ) {
+  constructor() {
     this.errorsCollection =
-      vscode.languages.createDiagnosticCollection(`LiquidTestCollection`);
-    this.output = outputChannel;
-    this.context = context;
+      DiagnosticCollectionsHandler.getCollection(`LiquidTestCollection`);
     this.htmlPanel = undefined;
     this.firstRowRange = new vscode.Range(
       new vscode.Position(0, 0),
       new vscode.Position(0, 500)
     );
+    this.registerEvents();
   }
 
   public async runAllTestsCommand() {
@@ -80,21 +82,22 @@ export default class LiquidTest {
     try {
       this.firmId = await this.firmHandler.setFirmID();
       this.templateHandle = templateHandle;
-      this.outputLog("[Liquid Test] New test run", {
+      this.outputLog("New test run", {
         templateHandle,
         testName,
         previewOnly,
-        htmlRenderMode,
+        htmlRenderMode
       });
       // Test Run
       this.setStatusBarRunning();
-      let response: types.ResponseObject = await sfCliLiquidTestRunner.runTests(
-        this.firmId,
-        templateHandle,
-        testName,
-        false,
-        htmlRenderMode
-      );
+      let response: types.ResponseObject =
+        await SilverfinToolkit.liquidTestRunner.runTests(
+          this.firmId,
+          templateHandle,
+          testName,
+          false,
+          htmlRenderMode
+        );
       this.setStatusBarIdle();
       this.outputResponse(response);
       if (!response) {
@@ -110,8 +113,8 @@ export default class LiquidTest {
         if (yamlDocument) {
           this.processResponse(yamlDocument, this.errorsCollection, response);
         } else {
-          this.output.appendLine(
-            `[Liquid Test] Error while opening yaml file to store results`
+          this.extensionLogger.log(
+            `Error while opening yaml file to store results`
           );
         }
       }
@@ -125,8 +128,8 @@ export default class LiquidTest {
         this.openHtmlPanel(response, testName, htmlRenderMode);
       }
     } catch (error) {
-      this.output.appendLine(
-        `[Liquid Test] Error while running a test:${JSON.stringify(error)}`
+      this.extensionLogger.log(
+        `Error while running a test:${JSON.stringify(error)}`
       );
     }
   }
@@ -145,7 +148,7 @@ export default class LiquidTest {
       );
       let resultsAndRollforwardsObjects = {
         ...testObject.results,
-        ...testObject.rollforwards,
+        ...testObject.rollforwards
       };
 
       if (testObject.reconciled) {
@@ -173,7 +176,7 @@ export default class LiquidTest {
           message: diagnosticMessage,
           severity: vscode.DiagnosticSeverity.Error,
           source: `${testName}.expectation.reconciled`, // to identify object in tree
-          code: testName,
+          code: testName
         };
         collectionArray.push(diagnostic);
       }
@@ -233,7 +236,7 @@ export default class LiquidTest {
           message: diagnosticMessage,
           severity: vscode.DiagnosticSeverity.Error,
           source: `${testName}.expectation.${itemType}.${itemName}`, // to identify object in tree
-          code: testName,
+          code: testName
         };
         collectionArray.push(diagnostic);
       });
@@ -251,9 +254,10 @@ export default class LiquidTest {
     let testRun = response.testRun;
     switch (testRun.status) {
       case "completed":
-        const errorsPresent = sfCliLiquidTestRunner.checkAllTestsErrorsPresent(
-          testRun.tests
-        );
+        const errorsPresent =
+          SilverfinToolkit.liquidTestRunner.checkAllTestsErrorsPresent(
+            testRun.tests
+          );
         if (errorsPresent) {
           // Errors present after liquid test run
           collectionArray = this.createDiagnostics(document, testRun.tests);
@@ -301,7 +305,7 @@ export default class LiquidTest {
           range: diagnosticRange,
           message: diagnosticMessage,
           severity: vscode.DiagnosticSeverity.Error,
-          source: "error_message",
+          source: "error_message"
         };
         collectionArray.push(diagnosticError);
         collection.set(document.uri, collectionArray);
@@ -316,14 +320,15 @@ export default class LiquidTest {
           message:
             "Internal error. Try to run the test again. If the issue persists, contact support",
           severity: vscode.DiagnosticSeverity.Error,
-          source: "internal_error",
+          source: "internal_error"
         };
         collectionArray.push(diagnosticInternal);
         collection.set(document.uri, collectionArray);
         break;
     }
     // Store Diagnostic Objects
-    this.context.globalState.update(document.uri.toString(), collectionArray);
+    const extContenxt = ExtensionContext.get();
+    extContenxt.globalState.update(document.uri.toString(), collectionArray);
   }
 
   // Return an array with the names of the tests associated to the current template
@@ -347,13 +352,25 @@ export default class LiquidTest {
     return await vscode.workspace.openTextDocument(yamlUri);
   }
 
+  private parseYaml(testContent: string) {
+    try {
+      return yaml.parse(testContent) || {};
+    } catch (err) {
+      this.extensionLogger.log("Parsing YAML file failed");
+      return {};
+    }
+  }
+
   // Return an array with the names of the unit tests and the row where they are located
   private findTestNamesAndRows(document: vscode.TextDocument) {
+    const indexes: { [index: string]: number } = {};
     const testContent = document.getText();
     const testYAML = this.parseYaml(testContent);
+    if (!testYAML) {
+      return indexes;
+    }
     const testNames = Object.keys(testYAML);
     const testRows = testContent.split("\n");
-    const indexes: { [index: string]: number } = {};
     testNames.forEach((testName) => {
       let index = testRows.findIndex((element) => element.includes(testName));
       indexes[testName] = index;
@@ -399,7 +416,7 @@ export default class LiquidTest {
     // Check Config File
     const configPath = posix.join(templatePath, "config.json");
     const configUri = vscode.window.activeTextEditor.document.uri.with({
-      path: configPath,
+      path: configPath
     });
     try {
       await vscode.workspace.fs.stat(configUri);
@@ -430,30 +447,28 @@ export default class LiquidTest {
 
   private async prepareToRun() {
     utils.setCWD();
-    this.output.appendLine(
-      `[Liquid Test] Current working directory: ${process.cwd()}`
-    );
+    this.extensionLogger.log(`Current working directory: ${process.cwd()}`);
     // Check right file
     let checksPassed = await this.checkFilePath();
     if (!checksPassed) {
-      this.output.appendLine("[Liquid Test] File checks failed");
+      this.extensionLogger.log("File checks failed");
       return false;
     }
     // Get template handle
     this.templateHandle = await templateUtils.getTemplateHandle();
     if (!this.templateHandle) {
-      this.output.appendLine("[Liquid Test] Template handle not found");
+      this.extensionLogger.log("Template handle not found");
       return false;
     }
     // Check active tab and get document
     if (!vscode.window.activeTextEditor) {
-      this.output.appendLine(`[Liquid Test] No active text editor found`);
+      this.extensionLogger.log(`No active text editor found`);
       return false;
     }
     this.yamlDocument = vscode.window.activeTextEditor.document;
     // Get Firm
     if (!this.firmHandler) {
-      this.output.appendLine("[Liquid Test] Firm handler not found");
+      this.extensionLogger.log("Firm handler not found");
       return false;
     }
     this.firmId = await this.firmHandler.setFirmID();
@@ -461,7 +476,7 @@ export default class LiquidTest {
     const firmTokensPresent =
       await this.firmHandler.getAuthorizedDefaultFirmId();
     if (!firmTokensPresent) {
-      this.output.appendLine("[Liquid Test] Firm credentials not found");
+      this.extensionLogger.log("Firm credentials not found");
       return false;
     }
   }
@@ -475,14 +490,14 @@ export default class LiquidTest {
       this.closeHtmlPanel();
       let htmlType =
         `html_${htmlRenderMode}` as keyof (typeof response.previewRun.tests)[typeof testSelected];
-      await sfCliLiquidTestRunner.getHTML(
+      await SilverfinToolkit.liquidTestRunner.getHTML(
         response.previewRun.tests[testSelected][htmlType],
         testSelected,
         false,
         htmlType
       );
       // Open File
-      const filePath = sfCliLiquidTestRunner.resolveHTMLPath(
+      const filePath = SilverfinToolkit.liquidTestRunner.resolveHTMLPath(
         `${testSelected}_${htmlType}`
       );
       const fs = require("fs");
@@ -497,7 +512,7 @@ export default class LiquidTest {
       // Display HTML
       this.htmlPanel.webview.html = fileContent;
     } catch (error) {
-      this.output.appendLine(
+      this.extensionLogger.log(
         `Error while opening HTML: ${JSON.stringify(error)}`
       );
       this.closeHtmlPanel();
@@ -516,17 +531,14 @@ export default class LiquidTest {
   }
 
   private outputResponse(response: types.ResponseObject) {
-    this.output.appendLine(
-      `[Liquid Test] Firm ID: ${this.firmId}. Template: ${
-        this.templateHandle
-      }. ${JSON.stringify({ response })}`
+    this.extensionLogger.log(
+      `Firm ID: ${this.firmId}. Template: ${this.templateHandle}`,
+      JSON.stringify({ response })
     );
   }
 
   private outputLog(message: string, object: object) {
-    this.output.appendLine(
-      `[Liquid Test] ${message}. ${JSON.stringify({ object })}`
-    );
+    this.extensionLogger.log(`${message}.`, JSON.stringify({ object }));
   }
 
   private closeHtmlPanel() {
@@ -548,19 +560,66 @@ export default class LiquidTest {
     // Select Test to be run
     let testSelected = await vscode.window.showQuickPick(testNames);
     if (!testSelected) {
-      this.output.appendLine("[Liquid Test] Couldn't find any tests to select");
+      this.extensionLogger.log("Couldn't find any tests to select");
       return false;
     }
     let testName = testSelected === this.optionAllTestsMsg ? "" : testSelected;
     return testName;
   }
 
-  private parseYaml(testContent: string) {
-    try {
-      return yaml.parse(testContent) || {};
-    } catch (err) {
-      this.output.appendLine("Parsing YAML file failed");
-      return {};
-    }
+  /**
+   * Register all the events to the Extension
+   * Commands:
+   * - Run all tests
+   * - Run test with options (input html)
+   * - Run test with options (preview html)
+   */
+  private registerEvents() {
+    const extensionContext = ExtensionContext.get();
+    // Command to run all tests
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(
+        "silverfin-development-toolkit.runAllTests",
+        () => {
+          this.runAllTestsCommand();
+        }
+      )
+    );
+
+    // Command to run specific test (with html input)
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(
+        "silverfin-development-toolkit.runTestWithOptionsInputHtml",
+        () => {
+          this.runTestWithOptionsCommand("input");
+        }
+      )
+    );
+
+    // Command to run specific test (with html preview)
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(
+        "silverfin-development-toolkit.runTestWithOptionsPreviewHtml",
+        () => {
+          this.runTestWithOptionsCommand("preview");
+        }
+      )
+    );
+
+    // Command to clean Diagnostic Collection of current file
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(
+        "silverfin-development-toolkit.clearCurrentDiagnosticCollection",
+        () => {
+          if (!vscode.window.activeTextEditor) {
+            return;
+          }
+          this.errorsCollection.set(
+            vscode.window.activeTextEditor.document.uri,
+            []
+          );
+        }
+      )
+    );
   }
 }

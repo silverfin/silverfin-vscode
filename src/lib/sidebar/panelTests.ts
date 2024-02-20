@@ -2,12 +2,20 @@ import * as vscode from "vscode";
 import * as types from "../../lib/types";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
+import ExtensionContext from "../extensionContext";
+import LiquidTestHandler from "../liquidTestHandler";
+import SilverfinToolkit from "../silverfinToolkit";
+import StatusBarDevMode from "../statusBar/statusBarDevMode";
+import TemplateUpdater from "../templateUpdater";
 import * as panelUtils from "./panelUtils";
-const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
 
-export class TestsViewProvider implements vscode.WebviewViewProvider {
-  public static readonly viewType = "development";
-  public _view?: vscode.WebviewView;
+/**
+ * Provider that handles the view for Liquid Tests
+ */
+export default class TestsViewProvider implements vscode.WebviewViewProvider {
+  private statusBarItem: StatusBarDevMode = StatusBarDevMode.plug();
+  private readonly viewType = "development";
+  private _view?: vscode.WebviewView;
   public devModeStatus: "active" | "inactive" = "inactive";
   public lockedHandle!: string;
   public firmIdStored!: string;
@@ -17,16 +25,17 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     "When you activate this option, updates to liquid files will automatically be pushed to Silverfin. These updates will be executed everytime a change to a file related to the template is saved. Keep in mind that, it will use the firm set as ACTIVE. Make sure you are using a development environment and closely monitor the updates made to Silverfin.";
   private devModeTestInfo =
     "When you activate this option, a new liquid test run will be initiated every time you save a file related to the template where it was enabled. Keep in mind that, it will use the firm set as ACTIVE.";
-  liquidTestRunner: any;
-  statusBarItem: any;
+  liquidTestRunner: LiquidTestHandler;
+  templateUpdater: TemplateUpdater;
   constructor(
     private readonly _extensionUri: vscode.Uri,
-    liquidTestRunner: any,
-    statusBarDevMode: any
+    liquidTestRunner: LiquidTestHandler,
+    tempalteUpdater: TemplateUpdater
   ) {
     this._extensionUri = _extensionUri;
     this.liquidTestRunner = liquidTestRunner;
-    this.statusBarItem = statusBarDevMode;
+    this.templateUpdater = tempalteUpdater;
+    this.registerEvents();
   }
 
   public async resolveWebviewView(
@@ -37,7 +46,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     this._view = webviewView;
     webviewView.webview.options = {
       enableScripts: true,
-      localResourceRoots: [this._extensionUri],
+      localResourceRoots: [this._extensionUri]
     };
     await this.setContent(webviewView);
 
@@ -46,11 +55,12 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
 
   public async setContent(webviewView: vscode.WebviewView) {
     utils.setCWD();
-    const templateHandle = templateUtils.getTemplateHandle();
+    const templateHandle = await templateUtils.getTemplateHandle();
     const templateType = await templateUtils.getTemplateType();
     const testNames = (await this.liquidTestRunner.listTestNames()) || [];
     const gridLayout = `grid-template-columns="2fr 1fr"`;
-    this.firmIdStored = await firmCredentials.getDefaultFirmId();
+    this.firmIdStored =
+      await SilverfinToolkit.firmCredentials.getDefaultFirmId();
     const disabledLabel = this.clickableButtons() ? "" : "disabled";
     let disabledStopTestsLabel = "disabled";
     let disabledStopUpdatesLabel = "disabled";
@@ -134,7 +144,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     const htmlOptionValues = [
       ["none", "No view"],
       ["input", "Input (HTML"],
-      ["preview", "Preview (HTML)"],
+      ["preview", "Preview (HTML)"]
     ];
     const htmlOptions = htmlOptionValues.map((htmlType) => {
       const selected =
@@ -282,14 +292,15 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
         case "dev-mode-tests":
           this.devModeOption = "liquid-tests";
           this.devModeStatus = message.status;
-          const templateHandle = templateUtils.getTemplateHandle() || "";
+          const templateHandle =
+            (await templateUtils.getTemplateHandle()) || "";
           this.lockedHandle = templateHandle;
           previewOnly = message.htmlType === "none" ? false : true;
           this.testDetails = {
             templateHandle,
             testName: message.testName,
             previewOnly: previewOnly,
-            htmlType: message.htmlType,
+            htmlType: message.htmlType
           };
           this.setBarStatus();
           this.refreshPanel();
@@ -310,7 +321,7 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
       templateHandle: "",
       testName: "",
       previewOnly: false,
-      htmlType: "none",
+      htmlType: "none"
     };
     return true;
   }
@@ -327,5 +338,45 @@ export class TestsViewProvider implements vscode.WebviewViewProvider {
     } else {
       this.statusBarItem.setStateIdle();
     }
+  }
+
+  private registerEvents() {
+    const extensionContext = ExtensionContext.get();
+    extensionContext.subscriptions.push(
+      vscode.window.registerWebviewViewProvider(this.viewType, this)
+    );
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand("tests-panel.refresh", () => {
+        if (!this._view) {
+          return;
+        }
+        this.setContent(this._view);
+      })
+    );
+    vscode.window.onDidChangeActiveTextEditor(() => {
+      vscode.commands.executeCommand("tests-panel.refresh");
+    });
+    vscode.workspace.onDidSaveTextDocument(() => {
+      vscode.commands.executeCommand("tests-panel.refresh");
+    });
+    // Development Mode
+    vscode.workspace.onDidSaveTextDocument(async (document) => {
+      if (this.devModeStatus !== "active") {
+        return;
+      }
+      switch (this.devModeOption) {
+        case "liquid-tests":
+          this.liquidTestRunner.runTest(
+            this.testDetails.templateHandle,
+            this.testDetails.testName,
+            this.testDetails.previewOnly,
+            this.testDetails.htmlType
+          );
+          break;
+        case "liquid-updates":
+          await this.templateUpdater.pushToSilverfin(document.uri.path);
+          break;
+      }
+    });
   }
 }

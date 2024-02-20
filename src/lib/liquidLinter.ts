@@ -1,19 +1,45 @@
 import { posix } from "path";
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
-const sfCliApi = require("silverfin-cli/lib/api/sfApi");
-const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
+import DiagnosticCollectionsHandler from "./diagnostics/diagnosticCollectionsHandler";
+import ExtensionContext from "./extensionContext";
+import FirmHandler from "./firmHandler";
+import ExtensionLoggerWrapper from "./outputChannels/extensionLoggerWrapper";
+import SilverfinToolkit from "./silverfinToolkit";
 
+/**
+ * LiquidLinter class to handle the Liquid Linter functionality.
+ * - Check if the file is a liquid file.
+ * - Run the liquid linter.
+ */
 export default class LiquidLinter {
   commandName = "silverfin-development-toolkit.liquidLinter";
-  errorsCollection: vscode.DiagnosticCollection;
-  output: vscode.OutputChannel;
-  firmHandler: any;
-  constructor(outputChannel: vscode.OutputChannel) {
-    this.errorsCollection = vscode.languages.createDiagnosticCollection(
+  private errorsCollection: vscode.DiagnosticCollection;
+  private extensionLogger: ExtensionLoggerWrapper = new ExtensionLoggerWrapper(
+    "LiquidLinter"
+  );
+  private firmHandler: FirmHandler = FirmHandler.plug();
+  constructor() {
+    this.errorsCollection = DiagnosticCollectionsHandler.getCollection(
       `LiquidLinterCollection`
     );
-    this.output = outputChannel;
+    this.registerEvents();
+  }
+
+  public static isLiquidFileCheck() {
+    if (!vscode.window.activeTextEditor) {
+      return false;
+    }
+    const filePath = posix.resolve(
+      vscode.window.activeTextEditor.document.uri.path
+    );
+    const pathParts = filePath.split(posix.sep);
+    const fileName = pathParts[pathParts.length - 1];
+    const fileType = fileName.split(".")[1];
+    if (fileType !== "liquid") {
+      return false;
+    }
+    return true;
   }
 
   public async verifyLiquidCommand() {
@@ -37,34 +63,18 @@ export default class LiquidLinter {
     const currentTextDocument = vscode.window.activeTextEditor.document;
     const liquidCode = currentTextDocument.getText();
     const requestData = JSON.stringify({ code: liquidCode });
-    const response = await sfCliApi.verifyLiquid(firmId, requestData);
+    const response = await SilverfinToolkit.api.verifyLiquid(
+      firmId,
+      requestData
+    );
+
     if (response || response.status === 200) {
-      this.output.appendLine(
-        `[Liquid Linter] run succesfully (${response.status})`
-      );
+      this.extensionLogger.log(`Run succesfully`, response.status);
       return response.data;
     } else {
-      this.output.appendLine(
-        `[Liquid Linter] run failed (${response.status}): ${response}`
-      );
+      this.extensionLogger.log(`Run failed (${response.status})`, response);
       return false;
     }
-  }
-
-  public static isLiquidFileCheck() {
-    if (!vscode.window.activeTextEditor) {
-      return false;
-    }
-    const filePath = posix.resolve(
-      vscode.window.activeTextEditor.document.uri.path
-    );
-    const pathParts = filePath.split(posix.sep);
-    const fileName = pathParts[pathParts.length - 1];
-    const fileType = fileName.split(".")[1];
-    if (fileType !== "liquid") {
-      return false;
-    }
-    return true;
   }
 
   private populateDiagnosticCollection(data: []) {
@@ -99,5 +109,26 @@ export default class LiquidLinter {
       vscode.window.activeTextEditor.document.uri,
       diagnostics
     );
+  }
+
+  /**
+   * Register the events to the Extension for the Liquid Linter.
+   * 1) Command to run the liquid linter.
+   * 2) Liquid Linter Command is run when you save a liquid file.
+   */
+  private registerEvents() {
+    // Command to run the liquid linter
+    const extensionContext = ExtensionContext.get();
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(this.commandName, () => {
+        this.verifyLiquidCommand();
+      })
+    );
+    // Liquid Linter Command is run when you save a liquid file
+    vscode.workspace.onDidSaveTextDocument(() => {
+      if (LiquidLinter.isLiquidFileCheck()) {
+        this.verifyLiquidCommand();
+      }
+    });
   }
 }

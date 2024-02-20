@@ -1,44 +1,10 @@
-import * as vscode from "vscode";
-import * as types from "../lib/types";
-
-// Load the Diagnostic stored from previous runs
-// Check file, look for stored data, parse it, create collection
-// Return the collection as array for further use if needed
-export async function loadStoredDiagnostics(
-  currentDocument: vscode.TextDocument,
-  outputChannel: vscode.OutputChannel,
-  context: vscode.ExtensionContext,
-  errorsCollection: vscode.DiagnosticCollection
-) {
-  // Check if yaml
-  if (
-    currentDocument.fileName.split(".")[
-      currentDocument.fileName.split(".").length - 1
-    ] !== "yml"
-  ) {
-    return;
-  }
-  // Open Diagnostic Stored in Global State
-  let storedDiagnostics: types.StoredDiagnostic[] | undefined =
-    await context.globalState.get(currentDocument.uri.toString());
-  outputChannel.appendLine(
-    `[Stored diagnostics] loaded: ${JSON.stringify(currentDocument.fileName)}`
-  );
-  if (storedDiagnostics) {
-    // Recreate Diagnostic Objects
-    let collectionArray: types.DiagnosticObject[] = [];
-    for (let diagnosticStored of storedDiagnostics) {
-      let diagnosticRecreated = types.diagnosticParser(diagnosticStored);
-      collectionArray.push(diagnosticRecreated);
-    }
-    // Load the Diagnostics
-    errorsCollection.set(currentDocument.uri, collectionArray);
-    return collectionArray;
-  }
-}
-
-// From the Message of the error, extract the expected and got values
-// Return: [expected, got]
+/**
+ * From a diagnostic message, get the expected and got values
+ * @param message - The message of the error
+ * @returns  - The expected and got values
+ * @example
+ * getExpectedGotFromMessage("Expected: 1 Got: 2") // ["1", "2"]
+ */
 export function getExpectedGotFromMessage(message: string): string[] {
   const output = [];
   const expectedRegex = /Expected:\s*([^(]+)/g;

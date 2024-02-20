@@ -1,17 +1,34 @@
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
-const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
-const sfCliApiUtils = require("silverfin-cli/lib/utils/apiUtils");
+import ExtensionContext from "./extensionContext";
+import ExtensionLoggerWrapper from "./outputChannels/extensionLoggerWrapper";
+import SilverfinToolkit from "./silverfinToolkit";
+import StatusBarItem from "./statusBar/statusBarItem";
 
 export default class FirmHandler {
+  private static uniqueInstance: FirmHandler | null = null;
+  private statusBarItem: StatusBarItem = StatusBarItem.plug();
   commandNameSetFirm = "silverfin-development-toolkit.setFirm";
   commandNameAuthorizeFirm = "silverfin-development-toolkit.authorizeFirm";
-  output: vscode.OutputChannel;
+  private extensionLogger: ExtensionLoggerWrapper = new ExtensionLoggerWrapper(
+    "FirmHandler"
+  );
   apiSecretsPresent: boolean;
-  statusBarItem: any;
-  constructor(outputChannel: vscode.OutputChannel) {
-    this.output = outputChannel;
+
+  constructor() {
     this.apiSecretsPresent = this.checkApiSecrets();
+    this.registerEvents();
+  }
+
+  /**
+   * @returns The unique instance of the FirmHandler class.
+   * If it does not exist, it will create it.
+   */
+  public static plug(): FirmHandler {
+    if (!FirmHandler.uniqueInstance) {
+      FirmHandler.uniqueInstance = new FirmHandler();
+    }
+    return FirmHandler.uniqueInstance;
   }
 
   public async setFirmIdCommand() {
@@ -21,8 +38,9 @@ export default class FirmHandler {
       return;
     }
     // Get Firm Stored
-    await firmCredentials.loadCredentials(); // refresh credentials
-    let firmIdStored = await firmCredentials.getDefaultFirmId();
+    await SilverfinToolkit.firmCredentials.loadCredentials(); // refresh credentials
+    let firmIdStored =
+      await SilverfinToolkit.firmCredentials.getDefaultFirmId();
     let promptMessage;
     if (!firmIdStored) {
       promptMessage =
@@ -34,19 +52,21 @@ export default class FirmHandler {
     const newFirmId = await vscode.window.showInputBox({
       prompt: promptMessage,
       placeHolder: "123456",
-      title: "STORE FIRM ID",
+      title: "STORE FIRM ID"
     });
     // Empty prompt
     if (!newFirmId) {
       return;
     }
     // Store the new firm id provided
-    await firmCredentials.setDefaultFirmId(newFirmId);
+    await SilverfinToolkit.firmCredentials.setDefaultFirmId(newFirmId);
     vscode.window.showInformationMessage(
       `Firm ID ${newFirmId} stored succesfully`
     );
     // Check firm id's credentials
-    const firmTokens = await firmCredentials.getTokenPair(newFirmId);
+    const firmTokens = await SilverfinToolkit.firmCredentials.getTokenPair(
+      newFirmId
+    );
     if (!firmTokens) {
       vscode.window.showWarningMessage(
         "The firm ID provided is not authorized yet."
@@ -59,33 +79,29 @@ export default class FirmHandler {
   }
 
   public async authorizeFirmCommand() {
-    await firmCredentials.loadCredentials(); // refresh credentials
+    await SilverfinToolkit.firmCredentials.loadCredentials(); // refresh credentials
     let firmIdStored;
     const checkExistingRepo = utils.setCWD();
     if (checkExistingRepo) {
       // Get Firm Stored
-      firmIdStored = await firmCredentials.getDefaultFirmId();
+      firmIdStored = await SilverfinToolkit.firmCredentials.getDefaultFirmId();
     }
     // Request Firm ID
     const firmIdProvided = await vscode.window.showInputBox({
       prompt: "Firm ID to authorize",
       placeHolder: "123456",
       title: "AUTHORIZE SILVERFIN API",
-      value: firmIdStored ? firmIdStored : "",
+      value: firmIdStored ? firmIdStored : ""
     });
     // Empty prompt
     if (!firmIdProvided) {
       return;
     }
-    this.output.appendLine(
-      `[FirmHandler][Auth] firmIdProvided: ${firmIdProvided}`
-    );
+    this.extensionLogger.log(`[Auth] firmIdProvided: ${firmIdProvided}`);
 
     // Open Browser to authorize
     const browserOpen = await this.openBrowserAuth(firmIdProvided);
-    this.output.appendLine(
-      `[FirmHandler][Auth] browser opened? ${browserOpen}`
-    );
+    this.extensionLogger.log(`[Auth] browser opened? ${browserOpen}`);
 
     // Wait for the user to click the button
     const buttonClicked = await vscode.window.showInformationMessage(
@@ -93,9 +109,7 @@ export default class FirmHandler {
       { modal: true },
       ...["Authorization Code"]
     );
-    this.output.appendLine(
-      `[FirmHandler][Auth] button clicked? ${buttonClicked}`
-    );
+    this.extensionLogger.log(`[Auth] button clicked? ${buttonClicked}`);
 
     // Request Authorization Code
     let authorizationCode;
@@ -105,18 +119,18 @@ export default class FirmHandler {
       authorizationCode = await vscode.window.showInputBox({
         prompt: "Enter the authorization code provided by Silverfin",
         placeHolder: "authorization code",
-        title: "AUTHORIZE SILVERFIN API",
+        title: "AUTHORIZE SILVERFIN API"
       });
       // Get Access Token
       if (authorizationCode) {
-        tokenRequest = await sfCliApiUtils.getAccessToken(
+        tokenRequest = await SilverfinToolkit.apiUtils.getAccessToken(
           firmIdProvided,
           authorizationCode
         );
       }
     }
-    this.output.appendLine(
-      `[FirmHandler][Auth] token succesfull? ${tokenRequest ? true : false}`
+    this.extensionLogger.log(
+      `[Auth] token succesfull? ${tokenRequest ? true : false}`
     );
 
     // Failed to authorized
@@ -138,15 +152,16 @@ export default class FirmHandler {
   // Get Firm ID or set a new one via Prompt
   public async setFirmID() {
     utils.setCWD();
-    await firmCredentials.loadCredentials(); // refresh credentials
-    let firmId: Number = await firmCredentials.getDefaultFirmId();
+    await SilverfinToolkit.firmCredentials.loadCredentials(); // refresh credentials
+    let firmId: Number =
+      await SilverfinToolkit.firmCredentials.getDefaultFirmId();
     // Request Firm ID and store it if necessary
     if (!firmId) {
       let newFirmId = await vscode.window.showInputBox({
         prompt:
           "There is no Firm ID stored. Provide one to run the liquid test",
         placeHolder: "123456",
-        title: "FIRM ID",
+        title: "FIRM ID"
       });
       let newFirmIdNumber = Number(newFirmId);
       // No valid firm id provided via prompt
@@ -157,22 +172,21 @@ export default class FirmHandler {
         return;
       }
       // Store and use new firm id provided
-      await firmCredentials.setDefaultFirmId(newFirmIdNumber);
+      await SilverfinToolkit.firmCredentials.setDefaultFirmId(newFirmIdNumber);
       firmId = newFirmIdNumber;
     }
     return firmId;
   }
   public async getAuthorizedDefaultFirmId() {
     utils.setCWD();
-    await firmCredentials.loadCredentials(); // refresh credentials
-    let firmId: Number = await firmCredentials.getDefaultFirmId();
+    await SilverfinToolkit.firmCredentials.loadCredentials(); // refresh credentials
+    let firmId: Number =
+      await SilverfinToolkit.firmCredentials.getDefaultFirmId();
     if (!firmId) {
       vscode.window.showErrorMessage(
         `There is no firm ID registered as default. Please, set one first.`
       );
-      this.output.appendLine(
-        `[FirmHandler] No default firm stored for repository`
-      );
+      this.extensionLogger.log(`No default firm stored for repository`);
       return false;
     }
     const authorizedFirm = await this.checkFirmCredentials(firmId);
@@ -183,13 +197,15 @@ export default class FirmHandler {
   }
 
   public async checkFirmCredentials(firmId: Number) {
-    const firmTokens = await firmCredentials.getTokenPair(firmId);
+    const firmTokens = await SilverfinToolkit.firmCredentials.getTokenPair(
+      firmId
+    );
     if (!firmTokens) {
       vscode.window.showErrorMessage(
         `Missing authorization for Firm ID ${firmId}. Please, authorize it first.`
       );
-      this.output.appendLine(
-        `[FirmHandler] Firm ID: ${firmId}. Pair of access/refresh tokens missing from config`
+      this.extensionLogger.log(
+        `Firm ID: ${firmId}. Pair of access/refresh tokens missing from config`
       );
       return false;
     }
@@ -209,7 +225,7 @@ export default class FirmHandler {
       apiSecrets
     );
 
-    this.output.appendLine(`[FirmHandler] API secrets: ${apiSecrets}`);
+    this.extensionLogger.log(`API secrets: ${apiSecrets}`);
     return apiSecrets;
   }
 
@@ -221,5 +237,27 @@ export default class FirmHandler {
     const url = `${baseURL}/f/${firmId}/oauth/authorize?client_id=${process.env.SF_API_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
     const browser = vscode.env.openExternal(vscode.Uri.parse(url));
     return browser;
+  }
+
+  /**
+   * Register the commands to the context.
+   * Command to set active Firm ID via prompt and store it.
+   * Command to authorize a Firm via prompt and store it.
+   */
+  private registerEvents() {
+    const extensionContext = ExtensionContext.get();
+    // Command to set active Firm ID via prompt and store it
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(this.commandNameSetFirm, () => {
+        this.setFirmIdCommand();
+      })
+    );
+
+    // Command to authorize a Firm via prompt and store it
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(this.commandNameAuthorizeFirm, () => {
+        this.authorizeFirmCommand();
+      })
+    );
   }
 }

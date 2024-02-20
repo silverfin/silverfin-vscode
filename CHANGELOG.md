@@ -2,6 +2,11 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.15.5]
+
+- Fix for search and replace and dev-mode. So far, dev-mode was only working with the ActiveTextEditor. Changed to work on any saved file.
+- Fix to yaml parser failing.
+
 ## [1.15.4]
 
 - Catch yaml parser failing.

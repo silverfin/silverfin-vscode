@@ -2,40 +2,47 @@ import { posix } from "path";
 import * as vscode from "vscode";
 import * as templateUtils from "../../utilities/templateUtils";
 import * as utils from "../../utilities/utils";
-const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
-const sfCliFsUtils = require("silverfin-cli/lib/utils/fsUtils");
-const sfCli = require("silverfin-cli");
-
-export default class LiquidDiagnostics {
-  errorsCollection: vscode.DiagnosticCollection;
-  output: vscode.OutputChannel;
+import ExtensionContext from "../extensionContext";
+import ExtensionLoggerWrapper from "../outputChannels/extensionLoggerWrapper";
+import SilverfinToolkit from "../silverfinToolkit";
+import DiagnosticCollectionsHandler from "./diagnosticCollectionsHandler";
+/**
+ * This class is responsible for verifying if the shared parts used in the liquid file are added to the template.
+ */
+export default class SharedPartsVerifier {
+  private extensionLogger: ExtensionLoggerWrapper = new ExtensionLoggerWrapper(
+    "SharedPartsVerifier"
+  );
+  private errorsCollection: vscode.DiagnosticCollection;
   currentLiquidFile: vscode.TextDocument | undefined;
   firmId: Number | undefined;
   templateHandle: string | undefined;
   templateType: string | undefined;
-  context: vscode.ExtensionContext;
 
-  constructor(
-    context: vscode.ExtensionContext,
-    outputChannel: vscode.OutputChannel
-  ) {
+  constructor() {
     this.errorsCollection =
-      vscode.languages.createDiagnosticCollection(`LiquidCollection`);
-    this.output = outputChannel;
+      DiagnosticCollectionsHandler.getCollection(`LiquidCollection`);
     this.currentLiquidFile = undefined;
-    this.context = context;
+    this.registerEvents();
   }
 
-  public async verifySharedPartsUsed() {
+  /**
+   * Verify if the shared parts used in the liquid file are added to the template.
+   * If not, create a diagnostic object and add it to the collection.
+   * The diagnostic object includes a message and a quick fix command to add the shared part.
+   * If the shared part does not exist in the directory, the diagnostic object includes an error message.
+   * @returns void
+   */
+  private async verifySharedPartsUsed() {
     this.setLiquidFile(); // sets this.currentLiquidFile
     if (!this.currentLiquidFile) {
-      this.output.appendLine("[Diagnostics] Current file is not .liquid");
+      this.extensionLogger.log("Current file is not .liquid");
       return;
     }
     const templateType = await templateUtils.getTemplateType();
     if (templateType === "sharedPart" || !templateType) {
-      this.output.appendLine(
-        `[Diagnostics] Current template type not supported (type: ${templateType})`
+      this.extensionLogger.log(
+        `Current template type not supported (type: ${templateType})`
       );
       return;
     }
@@ -45,7 +52,7 @@ export default class LiquidDiagnostics {
     const sharedPartsUsed = this.searchForSharedPartsInLiquid();
 
     if (!sharedPartsUsed) {
-      this.output.appendLine("[Diagnostics] No shared parts found");
+      this.extensionLogger.log("No shared parts found");
       return;
     }
 
@@ -55,18 +62,20 @@ export default class LiquidDiagnostics {
       (part) => !sharedPartsAdded.includes(part)
     );
     if (sharedPartsNotAdded.length === 0) {
-      this.output.appendLine(
-        "[Diagnostics] All shared parts are already added."
-      );
+      this.extensionLogger.log("All shared parts are already added.");
       return;
     }
-    this.output.appendLine(
-      "[Diagnostics] There are shared parts included in liquid but not added to the template"
+    this.extensionLogger.log(
+      "There are shared parts included in liquid but not added to the template"
     );
     await this.recreateDiagnosticInformation(sharedPartsNotAdded);
   }
 
-  // Establish which one is the current Liquid File based on activeTextEditor
+  /**
+   * Establish which one is the current Liquid File based on activeTextEditor.
+   * If the file is not a Liquid file, return false.
+   * @returns boolean
+   */
   private setLiquidFile() {
     this.currentLiquidFile = undefined;
     const cwd = utils.setCWD();
@@ -79,15 +88,20 @@ export default class LiquidDiagnostics {
     }
     const currentTextDocument = vscode.window.activeTextEditor.document;
     this.currentLiquidFile = currentTextDocument;
-    this.output.appendLine("[Diagnostics] Liquid File found");
+    this.extensionLogger.log("Liquid File found");
     return true;
   }
 
-  // Inspect the liquid code of the file and search for the use of shared parts
+  /**
+   * Inspect the liquid code of the file and search for the use of shared parts
+   * @returns string[] | undefined
+   * @example
+   * // Returns ["shared_header", "footer"]
+   */
   private searchForSharedPartsInLiquid() {
     const currentLiquid = this.currentLiquidFile?.getText();
     if (!currentLiquid) {
-      this.output.appendLine("[Diagnostics] No Liquid code found");
+      this.extensionLogger.log("No Liquid code found");
       return;
     }
     // Match the shared parts included in the liquid code
@@ -99,10 +113,14 @@ export default class LiquidDiagnostics {
     return names;
   }
 
+  /**
+   * Get the shared parts added to the template
+   * @returns string[] | undefined
+   */
   private async getSharedPartsAdded() {
-    await firmCredentials.loadCredentials(); // refresh credentials
-    const firmId = await firmCredentials.getDefaultFirmId();
-    const templateHandle = templateUtils.getTemplateHandle();
+    await SilverfinToolkit.firmCredentials.loadCredentials(); // refresh credentials
+    const firmId = await SilverfinToolkit.firmCredentials.getDefaultFirmId();
+    const templateHandle = await templateUtils.getTemplateHandle();
     const templateType = await templateUtils.getTemplateType();
     if (
       !templateHandle ||
@@ -118,16 +136,20 @@ export default class LiquidDiagnostics {
     this.firmId = firmId;
     this.templateHandle = templateHandle;
     this.templateType = templateType;
-    const sharedParts = await sfCliFsUtils.listSharedPartsUsedInTemplate(
-      this.firmId,
-      this.templateType,
-      this.templateHandle
-    );
+    const sharedParts =
+      await SilverfinToolkit.fsUtils.listSharedPartsUsedInTemplate(
+        this.firmId,
+        this.templateType,
+        this.templateHandle
+      );
     return sharedParts;
   }
 
-  // Search for the item in the text to identify the line number
-  // Create the Diagnostic object and add it to the collection
+  /**
+   * Search for the item in the text to identify the line number
+   * Create the Diagnostic object and add it to the collection
+   * @param sharedParts
+   */
   private async recreateDiagnosticInformation(sharedParts: string[]) {
     const diagnostics: vscode.Diagnostic[] = [];
     for (let sharedPartName of sharedParts) {
@@ -155,7 +177,7 @@ export default class LiquidDiagnostics {
 
       // Check if shared part exists in directory
       const allSharedPartsNames =
-        sfCliFsUtils.getAllTemplatesOfAType("sharedPart");
+        SilverfinToolkit.fsUtils.getAllTemplatesOfAType("sharedPart");
       const sharedPartExistsInDirectory = allSharedPartsNames.some(
         (existingSharedPart: string) =>
           existingSharedPart.includes(sharedPartName)
@@ -203,8 +225,8 @@ export default class LiquidDiagnostics {
       diagnostics.push(diagnostic);
     }
     this.errorsCollection.set(this.currentLiquidFile!.uri, diagnostics);
-    this.output.appendLine(
-      "[Diagnostics] Errors collection of the Liquid Template updated"
+    this.extensionLogger.log(
+      "Errors collection of the Liquid Template updated"
     );
   }
 
@@ -213,8 +235,8 @@ export default class LiquidDiagnostics {
     existsInFirm: boolean
   ) {
     let identifier = `addSharedPart.${sharedPartName}.${this.templateHandle}.${this.templateType}.${this.firmId}`;
-    this.output.appendLine(
-      `[Diagnostics] Create command to add shared part ${sharedPartName}. Identifier: ${identifier}`
+    this.extensionLogger.log(
+      `Create command to add shared part ${sharedPartName}. Identifier: ${identifier}`
     );
     // Check if the command already exists
     const allCommands = await vscode.commands.getCommands();
@@ -222,7 +244,8 @@ export default class LiquidDiagnostics {
       return;
     }
     // registerCommand
-    this.context.subscriptions.push(
+    const extensionContext = ExtensionContext.get();
+    extensionContext.subscriptions.push(
       vscode.commands.registerCommand(identifier, () => {
         // Create and add the shared part
         if (!existsInFirm) {
@@ -244,8 +267,8 @@ export default class LiquidDiagnostics {
       sharedPartName,
       "config.json"
     );
-    this.output.appendLine(
-      `[Diagnostics] Shared Part config path: ${sharedPartConfigPath}`
+    this.extensionLogger.log(
+      `Shared Part config path: ${sharedPartConfigPath}`
     );
     return sharedPartConfigPath;
   }
@@ -256,7 +279,7 @@ export default class LiquidDiagnostics {
     }
     const configPath = this.getSharedPartConfigPath(sharedPartName);
     const configUri = vscode.window.activeTextEditor.document.uri.with({
-      path: configPath,
+      path: configPath
     });
     const fs = require("fs");
     const configExists = fs.existsSync(configPath);
@@ -273,7 +296,7 @@ export default class LiquidDiagnostics {
   }
 
   private addSharedPart(sharedPartName: string) {
-    sfCli
+    SilverfinToolkit.toolkit
       .addSharedPart(
         this.firmId,
         sharedPartName,
@@ -291,22 +314,30 @@ export default class LiquidDiagnostics {
   }
 
   private createAndAddSharedPart(sharedPartName: string) {
-    sfCli.newSharedPart(this.firmId, sharedPartName).then(() => {
-      sfCli
-        .addSharedPart(
-          this.firmId,
-          sharedPartName,
-          this.templateHandle,
-          this.templateType
-        )
-        .then(() => {
-          // Refresh the shared parts
-          this.verifySharedPartsUsed();
-        });
-    });
+    SilverfinToolkit.toolkit
+      .newSharedPart(this.firmId, sharedPartName)
+      .then(() => {
+        SilverfinToolkit.toolkit
+          .addSharedPart(
+            this.firmId,
+            sharedPartName,
+            this.templateHandle,
+            this.templateType
+          )
+          .then(() => {
+            // Refresh the shared parts
+            this.verifySharedPartsUsed();
+          });
+      });
     // Show a message
     vscode.window.showInformationMessage(
       `Creating and adding shared part ${sharedPartName} in firm ${this.firmId} to ${this.templateHandle} (${this.templateType})`
     );
+  }
+
+  private async registerEvents() {
+    vscode.workspace.onDidSaveTextDocument(() => {
+      this.verifySharedPartsUsed();
+    });
   }
 }
