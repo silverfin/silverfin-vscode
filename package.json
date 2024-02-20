@@ -139,8 +139,24 @@
         "title": "Silverfin: authorize firm"
       },
       {
-        "command": "silverfin-development-toolkit.templateCommandsInBulk",
-        "title": "Silverfin: run a template command"
+        "command": "silverfin-development-toolkit.createTemplatesInBulk",
+        "title": "Silverfin: create templates (Command)"
+      },
+      {
+        "command": "silverfin-development-toolkit.importTemplatesInBulk",
+        "title": "Silverfin: import templates (Command)"
+      },
+      {
+        "command": "silverfin-development-toolkit.updateTemplatesInBulk",
+        "title": "Silverfin: update templates (Command)"
+      },
+      {
+        "command": "silverfin-development-toolkit.getTemplatesIdInBulk",
+        "title": "Silverfin: get templates id (Command)"
+      },
+      {
+        "command": "silverfin-development-toolkit.runCommandInBulk",
+        "title": "Silverfin: select a command to run (Command)"
       }
     ],
     "keybindings": [
@@ -192,7 +208,23 @@
           "when": "silverfin-development-toolkit.apiAuthorized"
         },
         {
-          "command": "silverfin-development-toolkit.templateCommandsInBulk",
+          "command": "silverfin-development-toolkit.createTemplatesInBulk",
+          "when": "silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.importTemplatesInBulk",
+          "when": "silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.updateTemplatesInBulk",
+          "when": "silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.getTemplatesIdInBulk",
+          "when": "silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.runCommandInBulk",
           "when": "silverfin-development-toolkit.apiAuthorized"
         }
       ]

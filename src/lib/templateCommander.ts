@@ -14,70 +14,44 @@ export default class TemplateCommander {
     "TemplateCommander"
   );
   private userLogger: UserLogger = UserLogger.plug();
+  private commandMapper: { [index: string]: string } = {
+    create: "silverfin-development-toolkit.createTemplatesInBulk",
+    import: "silverfin-development-toolkit.importTemplatesInBulk",
+    update: "silverfin-development-toolkit.updateTemplatesInBulk",
+    getTemplateId: "silverfin-development-toolkit.getTemplatesIdInBulk"
+  };
   constructor() {
     this.registerEvents();
   }
 
   /**
-   * A VSCode command that open a Quick Pick panel to select a command to run.
-   * It works in three steps. First you select the command to run (`import`, `create`, `update`, `get-id`).
-   * Then you select the templates to run the command on. Finally, you select the firm to run the command on.
+   * A VSCode command that open a Quick Pick panel to select templates and firm to run a command on.
+   * First, you select the templates to run the command on. Finally, you select the firm to run the command on.
    * The command is then run and the output is logged to the user channel.
    */
-  private async runCommandOnTemplatesInBulk() {
+  private async runCommandOnTemplatesInBulk(commandName: string) {
     const check = utils.setCWD();
     if (!check) {
       return;
     }
 
-    const selectedOption = await this.selectCommand();
-    if (!selectedOption) {
-      vscode.window.showErrorMessage(`No command option was selected`);
+    const selectedTemplates = await this.selectTemplates();
+    if (selectedTemplates?.length === 0 || !selectedTemplates) {
+      vscode.window.showErrorMessage(`No template was selected`);
       return;
     }
 
-    const addOrRemoveSharedPart = this.checkIfCommandIsSharedPart(
-      selectedOption.label
+    const selectedFirm = await this.selectFirm();
+    if (selectedFirm?.length !== 1 || !selectedFirm) {
+      vscode.window.showErrorMessage(`One and only one firm must be selected`);
+      return;
+    }
+
+    await this.runEachSilverfinAction(
+      Number(selectedFirm[0].label),
+      commandName,
+      selectedTemplates
     );
-
-    if (addOrRemoveSharedPart) {
-      const selectedSharedParts = await this.selectTemplates(true, false);
-      if (selectedSharedParts?.length === 0 || !selectedSharedParts) {
-        vscode.window.showErrorMessage(`No template was selected`);
-        return;
-      }
-
-      const selectedTemplates = await this.selectTemplates(false, true);
-      if (selectedTemplates?.length === 0 || !selectedTemplates) {
-        vscode.window.showErrorMessage(`No template was selected`);
-        return;
-      }
-
-      vscode.window.showErrorMessage(
-        `Shared parts commands are not yet implemented`
-      );
-      return;
-    } else {
-      const selectedTemplates = await this.selectTemplates();
-      if (selectedTemplates?.length === 0 || !selectedTemplates) {
-        vscode.window.showErrorMessage(`No template was selected`);
-        return;
-      }
-
-      const selectedFirm = await this.selectFirm();
-      if (selectedFirm?.length !== 1 || !selectedFirm) {
-        vscode.window.showErrorMessage(
-          `One and only one firm must be selected`
-        );
-        return;
-      }
-
-      await this.runEachSilverfinAction(
-        Number(selectedFirm[0].label),
-        selectedOption.label,
-        selectedTemplates
-      );
-    }
   }
 
   /**
@@ -129,9 +103,29 @@ export default class TemplateCommander {
       matchOnDescription: true
     });
 
-    this.extensionLogger.log("Selected command", selectedOption);
+    if (!selectedOption) {
+      return;
+    }
 
-    return selectedOption;
+    const commandType = Object.keys(SilverfinToolkit.commandLabelMapper).find(
+      (key) => SilverfinToolkit.commandLabelMapper[key] === selectedOption.label
+    );
+
+    this.extensionLogger.log("Selected command", commandType);
+
+    if (!commandType) {
+      vscode.window.showErrorMessage("Command not found");
+      return selectedOption;
+    }
+
+    if (commandType === "addSharedPart" || commandType === "removeSharedPart") {
+      vscode.window.showInformationMessage(
+        "Shared part commands not implemented yet"
+      );
+      return selectedOption;
+    } else {
+      vscode.commands.executeCommand(this.commandMapper[commandType]);
+    }
   }
 
   /**
@@ -238,20 +232,24 @@ export default class TemplateCommander {
     return selectedOption;
   }
 
+  /**
+   * Run the command on the selected templates in the selected firm.
+   * The command is run using the Silverfin API.
+   * @param firmId The id of the firm to run the command on
+   * @param commandType The command to run
+   * @param templates The templates to run the command on
+   * @returns void
+   */
   private async runEachSilverfinAction(
     firmId: Number,
-    commandChoiceLabel: string,
+    commandType: string,
     templates: vscode.QuickPickItem[]
   ) {
     this.extensionLogger.log("Start command run", {
-      commandChoiceLabel,
+      commandType,
       templates,
       firmId
     });
-
-    const commandType = Object.keys(SilverfinToolkit.commandLabelMapper).find(
-      (key) => SilverfinToolkit.commandLabelMapper[key] === commandChoiceLabel
-    );
 
     for (const template of templates) {
       const templateType = Object.keys(
@@ -285,7 +283,7 @@ export default class TemplateCommander {
       }
 
       this.extensionLogger.log("Run command", {
-        commandChoiceLabel,
+        commandType,
         templateType,
         templateHandle
       });
@@ -293,7 +291,7 @@ export default class TemplateCommander {
       const sfApi = new SilverfinToolkit();
       resultRun = await sfApi.callCommand(commandToRun, ...commandArgs);
 
-      const userMessage = `${commandChoiceLabel}: ${templateHandle} (${SilverfinToolkit.templateTypeMapper[templateType]}) in firm ${firmId}`;
+      const userMessage = `${commandType}: ${templateHandle} (${SilverfinToolkit.templateTypeMapper[templateType]}) in firm ${firmId}`;
       if (resultRun) {
         this.userLogger.log(userMessage + " - Success");
       } else {
@@ -302,27 +300,60 @@ export default class TemplateCommander {
     }
   }
 
-  private checkIfCommandIsSharedPart(command: string) {
-    return (
-      command === SilverfinToolkit.commandLabelMapper.addSharedPart ||
-      command === SilverfinToolkit.commandLabelMapper.removeSharedPart
-    );
-  }
-
   /**
-   * Register the command `silverfin-development-toolkit.templateCommandsInBulk` to run the `runCommandOnTemplatesInBulk` method.
+   * Register the different commands to run on the templates.
    * The command is available in the Command Palette.
    * @returns void
    */
   private registerEvents() {
     const extensionContext = ExtensionContext.get();
+    // Create templates in bulk
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(this.commandMapper.create, async () => {
+        await this.runCommandOnTemplatesInBulk("create");
+      })
+    );
+    // Import templates in bulk
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(this.commandMapper.import, async () => {
+        await this.runCommandOnTemplatesInBulk("import");
+      })
+    );
+    // Update templates in bulk
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(this.commandMapper.update, async () => {
+        await this.runCommandOnTemplatesInBulk("update");
+      })
+    );
+    // Get template id in bulk
     extensionContext.subscriptions.push(
       vscode.commands.registerCommand(
-        "silverfin-development-toolkit.templateCommandsInBulk",
+        this.commandMapper.getTemplateId,
         async () => {
-          await this.runCommandOnTemplatesInBulk();
+          await this.runCommandOnTemplatesInBulk("getTemplateId");
+        }
+      )
+    );
+    // Run a command on the selected templates
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(
+        "silverfin-development-toolkit.runCommandInBulk",
+        async () => {
+          await this.selectCommand();
         }
       )
     );
   }
 }
+
+// const selectedSharedParts = await this.selectTemplates(true, false);
+// if (selectedSharedParts?.length === 0 || !selectedSharedParts) {
+//   vscode.window.showErrorMessage(`No template was selected`);
+//   return;
+// }
+
+// const selectedTemplates = await this.selectTemplates(false, true);
+// if (selectedTemplates?.length === 0 || !selectedTemplates) {
+//   vscode.window.showErrorMessage(`No template was selected`);
+//   return;
+// }
