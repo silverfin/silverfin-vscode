@@ -155,6 +155,14 @@
         "title": "Silverfin: get templates id (Command)"
       },
       {
+        "command": "silverfin-development-toolkit.addSharedPartInBulk",
+        "title": "Silverfin: add shared part to template (Command)"
+      },
+      {
+        "command": "silverfin-development-toolkit.removeSharedPartInBulk",
+        "title": "Silverfin: remove shared part from template (Command)"
+      },
+      {
         "command": "silverfin-development-toolkit.runCommandInBulk",
         "title": "Silverfin: select a command to run (Command)"
       }
@@ -221,6 +229,14 @@
         },
         {
           "command": "silverfin-development-toolkit.getTemplatesIdInBulk",
+          "when": "silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.addSharedPartInBulk",
+          "when": "silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.removeSharedPartInBulk",
           "when": "silverfin-development-toolkit.apiAuthorized"
         },
         {
