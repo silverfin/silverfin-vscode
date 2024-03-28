@@ -113,21 +113,34 @@ This extension adds snippets to make your writing of liquid templates for Silver
 
 Any formatting choices that are made within the Snippets are made according to the [Liquid guidelines](https://developer.silverfin.com/docs/liquid-guidelines).
 
-List of available snippets:
+Snippets are available for the following categories:
+ - Tags
+ - Filters
+ - Drops
+ - Tables
 
-| Shortcut                  | Description                                                                            |
+<br>
+
+| <span style="font-size:1.4em;">**TAG SNIPPETS**<br></span>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
 | ------------------------- | -------------------------------------------------------------------------------------- |
+| **COMMENTS**                                                                                                   
 | comment                   | Add opening and closing comment-tags                                                   |
 | endcomment                | Only add the closing comment-tag                                                       |
 | ic                        | Add opening and closing ic-tags                                                        |
 | endic                     | Only add the closing ic-tag                                                            |
 | nic                       | Add opening and closing nic-tags                                                       |
 | endnic                    | Only add the closing nic-tag                                                           |
+| &emsp;
+| **VARIABLES**
 | assign                    | Add an assign-tag                                                                      |
 | capture                   | Add opening and closing capture-tags                                                   |
 | endcapture                | Only add the closing capture-tag                                                       |
+| &emsp;
+| **TRANSLATIONS**
 | t=                        | Set a translation with a default (different languages to be set depending on market)   |
 | t                         | Get a defined translation                                                              |
+| &emsp;
+| **INPUT**
 | input                     | Add a standard text-input                                                              |
 | as:text                   | Add the attribute for a textarea input                                                 |
 | as:currency               | Add the attribute for a currency input                                                 |
@@ -145,6 +158,8 @@ List of available snippets:
 | placeholder:              | Add the placeholder attribute to an input                                              |
 | required:                 | Add the required attribute to an input                                                 |
 | default:                  | Add the default attribute or filter to an input or variable                            |
+| &emsp;
+| **CONTROL FLOW**
 | if                        | Add opening and closing if-tags                                                        |
 | ifelse                    | Add opening and closing if-tags with else-statement                                    |
 | endif                     | Only add closing if-tag                                                                |
@@ -156,6 +171,9 @@ List of available snippets:
 | endunless                 | Only add closing unless-tag                                                            |
 | case                      | Add opening and closing case-tags with a when and else-statement                       |
 | endcase                   | Only add closing case-tag                                                              |
+| when                      | Add a when-tag that is used within case-tags                                           |
+| &emsp;
+| **ITERATIONS**
 | for                       | Add opening and closing forloop-tags                                                   |
 | endfor                    | Only add closing forloop-tag                                                           |
 | fori                      | Add opening and closing foriloop-tags                                                  |
@@ -169,29 +187,62 @@ List of available snippets:
 | limit                     | Add the limit attribute to a forloop                                                   |
 | offset                    | Add the offset attribute to a forloop                                                  |
 | reversed                  | Add the reversed attribute to a forloop                                                |
+| &emsp;
+| **UNRECONCILED**
 | unreconciled              | Add the unreconciled tag as an indicator with unreconciled text                        |
+| &emsp;
+| **RESULT**
 | result                    | Add a result tag                                                                       |
+| &emsp;
+| **ROLLFORWARD**
 | rollforward               | Add a rollforward tag                                                                  |
 | rollforward.period        | Add the rollforward.period variable                                                    |
+| &emsp;
+| **LOCALE**
 | locale                    | Add opening and closing locale tags                                                    |
 | endlocale                 | Only add closing locale-tag                                                            |
+| &emsp;
+| **INCLUDE**
 | include                   | Add a tag to include a local or shared part                                            |
+| &emsp;
+| **LINKTO**
 | linkto                    | Add opening and closing linkto-tags                                                    |
 | endlinkto                 | Only add closing linkto-tag                                                            |
 | target                    | Add a target tag with an id                                                            |
 | target:                   | Add a target attribute to a linkto tag                                                 |
 | new_tab:                  | Add a new_tab attribute to a linkto tag                                                |
 | as:button                 | Add the attribute for a button to a linkto-tag                                         |
+| &emsp;
+| **ADJUSTMENT BUTTON**
 | adjustmentbutton          | Add opening and closing adjustmentbutton-tags                                          |
 | endadjustmentbutton       | Only add closing adjustmentbutton-tag                                                  |
 | adjustmenttransaction     | Add adjustmenttransaction-tag                                                          |
+| &emsp;
+| **GROUP**
 | group                     | Add a closing and opening group-tag inside nic-tags                                    |
+| &emsp;
+| **ADD NEW INPUTS**
 | addnewinputs              | Add opening and closing addnewinputs-tags                                              |
 | endaddnewinputs           | Only add closing addnewinputs-tag                                                      |
+| &emsp;
+| **SIGNMARKER**
 | signmarker                | Add a signmarker tag                                                                   |
+| &emsp;
+| **PUSH & POP**
 | push                      | Add a push tag                                                                         |
 | pop                       | Add a pop tag                                                                          |
+| &emsp;
+| **CHANGE ORIENTATION**
 | changeorientation         | Add a changeorientation tag                                                            |
+| &emsp;
+| **CURRENCY CONFIGURATION**|               
+| currencyconfiguration     | Add opening and closing currencyconfiguration-tags with the possible attributes        |
+| endcurrencyconfiguration  | Only add closing currencyconfiguration-tag                                             |
+| &emsp;
+| **NEW PAGE**
+| newpage                   | Add a newpage tag to signify the start of a new page                                   |
+| &emsp;
+| **STYLING**
 | stripnewlines             | Add opening and closing stripnewlines-tags                                             |
 | endstripnewlines          | Only add closing endstripnewlines-tag                                                  |
 | newline                   | Add a newline tag                                                                      |
@@ -203,8 +254,110 @@ List of available snippets:
 | infotexthover             | Add an infotext with the as="hover" attribute                                          |
 | warningtextinline         | Add an inline-warningtext inside ic-tags                                               |
 | warningtextblock          | Add full-width warningtext inside ic-tags                                              |
-| warningtexthover          | Add an warningtext with the as="hover" attribute                                       |
-| table                     | Add snippet for a minimal HTML table with a header, body and width classes defined     |
+| warningtexthover&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; | Add an warningtext with the as="hover" attribute&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|
+
+<br>
+
+| <span style="font-size:1.4em;">**FILTER SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
+| ------------------------- | -------------------------------------------------------------------------------------- |
+| **DATE AND TIME**
+| date:"%d/%m/%Y"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&emsp;&emsp;&emsp;&nbsp;&nbsp; | Add the filter for standard BE date formatting (DD/MM/YYYY)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; |
+| date:"%F"                 | Add the filter for ISO date formatting (YYYY-MM-DD)                                    |
+| &emsp;
+| **LOCALIZED**
+| localized                 | Add the localized filter                                                               |
+| localize:                 | Add the localize attribute                                                             |
+| &emsp;
+| **NUMBER**                
+| int                       | Add the INT type conversion function                                                   |
+| max                       | Add the MAX function to return the largest value in an array of values &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; |
+| min                       | Add the MIN function to return the smallest value in an array of values                |
+
+<br>
+
+| <span style="font-size:1.4em;">**DROPS SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
+| ------------------------- | -------------------------------------------------------------------------------------- |
+| **ACCOUNTS**
+| accounts.starred<br>accounts.assets<br>accounts.liabilities<br>accounts.revenues<br>accounts.expenses<br>accounts.income<br>accounts.equity| Add the method for returning a new accounts drop with only these accounts<br><br><br><br><br><br><br> |
+| accounts.count            | Add the method which returns the number of account drops in the accounts drop |
+| accounts.credit_value     | Add the method to return the sum of all credit values for all accounts in this accounts drop for this period |
+| accounts.debit_value     | Add the method to return the sum of all debit values for all accounts in this accounts drop for this period |
+| accounts.first | Add the method to return the first account drop of the accounts drop |
+| accounts.include_zeroes | Add the method to return an accounts drop that includes all accounts, including those with a zero balance |
+| accounts.name | Add the method to return the name of the first account in this drop |
+| accounts.p_and_l_rounding_difference,<br>accounts.bs_rounding_difference | Add the methods to display the exact rounding difference when using the core rounding functionality |
+| p_and_l_rounding_account,<br>bs_rounding_account | Add the methods to return the account drop where the rounding difference is stored |
+| return_values_in_millions | Add the method to display the values of the account drops in the created accounts drop in millions |
+| return_values_in_thousands | Add the method to display the values of the account drops in the created accounts drop in thousands |
+| value | Add the method to return the sum of all values for all accounts in this accounts drop for this period |
+| &emsp;
+| **COMPANY**
+| company.analytical_type_(0..x)_codes | Add the method to return drop with information about dimensions/companies in an analytical/consolidation file |
+| company.city | Add the method to return the city from the company settings |
+| company.company_form | Add the method to return the company form from the company settings |
+| company.country | Add the method to return the country from the company settings |
+| company.country_code | Add the method to return rhe country code based upon the country from the company settings |
+| company.currency | Add the method to return the currency code from the company settings |
+| company.custom | Add the method to attach custom information to a company, independant of the period |
+| company.file_code | Add the method to return the file number from the company settings |
+| company.locales | Add the method to return the available languages for the company |
+| company.name | Add the method to return the company name from the company settings |
+| company.periods_per_year | Add the method to returns 1,4,12 depending on the reporting frequency (yearly, quarterly or monthly)
+| company.postalcode | Add the method to return the post code from the company settings |
+| company.street | Add the method to return the street from the company settings |
+| company.vat_identifier | Add the method to return the vat identifier from the company settings |
+| &emsp;
+| **PEOPLE**
+| people.count | Add the method to count the number of person drops on the people drop |
+| people.first | Add the method to return the first person drop in the people drop |
+| people.directors | Add the special people sub-drop which returns only the directors |
+| people.shareholders | Add the special people sub-drop which returns only the shareholders |
+| people.directors.active_as_director| Add the filter for directors which returns those directors active during the book year |
+| people.directors.active_as_director_on| Add the filter for directors which returns those directors active in a specific date |
+| &emsp;
+| **PERIOD**
+| period.accounts | Add the method to return a collection of all accounts with bookings on this period |
+| period.account_mapping_list.name | Add the method to return the name of the mapping list used for this period |
+| period.account_mapping_list.id | Add the method to return the id of the mapping list on firm level |
+| period.account_mapping_list.marketplace_template_id | Add the method to return the id of the mapping list on marketplace |
+| period.adjustments | Add the method to return all the adjustments for the period |
+| period.bookyear_index | Add the method to return the  index number of the current book year as an integer. The first book year equals 1 |
+| period.calendar_years | Add the method to add an array of all calendar years in the fiscal year. The information for each calendar year is:<br>start_date, end_date, amount_of_days for the number of days the bookyear has in the calendar year, and<br> amount_of_days_in_full_year for the total number of days in the calendar year |
+| period.custom | Add method to attach custom information to a period. This is done automatically in reconciliations |
+| period.directors | Add method to return people drop of *all* individuals who are directors |
+| period.end_date | Add method to return the date this period ends |
+| period.exists | Add method to return true when the period exists in the Silverfin database |
+| period.fiscal_year | Add method to return the fiscal year of this period |
+| period.is_first_year | Add method to return true if the period is in the first book year of this client file |
+| period.month_end_dates | Add method to return an array of all the end dates of the calendar months in this fiscal year |
+| period.name | Add method to return the name of the period |
+| period.people | Add method to return the people drop of *all* people attached to the period (typically copied from general<br> company level) |
+| period.reconciliations | Add method to return a collection of all reconciliations for this period. You can ask for a specific reconciliation<br> by adding the handle. I.e. period.reconciliations.the_handle. |
+| period.reports | Add method to return a collection of all reports for this period. You can ask for a specific report by adding the<br> handle. I.e. period.reports.the_handle |
+| period.shareholders | Add method to return the people drop of *all* individuals who are shareholders |
+| period.start_date | Add method to return the date this period starts |
+| period.year_end | Add method to return the period at the end of the fiscal year this period is in |
+| period.year_end_date | Add method to return the date of the end of the fiscal year of this period |
+| period.year_start_date | Add method to return the date of the start of the fiscal year of this period |
+| period.minus_1p,<br>period.minus_2p,<br>period.minus_3p,<br>... | Add method to return the period drop of the current period minus the amount of periods defined |
+| period.minus_1y,<br>period.minus_2y,<br>period.minus_3y,<br>... | Add method to return the period drop of the current period minus the amount of years defined |
+| period.plus_1p,<br>period.plus_2p,<br>period.plus_3p,<br>... | Add method to return the period drop of the current period plus the amount of periods defined |
+| period.plus_1y,<br>period.plus_2y,<br>period.plus_3y,<br>... | Add method to return the period drop of the current period plus the amount of years defined |
+| &emsp;
+| **RECONCILIATIONS**
+| reconciliations.count | Add method which returns the amount of active reconciliations |
+| reconciliations.[reconciliation_handle]* | Add method which returns the specific reconcilaition with matching handle<br>**Don't actually use the word handle but use that handle of the specific reconciliation instead* |
+| reconciliations.star | Add method which returns reconciliations that are marked with a star |
+| &emsp;
+| **USER**
+| user.name | Add method to return name of the Silverfin user |
+| user.email | Add method to return Email of the Silverfin user |
+
+<br>
+
+| <span style="font-size:1.4em;">**TABLE SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
+| ------------------------- | -------------------------------------------------------------------------------------- |
+| table&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Add snippet for a minimal HTML table with a header, body and width classes defined &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&emsp;&nbsp; |
 | thead                     | Add opening and closing thead-tags for an HTML table                                   |
 | tbody                     | Add opening and closing tbody-tags for an HTML table                                   |
 | tr                        | Add opening and closing tr-tags for an HTML table with nested td-elements              |
@@ -235,6 +388,8 @@ List of available snippets:
 | usr-indent-               | Add usr-indent class with list of possible values                                      |
 | usr-repeated-header       | Add usr-repeated-header class                                                          |
 | usr-no-left-padding       | Add usr-no-left-padding class                                                          |
+
+
 
 ## Third party extensions
 
