@@ -49,7 +49,7 @@ export default class TemplateUpdater {
     const functionName = updateFunction.name;
     this.extensionLogger.log("Updating template", { parameters, functionName });
 
-    const updated = await updateFunction(this.firmId, templateHandle, message);
+    const updated = await updateFunction("firm", this.firmId, templateHandle, message);
     this.extensionLogger.log("Template updated?", {
       parameters,
       functionName,
