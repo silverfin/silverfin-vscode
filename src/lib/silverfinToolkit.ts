@@ -68,9 +68,6 @@ export default class SilverfinToolkit {
     remove: "Remove Shared Part"
   };
 
-  // THIS WON'T WORK UNTIL SILVERFIN-CLI IS UPDATED
-  // it does not return any value, it just logs to the console
-
   /**
    * Run a command from the silverfin-cli. This is a wrapper around the silverfin-cli commands.
    * It will log the result of the command to the extension output channel.

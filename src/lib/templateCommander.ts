@@ -306,11 +306,11 @@ export default class TemplateCommander {
 
       if (commandType === "getTemplateId") {
         commandToRun = SilverfinToolkit.toolkit.getTemplateId;
-        commandArgs = [String(firmId), templateType, templateHandle];
+        commandArgs = ["firm", String(firmId), templateType, templateHandle];
       } else {
         commandToRun =
           SilverfinToolkit.commandMapper[commandType][templateType];
-        commandArgs = [String(firmId), templateHandle];
+        commandArgs = ["firm", String(firmId), templateHandle];
       }
 
       if (!commandToRun) {
@@ -400,6 +400,7 @@ export default class TemplateCommander {
         commandToRun =
           SilverfinToolkit.commandMapper["sharedPart"][commandType];
         commandArgs = [
+          "firm",
           String(firmId),
           sharedPartHandle,
           templateHandle,
