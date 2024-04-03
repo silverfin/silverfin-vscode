@@ -15,6 +15,7 @@ import TemplatePartsViewProvider from "./lib/sidebar/panelTemplateParts";
 import TestsViewProvider from "./lib/sidebar/panelTests";
 import StatusBarDevMode from "./lib/statusBar/statusBarDevMode";
 import StatusBarItem from "./lib/statusBar/statusBarItem";
+import TemplateCommander from "./lib/templateCommander";
 import TemplateUpdater from "./lib/templateUpdater";
 
 export async function activate(context: vscode.ExtensionContext) {
@@ -31,6 +32,7 @@ export async function activate(context: vscode.ExtensionContext) {
   new SharedPartsVerifier();
   new AddClosingTag();
   new QuickFixesProviders();
+  new TemplateCommander();
 
   const liquidTestHandler = new LiquidTestHandler();
   const templateUpdater = new TemplateUpdater();

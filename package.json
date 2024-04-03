@@ -1,7 +1,7 @@
 {
   "name": "silverfin-development-toolkit",
   "displayName": "Silverfin Development Toolkit",
-  "version": "1.15.6",
+  "version": "1.16.0",
   "publisher": "Silverfin",
   "icon": "resources/sf-icon.png",
   "engines": {
@@ -139,8 +139,32 @@
         "title": "Silverfin: authorize firm"
       },
       {
-        "command": "silverfin-development-toolkit.templateCommandsInBulk",
-        "title": "Silverfin: run a template command"
+        "command": "silverfin-development-toolkit.createTemplatesInBulk",
+        "title": "Silverfin: create templates (Command)"
+      },
+      {
+        "command": "silverfin-development-toolkit.importTemplatesInBulk",
+        "title": "Silverfin: import templates (Command)"
+      },
+      {
+        "command": "silverfin-development-toolkit.updateTemplatesInBulk",
+        "title": "Silverfin: update templates (Command)"
+      },
+      {
+        "command": "silverfin-development-toolkit.getTemplatesIdInBulk",
+        "title": "Silverfin: get templates id (Command)"
+      },
+      {
+        "command": "silverfin-development-toolkit.addSharedPartInBulk",
+        "title": "Silverfin: add shared part to template (Command)"
+      },
+      {
+        "command": "silverfin-development-toolkit.removeSharedPartInBulk",
+        "title": "Silverfin: remove shared part from template (Command)"
+      },
+      {
+        "command": "silverfin-development-toolkit.runCommandInBulk",
+        "title": "Silverfin: select a command to run (Command)"
       }
     ],
     "keybindings": [
@@ -192,7 +216,31 @@
           "when": "silverfin-development-toolkit.apiAuthorized"
         },
         {
-          "command": "silverfin-development-toolkit.templateCommandsInBulk",
+          "command": "silverfin-development-toolkit.createTemplatesInBulk",
+          "when": "silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.importTemplatesInBulk",
+          "when": "silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.updateTemplatesInBulk",
+          "when": "silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.getTemplatesIdInBulk",
+          "when": "silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.addSharedPartInBulk",
+          "when": "silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.removeSharedPartInBulk",
+          "when": "silverfin-development-toolkit.apiAuthorized"
+        },
+        {
+          "command": "silverfin-development-toolkit.runCommandInBulk",
           "when": "silverfin-development-toolkit.apiAuthorized"
         }
       ]

@@ -45,6 +45,10 @@ export default class SilverfinToolkit {
       sharedPart: SilverfinToolkit.toolkit.publishSharedPartByName,
       accountTemplate: SilverfinToolkit.toolkit.publishAccountTemplateByName,
       exportFile: SilverfinToolkit.toolkit.publishExportFileByName
+    },
+    sharedPart: {
+      add: SilverfinToolkit.toolkit.addSharedPart,
+      remove: SilverfinToolkit.toolkit.removeSharedPart
     }
   };
 
@@ -60,12 +64,9 @@ export default class SilverfinToolkit {
     import: "Import",
     update: "Update",
     getTemplateId: "Get template id",
-    addSharedPart: "Add Shared Part",
-    removeSharedPart: "Remove Shared Part"
+    add: "Add Shared Part",
+    remove: "Remove Shared Part"
   };
-
-  // THIS WON'T WORK UNTIL SILVERFIN-CLI IS UPDATED
-  // it does not return any value, it just logs to the console
 
   /**
    * Run a command from the silverfin-cli. This is a wrapper around the silverfin-cli commands.
@@ -78,7 +79,7 @@ export default class SilverfinToolkit {
    */
   public async callCommand(command: FunctionType, ...args: string[]) {
     try {
-      const result = await command(...args);
+      const result = (await command(...args)) || true;
       this.extensionLogger.log("Command result", result);
       return result;
     } catch (error) {
