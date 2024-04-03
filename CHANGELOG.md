@@ -4,7 +4,7 @@ All notable changes to the "silverfin-development-toolkit" extension will be doc
 
 ## [1.16.0]
 
-- New command to run Silverfin-Cli commands in bulk. Create, update, import, add shared part, remove shared part, get template id.
+- New command to run Silverfin CLI commands in bulk. Create, update, import, add shared part, remove shared part, get template id.
 
 ## [1.15.6]
 
