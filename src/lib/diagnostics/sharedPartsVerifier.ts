@@ -298,6 +298,7 @@ export default class SharedPartsVerifier {
   private addSharedPart(sharedPartName: string) {
     SilverfinToolkit.toolkit
       .addSharedPart(
+        "firm",
         this.firmId,
         sharedPartName,
         this.templateHandle,
@@ -315,10 +316,11 @@ export default class SharedPartsVerifier {
 
   private createAndAddSharedPart(sharedPartName: string) {
     SilverfinToolkit.toolkit
-      .newSharedPart(this.firmId, sharedPartName)
+      .newSharedPart("firm", this.firmId, sharedPartName)
       .then(() => {
         SilverfinToolkit.toolkit
           .addSharedPart(
+            "firm",
             this.firmId,
             sharedPartName,
             this.templateHandle,
