@@ -45,11 +45,11 @@ export default class TemplateCommander {
     }
 
     const selectedFirm = await this.selectFirm();
-    if (selectedFirm?.length !== 1 || !selectedFirm) {
-      vscode.window.showErrorMessage(`One and only one firm must be selected`);
+    if (!selectedFirm) {
+      vscode.window.showErrorMessage(`No firm was selected`);
       return;
     }
-    const firmId = Number(selectedFirm[0].label);
+    const firmId = Number(selectedFirm.label);
 
     await this.performEachTemplateCall(firmId, commandName, selectedTemplates);
   }
@@ -78,11 +78,11 @@ export default class TemplateCommander {
     }
 
     const selectedFirm = await this.selectFirm();
-    if (selectedFirm?.length !== 1 || !selectedFirm) {
-      vscode.window.showErrorMessage(`One and only one firm must be selected`);
+    if (!selectedFirm) {
+      vscode.window.showErrorMessage(`No firm was selected`);
       return;
     }
-    const firmId = Number(selectedFirm[0].label);
+    const firmId = Number(selectedFirm.label);
 
     await this.performEachSharedPartCall(
       firmId,
@@ -254,7 +254,7 @@ export default class TemplateCommander {
     const selectedOption = await vscode.window.showQuickPick(optionsToSelect, {
       placeHolder: "Which firm do you want to use?",
       title: "Select a firm",
-      canPickMany: true,
+      canPickMany: false,
       matchOnDescription: true
     });
 
