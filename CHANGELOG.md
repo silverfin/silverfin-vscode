@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.16.1]
+
+- Fix shared parts Quick Fix
+ 
 ## [1.16.0]
 
 - New command to run Silverfin CLI commands in bulk. Create, update, import, add shared part, remove shared part, get template id.

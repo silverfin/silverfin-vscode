@@ -1,7 +1,7 @@
 {
   "name": "silverfin-development-toolkit",
   "displayName": "Silverfin Development Toolkit",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "publisher": "Silverfin",
   "icon": "resources/sf-icon.png",
   "engines": {
