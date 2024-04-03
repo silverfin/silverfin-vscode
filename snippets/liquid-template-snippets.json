@@ -277,6 +277,14 @@
     "prefix": "endcase",
     "body": "{% endcase %}"
   },
+  "when tag": {
+    "prefix": "when",
+    "body": ["{% when ${1:case} %}", "\t${2:content}"],
+    "description": [
+      "The when statement is used in combination with the case statement.\n",
+      "It is used to check if the case is true."
+    ]
+  },
   "for loop tag": {
     "prefix": "for",
     "body": [
@@ -523,6 +531,17 @@
       "Once you have selected \"landscape\" all the following will appear as landscape.",
       "To revert back to portrait you would need to apply the tag again."
     ]
+  },
+  "currency configuration tag": {
+    "prefix": "currencyconfiguration",
+    "body": "{% currencyconfiguration %}",
+    "description": [
+      "Configure the formatting of \"currency\" filter within the tag in a template, regardless of the firm/locale level currency display settings"
+    ]
+  },
+  "end currency configuration tag": {
+    "prefix": "endcurrencyconfiguration",
+    "body": "{% endcurrencyconfiguration %}"
   },
   "stripnewlines tag": {
     "prefix": "stripnewlines",

@@ -121,8 +121,9 @@ Snippets are available for the following categories:
 
 <br>
 
-| <span style="font-size:1.4em;">**TAG SNIPPETS**<br></span>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
+| SHORTCUT | DESCRIPTION |
 | ------------------------- | -------------------------------------------------------------------------------------- |
+| <span style="font-size:1.4em;">**TAG SNIPPETS**<br></span> |
 | **COMMENTS**                                                                                                   
 | comment                   | Add opening and closing comment-tags                                                   |
 | endcomment                | Only add the closing comment-tag                                                       |
@@ -161,7 +162,7 @@ Snippets are available for the following categories:
 | &emsp;
 | **CONTROL FLOW**
 | if                        | Add opening and closing if-tags                                                        |
-| ifelse                    | Add opening and closing if-tags with else-statement                                    |
+| if else                   | Add opening and closing if-tags with else-statement                                    |
 | endif                     | Only add closing if-tag                                                                |
 | else                      | Only add else-tag                                                                      |
 | elsif                     | Only add elsif-tag                                                                     |
@@ -254,14 +255,11 @@ Snippets are available for the following categories:
 | infotexthover             | Add an infotext with the as="hover" attribute                                          |
 | warningtextinline         | Add an inline-warningtext inside ic-tags                                               |
 | warningtextblock          | Add full-width warningtext inside ic-tags                                              |
-| warningtexthover&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; | Add an warningtext with the as="hover" attribute&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|
-
-<br>
-
-| <span style="font-size:1.4em;">**FILTER SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
-| ------------------------- | -------------------------------------------------------------------------------------- |
+| warningtexthover          | Add an warningtext with the as="hover"                                                 |
+| <br><br> |
+| <span style="font-size:1.4em;">**FILTER SNIPPETS**</span> | |
 | **DATE AND TIME**
-| date:"%d/%m/%Y"&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&emsp;&emsp;&emsp;&nbsp;&nbsp; | Add the filter for standard BE date formatting (DD/MM/YYYY)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; |
+| date:"%d/%m/%Y"           | Add the filter for standard BE date formatting (DD/MM/YYYY)                            |
 | date:"%F"                 | Add the filter for ISO date formatting (YYYY-MM-DD)                                    |
 | &emsp;
 | **LOCALIZED**
@@ -270,24 +268,21 @@ Snippets are available for the following categories:
 | &emsp;
 | **NUMBER**                
 | int                       | Add the INT type conversion function                                                   |
-| max                       | Add the MAX function to return the largest value in an array of values &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; |
+| max                       | Add the MAX function to return the largest value in an array of values                 |
 | min                       | Add the MIN function to return the smallest value in an array of values                |
-
-<br>
-
-| <span style="font-size:1.4em;">**DROPS SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
-| ------------------------- | -------------------------------------------------------------------------------------- |
+| <br><br> |
+| <span style="font-size:1.4em;">**DROPS SNIPPETS**</span> |
 | **ACCOUNTS**
-| accounts.starred<br>accounts.assets<br>accounts.liabilities<br>accounts.revenues<br>accounts.expenses<br>accounts.income<br>accounts.equity| Add the method for returning a new accounts drop with only these accounts<br><br><br><br><br><br><br> |
-| accounts.count            | Add the method which returns the number of account drops in the accounts drop |
-| accounts.credit_value     | Add the method to return the sum of all credit values for all accounts in this accounts drop for this period |
-| accounts.debit_value     | Add the method to return the sum of all debit values for all accounts in this accounts drop for this period |
-| accounts.first | Add the method to return the first account drop of the accounts drop |
-| accounts.include_zeroes | Add the method to return an accounts drop that includes all accounts, including those with a zero balance |
-| accounts.name | Add the method to return the name of the first account in this drop |
+| accounts.starred<br>accounts.assets<br>accounts.liabilities<br>accounts.revenues<br>accounts.expenses<br>accounts.income<br>accounts.equity| Add the method for returning a new accounts drop with only these accounts<br><br><br><br><br><br><br>                                                                                                               |
+| accounts.count            | Add the method which returns the number of account drops in the accounts drop                                                                      |
+| accounts.credit_value     | Add the method to return the sum of all credit values for all accounts in this accounts drop for this period                                       |
+| accounts.debit_value     | Add the method to return the sum of all debit values for all accounts in this accounts drop for this period                                         |
+| accounts.first | Add the method to return the first account drop of the accounts drop                                                                                          |
+| accounts.include_zeroes | Add the method to return an accounts drop that includes all accounts, including those with a zero balance                                            |
+| accounts.name | Add the method to return the name of the first account in this drop                                                                                            |
 | accounts.p_and_l_rounding_difference,<br>accounts.bs_rounding_difference | Add the methods to display the exact rounding difference when using the core rounding functionality |
-| p_and_l_rounding_account,<br>bs_rounding_account | Add the methods to return the account drop where the rounding difference is stored |
-| return_values_in_millions | Add the method to display the values of the account drops in the created accounts drop in millions |
+| p_and_l_rounding_account,<br>bs_rounding_account | Add the methods to return the account drop where the rounding difference is stored                                          |
+| return_values_in_millions | Add the method to display the values of the account drops in the created accounts drop in millions                                                 |
 | return_values_in_thousands | Add the method to display the values of the account drops in the created accounts drop in thousands |
 | value | Add the method to return the sum of all values for all accounts in this accounts drop for this period |
 | &emsp;
@@ -352,12 +347,9 @@ Snippets are available for the following categories:
 | **USER**
 | user.name | Add method to return name of the Silverfin user |
 | user.email | Add method to return Email of the Silverfin user |
-
-<br>
-
-| <span style="font-size:1.4em;">**TABLE SNIPPETS**</span><br>SHORTCUT | <span style="font-size:1.4em;"><br></span>DESCRIPTION |
-| ------------------------- | -------------------------------------------------------------------------------------- |
-| table&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Add snippet for a minimal HTML table with a header, body and width classes defined &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&emsp;&nbsp; |
+| <br><br> |
+| <span style="font-size:1.4em;">**TABLE SNIPPETS**</span>                                                           |
+| table | Add snippet for a minimal HTML table with a header, body and width classes defined                         |
 | thead                     | Add opening and closing thead-tags for an HTML table                                   |
 | tbody                     | Add opening and closing tbody-tags for an HTML table                                   |
 | tr                        | Add opening and closing tr-tags for an HTML table with nested td-elements              |
