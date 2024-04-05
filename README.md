@@ -241,7 +241,8 @@ Snippets are available for the following categories:
 | endcurrencyconfiguration  | Only add closing currencyconfiguration-tag                                             |
 | &emsp;
 | **NEW PAGE**
-| newpage                   | Add a newpage tag to signify the start of a new page                                   |
+| newpage                   | Add a newpage tag to signify the start of a new page in the PDF export                 |
+| section_break             | Add the attribute to create section breaks within input mode                           |
 | &emsp;
 | **STYLING**
 | stripnewlines             | Add opening and closing stripnewlines-tags                                             |

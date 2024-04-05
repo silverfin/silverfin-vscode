@@ -543,6 +543,20 @@
     "prefix": "endcurrencyconfiguration",
     "body": "{% endcurrencyconfiguration %}"
   },
+  "new page tag": {
+    "prefix": "newpage",
+    "body": "{% newpage${1| , 'landscape' , 'portrait' |}%}",
+    "description": [
+      "Insert a page break or start on a new page in the PDF export."
+    ]
+  },
+  "section break attribute": {
+    "prefix": "section_break:",
+    "body": "section_break:${1:true} ",
+    "description": [
+      "Use to visualize the split between pages in input mode."
+    ]
+  },
   "stripnewlines tag": {
     "prefix": "stripnewlines",
     "body": ["{% stripnewlines %}", "\t${1:content}", "{% endstripnewlines %}"],
@@ -607,6 +621,19 @@
     "prefix": "warningtexthover",
     "body": "{% ic %}{::warningtext as=\"hover\"}${1:content}{:/warningtext}{% endic %}",
     "description": "The Silverfin templating language gives the opportunity to add warning text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
+  "Date filter - BE format": {
+    "prefix": "date: DD/MM/YYYY",
+    "body": "| date:${1:\"%d/%m/%Y\"}",
+    "description": "Standard BE date formatting (DD/MM/YYYY)."
+  },
+  "Date filter - ISO format": {
+    "prefix": "date: YYYY-MM-DD",
+    "body": "| date:${1:\"%F\"}",
+    "description": [
+      "ISO date formatting (DD/MM/YYYY).\n",
+      "Required for calculations or comparisons between multiple dates."
+    ]
   },
   "HTML Table": {
     "prefix": "table",
