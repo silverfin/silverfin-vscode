@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.16.2]
+
+- Fix shared parts management from sidebar
+
 ## [1.16.1]
 
 - Fix shared parts Quick Fix
