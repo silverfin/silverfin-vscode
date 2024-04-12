@@ -768,15 +768,20 @@
     "body": ".count",
     "description": "Return count of all items in drop or collection (integer)"
   },
-  "Name drop": {
-    "prefix": ".name",
-    "body": ".name",
-    "description": "Return name of item. If applied to an array, will return the name of the first item in the array (String)"
+  "Email drop": {
+    "prefix": ".email",
+    "body": ".email",
+    "description": "Return email address of person or user (String)"
   },
   "First drop": {
     "prefix": ".first",
     "body": ".first",
     "description": "Return first item in drop or collection (integer)"
+  },
+  "Name drop": {
+    "prefix": ".name",
+    "body": ".name",
+    "description": "Return name of item. If applied to an array, will return the name of the first item in the array (String)"
   },    
   "Value drop": {
     "prefix": ".value",
@@ -993,17 +998,17 @@
 
   "People drops": {
     "prefix": ".people.",
-    "body": "people.${1|count,first|}",
+    "body": ".people.${1|count,first|}",
     "description": "All drops under the People drop"
   },
   "Directors drops": {
     "prefix": ".directors.",
-    "body": "people.${1|count,first,active_as_director,active_as_director_on|}",
+    "body": ".directors.${1|count,first,active_as_director,active_as_director_on|}",
     "description": "All drops under the special Directors drop"
   },
   "Shareholders drops": {
     "prefix": ".shareholders.",
-    "body": "people.${1|count,first|}",
+    "body": ".shareholders.${1|count,first|}",
     "description": "All drops under the special Shareholders drop"
   },
   "First - person drop": {
@@ -1017,7 +1022,7 @@
     "description": "Return all active directors - must use with special directors drop"
   },
   "Active as directors filter (with options)": {
-    "prefix": ".active_as_director",
+    "prefix": ".active_as_director.",
     "body": ".active_as_director.${1|count,first|}",
     "description": "All drops under the active as directors filter"
   },
@@ -1027,7 +1032,7 @@
     "description": "Return all active directors on a certain date - must use with special directors drop"
   },
   "Active as directors on filter (with options)": {
-    "prefix": ".active_as_director_on",
+    "prefix": ".active_as_director_on.",
     "body": ".active_as_director_on.${1|count,first|}",
     "description": "All drops under the active as directors on filter"
   },
@@ -1038,6 +1043,12 @@
     "body": "period.${1|accounts,account_mapping_list.name,account_mapping_list.id,account_mapping_list.marketplace_template_id,adjustments,bookyear_index,calendar_years,custom,directors,end_date,exists,fiscal_year,is_first_year,month_end_dates,name,people,reconciliations,reports,shareholders,start_date,year_end,year_end_date,year_start_date,minus_1p,minus_2p,minus_3p,minus_1y,minus_2y,minus_3y,plus_1p,plus_2p,plus_3p,plus_1y,plus_2y,plus_3y|}",
     "description": "Return all drops under the Period drop"
   },
+
+  "User drops": {
+    "prefix": "user.",
+    "body": "user.${1|name,email|}",
+    "description": "Return all drops under the User drop"
+  }
 
   "HTML Table": {
     "prefix": "table",
