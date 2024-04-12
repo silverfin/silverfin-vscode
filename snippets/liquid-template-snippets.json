@@ -682,7 +682,7 @@
   },
   "invert filter": {
     "prefix": "invert",
-    "body": ", invert:true",
+    "body": "invert:true",
     "description": [
       "Invert value of accounts",
       "Only works with the currency filter\n"
@@ -762,6 +762,399 @@
     "body": "| at_most:${1:value}",
     "description":"Limit to maximum specified value"
   },
+  "Starred accounts drop (variable)": {
+    "prefix": ".starred",
+    "body": ".starred",
+    "description": "Return all starred accounts - must use with variable of type accounts"
+
+  },
+  "Starred accounts drop (full)": {
+    "prefix": "period.accounts.starred",
+    "body": "period.accounts.starred",
+    "description": "Return all starred accounts"
+
+  },
+  "Assets accounts drop (variable)": {
+    "prefix": ".assets",
+    "body": ".assets",
+    "description": "Return all assets accounts - must use with variable of type accounts"
+
+  },
+  "Assets accounts drop (full)": {
+    "prefix": "period.accounts.assets",
+    "body": "period.accounts.assets",
+    "description": "Return all assets accounts"
+  },
+  "Liabilities accounts drop (variable)": {
+    "prefix": ".liabilities",
+    "body": ".liabilities",
+    "description": "Return all liabilities accounts - must use with variable of type accounts"
+
+  },
+  "Liabilities accounts drop (full)": {
+    "prefix": "period.accounts.liabilities",
+    "body": "period.accounts.liabilities",
+    "description": "Return all liabilities accounts"
+  },
+  "Revenues accounts drop (variable)": {
+    "prefix": ".revenues",
+    "body": ".revenues",
+    "description": "Return all revenues accounts - must use with variable of type accounts"
+
+  },
+  "Revenues accounts drop (full)": {
+    "prefix": "period.accounts.revenues",
+    "body": "period.accounts.revenues",
+    "description": "Return all revenues accounts"
+  },
+  "Expenses accounts drop (variable)": {
+    "prefix": ".expenses",
+    "body": ".expenses",
+    "description": "Return all expenses accounts - must use with variable of type accounts"
+
+  },
+  "Expenses accounts drop (full)": {
+    "prefix": "period.accounts.expenses",
+    "body": "period.accounts.expenses",
+    "description": "Return all expenses accounts"
+  },
+  "Income accounts drop (variable)": {
+    "prefix": ".income",
+    "body": ".income",
+    "description": "Return all income accounts - must use with variable of type accounts"
+
+  },
+  "Income accounts drop (full)": {
+    "prefix": "period.accounts.income",
+    "body": "period.accounts.income",
+    "description": "Return all income accounts"
+  },
+  "Equity accounts drop (variable)": {
+    "prefix": ".equity",
+    "body": ".equity",
+    "description": "Return all equity accounts - must use with variable of type accounts"
+
+  },
+  "Equity accounts drop (full)": {
+    "prefix": "period.accounts.equity",
+    "body": "period.accounts.equity",
+    "description": "Return all equity accounts"
+  },
+
+  "Accounts/ people count drop (variable)": {
+    "prefix": ".count",
+    "body": ".count",
+    "description": "Return count of all selected accounts or people - must use with variable of type accounts or people"
+  },
+  "Accounts count drop (full)": {
+    "prefix": "period.accounts.count",
+    "body": "period.accounts.count",
+    "description": "Return count of all accounts in the period"
+  },
+  "Accounts count drop (starred)": {
+    "prefix": "period.accounts.starred.count",
+    "body": "period.accounts.starred.count",
+    "description": "Return count of all starred accounts in the period"
+  },
+  "Accounts count drop (assets)": {
+    "prefix": "period.accounts.assets.count",
+    "body": "period.accounts.assets.count",
+    "description": "Return count of all assets accounts in the period"
+  },
+  "Accounts count drop (liabilities)": {
+    "prefix": "period.accounts.liabilities.count",
+    "body": "period.accounts.liabilities.count",
+    "description": "Return count of all liabilities accounts in the period"
+  },
+  "Accounts count drop (revenues)": {
+    "prefix": "period.accounts.revenues.count",
+    "body": "period.accounts.revenues.count",
+    "description": "Return count of all revenues accounts in the period"
+  },
+  "Accounts count drop (expenses)": {
+    "prefix": "period.accounts.expenses.count",
+    "body": "period.accounts.expenses.count",
+    "description": "Return count of all expenses accounts in the period"
+  },
+  "Accounts count drop (income)": {
+    "prefix": "period.accounts.income.count",
+    "body": "period.accounts.income.count",
+    "description": "Return count of all income accounts in the period"
+  },
+  "Accounts count drop (equity)": {
+    "prefix": "period.accounts.equity.count",
+    "body": "period.accounts.equity.count",
+    "description": "Return count of all equity accounts in the period"
+  },
+
+   "Accounts credit value drop (variable)": {
+    "prefix": ".credit_value",
+    "body": ".credit_value",
+    "description": "Return sum of credit value of all selected accounts - must use with variable of type accounts"
+  },
+  "Accounts credit value drop (full)": {
+    "prefix": "period.accounts.credit_value",
+    "body": "period.accounts.credit_value",
+    "description": "Return sum of credit value of all accounts in the period"
+  },
+  "Accounts credit value drop (starred)": {
+    "prefix": "period.accounts.starred.credit_value",
+    "body": "period.accounts.starred.credit_value",
+    "description": "Return sum of credit value of all starred accounts in the period"
+  },
+  "Accounts credit value drop (assets)": {
+    "prefix": "period.accounts.assets.credit_value",
+    "body": "period.accounts.assets.credit_value",
+    "description": "Return sum of credit value of all assets accounts in the period"
+  },
+  "Accounts credit value drop (liabilities)": {
+    "prefix": "period.accounts.liabilities.credit_value",
+    "body": "period.accounts.liabilities.credit_value",
+    "description": "Return sum of credit value of all liabilities accounts in the period"
+  },
+  "Accounts credit value drop (revenues)": {
+    "prefix": "period.accounts.revenues.credit_value",
+    "body": "period.accounts.revenues.credit_value",
+    "description": "Return sum of credit value of all revenues accounts in the period"
+  },
+  "Accounts credit value drop (expenses)": {
+    "prefix": "period.accounts.expenses.credit_value",
+    "body": "period.accounts.expenses.credit_value",
+    "description": "Return sum of credit value of all expenses accounts in the period"
+  },
+  "Accounts credit value drop (income)": {
+    "prefix": "period.accounts.income.credit_value",
+    "body": "period.accounts.income.credit_value",
+    "description": "Return sum of credit value of all income accounts in the period"
+  },
+  "Accounts credit value drop (equity)": {
+    "prefix": "period.accounts.equity.credit_value",
+    "body": "period.accounts.equity.credit_value",
+    "description": "Return sum of credit value of all equity accounts in the period"
+  },
+
+  "Accounts debit value drop (variable)": {
+    "prefix": ".debit_value",
+    "body": ".debit_value",
+    "description": "Return sum of debit value of all selected accounts - must use with variable of type accounts"
+  },
+  "Accounts debit value drop (full)": {
+    "prefix": "period.accounts.debit_value",
+    "body": "period.accounts.debit_value",
+    "description": "Return sum of debit value of all accounts in the period"
+  },
+  "Accounts debit value drop (starred)": {
+    "prefix": "period.accounts.starred.debit_value",
+    "body": "period.accounts.starred.debit_value",
+    "description": "Return sum of debit value of all starred accounts in the period"
+  },
+  "Accounts debit value drop (assets)": {
+    "prefix": "period.accounts.assets.debit_value",
+    "body": "period.accounts.assets.debit_value",
+    "description": "Return sum of debit value of all assets accounts in the period"
+  },
+  "Accounts debit value drop (liabilities)": {
+    "prefix": "period.accounts.liabilities.debit_value",
+    "body": "period.accounts.liabilities.debit_value",
+    "description": "Return sum of debit value of all liabilities accounts in the period"
+  },
+  "Accounts debit value drop (revenues)": {
+    "prefix": "period.accounts.revenues.debit_value",
+    "body": "period.accounts.revenues.debit_value",
+    "description": "Return sum of debit value of all revenues accounts in the period"
+  },
+  "Accounts debit value drop (expenses)": {
+    "prefix": "period.accounts.expenses.debit_value",
+    "body": "period.accounts.expenses.debit_value",
+    "description": "Return sum of debit value of all expenses accounts in the period"
+  },
+  "Accounts debit value drop (income)": {
+    "prefix": "period.accounts.income.debit_value",
+    "body": "period.accounts.income.debit_value",
+    "description": "Return sum of debit value of all income accounts in the period"
+  },
+  "Accounts debit value drop (equity)": {
+    "prefix": "period.accounts.equity.debit_value",
+    "body": "period.accounts.equity.debit_value",
+    "description": "Return sum of debit value of all equity accounts in the period"
+  },
+
+  "First account drop (variable)": {
+    "prefix": ".first",
+    "body": ".first",
+    "description": "Return first account drop from all selected accounts - must use with variable of type accounts"
+  },
+  "First account drop (full)": {
+    "prefix": "period.accounts.first",
+    "body": "period.accounts.first",
+    "description": "Return first account drop from all accounts in the period"
+  },
+  "First account drop (starred)": {
+    "prefix": "period.accounts.starred.first",
+    "body": "period.accounts.starred.first",
+    "description": "Return first account drop from all starred accounts in the period"
+  },
+  "First account drop (assets)": {
+    "prefix": "period.accounts.assets.first",
+    "body": "period.accounts.assets.first",
+    "description": "Return first account drop from all assets accounts in the period"
+  },
+  "First account drop (liabilities)": {
+    "prefix": "period.accounts.liabilities.first",
+    "body": "period.accounts.liabilities.first",
+    "description": "Return first account drop from all liabilities accounts in the period"
+  },
+  "First account drop (revenues)": {
+    "prefix": "period.accounts.revenues.first",
+    "body": "period.accounts.revenues.first",
+    "description": "Return first account drop from all revenues accounts in the period"
+  },
+  "First account drop (expenses)": {
+    "prefix": "period.accounts.expenses.first",
+    "body": "period.accounts.expenses.first",
+    "description": "Return first account drop from all expenses accounts in the period"
+  },
+  "First account drop (income)": {
+    "prefix": "period.accounts.income.first",
+    "body": "period.accounts.income.first",
+    "description": "Return first account drop from all income accounts in the period"
+  },
+  "First account drop (equity)": {
+    "prefix": "period.accounts.equity.first",
+    "body": "period.accounts.equity.first",
+    "description": "Return first account drop from all equity accounts in the period"
+  },
+
+  "Account drop including zeroes (variable)": {
+    "prefix": ".include_zeroes",
+    "body": ".include_zeroes",
+    "description": "Return accounts drop - including accounts with a zero balance - from all selected accounts - must use with variable of type accounts"
+  },
+  "Account drop including zeroes (full)": {
+    "prefix": "period.accounts.include_zeroes",
+    "body": "period.accounts.include_zeroes",
+    "description": "Return accounts drop - including accounts with a zero balance - from all accounts in the period"
+  },
+  "Account drop including zeroes (starred)": {
+    "prefix": "period.accounts.starred.include_zeroes",
+    "body": "period.accounts.starred.include_zeroes",
+    "description": "Return accounts drop - including accounts with a zero balance - from all starred accounts in the period"
+  },
+  "Account drop including zeroes (assets)": {
+    "prefix": "period.accounts.assets.include_zeroes",
+    "body": "period.accounts.assets.include_zeroes",
+    "description": "Return accounts drop - including accounts with a zero balance - from all assets accounts in the period"
+  },
+  "Account drop including zeroes (liabilities)": {
+    "prefix": "period.accounts.liabilities.include_zeroes",
+    "body": "period.accounts.liabilities.include_zeroes",
+    "description": "Return accounts drop - including accounts with a zero balance - from all liabilities accounts in the period"
+  },
+  "Account drop including zeroes (revenues)": {
+    "prefix": "period.accounts.revenues.include_zeroes",
+    "body": "period.accounts.revenues.include_zeroes",
+    "description": "Return accounts drop - including accounts with a zero balance - from all revenues accounts in the period"
+  },
+  "Account drop including zeroes (expenses)": {
+    "prefix": "period.accounts.expenses.include_zeroes",
+    "body": "period.accounts.expenses.include_zeroes",
+    "description": "Return accounts drop - including accounts with a zero balance - from all expenses accounts in the period"
+  },
+  "Account drop including zeroes (income)": {
+    "prefix": "period.accounts.income.include_zeroes",
+    "body": "period.accounts.income.include_zeroes",
+    "description": "Return accounts drop - including accounts with a zero balance - from all income accounts in the period"
+  },
+  "Account drop including zeroes (equity)": {
+    "prefix": "period.accounts.equity.include_zeroes",
+    "body": "period.accounts.equity.include_zeroes",
+    "description": "Return accounts drop - including accounts with a zero balance - from all equity accounts in the period"
+  },
+
+  "Accounts name drop (variable)": {
+    "prefix": ".name",
+    "body": ".name",
+    "description": "Return the name of the first account from all selected accounts - must use with variable of type accounts"
+  },
+  "Accounts name drop (full)": {
+    "prefix": "period.accounts.name",
+    "body": "period.accounts.name",
+    "description": "Return the name of the first account from all accounts in the period"
+  },
+
+  "Pnl rounding difference drop (variable)": {
+    "prefix": ".p_and_l_rounding_difference",
+    "body": ".p_and_l_rounding_difference",
+    "description": "Return exact PnL rounding difference when using the core rounding functionality - must use with variable of type accounts"
+  },
+  "Pnl rounding difference drop (full)": {
+    "prefix": "period.accounts.p_and_l_rounding_difference",
+    "body": "period.accounts.p_and_l_rounding_difference",
+    "description": "Return exact PnL rounding difference when using the core rounding functionality from all accounts in the period"
+  },
+
+  "BS rounding difference drop (variable)": {
+    "prefix": ".bs_rounding_difference",
+    "body": ".bs_rounding_difference",
+    "description": "Return exact BS rounding difference when using the core rounding functionality - must use with variable of type accounts"
+  },
+  "BS rounding difference drop (full)": {
+    "prefix": "period.accounts.bs_rounding_difference",
+    "body": "period.accounts.bs_rounding_difference",
+    "description": "Return exact BS rounding difference when using the core rounding functionality from all accounts in the period"
+  },
+
+  "PnL rounding account": {
+    "prefix": "p_and_l_rounding_account",
+    "body": "p_and_l_rounding_account",
+    "description": "Return the account used for PnL rounding"
+  },
+  "BS rounding account": {
+    "prefix": "bs_rounding_account",
+    "body": "bs_rounding_account",
+    "description": "Return the account used for BS rounding"
+  },
+
+  "Return (account) values in millions (variable)": {
+    "prefix": ".return_values_in_millions",
+    "body": ".return_values_in_millions",
+    "description": "Return value of the individual account drops in the selected accounts drop in millions - must use with variable of type accounts"
+  },
+  "Return (account) values in millions (full)": {
+    "prefix": "period.accounts.return_values_in_millions",
+    "body": "period.accounts.return_values_in_millions",
+    "description": "Return value of the individual account dropsfrom all accounts for the period in millions"
+  },
+
+  "Return (account) values in thousands (variable)": {
+    "prefix": ".return_values_in_thousands",
+    "body": ".return_values_in_thousands",
+    "description": "Return value of the individual account drops in the selected accounts drop in thousands - must use with variable of type accounts"
+  },
+  "Return (account) values in thousands (full)": {
+    "prefix": "period.accounts.return_values_in_thousands",
+    "body": "period.accounts.return_values_in_thousands",
+    "description": "Return value of the individual account drops from all accounts for the period in thousands"
+  },
+
+  "Value of account/accounts drop (full)": {
+    "prefix": ".value",
+    "body": ".value",
+    "description": "Return (sum) value of the account/accounts drop - must use with variable of type account or accounts"
+  },
+  "Return (account) values in thousands (full)": {
+    "prefix": "period.accounts.value",
+    "body": "period.accounts.value",
+    "description": "Return sum value of all accounts for the period"
+  },
+
+
+  "Period accounts drop": {
+    "prefix": "period.accounts",
+    "body": "period.accounts",
+    "description": "Return all accounts in the period"
+  },
+
   "HTML Table": {
     "prefix": "table",
     "body": [

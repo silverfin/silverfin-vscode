@@ -297,8 +297,8 @@ Snippets are available for the following categories:
 | accounts.name | Add the method to return the name of the first account in this drop                                                                                            |
 | accounts.p_and_l_rounding_difference,<br>accounts.bs_rounding_difference | Add the methods to display the exact rounding difference when using the core rounding functionality |
 | p_and_l_rounding_account,<br>bs_rounding_account | Add the methods to return the account drop where the rounding difference is stored                                          |
-| return_values_in_millions | Add the method to display the values of the account drops in the created accounts drop in millions                                                 |
-| return_values_in_thousands | Add the method to display the values of the account drops in the created accounts drop in thousands |
+| return_values_in_millions | Add the method to display the value of the individual account drops in the created accounts drop in millions                                                 |
+| return_values_in_thousands | Add the method to display the value of the individual account drops in the created accounts drop in thousands |
 | value | Add the method to return the sum of all values for all accounts in this accounts drop for this period |
 | &emsp;
 | **COMPANY**
