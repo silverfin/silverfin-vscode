@@ -399,8 +399,8 @@ Some drops contain _identical_ sub-drops e.g. first exists for _both_ the accoun
 | b                         | Add opening and closing b-tags for bold text formatting in HTML                        |
 | i                         | Add opening and closing i-tags for italic text formatting in HTML                      |
 | u                         | Add opening and closing u-tags for underlined text formatting in HTML                  |
-| usr-width-                | Add usr-width-\* class                                                                 |
-| usr-align-left            | Add usr-align-left class                                                               |
+| usr-width-                | Add usr-width-\* class |
+| usr-align-left            | Add usr-align-left class |
 | usr-align-center          | Add usr-align-center class                                                             |
 | usr-align-right           | Add usr-align-right class                                                              |
 | usr-align-justify         | Add usr-align-justify class                                                            |
@@ -416,10 +416,12 @@ Some drops contain _identical_ sub-drops e.g. first exists for _both_ the accoun
 | usr-double-line-right     | Add usr-double-line-right class                                                        |
 | usr-line-left             | Add usr-line-left class                                                                |
 | usr-valign-center         | Add usr-valign-center class                                                            |
-| usr-line-right            | Add usr-line-right class                                                               |
-| usr-indent-               | Add usr-indent class with list of possible values                                      |
-| usr-repeated-header       | Add usr-repeated-header class                                                          |
-| usr-no-left-padding       | Add usr-no-left-padding class                                                          |
+| usr-line-right                  | Add usr-line-right class |
+| usr-indent-\*                   | Add usr-indent class with list of possible values |
+| usr-repeated-header             | Add usr-repeated-header class |
+| usr-no-left-padding             | Add usr-no-left-padding class |
+| usr-grayed-out-background-input | Add class to set table cell background to grey |
+| usr-grayed-out-line-bottom-input| Add class to set faint table cell bottom lines |
 
 
 

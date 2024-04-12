@@ -1464,5 +1464,16 @@
     "prefix": "usr-no-left-padding",
     "body": "usr-no-left-padding",
     "description": "HTML removes default left padding"
+  },
+  "HTML grayed-out background": {
+    "prefix": "usr-grayed-out-background-input",
+    "body": "usr-grayed-out-background-input",
+    "description": "HTML sets background of cell to gray"
+  },
+  "HTML grayed-out bottom line": {
+    "prefix": "usr-grayed-out-line-bottom-input",
+    "body": "usr-grayed-out-line-bottom-input",
+    "description": "HTML sets bottom line of cell to gray"
   }
+
 }
