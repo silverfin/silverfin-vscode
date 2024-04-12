@@ -794,7 +794,7 @@
     "description": "Return company custom drop - can attach information independant of the period (drop)"
   },
 
-  "Accounts drops": {
+  "Accounts drop (with options)": {
     "prefix": "accounts.",
     "body": "accounts.${1|starred,assets,liabilities,revenues,expenses,income,equity,count,credit_value,debit_value,first,including_zeroes,name,p_and_l_rounding_difference,bs_rounding_difference,p_and_l_rounding_account,bs_rounding_account,return_value_in_millions,return_value_in_thousands|}",
     "description": "All drops under the accounts drop"
@@ -925,7 +925,7 @@
     "description": "Return value of the individual account drops in the selected accounts drop in thousands - must use with variable of type accounts"
   },
 
-  "Company drops": {
+  "Company drop (with options)": {
     "prefix": "company.",
     "body": "company.${1|analytical_type_(0..x)_codes,city,company_form,company_type,country,country_code,currency,custom,file_code,locales,name,periods_per_year,postalcode,street,vat_identifier|}",
     "description": "Return all drops under the Company drop"
@@ -996,7 +996,7 @@
     "description": "Return VAT identifier from company settings (String)"
   },
 
-  "People drops": {
+  "People drop (with options)": {
     "prefix": ".people.",
     "body": ".people.${1|count,first|}",
     "description": "All drops under the People drop"
@@ -1043,12 +1043,53 @@
     "body": "period.${1|accounts,account_mapping_list.name,account_mapping_list.id,account_mapping_list.marketplace_template_id,adjustments,bookyear_index,calendar_years,custom,directors,end_date,exists,fiscal_year,is_first_year,month_end_dates,name,people,reconciliations,reports,shareholders,start_date,year_end,year_end_date,year_start_date,minus_1p,minus_2p,minus_3p,minus_1y,minus_2y,minus_3y,plus_1p,plus_2p,plus_3p,plus_1y,plus_2y,plus_3y|}",
     "description": "Return all drops under the Period drop"
   },
+  "Accounts drop": {
+    "prefix": ".accounts",
+    "body": ".accounts",
+    "description": "Return all accounts in the period - must use with variable of type period (drop)"
+  },
+  "Directors drop": {
+    "prefix": ".directors",
+    "body": ".directors",
+    "description": "Return all directors in the period - must use with variable of type period (special drop)"
+  },
+  "People drop": {
+    "prefix": ".people",
+    "body": ".people",
+    "description": "Return all people in the period - must use with variable of type period (drop)"
+  },
+  "Shareholders drop": {
+    "prefix": ".shareholders",
+    "body": ".shareholders",
+    "description": "Return all shareholders in the period - must use with variable of type period (special drop)"
+  },
+  "Reconciliations drop": {
+    "prefix": ".reconciliations",
+    "body": ".reconciliations",
+    "description": "Return all reconciliations in the period - must use with variable of type period (drop)"
+  },
 
+  "Reconciliations drop (with options)": {
+    "prefix": ".reconciliations.",
+    "body": ".reconciliations.${1|[reconciliation_handle],count,star|}",
+    "description": "All drops under the Reconciliations drop"
+  },
+  "Reconciliation star drop": {
+    "prefix": ".star",
+    "body": ".star",
+    "description": "Return all starred reconciliations - must use with variable of type reconciliations (drop)"
+  },
+  "Reconciliation star drop (with options)": {
+    "prefix": ".star.",
+    "body": ".star.${1|[handle],count|}",
+    "description": "All drops under the Starred Reconciliation drop"
+  },
+  
   "User drops": {
     "prefix": "user.",
     "body": "user.${1|name,email|}",
     "description": "Return all drops under the User drop"
-  }
+  },
 
   "HTML Table": {
     "prefix": "table",
