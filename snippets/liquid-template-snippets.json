@@ -99,6 +99,11 @@
   "as integer attribute": {
     "prefix": "as:integer",
     "body": "as:integer",
+    "description": "When using the \"as integer\", a standard string field is shown as an integer value."
+  },
+  "as percentage attribute": {
+    "prefix": "as:percentage",
+    "body": "as:percentage",
     "description": "When using the \"as percentage\", a standard string field is shown as a percentage value."
   },
   "as boolean attribute": {
@@ -115,6 +120,34 @@
     "prefix": "as:file",
     "body": "as:file",
     "description": "Using file as a value for the as attribute gives the opportunity to upload and\nattachment or annex that can contain multiple files by clicking the paperclip icon."
+  },
+  "document attribute": {
+    "prefix": ".document",
+    "body": ".document",
+    "description": [
+      "Render name of the (first) attached documents of a relevant custom value"
+    ]
+  },
+  "documents attribute": {
+    "prefix": ".documents",
+    "body": ".documents",
+    "description": [
+      "Render names of all attached documents of a relevant custom value"
+    ]
+  },
+  "document name": {
+    "prefix": ".file_name",
+    "body": ".file_name",
+    "description": [
+      "Render document name of a relevant custom value"
+    ]
+  },
+  "docment link": {
+    "prefix": ".link",
+    "body": ".link",
+    "description": [
+      "Render link to a document preview of a relevant custom value"
+    ]
   },
   "as select attribute": {
     "prefix": "as:select",
@@ -136,7 +169,7 @@
   "precision attribute": {
     "prefix": "precision",
     "body": "precision:${1:1}",
-    "description": "Defines the amount of decimals stored for percentage values"
+    "description": "Defines the amount of decimals stored for percentage values and in currency configuration"
   },
   "strip insignificant zeros attribute": {
     "prefix": "strip_insignificant_zeros:",
@@ -191,6 +224,18 @@
       "It can be used in combination with nearly any type of input tag and it shows a default value."
     ]
   },
+
+  "radiogroup tag": {
+    "prefix": "radiogroup",
+    "body": ["{% radiogroup ${2:namespace}.${3:key} %}", "{% radioinput label:\"${4:label}\" value:\"${5:value}\" %}", "{% endradiogroup %}"],
+    "description": "Radio button input group tag. Presents a list of answers, of which only one can be selected."
+  },
+  "radioinput tag": {
+    "prefix": "radioinput",
+    "body": "{% radioinput label:\"${1:label}\" value:\"${2:value}\" %}",
+    "description": "Radio button input tag. Use to add a radio button to a radiogroup."
+  },
+
   "if tag": {
     "prefix": "if",
     "body": ["{% if ${1:var} %}", "\t${2:content}", "{% endif %}"],
@@ -285,6 +330,7 @@
       "It is used to check if the case is true."
     ]
   },
+
   "for loop tag": {
     "prefix": "for",
     "body": [
@@ -322,6 +368,14 @@
   "end fori loop tag": {
     "prefix": "endfori",
     "body": "{% endfori %}"
+  },
+  "import_title attribute": {
+    "prefix": "import_title:",
+    "body": "import_title:\"${1:title}\"",
+    "description": [
+      "Use attribute to distinguish between imported collections.",
+      "Apply to fori tag for collection name, and inputs for name of fields"
+    ]
   },
   "index forloop": {
     "prefix": "forloop.index",
@@ -368,6 +422,7 @@
     "body": "reversed",
     "description": "Reversed tag allows to reverse the order of the loop."
   },
+
   "unreconciled tag": {
     "prefix": "unreconciled",
     "body": "{% unreconciled ${1:value} as:indicator unreconciled_text:${2:description} %}",
@@ -377,6 +432,7 @@
       "When the formula within an unreconciled tag has zero as an outcome (not to be mistaken for empty),\nthe template will be fully reconciled and a green dot will be visible at the template level."
     ]
   },
+
   "result tag": {
     "prefix": "result",
     "body": "{% result \"${1:name}\" ${2:content} %}",
@@ -384,6 +440,7 @@
       "If you want to reference a certain value or variable from\nreconciliation template A in another template, it can be done with the so-called result tags\nin Silverfin templating language (further on - STL)."
     ]
   },
+
   "rollforward tag": {
     "prefix": "rollforward",
     "body": "{% rollforward ${1:value_to_rollforward} ${2:target_input} %}",
@@ -400,6 +457,7 @@
       "This can be useful if you only want to rollforward in specific cases."
     ]
   },
+
   "locale tag": {
     "prefix": "locale",
     "body": ["{% locale ${1:locale} %}", "\t${2:content}", "{% endlocale %}"],
@@ -411,9 +469,10 @@
     "prefix": "endlocale",
     "body": "{% endlocale %}"
   },
+
   "include part tag": {
     "prefix": "include",
-    "body": "{% include \"${1:parts}/${2:part_name}\" %}",
+    "body": "{% include \"parts/${2:[part name]}\" %}",
     "description": [
       "The code of reconciliation templates is stored in a main part and in 15 optional parts.",
       "The main part is always loaded first, while the additional parts are only loaded when they are called."
@@ -421,12 +480,13 @@
   },
   "include shared part tag": {
     "prefix": "include",
-    "body": "{% include \"${1:shared}/${2:part_name}\" %}",
+    "body": "{% include \"shared/${2:[shared part name]}\" %}",
     "description": [
       "The code of reconciliation templates is stored in a main part and in 15 optional parts.",
       "The main part is always loaded first, while the additional parts are only loaded when they are called."
     ]
   },
+
   "linkto tag": {
     "prefix": "linkto",
     "body": "{% linkto period.reconciliations.${1:handle} %}${2:text}{% endlinkto %}",
@@ -461,6 +521,7 @@
     "body": "as:button",
     "description": ["Turn the link to into a button"]
   },
+
   "adjustment button tag": {
     "prefix": "adjustmentbutton",
     "body": [
@@ -479,6 +540,7 @@
     "body": "{% adjustmenttransaction account_number:${1:number} description:\"${2:text}\" value:${3:value} %}",
     "description": "Can only be inside the Adjustment Button."
   },
+
   "group tag": {
     "prefix": "group",
     "body": ["{% nic %}", "{:/group}", "{::group}", "{% endnic %}"],
@@ -487,6 +549,7 @@
       "This is due to the fact that the group tag is already opened in advanced settings in styles of the template and/or of the header of the template."
     ]
   },
+
   "addnewinputs tag": {
     "prefix": "addnewinputs",
     "body": ["{% addnewinputs %}", "\t${1:content}", "{% endaddnewinputs %}"],
@@ -496,6 +559,7 @@
     "prefix": "endaddnewinputs",
     "body": "{% endaddnewinputs %}"
   },
+
   "signmarker tag": {
     "prefix": "signmarker",
     "body": "{% signmarker ${1:parameters} %}",
@@ -512,6 +576,7 @@
       "on_behalf_of"
     ]
   },
+
   "push tag": {
     "prefix": "push",
     "body": "{% push ${1:item} to:${2:array} %}",
@@ -522,6 +587,7 @@
     "body": "{% pop ${1:item} to:${2:array} %}",
     "description": "Pop tag will remove the last item of your array and will give you the option to store this value into a variable."
   },
+
   "change orientation tag": {
     "prefix": "changeorientation",
     "body": "{% changeorientation \"${1:landscape}{2:portrait}\" %}",
@@ -532,6 +598,7 @@
       "To revert back to portrait you would need to apply the tag again."
     ]
   },
+
   "currency configuration tag": {
     "prefix": "currencyconfiguration",
     "body": "{% currencyconfiguration %}",
@@ -543,6 +610,27 @@
     "prefix": "endcurrencyconfiguration",
     "body": "{% endcurrencyconfiguration %}"
   },
+  "currency configuration zero format attribute": {
+    "prefix": "zero_format:",
+    "body": "zero_format:\"${1|0,-|}\"",
+    "description": "Set format of zero values in currency configuration"
+  },
+  "currency configuration negative format attribute": {
+    "prefix": "negative_format:",
+    "body": "negative_format:\"${1|-xxx,(xxx)|}\"",
+    "description": "Set format of negative values in currency configuration"
+  },
+  "currency configuration delimiter attribute": {
+    "prefix": "delimiter:",
+    "body": "delimiter:${1|\"\\,\",\".\",\"\",\" \"|}",
+    "description": "Set delimiter in currency configuration"
+  },
+  "currency configuration separator attribute": {
+    "prefix": "separator:",
+    "body": "separator:\"${1|\\,,.|}\"",
+    "description": "Set separator in currency configuration"
+  },
+
   "new page tag": {
     "prefix": "newpage",
     "body": "{% newpage${1| , 'landscape' , 'portrait' |}%}",
@@ -554,9 +642,10 @@
     "prefix": "section_break:",
     "body": "section_break:${1:true} ",
     "description": [
-      "Use to visualize the split between pages in input mode."
+      "Use to visualize the split between pages in input mode. Use with newpage tag"
     ]
   },
+
   "stripnewlines tag": {
     "prefix": "stripnewlines",
     "body": ["{% stripnewlines %}", "\t${1:content}", "{% endstripnewlines %}"],
@@ -622,6 +711,15 @@
     "body": "{% ic %}{::warningtext as=\"hover\"}${1:content}{:/warningtext}{% endic %}",
     "description": "The Silverfin templating language gives the opportunity to add warning text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
   },
+
+  ".size": {
+    "prefix": ".size",
+    "body": ".size",
+    "description": [
+      "Return size of an array or string"
+    ]
+  },
+
   "Date filter - BE format": {
     "prefix": "date: DD/MM/YYYY",
     "body": "| date:${1:\"%d/%m/%Y\"}",
@@ -635,6 +733,18 @@
       "Required for calculations or comparisons between multiple dates."
     ]
   },
+
+  "Localized filter": {
+    "prefix": "localized",
+    "body": "| localized",
+    "description":"Render String in local language"
+  },
+  "Localized attribute": {
+    "prefix": "localized",
+    "body": "localized:true ",
+    "description":"Set local language to be applied to the input field"
+  },
+
   "abs filter": {
     "prefix": "abs",
     "body": "| abs",
@@ -1014,7 +1124,7 @@
   "First - person drop": {
     "prefix": ".first.",
     "body": ".first.${1|address_1,address_2,amount_of_shares,amount_of_votes,custom,director,director_end_date,director_start_date,email,external_id,name,persistent_id,shareholder,statutory|}",
-    "description": "All drops under the first drop, when applied to a people drop"
+    "description": "All drops under the person drop"
   },
   "Active as directors filter": {
     "prefix": ".active_as_director",

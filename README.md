@@ -119,10 +119,21 @@ Snippets are available for the following categories:
  - Drops
  - Tables
 
+### Drops
+When selecting a drop snippet, you will have two options to choose from:
+ - [some_drop]
+ - [some_drop].
+
+The first option will _close_ the drop
+
+The second option, with the period, will continue the drop. On selecting this snippet, you will be given a list of available sub-drops for that drop. First navigate to the relevant sub-drop. If you wish to close off the drop, select the sub-drop you require using the mouse or by pressing enter. However, _if you wish to continue the drop_, instead start to type in the name of the required sub-drop, and then select the relevant snippet as before.
+
+Some drops contain _identical_ sub-drops e.g. first exists for _both_ the accounts and the people drop. In such cases, you will be provided multiple snippets to choose from, so please pick the one with the relevant description.
+
 <br>
 
-| SHORTCUT | DESCRIPTION |
-| ------------------------- | -------------------------------------------------------------------------------------- |
+| SHORTCUT                  | DESCRIPTION |
+| ------------------------- | ---------------------------------------- |
 | <span style="font-size:1.4em;">**TAG SNIPPETS**<br></span> |
 | **COMMENTS**                                                                                                   
 | comment                   | Add opening and closing comment-tags                                                   |
@@ -133,35 +144,45 @@ Snippets are available for the following categories:
 | endnic                    | Only add the closing nic-tag                                                           |
 | &emsp;
 | **VARIABLES**
-| assign                    | Add an assign-tag                                                                      |
-| capture                   | Add opening and closing capture-tags                                                   |
-| endcapture                | Only add the closing capture-tag                                                       |
+| assign                    | Add an assign-tag        |
+| capture                   | Add opening and closing capture-tags |
+| endcapture                | Only add the closing capture-tag |
 | &emsp;
 | **TRANSLATIONS**
-| t=                        | Set a translation with a default (different languages to be set depending on market)   |
-| t                         | Get a defined translation                                                              |
+| t=                        | Set a translation with a default (different languages to be set depending on market) |
+| t                         | Get a defined translation |
 | &emsp;
 | **INPUT**
-| input                     | Add a standard text-input                                                              |
-| as:text                   | Add the attribute for a textarea input                                                 |
-| as:currency               | Add the attribute for a currency input                                                 |
-| as:integer                | Add the attribute for an integer input                                                 |
-| as:boolean                | Add the attribute for a boolean input                                                  |
-| as:date                   | Add the attribute for a date input                                                     |
-| as:file                   | Add the attribute for a file input                                                     |
-| as:select                 | Add the attribute for a select input                                                   |
-| as:account_collection     | Add the attribute for an account collection input                                      |
-| precision                 | Add the attribute to define the precision on an input                                  |
+| input                     | Add a standard text-input |
+| &emsp; as:text                  | Add the attribute for a textarea input |
+| &emsp; as:currency              | Add the attribute for a currency input |
+| &emsp; as:integer               | Add the attribute for an integer input |
+| &emsp; as:percentage            | Add the attribute for a percentage input |
+| &emsp; &emsp;precision:         | Add the attribute to define the precision on a percentage input |
+| &emsp; as:boolean               | Add the attribute for a boolean input |
+| &emsp; as:date                  | Add the attribute for a date input |
+| &emsp;&emsp; format:            | Add the attribute to define the date format display inside an input |
+| &emsp; as:file                  | Add the attribute for a file input |
+| &emsp;&emsp;document <br><br>   | Add the attribute to show name of the (first) attached documents of a relevant custom value |
+| &emsp;&emsp;documents <br><br>  | Add the attribute to show names of all attached documents of a relevant custom value |
+| &emsp;&emsp;[some documents].size | Count number of files attached of a relevant custom value|
+| &emsp;&emsp;[some document].file_name | Render name of relevant document |
+| &emsp;&emsp;[some document].link | Render link to preview of relevant document |
+| &emsp;as:select                 | Add the attribute for a select input |
+| &emsp;&emsp;options:            | Add the options attribute to a select input |
+| &emsp;&emsp;option_values:      | Add the option_values attribute to a select input |
+| &emsp;as:account_collection     | Add the attribute for an account collection input |
 | strip_insignificant_zeros | Add the attribute to strip the final decimal zeros from a percentage value on an input |
-| format                    | Add the attribute to define the date format display inside an input                    |
-| options:                  | Add the options attribute to a select input                                            |
-| option_values:            | Add the option_values attribute to a select input                                      |
-| placeholder:              | Add the placeholder attribute to an input                                              |
-| required:                 | Add the required attribute to an input                                                 |
-| default:                  | Add the default attribute or filter to an input or variable                            |
+| &emsp;placeholder:        | Add the placeholder attribute to an input |
+| &emsp;required:           | Add the required attribute to an input |
+| &emsp;default:            | Add the default attribute or filter to an input or variable |
+| &emsp;
+| **RADIO GROUP**
+| radiogroup | Add a radio button input group |
+| radioinput | Add individual buttons within a radio button group |
 | &emsp;
 | **CONTROL FLOW**
-| if                        | Add opening and closing if-tags                                                        |
+| if                        | Add opening and closing if-tags |
 | if else                   | Add opening and closing if-tags with else-statement                                    |
 | endif                     | Only add closing if-tag                                                                |
 | else                      | Only add else-tag                                                                      |
@@ -175,15 +196,16 @@ Snippets are available for the following categories:
 | when                      | Add a when-tag that is used within case-tags                                           |
 | &emsp;
 | **ITERATIONS**
-| for                       | Add opening and closing forloop-tags                                                   |
-| endfor                    | Only add closing forloop-tag                                                           |
-| fori                      | Add opening and closing foriloop-tags                                                  |
-| endfori                   | Only add closing foriloop-tag                                                          |
-| forloop.index             | Add the forloop.index variable inside a forloop                                        |
-| forloop.index0            | Add the forloop.index0 variable inside a forloop                                       |
-| forloop.first             | Add the forloop.first variable inside a forloop                                        |
-| forloop.last              | Add the forloop.last variable inside a forloop                                         |
-| break                     | Add the break-tag inside a forloop                                                     |
+| for                       | Add opening and closing forloop-tags |
+| endfor                    | Only add closing forloop-tag |
+| fori                      | Add opening and closing foriloop-tags |
+| endfori                   | Only add closing foriloop-tag |
+| &emsp; import_title <br><br> | Add import_title attribute to _both_ fori loops and inputs within fori loop when importing reconciliation data to distinguish between different collections |
+| forloop.index             | Add the forloop.index variable inside a forloop |
+| forloop.index0            | Add the forloop.index0 variable inside a forloop |
+| forloop.first             | Add the forloop.first variable inside a forloop |
+| forloop.last              | Add the forloop.last variable inside a forloop |
+| break                     | Add the break-tag inside a forloop |
 | continue                  | Add the continue-tag inside a forloop                                                  |
 | limit                     | Add the limit attribute to a forloop                                                   |
 | offset                    | Add the offset attribute to a forloop                                                  |
@@ -237,8 +259,13 @@ Snippets are available for the following categories:
 | changeorientation         | Add a changeorientation tag                                                            |
 | &emsp;
 | **CURRENCY CONFIGURATION**|               
-| currencyconfiguration     | Add opening and closing currencyconfiguration-tags with the possible attributes        |
-| endcurrencyconfiguration  | Only add closing currencyconfiguration-tag                                             |
+| currencyconfiguration     | Add opening and closing currencyconfiguration tags with the possible attributes |
+| endcurrencyconfiguration  | Only add closing currencyconfiguration tag |
+| zero_format               | Add attribute to set format of zeroes to "0" or "-" |
+| negative_format           | Add attribute to set format of negative numbers to "-xxx" or "(xxx)" |
+| precision                 | Add attribute to set number of decimal places |
+| delimiter                 | Add attribute to set style of delimiters to "x,xxx", "x.xxx", "xxxx", or "x xxx" |
+| separator                 | Add attribute to set style of decimal separator to either "x,xx" or "x.xx"
 | &emsp;
 | **NEW PAGE**
 | newpage                   | Add a newpage tag to signify the start of a new page in the PDF export                 |
