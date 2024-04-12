@@ -160,6 +160,7 @@ Some drops contain _identical_ sub-drops e.g. first exists for _both_ the accoun
 | &emsp; as:percentage            | Add the attribute for a percentage input |
 | &emsp; &emsp;precision:         | Add the attribute to define the precision on a percentage input |
 | &emsp; as:boolean               | Add the attribute for a boolean input |
+| &emsp;&emsp; autoreload:        | Add the attribute to a boolean input to auto-reload |
 | &emsp; as:date                  | Add the attribute for a date input |
 | &emsp;&emsp; format:            | Add the attribute to define the date format display inside an input |
 | &emsp; as:file                  | Add the attribute for a file input |
@@ -178,8 +179,9 @@ Some drops contain _identical_ sub-drops e.g. first exists for _both_ the accoun
 | &emsp;default:            | Add the default attribute or filter to an input or variable |
 | &emsp;
 | **RADIO GROUP**
-| radiogroup | Add a radio button input group |
-| radioinput | Add individual buttons within a radio button group |
+| radiogroup               | Add a radio button input group |
+| radioinput               | Add individual buttons within a radio button group |
+| &emsp; autoreload:       | Add the attribute to a radiogroup tag to auto-reload |
 | &emsp;
 | **CONTROL FLOW**
 | if                        | Add opening and closing if-tags |
@@ -374,10 +376,8 @@ Some drops contain _identical_ sub-drops e.g. first exists for _both_ the accoun
 | period.year_end | Add method to return the period at the end of the fiscal year this period is in |
 | period.year_end_date | Add method to return the date of the end of the fiscal year of this period |
 | period.year_start_date | Add method to return the date of the start of the fiscal year of this period |
-| period.minus_1p,<br>period.minus_2p,<br>period.minus_3p,<br>... | Add method to return the period drop of the current period minus the amount of periods defined |
-| period.minus_1y,<br>period.minus_2y,<br>period.minus_3y,<br>... | Add method to return the period drop of the current period minus the amount of years defined |
-| period.plus_1p,<br>period.plus_2p,<br>period.plus_3p,<br>... | Add method to return the period drop of the current period plus the amount of periods defined |
-| period.plus_1y,<br>period.plus_2y,<br>period.plus_3y,<br>... | Add method to return the period drop of the current period plus the amount of years defined |
+| period.minus_xp/y <br><br> | Add method to return the period drop of the current period minus the amount of periods or years defined |
+| period.plus_xp/y <br><br>  | Add method to return the period drop of the current period plus the amount of periods or years defined |
 | &emsp;
 | **RECONCILIATIONS**
 | reconciliations.count | Add method which returns the amount of active reconciliations |
@@ -414,9 +414,11 @@ Some drops contain _identical_ sub-drops e.g. first exists for _both_ the accoun
 | usr-double-line-top       | Add usr-double-line-top class                                                          |
 | usr-double-line-bottom    | Add usr-double-line-bottom class                                                       |
 | usr-double-line-right     | Add usr-double-line-right class                                                        |
-| usr-line-left             | Add usr-line-left class                                                                |
-| usr-valign-center         | Add usr-valign-center class                                                            |
+| usr-line-left             | Add usr-line-left class |
+| usr-valign-center               | Add usr-valign-center class |
 | usr-line-right                  | Add usr-line-right class |
+| usr-border-color-\*             | Add class to set table cell border colour in Hex |
+| usr-background-color-\*             | Add class to set table cell background colour in Hex |
 | usr-indent-\*                   | Add usr-indent class with list of possible values |
 | usr-repeated-header             | Add usr-repeated-header class |
 | usr-no-left-padding             | Add usr-no-left-padding class |

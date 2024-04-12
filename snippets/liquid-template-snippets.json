@@ -111,6 +111,11 @@
     "body": "as:boolean",
     "description": "When using the \"as boolean\", a checkbox is created."
   },
+  "autoreload attribute": {
+    "prefix": "autoreload",
+    "body": "autoreload:${1:true}",
+    "description": "The autoreload attribute automatically reload the page when the input field is changed."
+  },
   "as date attribute": {
     "prefix": "as:date",
     "body": "as:date",
@@ -1449,6 +1454,16 @@
     "prefix": "usr-double-line-right",
     "body": "usr-double-line-right",
     "description": "HTML create line to the right of text class"
+  },
+  "HTML border colour class": {
+    "prefix": "usr-border-color-",
+    "body": "usr-border-color-${1:Hex Colour Code}",
+    "description": "HTML sets border colour"
+  },
+  "HTML background colour class": {
+    "prefix": "usr-background-color-",
+    "body": "usr-background-color-${1:Hex Colour Code}",
+    "description": "HTML sets background colour"
   },
   "HTML indent class": {
     "prefix": "usr-indent-",
