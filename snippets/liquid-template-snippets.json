@@ -763,6 +763,32 @@
     "description":"Limit to maximum specified value"
   },
 
+  "Count drop": {
+    "prefix": ".count",
+    "body": ".count",
+    "description": "Return count of all items in drop or collection (integer)"
+  },
+  "Name drop": {
+    "prefix": ".name",
+    "body": ".name",
+    "description": "Return name of item. If applied to an array, will return the name of the first item in the array (String)"
+  },
+  "First drop": {
+    "prefix": ".first",
+    "body": ".first",
+    "description": "Return first item in drop or collection (integer)"
+  },    
+  "Value drop": {
+    "prefix": ".value",
+    "body": ".value",
+    "description": "Return (sum) value of the drop or collection (Number)"
+  },
+  "Custom drop": {
+    "prefix": ".custom.",
+    "body": ".custom.${1:namespace}.${2:key}",
+    "description": "Return company custom drop - can attach information independant of the period (drop)"
+  },
+
   "Accounts drops": {
     "prefix": "accounts.",
     "body": "accounts.${1|starred,assets,liabilities,revenues,expenses,income,equity,count,credit_value,debit_value,first,including_zeroes,name,p_and_l_rounding_difference,bs_rounding_difference,p_and_l_rounding_account,bs_rounding_account,return_value_in_millions,return_value_in_thousands|}",
@@ -838,11 +864,6 @@
     "body": ".equity.${1|count,credit_value,debit_value,first,include_zeroes,name,p_and_l_rounding_difference,bs_rounding_difference,p_and_l_rounding_account,bs_rounding_account,return_value_in_millions,return_value_in_thousands|}",
     "description": "All drops for the equity drop"
   },
-  "Accounts count drop": {
-    "prefix": ".count",
-    "body": ".count",
-    "description": "Return count of all selected accounts (integer)"
-  }, 
    "Accounts credit value drop": {
     "prefix": ".credit_value",
     "body": ".credit_value",
@@ -853,10 +874,10 @@
     "body": ".debit_value",
     "description": "Return sum of debit value of all selected accounts - must use with variable of type accounts"
   },
-  "First account drop": {
-    "prefix": ".first",
-    "body": ".first",
-    "description": "Return first account drop from all selected accounts - must use with variable of type accounts"
+  "First - account drop": {
+    "prefix": ".first.",
+    "body": ".first.${1|asset?,asset_or_expense,credit_value,custom,debit_value,equity?,expense?,id,income?,liability?,liability_or_income,link,name,mapped_number,number,opening_value,original_name,original_number,results,transactions,value,value_without_adjustments|}",
+    "description": "All drops under the account drop"
   },
   "Accounts drop including zeroes": {
     "prefix": ".include_zeroes",
@@ -868,11 +889,6 @@
     "body": ".include_zeroes.${1|starred,assets,liabilities,revenues,expenses,income,equity,count,credit_value,debit_value,first,name,p_and_l_rounding_difference,bs_rounding_difference,p_and_l_rounding_account,bs_rounding_account,return_value_in_millions,return_value_in_thousands|}",
     "description": "All drops for the equity drop"
   }, 
-  "Accounts name drop": {
-    "prefix": ".name",
-    "body": ".name",
-    "description": "Return the name of the first account from all selected accounts (String)"
-  },
   "Pnl rounding difference drop": {
     "prefix": ".p_and_l_rounding_difference",
     "body": ".p_and_l_rounding_difference",
@@ -902,11 +918,6 @@
     "prefix": ".return_values_in_thousands",
     "body": ".return_values_in_thousands",
     "description": "Return value of the individual account drops in the selected accounts drop in thousands - must use with variable of type accounts"
-  },
-  "Value of accounts drop": {
-    "prefix": ".value",
-    "body": ".value",
-    "description": "Return sum value of the accounts drop (Number)"
   },
 
   "Company drops": {
@@ -949,11 +960,6 @@
     "body": ".currency",
     "description": "Return company currency, based on country (String)"
   },
-  "Company custom drop": {
-    "prefix": ".custom",
-    "body": ".custom",
-    "description": "Return company custom drop - can attach information independant of the period (drop)"
-  },
   "Company file code drop": {
     "prefix": ".file_code",
     "body": ".file_code",
@@ -963,11 +969,6 @@
     "prefix": ".locales",
     "body": ".locales",
     "description": "Return available languages from company settings (array)"
-  },
-  "Company name drop": {
-    "prefix": ".name",
-    "body": ".name",
-    "description": "Return company name from company settings (String)"
   },
   "Company periods per year drop": {
     "prefix": ".periods_per_year",
@@ -989,6 +990,48 @@
     "body": ".vat_identifier",
     "description": "Return VAT identifier from company settings (String)"
   },
+
+  "People drops": {
+    "prefix": ".people.",
+    "body": "people.${1|count,first|}",
+    "description": "All drops under the People drop"
+  },
+  "Directors drops": {
+    "prefix": ".directors.",
+    "body": "people.${1|count,first,active_as_director,active_as_director_on|}",
+    "description": "All drops under the special Directors drop"
+  },
+  "Shareholders drops": {
+    "prefix": ".shareholders.",
+    "body": "people.${1|count,first|}",
+    "description": "All drops under the special Shareholders drop"
+  },
+  "First - person drop": {
+    "prefix": ".first.",
+    "body": ".first.${1|address_1,address_2,amount_of_shares,amount_of_votes,custom,director,director_end_date,director_start_date,email,external_id,name,persistent_id,shareholder,statutory|}",
+    "description": "All drops under the first drop, when applied to a people drop"
+  },
+  "Active as directors filter": {
+    "prefix": ".active_as_director",
+    "body": ".active_as_director",
+    "description": "Return all active directors - must use with special directors drop"
+  },
+  "Active as directors filter (with options)": {
+    "prefix": ".active_as_director",
+    "body": ".active_as_director.${1|count,first|}",
+    "description": "All drops under the active as directors filter"
+  },
+  "Active as directors on filter": {
+    "prefix": ".active_as_director_on",
+    "body": ".active_as_director_on",
+    "description": "Return all active directors on a certain date - must use with special directors drop"
+  },
+  "Active as directors on filter (with options)": {
+    "prefix": ".active_as_director_on",
+    "body": ".active_as_director_on.${1|count,first|}",
+    "description": "All drops under the active as directors on filter"
+  },
+  
 
   "Period drops": {
     "prefix": "period.",

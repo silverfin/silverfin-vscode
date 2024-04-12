@@ -318,12 +318,10 @@ Snippets are available for the following categories:
 | company.vat_identifier | Add the method to return the vat identifier from the company settings |
 | &emsp;
 | **PEOPLE**
-| people.count | Add the method to count the number of person drops on the people drop |
-| people.first | Add the method to return the first person drop in the people drop |
-| people.directors | Add the special people sub-drop which returns only the directors |
-| people.shareholders | Add the special people sub-drop which returns only the shareholders |
-| people.directors.active_as_director| Add the filter for directors which returns those directors active during the book year |
-| people.directors.active_as_director_on| Add the filter for directors which returns those directors active in a specific date |
+| people.count | Add the method to count the number of person drops on the people drop (can also use with directors and shareholders drops) |
+| people.first | Add the method to return the first person drop in the people drop (can also use with directors and shareholders drops) |
+| directors.active_as_director| Add the filter for directors which returns those directors active during the book year |
+| directors.active_as_director_on| Add the filter for directors which returns those directors active in a specific date |
 | &emsp;
 | **PERIOD**
 | period.accounts | Add the method to return a collection of all accounts with bookings on this period |
