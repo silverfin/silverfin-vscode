@@ -635,6 +635,133 @@
       "Required for calculations or comparisons between multiple dates."
     ]
   },
+  "abs filter": {
+    "prefix": "abs",
+    "body": "| abs",
+    "description":"Return the absolute value of a number"
+  },
+  "ABS function": {
+    "prefix": "ABS(",
+    "body": "ABS(${1:value})",
+    "description":"Return absolute value of wrapped input value"
+  },
+  "ceil filter": {
+    "prefix": "ceil",
+    "body": "| ceil:${1:-10 to 10}",
+    "description": [
+      "Rounds the input value up:",
+      "  ceil:0 to the nearest whole number",
+      "  ceil:1 to the nearest 0.1",
+      "  ceil:-1 to the nearest 10\n"
+    ]
+  },
+  "floor filter": {
+    "prefix": "floor",
+    "body": "| floor:${1:-10 to 10}",
+    "description": [
+      "Rounds the input value down:",
+      "  floor:0 to the nearest whole number",
+      "  floor:1 to the nearest 0.1",
+      "  floor:-1 to the nearest 10\n"
+    ]
+  },
+  "currency filter (default)": {
+    "prefix": "currency",
+    "body": "| currency",
+    "description": "Apply currency format with default of 2 decimal places"
+  },
+  "currency filter": {
+    "prefix": "currency:",
+    "body": "| currency:${1:-10 to 10}",
+    "description": [
+      "Apply currency format:",
+      "  currency:0 display no decimal places",
+      "  currency:2 display 2 decimal places",
+      "  currency:-3 hide first 3 decimals"
+    ]
+  },
+  "invert filter": {
+    "prefix": "invert",
+    "body": ", invert:true",
+    "description": [
+      "Invert value of accounts",
+      "Only works with the currency filter\n"
+    ]
+  },
+  "interger filter": {
+    "prefix": "integer",
+    "body": "| integer",
+    "description":"Convert number to an Integer value "
+  },
+  "INT function": {
+    "prefix": "INT",
+    "body": "INT(${1:value})",
+    "description":"Convert wrapped number to an Integer value "
+  },
+  "percentage filter (default)": {
+    "prefix": "percentage",
+    "body": "| percentage",
+    "description":"Apply percentage format with default of two decimal places"
+  },
+  "percentage filter": {
+    "prefix": "percentage:",
+    "body": "| percentage:${1:-10 to 10}",
+    "description": [
+      "Apply percentage format:",
+      "  percentage:0 display no decimal places",
+      "  percentage:4 display 4 decimal places"
+    ]
+  },
+  "number to human filter": {
+    "prefix": "number_to_human",
+    "body": "| number_to_human",
+    "description":"Output accounts value as combination of integers and English words e.g. 287 thousand"
+  },
+  "number to currency filter": {
+    "prefix": "number_to_currency",
+    "body": "| number_to_currency",
+    "description":"Convert String value into currency format"
+  },
+  "round filter (default)": {
+    "prefix": "round",
+    "body": "| round",
+    "description":"Apply rounding with default of two decimal places"
+  },
+  "round filter": {
+    "prefix": "round:",
+    "body": "| round:${1:-10 to 10}",
+    "description": [
+      "Apply rounding:",
+      "  round:0 round to 0 decimal places",
+      "  round:4 round to 2 decimal places",
+      "  round:-1 round to the nearest 10\n"
+    ]
+  },
+  "modulo filter": {
+    "prefix": "modulo",
+    "body": "| modulo:${1:value}",
+    "description":"Divide by value and return the remainder"
+  },
+  "MAX function": {
+    "prefix": ["max","MAX"],
+    "body": "MAX(${1:value})",
+    "description":"Apply MAX function to wrapped array"
+  },
+  "MIN function": {
+    "prefix": ["min","MIN"],
+    "body": "MIN(${1:value})",
+    "description":"Apply MIN function to wrapped array"
+  },
+  "at least filter": {
+    "prefix": "at_least",
+    "body": "| at_least:${1:value}",
+    "description":"Limit to minimum specified value"
+  },
+  "at most filter": {
+    "prefix": "at_most",
+    "body": "| at_most:${1:value}",
+    "description":"Limit to maximum specified value"
+  },
   "HTML Table": {
     "prefix": "table",
     "body": [

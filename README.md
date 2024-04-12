@@ -267,14 +267,28 @@ Snippets are available for the following categories:
 | localized                 | Add the localized filter                                                               |
 | localize:                 | Add the localize attribute                                                             |
 | &emsp;
-| **NUMBER**                
-| int                       | Add the INT type conversion function                                                   |
-| max                       | Add the MAX function to return the largest value in an array of values                 |
-| min                       | Add the MIN function to return the smallest value in an array of values                |
+| **NUMBER** 
+| abs                       | Add filter to return the absolute value of a number |
+| &emsp;ABS (function)      | Add function to return absolute value from wrapped input |
+| ceil                      | Add filter to return value rounded-up |
+| floor                     | Add filter to return value rounded-down |
+| currency                  | Add filter to return a value in the currency format |
+| &emsp;invert              | Add filter to invert value of inputed accounts - _only_ works with currency filter |
+| integer                   | Add filter to convert value to the nearest whole number |        
+| &emsp;INT (function)      | Add function to convert wrapped input to nearest whole number |
+| percentage                | Add filter to return value as percentage |
+| number_to_human<br><br>   | Add filter to convert inputted accounts into combination of integers + English words e.g. "287 Thousand" |
+| number_to_currency        | Add filter to convert a _string_ value to the currency format |
+| round                     | Add filter to return s rounded value (with default of two decimal places) |
+| modulo                    | Add filter to divide value by a number and return the remainder |
+| max (function)            | Add the MAX function to return the largest value of an array of numbers |
+| min (function)            | Add the MIN function to return the smallest value in an array of numbers |
+| At_least                  | Add filter to limit input to a minimum value |
+| At_most                   | Add filter to limit input to a maximum value |
 | <br><br> |
 | <span style="font-size:1.4em;">**DROPS SNIPPETS**</span> |
 | **ACCOUNTS**
-| accounts.starred<br>accounts.assets<br>accounts.liabilities<br>accounts.revenues<br>accounts.expenses<br>accounts.income<br>accounts.equity| Add the method for returning a new accounts drop with only these accounts<br><br><br><br><br><br><br>                                                                                                               |
+| accounts.starred<br>accounts.assets<br>accounts.liabilities<br>accounts.revenues<br>accounts.expenses<br>accounts.income<br>accounts.equity| Add the method for returning a new accounts drop with only these accounts<br><br><br><br><br><br><br> |
 | accounts.count            | Add the method which returns the number of account drops in the accounts drop                                                                      |
 | accounts.credit_value     | Add the method to return the sum of all credit values for all accounts in this accounts drop for this period                                       |
 | accounts.debit_value     | Add the method to return the sum of all debit values for all accounts in this accounts drop for this period                                         |
