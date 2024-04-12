@@ -1048,25 +1048,120 @@
     "body": ".accounts",
     "description": "Return all accounts in the period - must use with variable of type period (drop)"
   },
+  "Account mapping list name drop": {
+    "prefix": ".account_mapping_list.name",
+    "body": ".account_mapping_list.name",
+    "description": "Return name of Mapping List used for the period - must use with variable of type period (String)"
+  },
+  "Account mapping list id drop": {
+    "prefix": ".account_mapping_list.id",
+    "body": ".account_mapping_list.id",
+    "description": "Return id of Mapping List used for the period - must use with variable of type period (integer)"
+  },
+  "Account mapping list marketplace template id drop": {
+    "prefix": ".account_mapping_list.marketplace_template_id",
+    "body": ".account_mapping_list.marketplace_template_id",
+    "description": "Return id of Mapping List on the marketplace - must use with variable of type period (integer)"
+  },
+  "Adjustments drop": {
+    "prefix": ".adjustments",
+    "body": ".adjustments",
+    "description": "Return all adjustments in the period - must use with variable of type period (drop)"
+  },
+  "Bookyear index drop": {
+    "prefix": ".bookyear_index",
+    "body": ".bookyear_index",
+    "description": "Return index of the bookyear in the period (first year is 1) - must use with variable of type period (integer)"
+  },
+  "Calendar years drop": {
+    "prefix": ".calendar_years",
+    "body": ".calendar_years",
+    "description": "Return an array of all calendar years in the fiscal year - must use with variable of type period (array)"
+  },
   "Directors drop": {
     "prefix": ".directors",
     "body": ".directors",
     "description": "Return all directors in the period - must use with variable of type period (special drop)"
+  },
+  "End date drop": {
+    "prefix": ".end_date",
+    "body": ".end_date",
+    "description": "Return end date of the period - must use with variable of type period (date)"
+  },
+  "Exists drop": {
+    "prefix": ".exists",
+    "body": ".exists",
+    "description": "Return true if the period exists - must use with variable of type period (boolean)"
+  },
+  "Fiscal year drop": {
+    "prefix": ".fiscal_year",
+    "body": ".fiscal_year",
+    "description": "Return fiscal year of the period - must use with variable of type period (string)"
+  },
+  "Is first year drop": {
+    "prefix": ".is_first_year",
+    "body": ".is_first_year",
+    "description": "Return true if the period is the first book year of client file - must use with variable of type period (boolean)"
+  },
+  "Month end dates drop": {
+    "prefix": ".month_end_dates",
+    "body": ".month_end_dates",
+    "description": "Return an array of all month end dates in the fiscal year - must use with variable of type period (array)"
   },
   "People drop": {
     "prefix": ".people",
     "body": ".people",
     "description": "Return all people in the period - must use with variable of type period (drop)"
   },
+  "Reconciliations drop": {
+    "prefix": ".reconciliations",
+    "body": ".reconciliations",
+    "description": "Return all reconciliations in the period - must use with variable of type period (drop)"
+  },
+  "Reports drop": {
+    "prefix": ".reports",
+    "body": ".reports",
+    "description": "Return collection of Reports for the period - must use with variable of type period (drop)"
+  },
+  "Report drop": {
+    "prefix": ".reports.[report handle]",
+    "body": ".reports.${1:[report handle]}",
+    "description": "Return specific report for the period - must use with variable of type period (drop)"
+  },
   "Shareholders drop": {
     "prefix": ".shareholders",
     "body": ".shareholders",
     "description": "Return all shareholders in the period - must use with variable of type period (special drop)"
   },
-  "Reconciliations drop": {
-    "prefix": ".reconciliations",
-    "body": ".reconciliations",
-    "description": "Return all reconciliations in the period - must use with variable of type period (drop)"
+  "Start date drop": {
+    "prefix": ".start_date",
+    "body": ".start_date",
+    "description": "Return start date of the period - must use with variable of type period (date)"
+  },
+  "Year end drop": {
+    "prefix": ".year_end",
+    "body": ".year_end",
+    "description": "Return period drop of period at end of fiscal year - must use with variable of type period (drop)"
+  },
+  "Year end date drop": {
+    "prefix": ".year_end_date",
+    "body": ".year_end_date",
+    "description": "Return end date of the fiscal year - must use with variable of type period (date)"
+  },
+  "Year start date drop": {
+    "prefix": ".year_start_date",
+    "body": ".year_start_date",
+    "description": "Return start date of the fiscal year - must use with variable of type period (date)"
+  },
+  "Minus period/year": {
+    "prefix": ".minus_",
+    "body": ".minus_${1|1,2,3|}${2|p,y|}",
+    "description": "Return period before current period by a set number of periods or year - must use with variable of type period (drop)"
+  },
+  "Plus period/year": {
+    "prefix": ".plus_",
+    "body": ".plus_${1|1,2,3|}${2|p,y|}",
+    "description": "Return period after current period by a set number of periods or year - must use with variable of type period (drop)"
   },
 
   "Reconciliations drop (with options)": {
