@@ -39,6 +39,7 @@ export async function addSharedPartPrompt(firmId: Number) {
 
   selectedSharedParts.forEach((sharedPartName) => {
     SilverfinToolkit.toolkit.addSharedPart(
+      "firm",
       firmId,
       sharedPartName,
       templateHandle,
@@ -79,6 +80,7 @@ export async function removeSharedPartsPrompt(firmId: Number) {
 
   selectedSharedParts.forEach((sharedPartName) => {
     SilverfinToolkit.toolkit.removeSharedPart(
+      "firm",
       firmId,
       sharedPartName,
       templateHandle,
