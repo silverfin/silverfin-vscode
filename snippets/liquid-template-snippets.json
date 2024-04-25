@@ -911,7 +911,7 @@
 
   "Accounts drop (with options)": {
     "prefix": "accounts.",
-    "body": "accounts.${1|starred,assets,liabilities,revenues,expenses,income,equity,count,credit_value,debit_value,first,including_zeroes,name,p_and_l_rounding_difference,bs_rounding_difference,p_and_l_rounding_account,bs_rounding_account,return_value_in_millions,return_value_in_thousands|}",
+    "body": ".accounts.${1|assets,bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,equity,expenses,first,including_zeros,income,liabilities,name,p_and_l_rounding_account,p_and_l_rounding_difference,revenues,return_value_in_millions,return_value_in_thousands,starred|}",
     "description": "All drops under the accounts drop"
   },
   "Starred accounts drop": {
@@ -921,7 +921,7 @@
   },
   "Starred accounts drop (with options)": {
     "prefix": ".starred.",
-    "body": ".starred.${1|count,credit_value,debit_value,first,include_zeroes,name,p_and_l_rounding_difference,bs_rounding_difference,p_and_l_rounding_account,bs_rounding_account,return_value_in_millions,return_value_in_thousands|}",
+    "body": ".starred.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
     "description": "All drops under the starred drop"
   },
   "Assets accounts drop": {
@@ -931,7 +931,7 @@
   },
   "Assets accounts drop (with options)": {
     "prefix": ".assets.",
-    "body": ".assets.${1|count,credit_value,debit_value,first,include_zeroes,name,p_and_l_rounding_difference,bs_rounding_difference,p_and_l_rounding_account,bs_rounding_account,return_value_in_millions,return_value_in_thousands|}",
+    "body": ".assets.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
     "description": "All drops under the assets drop"
   },
   "Liabilities accounts drop": {
@@ -941,7 +941,7 @@
   },
   "Liabilities accounts drop (with options)": {
     "prefix": ".liabilities.",
-    "body": ".liabilities.${1|count,credit_value,debit_value,first,include_zeroes,name,p_and_l_rounding_difference,bs_rounding_difference,p_and_l_rounding_account,bs_rounding_account,return_value_in_millions,return_value_in_thousands|}",
+    "body": ".liabilities.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
     "description": "All drops under the liabilities drop"
   },
   "Revenue accounts drop": {
@@ -951,7 +951,7 @@
   },
   "Revenue accounts drop (with options)": {
     "prefix": ".revenues.",
-    "body": ".revenues.${1|count,credit_value,debit_value,first,include_zeroes,name,p_and_l_rounding_difference,bs_rounding_difference,p_and_l_rounding_account,bs_rounding_account,return_value_in_millions,return_value_in_thousands|}",
+    "body": ".revenues.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
     "description": "All drops under the revenue drop"
   },
   "Expenses accounts drop": {
@@ -961,7 +961,7 @@
   },
   "Expenses accounts drop (with options)": {
     "prefix": ".expenses.",
-    "body": ".expenses.${1|count,credit_value,debit_value,first,include_zeroes,name,p_and_l_rounding_difference,bs_rounding_difference,p_and_l_rounding_account,bs_rounding_account,return_value_in_millions,return_value_in_thousands|}",
+    "body": ".expenses.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
     "description": "All drops under the expenses drop"
   },
   "Income accounts drop": {
@@ -971,7 +971,7 @@
   },
   "Income accounts drop (with options)": {
     "prefix": ".income.",
-    "body": ".income.${1|count,credit_value,debit_value,first,include_zeroes,name,p_and_l_rounding_difference,bs_rounding_difference,p_and_l_rounding_account,bs_rounding_account,return_value_in_millions,return_value_in_thousands|}",
+    "body": ".income.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
     "description": "All drops under the income drop"
   },
   "Equity accounts drop": {
@@ -981,7 +981,7 @@
   },
   "Equity accounts drop (with options)": {
     "prefix": ".equity.",
-    "body": ".equity.${1|count,credit_value,debit_value,first,include_zeroes,name,p_and_l_rounding_difference,bs_rounding_difference,p_and_l_rounding_account,bs_rounding_account,return_value_in_millions,return_value_in_thousands|}",
+    "body": ".equity.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
     "description": "All drops for the equity drop"
   },
    "Accounts credit value drop": {
@@ -999,14 +999,14 @@
     "body": ".first.${1|asset?,asset_or_expense,credit_value,custom,debit_value,equity?,expense?,id,income?,liability?,liability_or_income,link,name,mapped_number,number,opening_value,original_name,original_number,results,transactions,value,value_without_adjustments|}",
     "description": "All drops under the account drop"
   },
-  "Accounts drop including zeroes": {
-    "prefix": ".include_zeroes",
-    "body": ".include_zeroes",
+  "Accounts drop including zeros": {
+    "prefix": ".include_zeros",
+    "body": ".include_zeros",
     "description": "Return accounts drop, including accounts with a zero balance, from all selected accounts - must use with variable of type accounts"
   },
-  "Accounts drop including zeroes (with options)": {
-    "prefix": ".include_zeroes.",
-    "body": ".include_zeroes.${1|starred,assets,liabilities,revenues,expenses,income,equity,count,credit_value,debit_value,first,name,p_and_l_rounding_difference,bs_rounding_difference,p_and_l_rounding_account,bs_rounding_account,return_value_in_millions,return_value_in_thousands|}",
+  "Accounts drop including zeros (with options)": {
+    "prefix": ".include_zeros.",
+    "body": ".include_zeros.${1|assets,bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,equity,expenses,first,income,liabilities,name,p_and_l_rounding_account,p_and_l_rounding_difference,revenues,return_value_in_millions,return_value_in_thousands,starred|}",
     "description": "All drops for the equity drop"
   }, 
   "Pnl rounding difference drop": {
@@ -1155,7 +1155,7 @@
 
   "Period drops": {
     "prefix": "period.",
-    "body": "period.${1|accounts,account_mapping_list.name,account_mapping_list.id,account_mapping_list.marketplace_template_id,adjustments,bookyear_index,calendar_years,custom,directors,end_date,exists,fiscal_year,is_first_year,month_end_dates,name,people,reconciliations,reports,shareholders,start_date,year_end,year_end_date,year_start_date,minus_1p,minus_2p,minus_3p,minus_1y,minus_2y,minus_3y,plus_1p,plus_2p,plus_3p,plus_1y,plus_2y,plus_3y|}",
+    "body": "period.${1|accounts,account_mapping_list.name,account_mapping_list.id,account_mapping_list.marketplace_template_id,adjustments,bookyear_index,calendar_years,custom,directors,end_date,exists,fiscal_year,is_first_year,month_end_dates,name,people,reconciliations,reports,shareholders,start_date,year_end,year_end_date,year_start_date,minus_,plus_|}",
     "description": "Return all drops under the Period drop"
   },
   "Accounts drop": {

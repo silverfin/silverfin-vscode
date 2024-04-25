@@ -130,6 +130,9 @@ The second option, with the period, will continue the drop. On selecting this sn
 
 Some drops contain _identical_ sub-drops e.g. first exists for _both_ the accounts and the people drop. In such cases, you will be provided multiple snippets to choose from, so please pick the one with the relevant description.
 
+#### Ctrl + Space
+If you position your cursor at the end of a drop e.g. [period.accounts] and press Ctrl + Space, you will also be provided a list of the available snippets, which you can select to access the list of sub-drops
+
 <br>
 
 | SHORTCUT                  | DESCRIPTION |
@@ -159,6 +162,7 @@ Some drops contain _identical_ sub-drops e.g. first exists for _both_ the accoun
 | &emsp; as:integer               | Add the attribute for an integer input |
 | &emsp; as:percentage            | Add the attribute for a percentage input |
 | &emsp; &emsp;precision:         | Add the attribute to define the precision on a percentage input |
+| &emsp; &emsp;strip_insignificant_zeros | Add the attribute to strip the final decimal zeros from a percentage value on an input |
 | &emsp; as:boolean               | Add the attribute for a boolean input |
 | &emsp;&emsp; autoreload:        | Add the attribute to a boolean input to auto-reload |
 | &emsp; as:date                  | Add the attribute for a date input |
@@ -173,10 +177,10 @@ Some drops contain _identical_ sub-drops e.g. first exists for _both_ the accoun
 | &emsp;&emsp;options:            | Add the options attribute to a select input |
 | &emsp;&emsp;option_values:      | Add the option_values attribute to a select input |
 | &emsp;as:account_collection     | Add the attribute for an account collection input |
-| strip_insignificant_zeros | Add the attribute to strip the final decimal zeros from a percentage value on an input |
 | &emsp;placeholder:        | Add the placeholder attribute to an input |
 | &emsp;required:           | Add the required attribute to an input |
 | &emsp;default:            | Add the default attribute or filter to an input or variable |
+| &emsp; import_title: <br><br> | Add import_title attribute to _both_ fori loops and inputs within fori loop when importing reconciliation data to distinguish between different collections |
 | &emsp;
 | **RADIO GROUP**
 | radiogroup               | Add a radio button input group |
@@ -232,11 +236,11 @@ Some drops contain _identical_ sub-drops e.g. first exists for _both_ the accoun
 | &emsp;
 | **LINKTO**
 | linkto                    | Add opening and closing linkto-tags                                                    |
+| &emsp;target:             | Add a target attribute to a linkto tag                                                 |
+| &emsp;new_tab:            | Add a new_tab attribute to a linkto tag                                                |
+| &emsp;as:button           | Add the attribute for a button to a linkto-tag                                         |
 | endlinkto                 | Only add closing linkto-tag                                                            |
 | target                    | Add a target tag with an id                                                            |
-| target:                   | Add a target attribute to a linkto tag                                                 |
-| new_tab:                  | Add a new_tab attribute to a linkto tag                                                |
-| as:button                 | Add the attribute for a button to a linkto-tag                                         |
 | &emsp;
 | **ADJUSTMENT BUTTON**
 | adjustmentbutton          | Add opening and closing adjustmentbutton-tags                                          |
@@ -314,6 +318,24 @@ Some drops contain _identical_ sub-drops e.g. first exists for _both_ the accoun
 | min (function)            | Add the MIN function to return the smallest value in an array of numbers |
 | At_least                  | Add filter to limit input to a minimum value |
 | At_most                   | Add filter to limit input to a maximum value |
+| &emsp;
+| **STRING**
+| remove                            | Add filter to removes substring from a given string |
+| replace                           | Add filter to replace substring A with substring B within a given string |
+| upcase                            | Add filter to transform all letters of a given string into uppercase |
+| downcase                          | Add filter to transform all letters of a given string into lowercase |
+| capitalize                        | Add filter to capitalise _each_ word in a given string |
+| append                            | Add filter to attach String B to the end of String A |
+| prepend                           | Add filter to attach String B at the start of String B |
+| size                              | Add filter to return the number of characters within a given String |
+| strip                             | Add filter to string any whitespaces at the start and end of a given string |
+| default                           | Add attribute to a string variable to return a default value _if_ no value stored in the variable |
+| slice                             | Add filter to return a substring of a given String, beginning from a certain index for a certain length |
+| newline_to_br / multiline_table   | Add filter to replace every newline character ("\n") with an HTML line break ("&lt;br&gt;") |
+| string_value                      | Add filter to return a value from a variable or drop as a String rather than the inferred data type |
+| url_encode                        | Add filter to replace any URL-unsafe character with three characters: a percent sign and the corresponding Hex value of the character replaced |
+| url_decode                        | Add filter to decode a String encoded by the above url_encode filter |
+| strip_html                        | Add filter to remove any HTML tags from a String |
 | <br><br> |
 | <span style="font-size:1.4em;">**DROPS SNIPPETS**</span> |
 | **ACCOUNTS**
@@ -322,7 +344,7 @@ Some drops contain _identical_ sub-drops e.g. first exists for _both_ the accoun
 | accounts.credit_value     | Add the method to return the sum of all credit values for all accounts in this accounts drop for this period                                       |
 | accounts.debit_value     | Add the method to return the sum of all debit values for all accounts in this accounts drop for this period                                         |
 | accounts.first | Add the method to return the first account drop of the accounts drop                                                                                          |
-| accounts.include_zeroes | Add the method to return an accounts drop that includes all accounts, including those with a zero balance                                            |
+| accounts.include_zeros | Add the method to return an accounts drop that includes all accounts, including those with a zero balance                                            |
 | accounts.name | Add the method to return the name of the first account in this drop                                                                                            |
 | accounts.p_and_l_rounding_difference,<br>accounts.bs_rounding_difference | Add the methods to display the exact rounding difference when using the core rounding functionality |
 | p_and_l_rounding_account,<br>bs_rounding_account | Add the methods to return the account drop where the rounding difference is stored                                          |
