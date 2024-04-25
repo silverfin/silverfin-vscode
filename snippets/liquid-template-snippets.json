@@ -803,7 +803,7 @@
       "Only works with the currency filter\n"
     ]
   },
-  "interger filter": {
+  "integer filter": {
     "prefix": "integer",
     "body": "| integer",
     "description":"Convert number to an Integer value "
@@ -877,6 +877,87 @@
     "body": "| at_most:${1:value}",
     "description":"Limit to maximum specified value"
   },
+
+  "remove filter": {
+    "prefix": "remove",
+    "body": "| remove:\"${1:sub-string}\"",
+    "description":"Remove specified value from a String"
+  },
+  "replace filter": {
+    "prefix": "replace",
+    "body": "| replace:\"${1:target sub-string}\",\"${2:replacement sub-string}\"",
+    "description":"Replace target sub-string with replacement sub-string"
+  },
+  "upcase filter": {
+    "prefix": "upcase",
+    "body": "| upcase",
+    "description":"Convert String to uppercase"
+  },
+  "downcase filter": {
+    "prefix": "downcase",
+    "body": "| downcase",
+    "description":"Convert String to lowercase"
+  },
+  "capitalize filter": {
+    "prefix": "capitalize",
+    "body": "| capitalize",
+    "description":"Capitalize each word of a String"
+  },
+  "append filter": {
+    "prefix": "append",
+    "body": "| append:\"${1:String to add}\"",
+    "description":"Add String to the end of a String"
+  },
+  "prepend filter": {
+    "prefix": "prepend",
+    "body": "| prepend:\"${1:String to add}\"",
+    "description":"Add String to the beginning of String"
+  },
+  "strip filter": {
+    "prefix": "strip",
+    "body": "| strip",
+    "description":"Remove leading and trailing whitespaces"
+  },
+  "slice": {
+    "prefix": "slice",
+    "body": "| slice:${1:start}, ${2:end}",
+    "description": [
+      "Return sub-string of a String",
+      "First argument specifies index of starting character",
+      "Second argument specifies index of character sub-string goes up to"
+    ]
+  },
+  "newline_to_br filter": {
+    "prefix": "newline_to_br",
+    "body": "| newline_to_br",
+    "description": "Convert newline characters to HTML line breaks"
+  },
+  "multiline_table filter": {
+    "prefix": "multiline_table",
+    "body": "| multiline_table",
+    "description": "Convert newline characters to HTML line breaks"
+  },
+  "string_value drop": {
+    "prefix": ".string_value",
+    "body": ".string_value",
+    "description": "Convert variable or drop to a String value"
+  },
+  "url_encode": {
+    "prefix": "url_encode",
+    "body": "| url_encode",
+    "description": "Encode any url-unsafe characters String into hex"
+  },
+  "url_decode": {
+    "prefix": "url_decode",
+    "body": "| url_decode",
+    "description": "Decode hex encoded String"
+  },
+  "strip_html filter": {
+    "prefix": "strip_html",
+    "body": "| strip_html",
+    "description":"Remove HTML tags from a String"
+  },
+
 
   "Count drop": {
     "prefix": ".count",
