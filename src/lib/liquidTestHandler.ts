@@ -80,6 +80,7 @@ export default class LiquidTestHandler {
     htmlRenderMode: types.htmlRenderModes
   ) {
     try {
+      this.setStatusBarRunning();
       this.firmId = await this.firmHandler.setFirmID();
       this.templateHandle = templateHandle;
       this.outputLog("New test run", {
@@ -89,7 +90,6 @@ export default class LiquidTestHandler {
         htmlRenderMode
       });
       // Test Run
-      this.setStatusBarRunning();
       let response: types.ResponseObject =
         await SilverfinToolkit.liquidTestRunner.runTests(
           this.firmId,
@@ -633,13 +633,6 @@ export default class LiquidTestHandler {
           );
         }
       )
-    );
-
-    // Clear Diagnostic Collection of all files when hard-closing / reloading VS code
-    extensionContext.subscriptions.push(
-      vscode.workspace.onDidCloseTextDocument((document) => {
-        extensionContext.globalState.update(document.uri.toString(), undefined);
-      })
     );
   }
 }

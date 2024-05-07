@@ -126,12 +126,5 @@ export default class DiagnosticCollectionsHandler {
         liquidTestCollection
       );
     }
-
-    // When a new file is opened for the first time. Load the Diagnostic stored from previous runs
-    extensionContext.subscriptions.push(
-      vscode.workspace.onDidOpenTextDocument(async (currentDocument) => {
-        this.loadStoredDiagnostics(currentDocument, liquidTestCollection);
-      })
-    );
   }
 }
