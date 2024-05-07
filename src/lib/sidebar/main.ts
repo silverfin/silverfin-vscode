@@ -11,7 +11,7 @@ import {
   vsCodeDropdown,
   vsCodeLink,
   vsCodeOption,
-  vsCodeTag,
+  vsCodeTag
 } from "@vscode/webview-ui-toolkit";
 
 provideVSCodeDesignSystem().register(
@@ -58,7 +58,7 @@ function openFileButton() {
 function postMessageOpenFile(dataValue: string | null) {
   vscode.postMessage({
     type: "open-file",
-    value: dataValue,
+    value: dataValue
   });
 }
 
@@ -76,7 +76,7 @@ function authNewFirmButton() {
 
 function postMessageAuthNewFirm() {
   vscode.postMessage({
-    type: "auth-new-firm",
+    type: "auth-new-firm"
   });
 }
 
@@ -94,7 +94,7 @@ function setDefaultFirmButton() {
 
 function postMessageSetDefaultFirm() {
   vscode.postMessage({
-    type: "set-active-firm",
+    type: "set-active-firm"
   });
 }
 
@@ -130,7 +130,7 @@ function postMessageRunTest(
     templateType: dataTemplateType,
     templateHandle: dataTemplateHandle,
     testName: dataTestName,
-    htmlType: dataHtmlType,
+    htmlType: dataHtmlType
   });
 }
 
@@ -149,7 +149,7 @@ function devModeLiquidButton() {
 function postMessageDevModeLiquid(dataStatus: string | null) {
   vscode.postMessage({
     type: "dev-mode-liquid",
-    status: dataStatus,
+    status: dataStatus
   });
 }
 
@@ -185,7 +185,7 @@ function postMessageDevModeTests(
     type: "dev-mode-tests",
     status: dataStatus,
     testName: dataTestSelection,
-    htmlType: dataHtmlMode,
+    htmlType: dataHtmlMode
   });
 }
 
@@ -202,7 +202,7 @@ function createNewPartButton() {
 
 function postMessageCreateNewPart() {
   vscode.postMessage({
-    type: "create-new-part",
+    type: "create-new-part"
   });
 }
 
@@ -218,7 +218,7 @@ function addSharedPartButton() {
 
 function postMessageAddSharedPart() {
   vscode.postMessage({
-    type: "add-shared-part",
+    type: "add-shared-part"
   });
 }
 
@@ -234,6 +234,6 @@ function removeSharedPartButton() {
 
 function postMessageRemoveSharedPart() {
   vscode.postMessage({
-    type: "remove-shared-part",
+    type: "remove-shared-part"
   });
 }
