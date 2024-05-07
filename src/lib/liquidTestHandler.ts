@@ -354,9 +354,20 @@ export default class LiquidTestHandler {
 
   private parseYaml(testContent: string) {
     try {
-      return yaml.parse(testContent) || {};
+      this.extensionLogger.log("Parsing YAML file...");
+      // maxAliasCount is by default 100, but with large YAMLs we could have more than 100 aliases, if we pass 10000, the YAML parsing will start failing (relatively silently). This option exists to prevent exponential entity expansion attacks by limiting data aliasing; set to -1 to disable checks; 0 disallows all alias nodes.
+      const options = { maxAliasCount: 10000 };
+      const parsedYaml = yaml.parse(testContent, options);
+      this.extensionLogger.log("Parsing YAML file succeeded");
+
+      return parsedYaml;
     } catch (err) {
       this.extensionLogger.log("Parsing YAML file failed");
+      this.extensionLogger.log(
+        "Errors occurred while parsing YAML",
+        JSON.stringify(err)
+      );
+
       return {};
     }
   }
@@ -365,10 +376,12 @@ export default class LiquidTestHandler {
   private findTestNamesAndRows(document: vscode.TextDocument) {
     const indexes: { [index: string]: number } = {};
     const testContent = document.getText();
-    const testYAML = this.parseYaml(testContent);
+    const testYAML = this.parseYaml(testContent) || {};
+
     if (!testYAML) {
       return indexes;
     }
+
     const testNames = Object.keys(testYAML);
     const testRows = testContent.split("\n");
     testNames.forEach((testName) => {
@@ -620,6 +633,13 @@ export default class LiquidTestHandler {
           );
         }
       )
+    );
+
+    // Clear Diagnostic Collection of all files when hard-closing / reloading VS code
+    extensionContext.subscriptions.push(
+      vscode.workspace.onDidCloseTextDocument((document) => {
+        extensionContext.globalState.update(document.uri.toString(), undefined);
+      })
     );
   }
 }
