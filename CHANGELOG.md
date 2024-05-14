@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.16.4]
+
+- Fix issue where a wrong list of shared parts was shown if the current default firm ID did not exist in the config of a template
+
 ## [1.16.3]
 
 - Some really large YAMLs contained too many aliases that reached the limit and caused the document to no longer be parsed. Increased the limit so it aligns with the limit in the CLI and it can support very large YAMLs
