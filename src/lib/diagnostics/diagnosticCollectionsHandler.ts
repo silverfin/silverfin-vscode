@@ -94,9 +94,7 @@ export default class DiagnosticCollectionsHandler {
     // Open Diagnostic Stored in Global State
     let storedDiagnostics: types.StoredDiagnostic[] | undefined =
       await extensionContext.globalState.get(currentDocument.uri.toString());
-    this.extensionLogger.log(
-      `loaded: ${JSON.stringify(currentDocument.fileName)}`
-    );
+
     if (storedDiagnostics) {
       // Recreate Diagnostic Objects
       let collectionArray: types.DiagnosticObject[] = [];

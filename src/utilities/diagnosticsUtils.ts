@@ -5,21 +5,27 @@
  * @example
  * getExpectedGotFromMessage("Expected: 1 Got: 2") // ["1", "2"]
  */
-export function getExpectedGotFromMessage(message: string): string[] {
-  const output = [];
-  const expectedRegex = /Expected:\s*([^(]+)/g;
+export function getExpectedGotFromMessage(message: string): any {
+  const nameRegex = /^\[(.*?)\]/;
+  const expectedRegex = /Expected:\s*(.*?)\s*\(/;
+  const gotRegex = /Got:\s*(.*?)\s*\(/;
+  const typeRegex = /\)\s*\|\s*Got:.*\((.*?)\)/;
+
+  const nameMatch = message.match(nameRegex);
   const expectedMatch = message.match(expectedRegex);
-  if (expectedMatch) {
-    output.push(expectedMatch[0].replace("Expected: ", ""));
-  } else {
-    output.push("");
-  }
-  const gotRegex = /Got:\s*([^(]+)/g;
   const gotMatch = message.match(gotRegex);
-  if (gotMatch) {
-    output.push(gotMatch[0].replace("Got: ", ""));
-  } else {
-    output.push("");
-  }
-  return output;
+  const typeMatch = message.match(typeRegex);
+
+  const result = {
+    name: nameMatch ? nameMatch[1] : "",
+    expected: expectedMatch
+      ? expectedMatch[1] === "null"
+        ? null
+        : expectedMatch[1]
+      : "",
+    got: gotMatch ? gotMatch[1] : "",
+    type: typeMatch ? typeMatch[1] : ""
+  };
+
+  return result;
 }
