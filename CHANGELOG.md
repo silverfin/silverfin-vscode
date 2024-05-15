@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.16.5]
+
+- Fix so different expectation errors in liquid test results are added correctly from quick fixes
+   
 ## [1.16.4]
 
 - Fix issue where a wrong list of shared parts was shown if the current default firm ID did not exist in the config of a template
