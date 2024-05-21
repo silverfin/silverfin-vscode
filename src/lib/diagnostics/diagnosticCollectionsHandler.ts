@@ -94,9 +94,7 @@ export default class DiagnosticCollectionsHandler {
     // Open Diagnostic Stored in Global State
     let storedDiagnostics: types.StoredDiagnostic[] | undefined =
       await extensionContext.globalState.get(currentDocument.uri.toString());
-    this.extensionLogger.log(
-      `loaded: ${JSON.stringify(currentDocument.fileName)}`
-    );
+
     if (storedDiagnostics) {
       // Recreate Diagnostic Objects
       let collectionArray: types.DiagnosticObject[] = [];
@@ -126,12 +124,5 @@ export default class DiagnosticCollectionsHandler {
         liquidTestCollection
       );
     }
-
-    // When a new file is opened for the first time. Load the Diagnostic stored from previous runs
-    extensionContext.subscriptions.push(
-      vscode.workspace.onDidOpenTextDocument(async (currentDocument) => {
-        this.loadStoredDiagnostics(currentDocument, liquidTestCollection);
-      })
-    );
   }
 }
