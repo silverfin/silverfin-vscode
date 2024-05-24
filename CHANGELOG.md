@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.17.0]
+
+- Add snippets for drops and filters, and expanding existing snippets, alongisde refactoring documentation
+
 ## [1.16.5]
 
 - Fix so different expectation errors in liquid test results are added correctly from quick fixes
