@@ -728,13 +728,13 @@
   "Date filter - DD/MM/YYYY format": {
     "prefix": "date: DD/MM/YYYY",
     "body": "| date:\"%d/%m/%Y\"",
-    "description": "Standard BE date formatting (DD/MM/YYYY)."
+    "description": "Standard date format: DD/MM/YYYY."
   },
   "Date filter - YYYY-MM-DD format": {
     "prefix": "date: YYYY-MM-DD",
     "body": "| date:\"%F\"",
     "description": [
-      "ISO date formatting (DD/MM/YYYY).\n",
+      "Comparison date format: DD/MM/YYYY.\n",
       "Required for calculations or comparisons between multiple dates."
     ]
   },
