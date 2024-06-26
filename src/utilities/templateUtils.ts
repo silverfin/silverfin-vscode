@@ -214,7 +214,7 @@ export async function getTemplateLiquidTestsPath() {
   }
 }
 
-async function getTemplateParts() {
+export async function getTemplateParts() {
   const templateConfigData = await getTemplateConfigData();
   return Object.keys(templateConfigData.text_parts);
 }
@@ -278,10 +278,14 @@ async function createTemplatePart(partName: string) {
   const newPartContent = Uint8Array.from(
     Buffer.from("{% comment %} New part {% endcomment %}", "utf8")
   );
-  await vscode.workspace.fs.writeFile(
-    vscode.Uri.file(newPartPath),
-    newPartContent
-  );
+
+  const fileExists = await checkFileExists(newPartPath);
+  if (!fileExists) {
+    await vscode.workspace.fs.writeFile(
+      vscode.Uri.file(newPartPath),
+      newPartContent
+    );
+  }
 
   templateConfigData.text_parts[partName] = `text_parts/${partName}.liquid`;
   const newConfigData = Uint8Array.from(
@@ -295,7 +299,16 @@ async function createTemplatePart(partName: string) {
   return true;
 }
 
-export async function createTemplatePartPrompt() {
+async function checkFileExists(filePath: string) {
+  try {
+    await vscode.workspace.fs.stat(vscode.Uri.file(filePath));
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function createTemplatePartPrompt(partName = "") {
   utils.setCWD();
 
   const writableCheck = vscode.workspace.fs.isWritableFileSystem("file");
@@ -314,7 +327,8 @@ export async function createTemplatePartPrompt() {
     prompt:
       "Enter the name of the new part. Use only letters, numbers and underscores.",
     placeHolder: "new_part_name",
-    title: "NEW PART"
+    title: "NEW PART",
+    value: partName,
   });
 
   if (!newPartName) {

@@ -2,6 +2,11 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.18.0]
+
+- Check if text parts included in liquid code exists and are properly added to `config.json` of the template.
+- Fix shared part included regular expression. It was not considering optional arguments. Match shared part parts with optional arguments.
+
 ## [1.17.0]
 
 - Add snippets for drops and filters, and expanding existing snippets, alongisde refactoring documentation
