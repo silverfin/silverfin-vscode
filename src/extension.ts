@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import AddClosingTag from "./lib/addClosingTag";
 import DiagnosticCollectionsHandler from "./lib/diagnostics/diagnosticCollectionsHandler";
-import SharedPartsVerifier from "./lib/diagnostics/sharedPartsVerifier";
+import PartsVerifier from "./lib/diagnostics/partsVerifier";
 import ExtensionContext from "./lib/extensionContext";
 import FirmHandler from "./lib/firmHandler";
 import LiquidLinter from "./lib/liquidLinter";
@@ -29,7 +29,7 @@ export async function activate(context: vscode.ExtensionContext) {
   DiagnosticCollectionsHandler.plug();
 
   new LiquidLinter();
-  new SharedPartsVerifier();
+  new PartsVerifier();
   new AddClosingTag();
   new QuickFixesProviders();
   new TemplateCommander();
