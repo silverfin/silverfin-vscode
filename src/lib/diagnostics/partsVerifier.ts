@@ -7,17 +7,18 @@ import ExtensionLoggerWrapper from "../outputChannels/extensionLoggerWrapper";
 import SilverfinToolkit from "../silverfinToolkit";
 import DiagnosticCollectionsHandler from "./diagnosticCollectionsHandler";
 /**
- * This class is responsible for verifying if the shared parts used in the liquid file are added to the template.
+ * This class is responsible for verifying if the parts and shared parts used in the liquid file are added to the template.
  */
-export default class SharedPartsVerifier {
+export default class PartsVerifier {
   private extensionLogger: ExtensionLoggerWrapper = new ExtensionLoggerWrapper(
-    "SharedPartsVerifier"
+    "PartsVerifier"
   );
   private errorsCollection: vscode.DiagnosticCollection;
   currentLiquidFile: vscode.TextDocument | undefined;
   firmId: Number | undefined;
   templateHandle: string | undefined;
   templateType: string | undefined;
+  diagnostics: vscode.Diagnostic[] = [];
 
   constructor() {
     this.errorsCollection =
@@ -34,22 +35,7 @@ export default class SharedPartsVerifier {
    * @returns void
    */
   private async verifySharedPartsUsed() {
-    this.setLiquidFile(); // sets this.currentLiquidFile
-    if (!this.currentLiquidFile) {
-      this.extensionLogger.log("Current file is not .liquid");
-      return;
-    }
-    const templateType = await templateUtils.getTemplateType();
-    if (templateType === "sharedPart" || !templateType) {
-      this.extensionLogger.log(
-        `Current template type not supported (type: ${templateType})`
-      );
-      return;
-    }
-
-    // Clear the collection
-    this.errorsCollection.set(this.currentLiquidFile!.uri, []);
-    const sharedPartsUsed = this.searchForSharedPartsInLiquid();
+    const sharedPartsUsed = this.searchForPartsInLiquid("sharedPart");
 
     if (!sharedPartsUsed) {
       this.extensionLogger.log("No shared parts found");
@@ -57,6 +43,7 @@ export default class SharedPartsVerifier {
     }
 
     const sharedPartsAdded = (await this.getSharedPartsAdded()) || [];
+
     // Compare the two arrays and find the differences (shared parts used but not added)
     const sharedPartsNotAdded = sharedPartsUsed.filter(
       (part) => !sharedPartsAdded.includes(part)
@@ -66,9 +53,45 @@ export default class SharedPartsVerifier {
       return;
     }
     this.extensionLogger.log(
-      "There are shared parts included in liquid but not added to the template"
+      `There are shared parts included in liquid but not added to the template. Shared parts: ${sharedPartsNotAdded.join(
+        ", "
+      )}`
     );
-    await this.recreateDiagnosticInformation(sharedPartsNotAdded);
+    await this.recreateDiagnosticInformationForSharedParts(sharedPartsNotAdded);
+  }
+
+  /**
+   * Verify if the parts used in the liquid file exists.
+   * If not, create a diagnostic object and add it to the collection.
+   * The diagnostic object includes a message and a quick fix command to create the part.
+   * If the part does not exist in the directory, the diagnostic object includes an error message.
+   * @returns void
+   */
+  private async verifyPartsUsed() {
+    const partsUsed = this.searchForPartsInLiquid("part");
+
+    if (!partsUsed) {
+      this.extensionLogger.log("No parts found");
+      return;
+    }
+
+    const existingParts = (await templateUtils.getTemplateParts()) || [];
+
+    // Compare the two arrays and find the differences (parts used but not existing)
+    const missingParts = partsUsed.filter(
+      (part) => !existingParts.includes(part)
+    );
+    if (missingParts.length === 0) {
+      this.extensionLogger.log("All parts already exist.");
+      return;
+    }
+    this.extensionLogger.log(
+      `There are parts included in liquid but not created in the template. Parts: ${missingParts.join(
+        ", "
+      )}`
+    );
+
+    await this.recreateDiagnosticInformationForParts(missingParts);
   }
 
   /**
@@ -89,25 +112,48 @@ export default class SharedPartsVerifier {
     const currentTextDocument = vscode.window.activeTextEditor.document;
     this.currentLiquidFile = currentTextDocument;
     this.extensionLogger.log("Liquid File found");
+
+    // Clear the collection for the current file
+    this.errorsCollection.set(this.currentLiquidFile!.uri, []);
+
     return true;
   }
 
   /**
-   * Inspect the liquid code of the file and search for the use of shared parts
+   * Inspect the liquid code of the file and search for the use of parts or shared parts
+   * @param type string 'sharedPart' | 'part'
    * @returns string[] | undefined
    * @example
    * // Returns ["shared_header", "footer"]
    */
-  private searchForSharedPartsInLiquid() {
+  private searchForPartsInLiquid(type: "sharedPart" | "part") {
     const currentLiquid = this.currentLiquidFile?.getText();
     if (!currentLiquid) {
       this.extensionLogger.log("No Liquid code found");
       return;
     }
-    // Match the shared parts included in the liquid code
-    // Avoid matching the shared parts included in a comment
-    const regex =
-      /(?<!\{%\s*comment\s*%\}){%\s*include\s+['"]\s*shared\/(.*?)\s*['"]\s*%}(?!\s*\{%\s*endcomment\s*%\})/g;
+
+    // Match the parts included in the liquid code (Avoid matching the parts included in a comment)
+    let partRegex =
+      /(?<!\{%\s*comment\s*%\}){%\s*include\s+['"]\s*parts\/(.*?)\s*['"](.*?)\s*%}(?!\s*\{%\s*endcomment\s*%\})/g;
+    let sharedPartRegex =
+      /(?<!\{%\s*comment\s*%\}){%\s*include\s+['"]\s*shared\/(.*?)\s*['"](.*?)\s*%}(?!\s*\{%\s*endcomment\s*%\})/g;
+
+    let regex;
+    switch (type) {
+      case "part":
+        regex = partRegex;
+        break;
+      case "sharedPart":
+        regex = sharedPartRegex;
+        break;
+    }
+
+    if (!regex) {
+      this.extensionLogger.log("Invalid type");
+      return;
+    }
+
     const matches = [...currentLiquid.matchAll(regex)];
     const names = matches.map((match) => match[1]);
     return names;
@@ -150,30 +196,15 @@ export default class SharedPartsVerifier {
    * Create the Diagnostic object and add it to the collection
    * @param sharedParts
    */
-  private async recreateDiagnosticInformation(sharedParts: string[]) {
-    const diagnostics: vscode.Diagnostic[] = [];
+  private async recreateDiagnosticInformationForSharedParts(
+    sharedParts: string[]
+  ) {
     for (let sharedPartName of sharedParts) {
-      let indexOf = this.currentLiquidFile?.getText().indexOf(sharedPartName);
-      if (!indexOf) {
+      let sharedPartRange = this.findPartRange(sharedPartName);
+
+      if (!sharedPartRange) {
         continue;
       }
-      const itemPosition = this.currentLiquidFile?.positionAt(indexOf);
-      if (!itemPosition) {
-        continue;
-      }
-      // Range to highlight
-      let highlightStartIndex =
-        this.currentLiquidFile?.lineAt(itemPosition.line)
-          .firstNonWhitespaceCharacterIndex || 0;
-      let highlighEndIndex =
-        this.currentLiquidFile?.lineAt(itemPosition.line).text.split("")
-          .length || 50;
-      const range = new vscode.Range(
-        itemPosition.line,
-        highlightStartIndex,
-        itemPosition.line,
-        highlighEndIndex
-      );
 
       // Check if shared part exists in directory
       const allSharedPartsNames =
@@ -204,7 +235,7 @@ export default class SharedPartsVerifier {
           this.templateHandle
         }" (template type: "${this.templateType}")`;
         diagnostic = new vscode.Diagnostic(
-          range,
+          sharedPartRange,
           message,
           vscode.DiagnosticSeverity.Warning
         );
@@ -217,17 +248,13 @@ export default class SharedPartsVerifier {
         // Create the diagnostic object
         const message = `Shared part "${sharedPartName}" does not exist in the "/shared_parts" directory`;
         diagnostic = new vscode.Diagnostic(
-          range,
+          sharedPartRange,
           message,
           vscode.DiagnosticSeverity.Error
         );
       }
-      diagnostics.push(diagnostic);
+      this.diagnostics.push(diagnostic);
     }
-    this.errorsCollection.set(this.currentLiquidFile!.uri, diagnostics);
-    this.extensionLogger.log(
-      "Errors collection of the Liquid Template updated"
-    );
   }
 
   private async createCommandAddSharedPart(
@@ -337,9 +364,104 @@ export default class SharedPartsVerifier {
     );
   }
 
+  /**
+   * Search for the item in the text to identify the line number
+   * Create the Diagnostic object and add it to the collection
+   * @param sharedParts
+   */
+  private async recreateDiagnosticInformationForParts(parts: string[]) {
+    for (let partName of parts) {
+      let partRange = this.findPartRange(partName);
+
+      if (!partRange) {
+        continue;
+      }
+
+      let diagnostic: vscode.Diagnostic;
+      const message = `Part "${partName}" does not exist or it is not listed in template's "config.json" file.`;
+      diagnostic = new vscode.Diagnostic(
+        partRange,
+        message,
+        vscode.DiagnosticSeverity.Error
+      );
+
+      this.createCommandAddPart(partName);
+
+      this.diagnostics.push(diagnostic);
+    }
+  }
+
+  private async createCommandAddPart(partName: string) {
+    let identifier = `addPart.${partName}`;
+    // Check if the command already exists
+    const allCommands = await vscode.commands.getCommands();
+    if (allCommands.includes(identifier)) {
+      return;
+    }
+    // registerCommand
+    const extensionContext = ExtensionContext.get();
+    extensionContext.subscriptions.push(
+      vscode.commands.registerCommand(identifier, () => {
+        templateUtils.createTemplatePartPrompt(partName);
+      })
+    );
+  }
+
+  private findPartRange(partName: string) {
+    let indexOf = this.currentLiquidFile?.getText().indexOf(partName);
+    if (!indexOf) {
+      return;
+    }
+    const itemPosition = this.currentLiquidFile?.positionAt(indexOf);
+    if (!itemPosition) {
+      return;
+    }
+    // Range to highlight
+    let highlightStartIndex =
+      this.currentLiquidFile?.lineAt(itemPosition.line)
+        .firstNonWhitespaceCharacterIndex || 0;
+    let highlighEndIndex =
+      this.currentLiquidFile?.lineAt(itemPosition.line).text.split("").length ||
+      50;
+    const range = new vscode.Range(
+      itemPosition.line,
+      highlightStartIndex,
+      itemPosition.line,
+      highlighEndIndex
+    );
+
+    return range;
+  }
+
+  private async runVerification() {
+    this.diagnostics = [];
+    this.setLiquidFile();
+
+    if (!this.currentLiquidFile) {
+      this.extensionLogger.log("Current file is not .liquid");
+      return;
+    }
+
+    const templateType = await templateUtils.getTemplateType();
+    if (templateType === "sharedPart" || !templateType) {
+      this.extensionLogger.log(
+        `Current template type not supported (type: ${templateType})`
+      );
+      return;
+    }
+
+    await this.verifySharedPartsUsed();
+    await this.verifyPartsUsed();
+
+    this.errorsCollection.set(this.currentLiquidFile!.uri, this.diagnostics);
+    this.extensionLogger.log(
+      "Errors collection of the Liquid Template updated"
+    );
+  }
+
   private async registerEvents() {
-    vscode.workspace.onDidSaveTextDocument(() => {
-      this.verifySharedPartsUsed();
+    vscode.workspace.onDidSaveTextDocument(async () => {
+      await this.runVerification();
     });
   }
 }
