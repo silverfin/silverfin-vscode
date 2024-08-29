@@ -1,0 +1,199 @@
+{
+    "HTML Table": {
+        "prefix": "table",
+        "body": [
+            "<table class=\"usr-width-100\">",
+            "\t<thead>",
+            "\t\t<tr>",
+            "\t\t\t<th class=\"usr-width-${2:50}\">${3:content}</th>",
+            "\t\t\t<th class=\"usr-width-${4:50}\">${5:content}</th>",
+            "\t\t</tr>",
+            "\t</thead>",
+            "\t<tbody>",
+            "\t\t<tr>",
+            "\t\t\t<td>${6:content}</td>",
+            "\t\t\t<td>${6:content}</td>",
+            "\t\t</tr>",
+            "\t</tbody>",
+            "</table>"
+        ],
+        "description": "Use html to create a table with more customization."
+    },
+    "HTML thead tag": {
+        "prefix": "thead",
+        "body": [
+            "<thead>",
+            "\t${1:content}",
+            "</thead>"
+        ],
+        "description": "HTML header tag"
+    },
+    "HTML tbody tag": {
+        "prefix": "tbody",
+        "body": [
+            "<tbody>",
+            "\t${1:content}",
+            "</tbody>"
+        ],
+        "description": "HTML body tag"
+    },
+    "HTML tablerow tag": {
+        "prefix": "tr",
+        "body": [
+            "<tr>",
+            "\t<td class=\"\">${6:content}</td>",
+            "\t<td class=\"\">${6:content}</td>",
+            "</tr>"
+        ],
+        "description": "HTML row tag"
+    },
+    "HTML tableheader tag": {
+        "prefix": "th",
+        "body": "<th>${2:content}</th>",
+        "description": "HTML sub header tag"
+    },
+    "HTML tabledata tag": {
+        "prefix": "td",
+        "body": "<td>${1:content}</td>",
+        "description": "HTML sub body tag"
+    },
+    "HTML break tag": {
+        "prefix": "br",
+        "body": "<br>",
+        "description": "HTML line break tag"
+    },
+    "HTML bold tag": {
+        "prefix": "b",
+        "body": "<b>${1:content}</b>",
+        "description": "HTML bold tag"
+    },
+    "HTML italic tag": {
+        "prefix": "i",
+        "body": "<i>${1:content}</i>",
+        "description": "HTML italic tag"
+    },
+    "HTML underline tag": {
+        "prefix": "u",
+        "body": "<u>${1:content}</u>",
+        "description": "HTML underline tag"
+    },
+    "HTML class": {
+        "prefix": "class",
+        "body": "class=\"${1:usr-*}\""
+    },
+    "HTML width class": {
+        "prefix": "usr-width-",
+        "body": "usr-width-${1:1__100}",
+        "description": "HTML width class"
+    },
+    "HTML align left class": {
+        "prefix": "usr-align-left",
+        "body": "usr-align-left",
+        "description": "HTML align text left class"
+    },
+    "HTML align center class": {
+        "prefix": "usr-align-center",
+        "body": "usr-align-center",
+        "description": "HTML align text center class"
+    },
+    "HTML align right class": {
+        "prefix": "usr-align-right",
+        "body": "usr-align-right",
+        "description": "HTML align text right class"
+    },
+    "HTML align justify class": {
+        "prefix": "usr-align-justify",
+        "body": "usr-align-justify",
+        "description": "HTML align text center class"
+    },
+    "HTML vertical align top class": {
+        "prefix": "usr-valign-top",
+        "body": "usr-valign-top",
+        "description": "HTML align text top class"
+    },
+    "HTML vertical align center class": {
+        "prefix": "usr-valign-center",
+        "body": "usr-valign-center",
+        "description": "HTML align text vertical center class"
+    },
+    "HTML vertical align bottom class": {
+        "prefix": "usr-valign-bottom",
+        "body": "usr-valign-bottom",
+        "description": "HTML align text bottom class"
+    },
+    "HTML line top class": {
+        "prefix": "usr-line-top",
+        "body": "usr-line-top",
+        "description": "HTML create line above text class"
+    },
+    "HTML line bottom class": {
+        "prefix": "usr-line-bottom",
+        "body": "usr-line-bottom",
+        "description": "HTML create line under text class"
+    },
+    "HTML line left class": {
+        "prefix": "usr-line-left",
+        "body": "usr-line-left",
+        "description": "HTML create line to the left of text class"
+    },
+    "HTML line right class": {
+        "prefix": "usr-line-right",
+        "body": "usr-line-right",
+        "description": "HTML create line to the right of text class"
+    },
+    "HTML double line top class": {
+        "prefix": "usr-double-line-top",
+        "body": "usr-double-line-top",
+        "description": "HTML create line above text class"
+    },
+    "HTML double line bottom class": {
+        "prefix": "usr-double-line-bottom",
+        "body": "usr-double-line-bottom",
+        "description": "HTML create line under text class"
+    },
+    "HTML double line left class": {
+        "prefix": "usr-double-line-left",
+        "body": "usr-double-line-left",
+        "description": "HTML create line to the left of text class"
+    },
+    "HTML double line right class": {
+        "prefix": "usr-double-line-right",
+        "body": "usr-double-line-right",
+        "description": "HTML create line to the right of text class"
+    },
+    "HTML border colour class": {
+        "prefix": "usr-border-color-",
+        "body": "usr-border-color-${1:Hex Colour Code}",
+        "description": "HTML sets border colour"
+    },
+    "HTML background colour class": {
+        "prefix": "usr-background-color-",
+        "body": "usr-background-color-${1:Hex Colour Code}",
+        "description": "HTML sets background colour"
+    },
+    "HTML indent class": {
+        "prefix": "usr-indent-",
+        "body": "usr-indent-${1:1__10}",
+        "description": "HTML create indentation in cell"
+    },
+    "HTML repeated header class": {
+        "prefix": "usr-repeated-header",
+        "body": "usr-repeated-header",
+        "description": "HTML for long tables, header well be repeated during pdf export"
+    },
+    "HTML no left padding": {
+        "prefix": "usr-no-left-padding",
+        "body": "usr-no-left-padding",
+        "description": "HTML removes default left padding"
+    },
+    "HTML grayed-out background": {
+        "prefix": "usr-grayed-out-background-input",
+        "body": "usr-grayed-out-background-input",
+        "description": "HTML sets background of cell to gray"
+    },
+    "HTML grayed-out bottom line": {
+        "prefix": "usr-grayed-out-line-bottom-input",
+        "body": "usr-grayed-out-line-bottom-input",
+        "description": "HTML sets bottom line of cell to gray"
+    }
+}

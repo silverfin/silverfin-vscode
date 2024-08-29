@@ -1,0 +1,426 @@
+{
+    ".size": {
+        "prefix": ".size",
+        "body": ".size",
+        "description": [
+            "Return size of an array or string"
+        ]
+    },
+
+    "Count drop": {
+        "prefix": "count",
+        "body": "count",
+        "description": "Return count of all items in drop or collection (integer)"
+    },
+    "Email drop": {
+        "prefix": "email",
+        "body": "email",
+        "description": "Return email address of person or user (String)"
+    },
+    "First drop": {
+        "prefix": "first",
+        "body": "first",
+        "description": "Return first item in drop or collection (integer)"
+    },
+    "ID drop": {
+        "prefix": "id",
+        "body": "id",
+        "description": "Return unique identifier of account or mapping list (String)"
+    },
+    "Name drop": {
+        "prefix": "name",
+        "body": "name",
+        "description": "Return name of item. If applied to an array, will return the name of the first item in the array (String)"
+    },
+    "Value drop": {
+        "prefix": "value",
+        "body": "value",
+        "description": "Return (sum) value of the drop or collection (Number)"
+    },
+    "Custom drop": {
+        "prefix": "custom.",
+        "body": "custom.${1:namespace}.${2:key}",
+        "description": "Return custom drops with placeholder namespace and key"
+    },
+    "Accounts drop (with options)": {
+        "prefix": "accounts.",
+        "body": "accounts.${1|assets,bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,equity,expenses,first,including_zeros,income,liabilities,name,p_and_l_rounding_account,p_and_l_rounding_difference,revenues,return_value_in_millions,return_value_in_thousands,starred|}",
+        "description": "All drops under the accounts drop"
+    },
+    "Starred accounts drop": {
+        "prefix": "starred",
+        "body": "starred",
+        "description": "Return all starred accounts - must use with variable of type accounts"
+    },
+    "Starred accounts drop (with options)": {
+        "prefix": "starred.",
+        "body": "starred.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
+        "description": "All drops under the starred drop"
+    },
+    "Assets accounts drop": {
+        "prefix": "assets",
+        "body": "assets",
+        "description": "Return all assets accounts - must use with variable of type accounts"
+    },
+    "Assets accounts drop (with options)": {
+        "prefix": "assets.",
+        "body": "assets.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
+        "description": "All drops under the assets drop"
+    },
+    "Liabilities accounts drop": {
+        "prefix": "liabilities",
+        "body": "liabilities",
+        "description": "Return all liabilities accounts - must use with variable of type accounts"
+    },
+    "Liabilities accounts drop (with options)": {
+        "prefix": "liabilities.",
+        "body": "liabilities.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
+        "description": "All drops under the liabilities drop"
+    },
+    "Revenue accounts drop": {
+        "prefix": "revenues",
+        "body": "revenues",
+        "description": "Return all revenue accounts - must use with variable of type accounts"
+    },
+    "Revenue accounts drop (with options)": {
+        "prefix": "revenues.",
+        "body": "revenues.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
+        "description": "All drops under the revenue drop"
+    },
+    "Expenses accounts drop": {
+        "prefix": "expenses",
+        "body": "expenses",
+        "description": "Return all expenses accounts - must use with variable of type accounts"
+    },
+    "Expenses accounts drop (with options)": {
+        "prefix": "expenses.",
+        "body": "expenses.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
+        "description": "All drops under the expenses drop"
+    },
+    "Income accounts drop": {
+        "prefix": "income",
+        "body": "income",
+        "description": "Return all income accounts - must use with variable of type accounts"
+    },
+    "Income accounts drop (with options)": {
+        "prefix": "income.",
+        "body": "income.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
+        "description": "All drops under the income drop"
+    },
+    "Equity accounts drop": {
+        "prefix": "equity",
+        "body": "equity",
+        "description": "Return all equity accounts - must use with variable of type accounts"
+    },
+    "Equity accounts drop (with options)": {
+        "prefix": "equity.",
+        "body": "equity.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
+        "description": "All drops for the equity drop"
+    },
+    "Accounts credit value drop": {
+        "prefix": "credit_value",
+        "body": "credit_value",
+        "description": "Return sum of credit value of all selected accounts - must use with variable of type accounts"
+    },
+    "Accounts debit value drop": {
+        "prefix": "debit_value",
+        "body": "debit_value",
+        "description": "Return sum of debit value of all selected accounts - must use with variable of type accounts"
+    },
+    "First - account drop (with options)": {
+        "prefix": "first.",
+        "body": "first.${1|asset?,asset_or_expense,credit_value,custom,debit_value,equity?,expense?,id,income?,liability?,liability_or_income,link,name,mapped_number,number,opening_value,original_name,original_number,results,transactions,value,value_without_adjustments|}",
+        "description": "All drops under the account drop"
+    },
+    "Accounts drop including zeros": {
+        "prefix": "include_zeros",
+        "body": "include_zeros",
+        "description": "Return accounts drop, including accounts with a zero balance, from all selected accounts - must use with variable of type accounts"
+    },
+    "Accounts drop including zeros (with options)": {
+        "prefix": "include_zeros.",
+        "body": "include_zeros.${1|assets,bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,equity,expenses,first,income,liabilities,name,p_and_l_rounding_account,p_and_l_rounding_difference,revenues,return_value_in_millions,return_value_in_thousands,starred|}",
+        "description": "All drops for the equity drop"
+    },
+    "Pnl rounding difference drop": {
+        "prefix": "p_and_l_rounding_difference",
+        "body": "p_and_l_rounding_difference",
+        "description": "Return exact PnL rounding difference when using the core rounding functionality - must use with variable of type accounts"
+    },
+    "BS rounding difference drop": {
+        "prefix": "bs_rounding_difference",
+        "body": "bs_rounding_difference",
+        "description": "Return exact BS rounding difference when using the core rounding functionality - must use with variable of type accounts"
+    },
+    "PnL rounding account": {
+        "prefix": "p_and_l_rounding_account",
+        "body": "p_and_l_rounding_account",
+        "description": "Return the account used for PnL rounding"
+    },
+    "BS rounding account": {
+        "prefix": "bs_rounding_account",
+        "body": "bs_rounding_account",
+        "description": "Return the account used for BS rounding"
+    },
+    "Return (account) values in millions": {
+        "prefix": "return_values_in_millions",
+        "body": "return_values_in_millions",
+        "description": "Return value of the individual account drops in the selected accounts drop in millions - must use with variable of type accounts"
+    },
+    "Return (account) values in thousands": {
+        "prefix": "return_values_in_thousands",
+        "body": "return_values_in_thousands",
+        "description": "Return value of the individual account drops in the selected accounts drop in thousands - must use with variable of type accounts"
+    },
+    "Company drop (with options)": {
+        "prefix": "company.",
+        "body": "company.${1|analytical_type_(0..x)_codes,city,company_form,company_type,country,country_code,currency,custom,file_code,locales,name,periods_per_year,postalcode,street,vat_identifier|}",
+        "description": "Return all drops under the Company drop"
+    },
+    "Dimension/company set drop": {
+        "prefix": "analytical_type_(0..x)_codes",
+        "body": "analytical_type_(0..x)_codes",
+        "description": "Returns drop of dimensions/companies in an analytical/consolidation file (drop)"
+    },
+    "Company city drop": {
+        "prefix": "city",
+        "body": "city",
+        "description": "Return city from company settings (String)"
+    },
+    "Company form drop": {
+        "prefix": "company_form",
+        "body": "company_form",
+        "description": "Return company form from company settings (String)"
+    },
+    "Company type drop": {
+        "prefix": "company_type",
+        "body": "company_type",
+        "description": "Return company type from company settings (String)"
+    },
+    "Company country drop": {
+        "prefix": "country",
+        "body": "country",
+        "description": "Return country from company settings (String)"
+    },
+    "Company country code drop": {
+        "prefix": "country_code",
+        "body": "country_code",
+        "description": "Return country code, based on country (String)"
+    },
+    "Company currency drop": {
+        "prefix": "currency",
+        "body": "currency",
+        "description": "Return company currency, based on country (String)"
+    },
+    "Company file code drop": {
+        "prefix": "file_code",
+        "body": "file_code",
+        "description": "Return file number from company settings (String)"
+    },
+    "Company locales drop": {
+        "prefix": "locales",
+        "body": "locales",
+        "description": "Return available languages from company settings (array)"
+    },
+    "Company periods per year drop": {
+        "prefix": "periods_per_year",
+        "body": "periods_per_year",
+        "description": "Returns 1,4,12 depending on the reporting frequency (integer)"
+    },
+    "Company postal code drop": {
+        "prefix": "postalcode",
+        "body": "postalcode",
+        "description": "Return post code from company settings (String)"
+    },
+    "Company street drop": {
+        "prefix": "street",
+        "body": "street",
+        "description": "Return street from company settings (String)"
+    },
+    "Company VAT identifier drop": {
+        "prefix": "vat_identifier",
+        "body": "vat_identifier",
+        "description": "Return VAT identifier from company settings (String)"
+    },
+    "People drop (with options)": {
+        "prefix": "people.",
+        "body": "people.${1|count,first|}",
+        "description": "All drops under the People drop"
+    },
+    "Directors drops (wuth options)": {
+        "prefix": "directors.",
+        "body": "directors.${1|count,first,active_as_director,active_as_director_on|}",
+        "description": "All drops under the special Directors drop"
+    },
+    "Shareholders drops (with options)": {
+        "prefix": "shareholders.",
+        "body": "shareholders.${1|count,first|}",
+        "description": "All drops under the special Shareholders drop"
+    },
+    "First - person drop (with options)": {
+        "prefix": "first.",
+        "body": "first.${1|address_1,address_2,amount_of_shares,amount_of_votes,custom,director,director_end_date,director_start_date,email,external_id,name,persistent_id,shareholder,statutory|}",
+        "description": "All drops under the person drop"
+    },
+    "Active as directors filter": {
+        "prefix": "active_as_director",
+        "body": "active_as_director",
+        "description": "Return all active directors - must use with special directors drop"
+    },
+    "Active as directors filter (with options)": {
+        "prefix": "active_as_director.",
+        "body": "active_as_director.${1|count,first|}",
+        "description": "All drops under the active as directors filter"
+    },
+    "Active as directors on filter": {
+        "prefix": "active_as_director_on",
+        "body": "active_as_director_on",
+        "description": "Return all active directors on a certain date - must use with special directors drop"
+    },
+    "Active as directors on filter (with options)": {
+        "prefix": "active_as_director_on.",
+        "body": "active_as_director_on.${1|count,first|}",
+        "description": "All drops under the active as directors on filter"
+    },
+    "Period drop (with options)": {
+        "prefix": "period.",
+        "body": "period.${1|accounts,account_mapping_list,adjustments,bookyear_index,calendar_years,custom,directors,end_date,exists,fiscal_year,is_first_year,month_end_dates,name,people,reconciliations,reports,shareholders,start_date,year_end,year_end_date,year_start_date,minus_,plus_|}",
+        "description": "Return all drops under the Period drop"
+    },
+    "Accounts drop": {
+        "prefix": "accounts",
+        "body": "accounts",
+        "description": "Return all accounts in the period - must use with variable of type period (drop)"
+    },
+    "Account mapping list drop (with optiont)": {
+        "prefix": "account_mapping_list.",
+        "body": "account_mapping_list.${1|name,id,marketplace_template_id|}",
+        "description": "All drops under the Account Mapping List drop"
+    },
+    "Marketplace template id drop": {
+        "prefix": "marketplace_template_id",
+        "body": "marketplace_template_id",
+        "description": "Return id of Mapping List on the marketplace - must use with variable of type period (integer)"
+    },
+    "Adjustments drop": {
+        "prefix": "adjustments",
+        "body": "adjustments",
+        "description": "Return all adjustments in the period - must use with variable of type period (drop)"
+    },
+    "Bookyear index method": {
+        "prefix": "bookyear_index",
+        "body": "bookyear_index",
+        "description": "Return index of the bookyear in the period (first year is 1) - must use with variable of type period (integer)"
+    },
+    "Calendar years method": {
+        "prefix": "calendar_years",
+        "body": "calendar_years",
+        "description": "Return an array of all calendar years in the fiscal year - must use with variable of type period (array)"
+    },
+    "Directors drop": {
+        "prefix": "directors",
+        "body": "directors",
+        "description": "Return all directors in the period - must use with variable of type period (special drop)"
+    },
+    "End date drop": {
+        "prefix": "end_date",
+        "body": "end_date",
+        "description": "Return end date of the period - must use with variable of type period (date)"
+    },
+    "Exists method": {
+        "prefix": "exists",
+        "body": "exists",
+        "description": "Return true if the period exists - must use with variable of type period (boolean)"
+    },
+    "Fiscal year drop": {
+        "prefix": "fiscal_year",
+        "body": "fiscal_year",
+        "description": "Return fiscal year of the period - must use with variable of type period (string)"
+    },
+    "Is first year method": {
+        "prefix": "is_first_year",
+        "body": "is_first_year",
+        "description": "Return true if the period is the first book year of client file - must use with variable of type period (boolean)"
+    },
+    "Month end dates method": {
+        "prefix": "month_end_dates",
+        "body": "month_end_dates",
+        "description": "Return an array of all month end dates in the fiscal year - must use with variable of type period (array)"
+    },
+    "People drop": {
+        "prefix": "people",
+        "body": "people",
+        "description": "Return all people in the period - must use with variable of type period (drop)"
+    },
+    "Reconciliations drop": {
+        "prefix": "reconciliations",
+        "body": "reconciliations",
+        "description": "Return all reconciliations in the period - must use with variable of type period (drop)"
+    },
+    "Reports drop": {
+        "prefix": "reports",
+        "body": "reports",
+        "description": "Return collection of Reports for the period - must use with variable of type period (drop)"
+    },
+    "Report drop": {
+        "prefix": "reports.[report handle]",
+        "body": "reports.${1:[report handle]}",
+        "description": "Return specific report for the period - must use with variable of type period (drop)"
+    },
+    "Shareholders drop": {
+        "prefix": "shareholders",
+        "body": "shareholders",
+        "description": "Return all shareholders in the period - must use with variable of type period (special drop)"
+    },
+    "Start date drop": {
+        "prefix": "start_date",
+        "body": "start_date",
+        "description": "Return start date of the period - must use with variable of type period (date)"
+    },
+    "Year end drop": {
+        "prefix": "year_end",
+        "body": "year_end",
+        "description": "Return period drop of period at end of fiscal year - must use with variable of type period (drop)"
+    },
+    "Year end date drop": {
+        "prefix": "year_end_date",
+        "body": "year_end_date",
+        "description": "Return end date of the fiscal year - must use with variable of type period (date)"
+    },
+    "Year start date drop": {
+        "prefix": "year_start_date",
+        "body": "year_start_date",
+        "description": "Return start date of the fiscal year - must use with variable of type period (date)"
+    },
+    "Minus period/year": {
+        "prefix": "minus_",
+        "body": "minus_${1|1,2,3|}${2|p,y|}",
+        "description": "Return period before current period by a set number of periods or year - must use with variable of type period (drop)"
+    },
+    "Plus period/year": {
+        "prefix": "plus_",
+        "body": "plus_${1|1,2,3|}${2|p,y|}",
+        "description": "Return period after current period by a set number of periods or year - must use with variable of type period (drop)"
+    },
+    "Reconciliations drop (with options)": {
+        "prefix": "reconciliations.",
+        "body": "reconciliations.${1|[reconciliation_handle],count,star|}",
+        "description": "All drops under the Reconciliations drop"
+    },
+    "Starred reconciliations drop": {
+        "prefix": "starred",
+        "body": "starred",
+        "description": "Return all starred reconciliations - must use with variable of type reconciliations (drop)"
+    },
+    "Starred reconciliations drop (with options)": {
+        "prefix": "starred.",
+        "body": "starred.${1|[handle],count|}",
+        "description": "All drops under the Starred Reconciliation drop"
+    },
+    "User drops (with options)": {
+        "prefix": "user.",
+        "body": "user.${1|name,email|}",
+        "description": "Return all drops under the User drop"
+    }
+
+}
