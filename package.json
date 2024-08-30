@@ -101,10 +101,6 @@
     ],
     "snippets": [
       {
-        "language": "yaml",
-        "path": "./snippets/liquid-tests-snippets.json"
-      },
-      {
         "language": "liquid",
         "path": "./snippets/liquid-template-snippets-drops.json"
       },
