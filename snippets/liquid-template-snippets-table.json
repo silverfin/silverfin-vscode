@@ -195,5 +195,57 @@
         "prefix": "usr-grayed-out-line-bottom-input",
         "body": "usr-grayed-out-line-bottom-input",
         "description": "HTML sets bottom line of cell to gray"
+    },
+    "HTML same page header": {
+        "prefix": "usr-hide-samepage-header",
+        "body": "usr-hide-samepage-header",
+        "description": "Add usr-hide-samepage-header class"
+    },
+    "HTML em-tags": {
+        "prefix": "em",
+        "body": "<em>${1:variable}</em>",
+        "description": "Add opening and closing em-tags for italic text formatting in HTML"
+    }
+    ,
+    "HTML sub-tags": {
+        "prefix": "sub",
+        "body": "<sub>${1:variable}</sub>",
+        "description": "Add opening and closing sub-tags for Subscript text formatting in HTML"
+    }
+    ,
+    "HTML sup-tags": {
+        "prefix": "sup",
+        "body": "<sup>${1:variable}</sup>",
+        "description": "Add opening and closing sup-tags for Subscript text formatting in HTML"
+    }
+    ,
+    "HTML Header 1": {
+        "prefix": "h1",
+        "body": "<h1>${1:variable}</h1>",
+        "description": "Add opening and closing h1-tags for sub-heading text formatting in HTML"
+    }
+    ,
+    "HTML Header 2": {
+        "prefix": "h2",
+        "body": "<h2>${1:variable}</h2>",
+        "description": "Add opening and closing h2-tags for sub-heading text formatting in HTML"
+    }
+    ,
+    "HTML a-tags": {
+        "prefix": "a",
+        "body": "<a>${1:variable}</a>",
+        "description": "Add opening and closing a-tags & href tags for hyperlink text formatting in HTML"
+    }
+    ,
+    "HTML hr-tags": {
+        "prefix": "hr",
+        "body": "<hr>${1:variable}</hr>",
+        "description": "Add opening and closing hr-tags for Paragraph text formatting in HTML"
+    }
+    ,
+    "HTML p-tags": {
+        "prefix": "<p>",
+        "body": "<p>${1:variable}</p>",
+        "description": "Add opening and closing p-tags for Paragraph text formatting in HTML"
     }
 }

@@ -233,6 +233,176 @@
         "prefix": "strip_html",
         "body": "| strip_html",
         "description": "Remove HTML tags from a String"
+    },"allow_false filter": {
+        "prefix": "allow_false",
+        "body": ", allow_false:true",
+        "description": "Add the filter of allow_false"
+    },
+    "md5 filter": {
+        "prefix": "md5",
+        "body": "| md5",
+        "description": "Converts a string into an MD5 hash"
+    }
+    ,
+    "transliterate filter": {
+        "prefix": "transliterate",
+        "body": "| transliterate",
+        "description": "Transliterates strings based on the Unicoder library"
+    },
+    "localized_date filter": {
+        "prefix": "localized_date",
+        "body": "| localized_date: \"%d/%m/%Y %H:%M\"" ,
+        "description": "Display a date according to the time-zone from where template is being executed"
+    },
+    "concat filter": {
+        "prefix": "concat",
+        "body": "| concat",
+        "description": "Add the Concat filter"
+    },
+    "Split filter": {
+        "prefix": "Split",
+        "body": "| split :\"${1:delimiter}\"",
+        "description": "Add the Split filter"
+    },
+    "First filter": {
+        "prefix": "first",
+        "body": "| first",
+        "description": "Add the First filter"
+    },
+    "Last filter": {
+        "prefix": "last",
+        "body": "| last",
+        "description": "Add the Last filter"
+    },
+    "Join filter": {
+        "prefix": "join",
+        "body": "| join:\"${1:delimiter}\"",
+        "description": "Add the Join filter"
+    },
+    "Sort filter": {
+        "prefix": "sort",
+        "body": "| sort",
+        "description": "Add the Sort filter"
+    },
+    "Size filter": {
+        "prefix": "size",
+        "body": "| size",
+        "description": "Add the Size filter"
+    },
+    "Uniq filter": {
+        "prefix": "uniq",
+        "body": "| uniq",
+        "description": "Add the Uniq filter"
+    },
+    "Reverse filter": {
+        "prefix": "reverse",
+        "body": "| reverse",
+        "description": "Add the Reverse filter"
+    },
+    "map filter": {
+        "prefix": "map",
+        "body": "| map:\"${1:text}\"",
+        "description": "Add the map filter"
+    },
+    "range filter": {
+        "prefix": "range",
+        "body": "| range:\"${1:text}\"",
+        "description": "Add the range filter"
+    },
+    "group filter": {
+        "prefix": "group",
+        "body": "| group:\"${1:text}\"",
+        "description": "Add the group filter"
+    },
+    "index by filter": {
+        "prefix": "index by",
+        "body": "| index by:\"${1:text}\"",
+        "description": "Add the index by filter"
+    },
+    "where filter": {
+        "prefix": "where",
+        "body": "| where:\"${1:text}\"",
+        "description": "Add the where filter"
+    },
+    "analytical_code filter": {
+        "prefix": "analytical_code",
+        "body": "| analytical_code:\"${1:text}\"",
+        "description": "Add the analytical_code filter"
+    },
+    "add_rounding_difference filter": {
+        "prefix": "add_rounding_difference",
+        "body": "| add_rounding_difference",
+        "description": "Add the add_rounding_difference filter"
+    },
+    "advance_years filter": {
+        "prefix": "advance_years",
+        "body": "| advance_years:${1:number}",
+        "description": "Add the advance_years filter"
+    },
+    "advance_months filter": {
+        "prefix": "advance_months",
+        "body": "| advance_months:${1:number}",
+        "description": "Add the advance_months filter"
+    },
+    "advance_weeks filter": {
+        "prefix": "advance_weeks",
+        "body": "| advance_weeks:${1:number}",
+        "description": "Add the advance_weeks filter"
+    },
+    "advance_days filter": {
+        "prefix": "advance_days",
+        "body": "| advance_days:${1:number}",
+        "description": "Add the advance_days filter"
+    },
+    "advance_hours filter": {
+        "prefix": "advance_hours",
+        "body": "| advance_hours:${1:number}",
+        "description": "Add the advance_hours filter"
+    },
+    "advance_minutes filter": {
+        "prefix": "advance_minutes",
+        "body": "| advance_minutes:${1:number}",
+        "description": "Add the advance_minutes filter"
+    },
+    "advance_seconds filter": {
+        "prefix": "advance_seconds",
+        "body": "| advance_seconds:${1:number}",
+        "description": "Add the advance_seconds filter"
+    },
+    "retract_years filter": {
+        "prefix": "retract_years",
+        "body": "| retract_years:${1:number}",
+        "description": "Add the retract_years filter"
+    },
+    "retract_months filter": {
+        "prefix": "retract_months",
+        "body": "| retract_months:${1:number}",
+        "description": "Add the retract_months filter"
+    },
+    "retract_weeks filter": {
+        "prefix": "retract_weeks",
+        "body": "| retract_weeks:${1:number}",
+        "description": "Add the retract_weeks filter"
+    },
+    "retract_days filter": {
+        "prefix": "retract_days",
+        "body": "| retract_days:${1:number}",
+        "description": "Add the retract_days filter"
+    },
+    "retract_hours filter": {
+        "prefix": "retract_hours",
+        "body": "| retract_hours:${1:number}",
+        "description": "Add the retract_hours filter"
+    },
+    "retract_minutes filter": {
+        "prefix": "retract_minutes",
+        "body": "| retract_minutes:${1:number}",
+        "description": "Add the retract_minutes filter"
+    },
+    "retract_seconds filter": {
+        "prefix": "retract_seconds",
+        "body": "| retract_seconds:${1:number}",
+        "description": "Add the retract_seconds filter"
     }
 
 }

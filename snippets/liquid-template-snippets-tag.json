@@ -601,6 +601,15 @@
         ],
         "description": "By using adjustment button tag you can create a button that would automatically make an adjustment, filled with values taken from Liquid logic."
     },
+    "adjustment button tag with purpose": {
+        "prefix": "adjustmentbuttonwithpurpose",
+        "body": [
+            "{% adjustmentbutton text:\"${1:text}\" category:\"${2:text}\" purpose:\"${3:text}\" %}",
+            "\t${4:content}",
+            "{% endadjustmentbutton %}"
+        ],
+        "description": "By using adjustment button tag you can create a button that would automatically make an adjustment, filled with values taken from Liquid logic, with the added purpose filter."
+    },
     "end adjustment button tag": {
         "prefix": "endadjustmentbutton",
         "body": "{% endadjustmentbutton %}"
