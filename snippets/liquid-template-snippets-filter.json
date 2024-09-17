@@ -8,9 +8,14 @@
         "prefix": "date: YYYY-MM-DD",
         "body": "| date:\"%F\"",
         "description": [
-            "Comparison date format: DD/MM/YYYY.\n",
+            "Comparison date format: YYYY-MM-DD.",
             "Required for calculations or comparisons between multiple dates."
         ]
+    },
+    "localized_date filter": {
+        "prefix": "localized_date",
+        "body": "| localized_date: \"%d/%m/%Y %H:%M\"",
+        "description": "Display a date according to the time-zone from where the template is being executed"
     },
     "Localized filter": {
         "prefix": "localized",
@@ -39,7 +44,7 @@
             "Rounds the input value up:",
             "  ceil:0 to the nearest whole number",
             "  ceil:1 to the nearest 0.1",
-            "  ceil:-1 to the nearest 10\n"
+            "  ceil:-1 to the nearest 10"
         ]
     },
     "floor filter": {
@@ -49,7 +54,7 @@
             "Rounds the input value down:",
             "  floor:0 to the nearest whole number",
             "  floor:1 to the nearest 0.1",
-            "  floor:-1 to the nearest 10\n"
+            "  floor:-1 to the nearest 10"
         ]
     },
     "currency filter (default)": {
@@ -72,18 +77,18 @@
         "body": "invert:true",
         "description": [
             "Invert value of accounts",
-            "Only works with the currency filter\n"
+            "Only works with the currency filter"
         ]
     },
     "integer filter": {
         "prefix": "integer",
         "body": "| integer",
-        "description": "Convert number to an Integer value "
+        "description": "Convert number to an Integer value"
     },
     "INT function": {
         "prefix": "INT",
         "body": "INT(${1:value})",
-        "description": "Convert wrapped number to an Integer value "
+        "description": "Convert wrapped number to an Integer value"
     },
     "percentage filter (default)": {
         "prefix": "percentage",
@@ -102,7 +107,7 @@
     "number to human filter": {
         "prefix": "number_to_human",
         "body": "| number_to_human",
-        "description": "Output accounts value as combination of integers and English words e.g. 287 thousand"
+        "description": "Output accounts value as combination of integers and English words e.g., 287 thousand"
     },
     "number to currency filter": {
         "prefix": "number_to_currency",
@@ -120,8 +125,8 @@
         "description": [
             "Apply rounding:",
             "  round:0 round to 0 decimal places",
-            "  round:4 round to 2 decimal places",
-            "  round:-1 round to the nearest 10\n"
+            "  round:4 round to 4 decimal places",
+            "  round:-1 round to the nearest 10"
         ]
     },
     "modulo filter": {
@@ -188,14 +193,14 @@
     "prepend filter": {
         "prefix": "prepend",
         "body": "| prepend:\"${1:String to add}\"",
-        "description": "Add String to the beginning of String"
+        "description": "Add String to the beginning of a String"
     },
     "strip filter": {
         "prefix": "strip",
         "body": "| strip",
         "description": "Remove leading and trailing whitespaces"
     },
-    "slice": {
+    "slice filter": {
         "prefix": "slice",
         "body": "| slice:${1:start}, ${2:end}",
         "description": [
@@ -222,82 +227,77 @@
     "url_encode": {
         "prefix": "url_encode",
         "body": "| url_encode",
-        "description": "Encode any url-unsafe characters String into hex"
+        "description": "Encode any URL-unsafe characters in a String into hex"
     },
     "url_decode": {
         "prefix": "url_decode",
         "body": "| url_decode",
-        "description": "Decode hex encoded String"
+        "description": "Decode hex-encoded String"
     },
     "strip_html filter": {
         "prefix": "strip_html",
         "body": "| strip_html",
         "description": "Remove HTML tags from a String"
-    },"allow_false filter": {
+    },
+    "allow_false filter": {
         "prefix": "allow_false",
         "body": ", allow_false:true",
-        "description": "Add the filter of allow_false"
+        "description": "Add the allow_false filter"
     },
     "md5 filter": {
         "prefix": "md5",
         "body": "| md5",
-        "description": "Converts a string into an MD5 hash"
-    }
-    ,
+        "description": "Convert a String into an MD5 hash"
+    },
     "transliterate filter": {
         "prefix": "transliterate",
         "body": "| transliterate",
-        "description": "Transliterates strings based on the Unicoder library"
-    },
-    "localized_date filter": {
-        "prefix": "localized_date",
-        "body": "| localized_date: \"%d/%m/%Y %H:%M\"" ,
-        "description": "Display a date according to the time-zone from where template is being executed"
+        "description": "Transliterate strings based on the Unicoder library"
     },
     "concat filter": {
         "prefix": "concat",
         "body": "| concat",
-        "description": "Add the Concat filter"
+        "description": "Add the concat filter"
     },
     "Split filter": {
         "prefix": "Split",
-        "body": "| split :\"${1:delimiter}\"",
-        "description": "Add the Split filter"
+        "body": "| split:\"${1:delimiter}\"",
+        "description": "Add the split filter"
     },
     "First filter": {
         "prefix": "first",
         "body": "| first",
-        "description": "Add the First filter"
+        "description": "Add the first filter"
     },
     "Last filter": {
         "prefix": "last",
         "body": "| last",
-        "description": "Add the Last filter"
+        "description": "Add the last filter"
     },
     "Join filter": {
         "prefix": "join",
         "body": "| join:\"${1:delimiter}\"",
-        "description": "Add the Join filter"
+        "description": "Add the join filter"
     },
     "Sort filter": {
         "prefix": "sort",
         "body": "| sort",
-        "description": "Add the Sort filter"
+        "description": "Add the sort filter"
     },
     "Size filter": {
         "prefix": "size",
         "body": "| size",
-        "description": "Add the Size filter"
+        "description": "Add the size filter"
     },
     "Uniq filter": {
         "prefix": "uniq",
         "body": "| uniq",
-        "description": "Add the Uniq filter"
+        "description": "Add the uniq filter"
     },
     "Reverse filter": {
         "prefix": "reverse",
         "body": "| reverse",
-        "description": "Add the Reverse filter"
+        "description": "Add the reverse filter"
     },
     "map filter": {
         "prefix": "map",
@@ -404,5 +404,4 @@
         "body": "| retract_seconds:${1:number}",
         "description": "Add the retract_seconds filter"
     }
-
 }

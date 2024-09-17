@@ -1584,7 +1584,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
 </table>
 </body>
 </html>
-
+****
 ## Third party extensions
 
 - YAML extension: To apply our Schema to YAML files, we need to have [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) activated (this extension should be added automatically since it is set as a dependency).

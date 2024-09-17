@@ -12,12 +12,12 @@
             "\t<tbody>",
             "\t\t<tr>",
             "\t\t\t<td>${6:content}</td>",
-            "\t\t\t<td>${6:content}</td>",
+            "\t\t\t<td>${7:content}</td>",
             "\t\t</tr>",
             "\t</tbody>",
             "</table>"
         ],
-        "description": "Use html to create a table with more customization."
+        "description": "Add snippet for a minimal HTML table with a header, body, and width classes defined"
     },
     "HTML thead tag": {
         "prefix": "thead",
@@ -26,7 +26,7 @@
             "\t${1:content}",
             "</thead>"
         ],
-        "description": "HTML header tag"
+        "description": "Add opening and closing <thead> tags for an HTML table"
     },
     "HTML tbody tag": {
         "prefix": "tbody",
@@ -35,217 +35,211 @@
             "\t${1:content}",
             "</tbody>"
         ],
-        "description": "HTML body tag"
+        "description": "Add opening and closing <tbody> tags for an HTML table"
     },
     "HTML tablerow tag": {
         "prefix": "tr",
         "body": [
             "<tr>",
-            "\t<td class=\"\">${6:content}</td>",
-            "\t<td class=\"\">${6:content}</td>",
+            "\t<td class=\"\">${1:content}</td>",
+            "\t<td class=\"\">${2:content}</td>",
             "</tr>"
         ],
-        "description": "HTML row tag"
+        "description": "Add opening and closing <tr> tags for an HTML table with nested <td> elements"
     },
     "HTML tableheader tag": {
         "prefix": "th",
-        "body": "<th>${2:content}</th>",
-        "description": "HTML sub header tag"
+        "body": "<th>${1:content}</th>",
+        "description": "Add opening and closing <th> tags for an HTML table"
     },
     "HTML tabledata tag": {
         "prefix": "td",
         "body": "<td>${1:content}</td>",
-        "description": "HTML sub body tag"
+        "description": "Add opening and closing <td> tags for an HTML table"
     },
     "HTML break tag": {
         "prefix": "br",
         "body": "<br>",
-        "description": "HTML line break tag"
+        "description": "Add an HTML line-break tag"
     },
     "HTML bold tag": {
         "prefix": "b",
         "body": "<b>${1:content}</b>",
-        "description": "HTML bold tag"
+        "description": "Add opening and closing <b> tags for bold text formatting in HTML"
     },
     "HTML italic tag": {
         "prefix": "i",
         "body": "<i>${1:content}</i>",
-        "description": "HTML italic tag"
+        "description": "Add opening and closing <i> tags for italic text formatting in HTML"
     },
     "HTML underline tag": {
         "prefix": "u",
         "body": "<u>${1:content}</u>",
-        "description": "HTML underline tag"
+        "description": "Add opening and closing <u> tags for underlined text formatting in HTML"
+    },
+    "HTML em-tags": {
+        "prefix": "em",
+        "body": "<em>${1:content}</em>",
+        "description": "Add opening and closing <em> tags for emphasized (italic) text formatting in HTML"
+    },
+    "HTML sub-tags": {
+        "prefix": "sub",
+        "body": "<sub>${1:content}</sub>",
+        "description": "Add opening and closing <sub> tags for subscript text formatting in HTML"
+    },
+    "HTML sup-tags": {
+        "prefix": "sup",
+        "body": "<sup>${1:content}</sup>",
+        "description": "Add opening and closing <sup> tags for superscript text formatting in HTML"
+    },
+    "HTML Header 1": {
+        "prefix": "h1",
+        "body": "<h1>${1:content}</h1>",
+        "description": "Add opening and closing <h1> tags for heading text formatting in HTML"
+    },
+    "HTML Header 2": {
+        "prefix": "h2",
+        "body": "<h2>${1:content}</h2>",
+        "description": "Add opening and closing <h2> tags for sub-heading text formatting in HTML"
+    },
+    "HTML a-tags": {
+        "prefix": "a",
+        "body": "<a href=\"${1:url}\">${2:content}</a>",
+        "description": "Add opening and closing <a> tags with href for hyperlink text formatting in HTML"
+    },
+    "HTML hr-tags": {
+        "prefix": "hr",
+        "body": "<hr>",
+        "description": "Add horizontal rule tag in HTML"
+    },
+    "HTML p-tags": {
+        "prefix": "<p>",
+        "body": "<p>${1:content}</p>",
+        "description": "Add opening and closing <p> tags for paragraph text formatting in HTML"
     },
     "HTML class": {
         "prefix": "class",
-        "body": "class=\"${1:usr-*}\""
+        "body": "class=\"${1:class-name}\"",
+        "description": "Add class attribute to HTML elements"
     },
     "HTML width class": {
         "prefix": "usr-width-",
         "body": "usr-width-${1:1__100}",
-        "description": "HTML width class"
+        "description": "Add usr-width-* class to set element width"
     },
     "HTML align left class": {
         "prefix": "usr-align-left",
         "body": "usr-align-left",
-        "description": "HTML align text left class"
+        "description": "Add usr-align-left class to align text left"
     },
     "HTML align center class": {
         "prefix": "usr-align-center",
         "body": "usr-align-center",
-        "description": "HTML align text center class"
+        "description": "Add usr-align-center class to align text center"
     },
     "HTML align right class": {
         "prefix": "usr-align-right",
         "body": "usr-align-right",
-        "description": "HTML align text right class"
+        "description": "Add usr-align-right class to align text right"
     },
     "HTML align justify class": {
         "prefix": "usr-align-justify",
         "body": "usr-align-justify",
-        "description": "HTML align text center class"
+        "description": "Add usr-align-justify class to justify text"
     },
     "HTML vertical align top class": {
         "prefix": "usr-valign-top",
         "body": "usr-valign-top",
-        "description": "HTML align text top class"
+        "description": "Add usr-valign-top class to vertically align content to top"
     },
     "HTML vertical align center class": {
         "prefix": "usr-valign-center",
         "body": "usr-valign-center",
-        "description": "HTML align text vertical center class"
+        "description": "Add usr-valign-center class to vertically align content to center"
     },
     "HTML vertical align bottom class": {
         "prefix": "usr-valign-bottom",
         "body": "usr-valign-bottom",
-        "description": "HTML align text bottom class"
+        "description": "Add usr-valign-bottom class to vertically align content to bottom"
     },
     "HTML line top class": {
         "prefix": "usr-line-top",
         "body": "usr-line-top",
-        "description": "HTML create line above text class"
+        "description": "Add usr-line-top class to add a top border"
     },
     "HTML line bottom class": {
         "prefix": "usr-line-bottom",
         "body": "usr-line-bottom",
-        "description": "HTML create line under text class"
+        "description": "Add usr-line-bottom class to add a bottom border"
     },
     "HTML line left class": {
         "prefix": "usr-line-left",
         "body": "usr-line-left",
-        "description": "HTML create line to the left of text class"
+        "description": "Add usr-line-left class to add a left border"
     },
     "HTML line right class": {
         "prefix": "usr-line-right",
         "body": "usr-line-right",
-        "description": "HTML create line to the right of text class"
+        "description": "Add usr-line-right class to add a right border"
     },
     "HTML double line top class": {
         "prefix": "usr-double-line-top",
         "body": "usr-double-line-top",
-        "description": "HTML create line above text class"
+        "description": "Add usr-double-line-top class to add a double top border"
     },
     "HTML double line bottom class": {
         "prefix": "usr-double-line-bottom",
         "body": "usr-double-line-bottom",
-        "description": "HTML create line under text class"
+        "description": "Add usr-double-line-bottom class to add a double bottom border"
     },
     "HTML double line left class": {
         "prefix": "usr-double-line-left",
         "body": "usr-double-line-left",
-        "description": "HTML create line to the left of text class"
+        "description": "Add usr-double-line-left class to add a double left border"
     },
     "HTML double line right class": {
         "prefix": "usr-double-line-right",
         "body": "usr-double-line-right",
-        "description": "HTML create line to the right of text class"
+        "description": "Add usr-double-line-right class to add a double right border"
     },
     "HTML border colour class": {
         "prefix": "usr-border-color-",
         "body": "usr-border-color-${1:Hex Colour Code}",
-        "description": "HTML sets border colour"
+        "description": "Add class to set table cell border color in Hex"
     },
     "HTML background colour class": {
         "prefix": "usr-background-color-",
         "body": "usr-background-color-${1:Hex Colour Code}",
-        "description": "HTML sets background colour"
+        "description": "Add class to set table cell background color in Hex"
     },
     "HTML indent class": {
         "prefix": "usr-indent-",
         "body": "usr-indent-${1:1__10}",
-        "description": "HTML create indentation in cell"
+        "description": "Add usr-indent-* class to indent content"
     },
     "HTML repeated header class": {
         "prefix": "usr-repeated-header",
         "body": "usr-repeated-header",
-        "description": "HTML for long tables, header well be repeated during pdf export"
+        "description": "Add usr-repeated-header class to repeat table header on new pages in PDF export"
     },
     "HTML no left padding": {
         "prefix": "usr-no-left-padding",
         "body": "usr-no-left-padding",
-        "description": "HTML removes default left padding"
+        "description": "Add usr-no-left-padding class to remove default left padding"
     },
     "HTML grayed-out background": {
         "prefix": "usr-grayed-out-background-input",
         "body": "usr-grayed-out-background-input",
-        "description": "HTML sets background of cell to gray"
+        "description": "Add class to set table cell background to gray"
     },
     "HTML grayed-out bottom line": {
         "prefix": "usr-grayed-out-line-bottom-input",
         "body": "usr-grayed-out-line-bottom-input",
-        "description": "HTML sets bottom line of cell to gray"
+        "description": "Add class to set faint table cell bottom lines"
     },
     "HTML same page header": {
         "prefix": "usr-hide-samepage-header",
         "body": "usr-hide-samepage-header",
-        "description": "Add usr-hide-samepage-header class"
-    },
-    "HTML em-tags": {
-        "prefix": "em",
-        "body": "<em>${1:variable}</em>",
-        "description": "Add opening and closing em-tags for italic text formatting in HTML"
-    }
-    ,
-    "HTML sub-tags": {
-        "prefix": "sub",
-        "body": "<sub>${1:variable}</sub>",
-        "description": "Add opening and closing sub-tags for Subscript text formatting in HTML"
-    }
-    ,
-    "HTML sup-tags": {
-        "prefix": "sup",
-        "body": "<sup>${1:variable}</sup>",
-        "description": "Add opening and closing sup-tags for Subscript text formatting in HTML"
-    }
-    ,
-    "HTML Header 1": {
-        "prefix": "h1",
-        "body": "<h1>${1:variable}</h1>",
-        "description": "Add opening and closing h1-tags for sub-heading text formatting in HTML"
-    }
-    ,
-    "HTML Header 2": {
-        "prefix": "h2",
-        "body": "<h2>${1:variable}</h2>",
-        "description": "Add opening and closing h2-tags for sub-heading text formatting in HTML"
-    }
-    ,
-    "HTML a-tags": {
-        "prefix": "a",
-        "body": "<a>${1:variable}</a>",
-        "description": "Add opening and closing a-tags & href tags for hyperlink text formatting in HTML"
-    }
-    ,
-    "HTML hr-tags": {
-        "prefix": "hr",
-        "body": "<hr>${1:variable}</hr>",
-        "description": "Add opening and closing hr-tags for Paragraph text formatting in HTML"
-    }
-    ,
-    "HTML p-tags": {
-        "prefix": "<p>",
-        "body": "<p>${1:variable}</p>",
-        "description": "Add opening and closing p-tags for Paragraph text formatting in HTML"
+        "description": "Add usr-hide-samepage-header class to hide header when content continues on same page"
     }
 }

@@ -6,7 +6,6 @@
             "Return size of an array or string"
         ]
     },
-
     "Count drop": {
         "prefix": "count",
         "body": "count",
@@ -44,18 +43,28 @@
     },
     "Accounts drop (with options)": {
         "prefix": "accounts.",
-        "body": "accounts.${1|assets,bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,equity,expenses,first,including_zeros,income,liabilities,name,p_and_l_rounding_account,p_and_l_rounding_difference,revenues,return_value_in_millions,return_value_in_thousands,starred|}",
+        "body": "accounts.${1|assets,bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,equity,expenses,first,including_zeros,income,liabilities,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands,starred|}",
         "description": "All drops under the accounts drop"
     },
-    "Starred accounts drop": {
-        "prefix": "starred",
-        "body": "starred",
-        "description": "Return all starred accounts - must use with variable of type accounts"
+    "Accounts credit value drop": {
+        "prefix": "credit_value",
+        "body": "credit_value",
+        "description": "Return sum of credit value of all selected accounts - must use with variable of type accounts"
     },
-    "Starred accounts drop (with options)": {
-        "prefix": "starred.",
-        "body": "starred.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
-        "description": "All drops under the starred drop"
+    "Accounts debit value drop": {
+        "prefix": "debit_value",
+        "body": "debit_value",
+        "description": "Return sum of debit value of all selected accounts - must use with variable of type accounts"
+    },
+    "Accounts drop including zeros": {
+        "prefix": "include_zeros",
+        "body": "include_zeros",
+        "description": "Return accounts drop, including accounts with a zero balance, from all selected accounts - must use with variable of type accounts"
+    },
+    "Accounts drop including zeros (with options)": {
+        "prefix": "include_zeros.",
+        "body": "include_zeros.${1|assets,bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,equity,expenses,first,income,liabilities,name,p_and_l_rounding_account,p_and_l_rounding_difference,revenues,return_value_in_millions,return_value_in_thousands,starred|}",
+        "description": "All drops for the equity drop"
     },
     "Assets accounts drop": {
         "prefix": "assets",
@@ -117,30 +126,10 @@
         "body": "equity.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
         "description": "All drops for the equity drop"
     },
-    "Accounts credit value drop": {
-        "prefix": "credit_value",
-        "body": "credit_value",
-        "description": "Return sum of credit value of all selected accounts - must use with variable of type accounts"
-    },
-    "Accounts debit value drop": {
-        "prefix": "debit_value",
-        "body": "debit_value",
-        "description": "Return sum of debit value of all selected accounts - must use with variable of type accounts"
-    },
     "First - account drop (with options)": {
         "prefix": "first.",
         "body": "first.${1|asset?,asset_or_expense,credit_value,custom,debit_value,equity?,expense?,id,income?,liability?,liability_or_income,link,name,mapped_number,number,opening_value,original_name,original_number,results,transactions,value,value_without_adjustments|}",
         "description": "All drops under the account drop"
-    },
-    "Accounts drop including zeros": {
-        "prefix": "include_zeros",
-        "body": "include_zeros",
-        "description": "Return accounts drop, including accounts with a zero balance, from all selected accounts - must use with variable of type accounts"
-    },
-    "Accounts drop including zeros (with options)": {
-        "prefix": "include_zeros.",
-        "body": "include_zeros.${1|assets,bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,equity,expenses,first,income,liabilities,name,p_and_l_rounding_account,p_and_l_rounding_difference,revenues,return_value_in_millions,return_value_in_thousands,starred|}",
-        "description": "All drops for the equity drop"
     },
     "Pnl rounding difference drop": {
         "prefix": "p_and_l_rounding_difference",
@@ -171,6 +160,16 @@
         "prefix": "return_values_in_thousands",
         "body": "return_values_in_thousands",
         "description": "Return value of the individual account drops in the selected accounts drop in thousands - must use with variable of type accounts"
+    },
+    "Starred accounts drop": {
+        "prefix": "starred",
+        "body": "starred",
+        "description": "Return all starred accounts - must use with variable of type accounts"
+    },
+    "Starred accounts drop (with options)": {
+        "prefix": "starred.",
+        "body": "starred.${1|bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,first,include_zeros,name,p_and_l_rounding_account,p_and_l_rounding_difference,return_value_in_millions,return_value_in_thousands|}",
+        "description": "All drops under the starred drop"
     },
     "Company drop (with options)": {
         "prefix": "company.",
@@ -247,7 +246,7 @@
         "body": "people.${1|count,first|}",
         "description": "All drops under the People drop"
     },
-    "Directors drops (wuth options)": {
+    "Directors drops (with options)": {
         "prefix": "directors.",
         "body": "directors.${1|count,first,active_as_director,active_as_director_on|}",
         "description": "All drops under the special Directors drop"
@@ -291,16 +290,6 @@
         "prefix": "accounts",
         "body": "accounts",
         "description": "Return all accounts in the period - must use with variable of type period (drop)"
-    },
-    "Account mapping list drop (with optiont)": {
-        "prefix": "account_mapping_list.",
-        "body": "account_mapping_list.${1|name,id,marketplace_template_id|}",
-        "description": "All drops under the Account Mapping List drop"
-    },
-    "Marketplace template id drop": {
-        "prefix": "marketplace_template_id",
-        "body": "marketplace_template_id",
-        "description": "Return id of Mapping List on the marketplace - must use with variable of type period (integer)"
     },
     "Adjustments drop": {
         "prefix": "adjustments",
@@ -402,6 +391,16 @@
         "body": "plus_${1|1,2,3|}${2|p,y|}",
         "description": "Return period after current period by a set number of periods or year - must use with variable of type period (drop)"
     },
+    "Account mapping list drop (with options)": {
+        "prefix": "account_mapping_list.",
+        "body": "account_mapping_list.${1|name,id,marketplace_template_id|}",
+        "description": "All drops under the Account Mapping List drop"
+    },
+    "Marketplace template id drop": {
+        "prefix": "marketplace_template_id",
+        "body": "marketplace_template_id",
+        "description": "Return id of Mapping List on the marketplace - must use with variable of type period (integer)"
+    },
     "Reconciliations drop (with options)": {
         "prefix": "reconciliations.",
         "body": "reconciliations.${1|[reconciliation_handle],count,star|}",
@@ -422,5 +421,4 @@
         "body": "user.${1|name,email|}",
         "description": "Return all drops under the User drop"
     }
-
 }
