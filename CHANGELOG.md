@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.18.2]
+
+- Bump Silverfin CLI version (1.26.12 -> 1.26.14)
+
 ## [1.18.1]
 
 - Bump Silverfin CLI version (1.26.10 -> 1.26.12)
