@@ -101,12 +101,20 @@
     ],
     "snippets": [
       {
-        "language": "yaml",
-        "path": "./snippets/liquid-tests-snippets.json"
+        "language": "liquid",
+        "path": "./snippets/liquid-template-snippets-drops.json"
       },
       {
         "language": "liquid",
-        "path": "./snippets/liquid-template-snippets.json"
+        "path": "./snippets/liquid-template-snippets-filter.json"
+      },
+      {
+        "language": "liquid",
+        "path": "./snippets/liquid-template-snippets-table.json"
+      },
+      {
+        "language": "liquid",
+        "path": "./snippets/liquid-template-snippets-tag.json"
       }
     ],
     "commands": [
