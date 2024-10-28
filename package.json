@@ -110,7 +110,11 @@
       },
       {
         "language": "liquid",
-        "path": "./snippets/liquid-template-snippets-table.json"
+        "path": "./snippets/liquid-template-snippets-html-table.json"
+      },
+      {
+        "language": "liquid",
+        "path": "./snippets/liquid-template-snippets-html-style.json"
       },
       {
         "language": "liquid",

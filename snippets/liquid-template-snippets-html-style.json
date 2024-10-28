@@ -1,0 +1,115 @@
+{
+  "HTML p-tags": {
+    "prefix": "<p>",
+    "body": "<p>${1:content}</p>",
+    "description": "Add opening and closing <p> tags for paragraph text formatting in HTML"
+    },
+
+  "HTML hr-tags": {
+    "prefix": "hr",
+    "body": "<hr>",
+    "description": "Add horizontal rule tag in HTML"
+  },
+  "HTML break tag": {
+    "prefix": "br",
+    "body": "<br>",
+    "description": "Add HTML line-break tag"
+  },
+
+  "HTML bold tag": {
+    "prefix": "b",
+    "body": "<b>${1:content}</b>",
+    "description": "Add opening and closing <b> tags for bold text formatting in HTML"
+  },
+  "HTML italic tag": {
+    "prefix": "i",
+    "body": "<i>${1:content}</i>",
+    "description": "Add opening and closing <i> tags for italic text formatting in HTML"
+  },
+  "HTML underline tag": {
+    "prefix": "u",
+    "body": "<u>${1:content}</u>",
+    "description": "Add opening and closing <u> tags for underlined text formatting in HTML"
+  },
+  "HTML em-tags": {
+    "prefix": "em",
+    "body": "<em>${1:content}</em>",
+    "description": "Add opening and closing <em> tags for emphasized (italic) text formatting in HTML"
+  },
+  "HTML strong-tags": {
+    "prefix": "strong",
+    "body": "<strong>${1:content}</strong>",
+    "description": "Add opening and closing <strong> tags for strong (bold) text formatting in HTML"
+  },
+  "HTML sub-tags": {
+    "prefix": "sub",
+    "body": "<sub>${1:content}</sub>",
+    "description": "Add opening and closing <sub> tags for subscript text formatting in HTML"
+  },
+  "HTML sup-tags": {
+    "prefix": "sup",
+    "body": "<sup>${1:content}</sup>",
+    "description": "Add opening and closing <sup> tags for superscript text formatting in HTML"
+  },
+
+  "HTML Header 1": {
+    "prefix": "h1",
+    "body": "<h1>${1:content}</h1>",
+    "description": [
+      "Add opening and closing <h1> tags for section heading text formatting in HTML\n",
+      "<h1> is the largest heading and <h6> is the smallest\n",
+      "Cannot be used inside HTML tables"
+    ]    
+  },
+  "HTML Header 2": {
+    "prefix": "h2",
+    "body": "<h2>${1:content}</h2>",
+    "description": [
+      "Add opening and closing <h2> tags for section heading text formatting in HTML\n",
+      "<h1> is the largest heading and <h6> is the smallest\n",
+      "Cannot be used inside HTML tables"
+    ]
+  },
+  "HTML Header 3": {
+    "prefix": "h3",
+    "body": "<h3>${1:content}</h3>",
+    "description": [
+      "Add opening and closing <h3> tags for section heading text formatting in HTML\n",
+      "<h1> is the largest heading and <h6> is the smallest\n",
+      "Cannot be used inside HTML tables"
+    ]
+  },
+  "HTML Header 4": {
+    "prefix": "h4",
+    "body": "<h4>${1:content}</h4>",
+    "description": [
+      "Add opening and closing <h4> tags for section heading text formatting in HTML\n",
+      "<h1> is the largest heading and <h6> is the smallest\n",
+      "Cannot be used inside HTML tables"
+    ]
+  },
+  "HTML Header 5": {
+    "prefix": "h5",
+    "body": "<h5>${1:content}</h5>",
+    "description": [
+      "Add opening and closing <h5> tags for section heading text formatting in HTML\n",
+      "<h1> is the largest heading and <h6> is the smallest\n",
+      "Cannot be used inside HTML tables"
+    ]
+  },
+  "HTML Header 6": {
+    "prefix": "h6",
+    "body": "<h6>${1:content}</h6>",
+    "description": [
+      "Add opening and closing <h6> tags for section heading text formatting in HTML\n",
+      "<h1> is the largest heading and <h6> is the smallest\n",
+      "Cannot be used inside HTML tables"
+    ]
+  },
+
+  "HTML a-tags": {
+    "prefix": ["anchor","a"],
+    "body": "<a href=\"https://${1:url}\">${2:content}</a>",
+    "description": "Add opening and closing <a> tags with href for hyperlink text formatting in HTML"
+  }
+}
