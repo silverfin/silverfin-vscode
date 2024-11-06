@@ -135,35 +135,627 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
 
 <br>
 
+## Silverfin Snippets Reference
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Silverfin Shortcut Reference</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        h1, h2 {
-            color: #ddd;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silverfin Shortcut Reference</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      border: 1px solid #ddd;
+      padding: 8px;
+      font-size: 17px;
+    }
+    h3 {
+      color: #ddd;
+      font-size: 18px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Silverfin Shortcut Reference</h1>
-    <h2>Filter Snippets</h2>
+  <!-- STYLE SNIPPETS -->
+  <h3>Style Snippets</h3>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 30%;">Shortcut</th>
+        <th style="width: 70%;">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>&lt;p&gt;</code></td>
+        <td>Add opening and closing <code>&lt;p&gt;</code> tags for paragraph text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>br</code></td>
+        <td>Add an HTML line-break tag</td>
+      </tr>
+      <tr>
+        <td><code>hr</code></td>
+        <td>Add horizontal rule tag in HTML</td>
+      </tr>
+      <tr>
+        <td><code>b</code></td>
+        <td>Add opening and closing <code>&lt;b&gt;</code> tags for bold text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>i</code></td>
+        <td>Add opening and closing <code>&lt;i&gt;</code> tags for italic text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>u</code></td>
+        <td>Add opening and closing <code>&lt;u&gt;</code> tags for underlined text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>em</code></td>
+        <td>Add opening and closing <code>&lt;em&gt;</code> tags for emphasized (italic) text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>strong</code></td>
+        <td>Add opening and closing <code>&lt;strong&gt;</code> tags for strong (bold) text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>sub</code></td>
+        <td>Add opening and closing <code>&lt;sub&gt;</code> tags for subscript text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>sup</code></td>
+        <td>Add opening and closing <code>&lt;sup&gt;</code> tags for superscript text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>h1, h2, h3, h4, h5, h6</code></td>
+        <td>
+          Add opening and closing tags for section heading text formatting in HTML. <code>&lt;h1&gt;</code> is the largest heading and <code>&lt;h6&gt;</code> is the smallest.<br>
+          <strong>Cannot</strong> be used inside HTML tables within a Liquid template
+        </td>
+      </tr>
+      <tr>
+        <td><code>a, anchor</code></td>
+        <td>Add opening and closing <code>&lt;a&gt;</code> tags for hyperlink text formatting in HTML</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- TAG SNIPPETS -->
+  <h3>Tag Snippets</h3>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 30%;">Shortcut</th>
+        <th style="width: 70%;">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Comments -->
+      <tr>
+        <td colspan="2"><strong>Comments</strong></td>
+      </tr>
+      <tr>
+        <td><code>comment</code></td>
+        <td>Add opening and closing <code>comment</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>endcomment</code></td>
+        <td>Only add the closing <code>comment</code> tag</td>
+      </tr>
+      <tr>
+        <td><code>ic</code></td>
+        <td>Add opening and closing <code>ic</code> tags (input only)</td>
+      </tr>
+      <tr>
+        <td><code>endic</code></td>
+        <td>Only add the closing <code>ic</code> tag (input only)</td>
+      </tr>
+      <tr>
+        <td><code>nic</code></td>
+        <td>Add opening and closing <code>nic</code> tags (export only)</td>
+      </tr>
+      <tr>
+        <td><code>endnic</code></td>
+        <td>Only add the closing <code>nic</code> tag (export only)</td>
+      </tr>
+      <!-- Variables -->
+      <tr>
+        <td colspan="2"><strong>Variables</strong></td>
+      </tr>
+      <tr>
+        <td><code>assign</code></td>
+        <td>Add an assign-tag</td>
+      </tr>
+      <tr>
+        <td><code>assign_dynamic</code></td>
+        <td>Add an assign tag for dynamic variable names</td>
+      </tr>
+      <tr>
+        <td><code>capture</code></td>
+        <td>Add opening and closing capture-tags</td>
+      </tr>
+      <tr>
+        <td><code>endcapture</code></td>
+        <td>Only add the closing capture-tag</td>
+      </tr>
+      <!-- Translations -->
+      <tr>
+          <td colspan="2"><strong>Translations</strong></td>
+      </tr>
+      <tr>
+          <td><code>t=</code></td>
+          <td>Set a translation with a default (different languages to be set depending on market)</td>
+      </tr>
+      <tr>
+          <td><code>t</code></td>
+          <td>Get a defined translation</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>Input</strong></td>
+      </tr>
+      <tr>
+          <td><code>input</code></td>
+          <td>Add a standard text-input</td>
+      </tr>
+      <tr>
+          <td><code>as:text</code></td>
+          <td>Add the attribute for a textarea input</td>
+      </tr>
+      <tr>
+          <td><code>as:currency</code></td>
+          <td>Add the attribute for a currency input</td>
+      </tr>
+      <tr>
+          <td><code>as:integer</code></td>
+          <td>Add the attribute for an integer input</td>
+      </tr>
+      <tr>
+          <td><code>as:percentage</code></td>
+          <td>Add the attribute for a percentage input</td>
+      </tr>
+      <tr>
+          <td><code>precision:</code></td>
+          <td>Add the attribute to define the precision on a percentage input</td>
+      </tr>
+      <tr>
+          <td><code>strip_insignificant_zeros</code></td>
+          <td>Add the attribute to strip the final decimal zeros from a percentage value on an input</td>
+      </tr>
+      <tr>
+          <td><code>as:boolean</code></td>
+          <td>Add the attribute for a boolean input</td>
+      </tr>
+      <tr>
+          <td><code>autoreload:</code></td>
+          <td>Add the attribute to a boolean input to auto-reload</td>
+      </tr>
+      <tr>
+          <td><code>as:date</code></td>
+          <td>Add the attribute for a date input</td>
+      </tr>
+      <tr>
+          <td><code>format:</code></td>
+          <td>Add the attribute to define the date format display inside an input</td>
+      </tr>
+      <tr>
+          <td><code>as:file</code></td>
+          <td>Add the attribute for a file input</td>
+      </tr>
+      <tr>
+          <td><code>document</code></td>
+          <td>Add the attribute to show name of the (first) attached documents of a relevant custom value</td>
+      </tr>
+      <tr>
+          <td><code>documents</code></td>
+          <td>Add the attribute to show names of all attached documents of a relevant custom value</td>
+      </tr>
+      <tr>
+          <td><code>[some documents].size</code></td>
+          <td>Count number of files attached of a relevant custom value</td>
+      </tr>
+      <tr>
+          <td><code>[some document].file_name</code></td>
+          <td>Render name of relevant document</td>
+      </tr>
+      <tr>
+          <td><code>[some document].link</code></td>
+          <td>Render link to preview of relevant document</td>
+      </tr>
+      <tr>
+          <td><code>as:select</code></td>
+          <td>Add the attribute for a select input</td>
+      </tr>
+      <tr>
+          <td><code>options:</code></td>
+          <td>Add the options attribute to a select input</td>
+      </tr>
+      <tr>
+          <td><code>option_values:</code></td>
+          <td>Add the option_values attribute to a select input</td>
+      </tr>
+      <tr>
+          <td><code>as:account_collection</code></td>
+          <td>Add the attribute for an account collection input</td>
+      </tr>
+      <tr>
+          <td><code>placeholder:</code></td>
+          <td>Add the placeholder attribute to an input</td>
+      </tr>
+      <tr>
+          <td><code>required:</code></td>
+          <td>Add the required attribute to an input</td>
+      </tr>
+      <tr>
+          <td><code>default:</code></td>
+          <td>Add the default attribute or filter to an input or variable</td>
+      </tr>
+      <tr>
+          <td><code>import_title:</code></td>
+          <td>Add import_title attribute to _both_ fori loops and inputs within fori loop when importing reconciliation data to distinguish between different collections</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>Radio Group</strong></td>
+      </tr>
+      <tr>
+          <td><code>radiogroup</code></td>
+          <td>Add a radio button input group</td>
+      </tr>
+      <tr>
+          <td><code>radioinput</code></td>
+          <td>Add individual buttons within a radio button group</td>
+      </tr>
+      <tr>
+          <td><code>autoreload:</code></td>
+          <td>Add the attribute to a radiogroup tag to auto-reload</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>Control Flow</strong></td>
+      </tr>
+      <tr>
+          <td><code>if</code></td>
+          <td>Add opening and closing if-tags</td>
+      </tr>
+      <tr>
+          <td><code>if else</code></td>
+          <td>Add opening and closing if-tags with else-statement</td>
+      </tr>
+      <tr>
+          <td><code>endif</code></td>
+          <td>Only add closing if-tag</td>
+      </tr>
+      <tr>
+          <td><code>else</code></td>
+          <td>Only add else-tag</td>
+      </tr>
+      <tr>
+          <td><code>elsif</code></td>
+          <td>Only add elsif-tag</td>
+      </tr>
+      <tr>
+          <td><code>ifi</code></td>
+          <td>Add opening and closing ifi-tags</td>
+      </tr>
+      <tr>
+          <td><code>endifi</code></td>
+          <td>Only add closing ifi-tag</td>
+      </tr>
+      <tr>
+          <td><code>unless</code></td>
+          <td>Add opening and closing unless-tags</td>
+      </tr>
+      <tr>
+          <td><code>endunless</code></td>
+          <td>Only add closing unless-tag</td>
+      </tr>
+      <tr>
+          <td><code>case</code></td>
+          <td>Add opening and closing case-tags with a when and else-statement</td>
+      </tr>
+      <tr>
+          <td><code>endcase</code></td>
+          <td>Only add closing case-tag</td>
+      </tr>
+      <tr>
+          <td><code>when</code></td>
+          <td>Add a when-tag that is used within case-tags</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>Iterations</strong></td>
+      </tr>
+      <tr>
+          <td><code>for</code></td>
+          <td>Add opening and closing forloop-tags</td>
+      </tr>
+      <tr>
+          <td><code>endfor</code></td>
+          <td>Only add closing forloop-tag</td>
+      </tr>
+      <tr>
+          <td><code>fori</code></td>
+          <td>Add opening and closing foriloop-tags</td>
+      </tr>
+      <tr>
+          <td><code>endfori</code></td>
+          <td>Only add closing foriloop-tag</td>
+      </tr>
+      <tr>
+          <td><code>import_title</code></td>
+          <td>Add import_title attribute to _both_ fori loops and inputs within fori loop when importing reconciliation data to distinguish between different collections</td>
+      </tr>
+      <tr>
+          <td><code>forloop.index</code></td>
+          <td>Add the forloop.index variable inside a forloop</td>
+      </tr>
+      <tr>
+          <td><code>forloop.index0</code></td>
+          <td>Add the forloop.index0 variable inside a forloop</td>
+      </tr>
+      <tr>
+          <td><code>forloop.first</code></td>
+          <td>Add the forloop.first variable inside a forloop</td>
+      </tr>
+      <tr>
+          <td><code>forloop.last</code></td>
+          <td>Add the forloop.last variable inside a forloop</td>
+      </tr>
+      <tr>
+          <td><code>break</code></td>
+          <td>Add the break-tag inside a forloop</td>
+      </tr>
+      <tr>
+          <td><code>continue</code></td>
+          <td>Add the continue-tag inside a forloop</td>
+      </tr>
+      <tr>
+          <td><code>limit</code></td>
+          <td>Add the limit attribute to a forloop</td>
+      </tr>
+      <tr>
+          <td><code>offset</code></td>
+          <td>Add the offset attribute to a forloop</td>
+      </tr>
+      <tr>
+          <td><code>reversed</code></td>
+          <td>Add the reversed attribute to a forloop</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>Unreconciled</strong></td>
+      </tr>
+      <tr>
+          <td><code>unreconciled</code></td>
+          <td>Add the unreconciled tag as an indicator with unreconciled text</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>Result</strong></td>
+      </tr>
+      <tr>
+          <td><code>result</code></td>
+          <td>Add a result tag</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>Rollforward</strong></td>
+      </tr>
+      <tr>
+          <td><code>rollforward</code></td>
+          <td>Add a rollforward tag</td>
+      </tr>
+      <tr>
+          <td><code>rollforward.period</code></td>
+          <td>Add the rollforward.period variable</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>Locale</strong></td>
+      </tr>
+      <tr>
+          <td><code>locale</code></td>
+          <td>Add opening and closing locale tags</td>
+      </tr>
+      <tr>
+          <td><code>endlocale</code></td>
+          <td>Only add closing locale-tag</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>Include</strong></td>
+      </tr>
+      <tr>
+          <td><code>include</code></td>
+          <td>Add a tag to include a local or shared part</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>Linkto</strong></td>
+      </tr>
+      <tr>
+          <td><code>linkto</code></td>
+          <td>Add opening and closing linkto-tags</td>
+      </tr>
+      <tr>
+          <td><code>target:</code></td>
+          <td>Add a target attribute to a linkto tag</td>
+      </tr>
+      <tr>
+          <td><code>new_tab:</code></td>
+          <td>Add a new_tab attribute to a linkto tag</td>
+      </tr>
+      <tr>
+          <td><code>as:button</code></td>
+          <td>Add the attribute for a button to a linkto-tag</td>
+      </tr>
+      <tr>
+          <td><code>endlinkto</code></td>
+          <td>Only add closing linkto-tag</td>
+      </tr>
+      <tr>
+          <td><code>target</code></td>
+          <td>Add a target tag with an id</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>Adjustment Button</strong></td>
+      </tr>
+      <tr>
+          <td><code>adjustmentbutton</code></td>
+          <td>Add opening and closing adjustmentbutton-tags</td>
+      </tr>
+      <tr>
+          <td><code>adjustmentbuttonwithpurpose</code></td>
+          <td>Add an adjustmentbutton tag with a purpose attribute</td>
+      </tr>
+      <tr>
+          <td><code>endadjustmentbutton</code></td>
+          <td>Only add closing adjustmentbutton-tag</td>
+      </tr>
+      <tr>
+          <td><code>adjustmenttransaction</code></td>
+          <td>Add adjustmenttransaction-tag</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>Group</strong></td>
+      </tr>
+      <tr>
+          <td><code>group</code></td>
+          <td>Add a closing and opening group-tag inside nic-tags</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>ADD NEW INPUTS</strong></td>
+      </tr>
+      <tr>
+          <td><code>addnewinputs</code></td>
+          <td>Add opening and closing addnewinputs-tags</td>
+      </tr>
+      <tr>
+          <td><code>endaddnewinputs</code></td>
+          <td>Only add closing addnewinputs-tag</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>SIGNMARKER</strong></td>
+      </tr>
+      <tr>
+          <td><code>signmarker</code></td>
+          <td>Add a signmarker tag</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>PUSH & POP</strong></td>
+      </tr>
+      <tr>
+          <td><code>push</code></td>
+          <td>Add a push tag</td>
+      </tr>
+      <tr>
+          <td><code>pop</code></td>
+          <td>Add a pop tag</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>Change Orientation</strong></td>
+      </tr>
+      <tr>
+          <td><code>changeorientation</code></td>
+          <td>Add a changeorientation tag</td>
+      </tr>
+      <tr>
+          <td colspan="2"><strong>Currency Configuration</strong></td>
+      </tr>
+      <tr>
+          <td><code>currencyconfiguration</code></td>
+          <td>Add opening and closing currencyconfiguration tags with the possible attributes</td>
+      </tr>
+      <tr>
+          <td><code>endcurrencyconfiguration</code></td>
+          <td>Only add closing currencyconfiguration tag</td>
+      </tr>
+      <tr>
+          <td><code>zero_format</code></td>
+          <td>Add attribute to set format of zeroes to "0" or "-"</td>
+      </tr>
+      <tr>
+          <td><code>negative_format</code></td>
+          <td>Add attribute to set format of negative numbers to "-xxx" or "(xxx)"</td>
+      </tr>
+      <tr>
+          <td><code>precision</code></td>
+          <td>Add attribute to set number of decimal places</td>
+      </tr>
+      <tr>
+        <td><code>delimiter</code></td>
+        <td>Add attribute to set style of delimiters to "x,xxx", "x.xxx", "xxxx", or "x xxx"</td>
+      </tr>
+      <tr>
+        <td><code>separator</code></td>
+        <td>Add attribute to set style of decimal separator to either "x,xx" or "x.xx"</td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>New Page</strong></td>
+      </tr>
+      <tr>
+        <td><code>newpage</code></td>
+        <td>Add a newpage tag to signify the start of a new page in the PDF export</td>
+      </tr>
+      <tr>
+        <td><code>section_break</code></td>
+        <td>Add the attribute to create section breaks within input mode</td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>Styling</strong></td>
+      </tr>
+      <tr>
+        <td><code>stripnewlines</code></td>
+        <td>Add opening and closing stripnewlines-tags</td>
+      </tr>
+      <tr>
+        <td><code>endstripnewlines</code></td>
+        <td>Only add closing endstripnewlines-tag</td>
+      </tr>
+      <tr>
+        <td><code>newline</code></td>
+        <td>Add a newline tag</td>
+      </tr>
+      <tr>
+        <td><code>indent</code></td>
+        <td>Add an indent-tag with the possible options listed</td>
+      </tr>
+      <tr>
+        <td><code>fontsize</code></td>
+        <td>Add a font-tag with the possible options for the font-size listed</td>
+      </tr>
+      <tr>
+        <td><code>fontcolor</code></td>
+        <td>Add a font-tag with the attribute to a hex-color options</td>
+      </tr>
+      <tr>
+        <td><code>infotextinline</code></td>
+        <td>Add an inline-infotext inside ic-tags</td>
+      </tr>
+      <tr>
+        <td><code>infotextblock</code></td>
+        <td>Add full-width infotext inside ic-tags</td>
+      </tr>
+      <tr>
+        <td><code>infotexthover</code></td>
+        <td>Add an infotext with the as="hover" attribute</td>
+      </tr>
+      <tr>
+        <td><code>warningtextinline</code></td>
+        <td>Add an inline-warningtext inside ic-tags</td>
+      </tr>
+      <tr>
+        <td><code>warningtextblock</code></td>
+        <td>Add full-width warningtext inside ic-tags</td>
+      </tr>
+      <tr>
+        <td><code>warningtexthover</code></td>
+        <td>Add an warningtext with the as="hover"</td>
+      </tr>
+    </tbody>
+  </table>
+    <!-- FILTER SNIPPETS -->
+    <h3>Filter Snippets</h3>
     <table>
     <thead>
         <tr>
@@ -173,7 +765,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
     </thead>
     <tbody>
         <tr>
-            <td colspan="2"><strong>Date and Time</strong></td>
+            <td colspan="2"><b>Date and Time</b></td>
         </tr>
         <tr>
             <td><code>date:"%d/%m/%Y"</code></td>
@@ -475,530 +1067,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         </tr>
     </tbody>
     </table>
-    <h2>Tag Snippets</h2>
-    <table>
-        <thead>
-            <tr>
-                <th style="width: 30%;">Shortcut</th>
-                <th style="width: 70%;">Description</th>
-            </tr>
-        </thead>
-    <tbody>
-        <tr>
-            <td colspan="2"><strong>Comments</strong></td>
-        </tr>
-        <tr>
-            <td><code>comment</code></td>
-            <td>Add opening and closing comment-tags</td>
-        </tr>
-        <tr>
-            <td><code>endcomment</code></td>
-            <td>Only add the closing comment-tag</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>IC Tags</strong></td>
-        </tr>
-        <tr>
-            <td><code>ic</code></td>
-            <td>Add opening and closing ic-tags</td>
-        </tr>
-        <tr>
-            <td><code>endic</code></td>
-            <td>Only add the closing ic-tag</td>
-        </tr>
-        <tr>
-            <td><code>nic</code></td>
-            <td>Add opening and closing nic-tags</td>
-        </tr>
-        <tr>
-            <td><code>endnic</code></td>
-            <td>Only add the closing nic-tag</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Variables</strong></td>
-        </tr>
-        <tr>
-            <td><code>assign</code></td>
-            <td>Add an assign-tag</td>
-        </tr>
-        <tr>
-            <td><code>assign_dynamic</code></td>
-            <td>Add an assign tag for dynamic variable names</td>
-        </tr>
-        <tr>
-            <td><code>capture</code></td>
-            <td>Add opening and closing capture-tags</td>
-        </tr>
-        <tr>
-            <td><code>endcapture</code></td>
-            <td>Only add the closing capture-tag</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Translations</strong></td>
-        </tr>
-        <tr>
-            <td><code>t=</code></td>
-            <td>Set a translation with a default (different languages to be set depending on market)</td>
-        </tr>
-        <tr>
-            <td><code>t</code></td>
-            <td>Get a defined translation</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Input</strong></td>
-        </tr>
-        <tr>
-            <td><code>input</code></td>
-            <td>Add a standard text-input</td>
-        </tr>
-        <tr>
-            <td><code>as:text</code></td>
-            <td>Add the attribute for a textarea input</td>
-        </tr>
-        <tr>
-            <td><code>as:currency</code></td>
-            <td>Add the attribute for a currency input</td>
-        </tr>
-        <tr>
-            <td><code>as:integer</code></td>
-            <td>Add the attribute for an integer input</td>
-        </tr>
-        <tr>
-            <td><code>as:percentage</code></td>
-            <td>Add the attribute for a percentage input</td>
-        </tr>
-        <tr>
-            <td><code>precision:</code></td>
-            <td>Add the attribute to define the precision on a percentage input</td>
-        </tr>
-        <tr>
-            <td><code>strip_insignificant_zeros</code></td>
-            <td>Add the attribute to strip the final decimal zeros from a percentage value on an input</td>
-        </tr>
-        <tr>
-            <td><code>as:boolean</code></td>
-            <td>Add the attribute for a boolean input</td>
-        </tr>
-        <tr>
-            <td><code>autoreload:</code></td>
-            <td>Add the attribute to a boolean input to auto-reload</td>
-        </tr>
-        <tr>
-            <td><code>as:date</code></td>
-            <td>Add the attribute for a date input</td>
-        </tr>
-        <tr>
-            <td><code>format:</code></td>
-            <td>Add the attribute to define the date format display inside an input</td>
-        </tr>
-        <tr>
-            <td><code>as:file</code></td>
-            <td>Add the attribute for a file input</td>
-        </tr>
-        <tr>
-            <td><code>document</code></td>
-            <td>Add the attribute to show name of the (first) attached documents of a relevant custom value</td>
-        </tr>
-        <tr>
-            <td><code>documents</code></td>
-            <td>Add the attribute to show names of all attached documents of a relevant custom value</td>
-        </tr>
-        <tr>
-            <td><code>[some documents].size</code></td>
-            <td>Count number of files attached of a relevant custom value</td>
-        </tr>
-        <tr>
-            <td><code>[some document].file_name</code></td>
-            <td>Render name of relevant document</td>
-        </tr>
-        <tr>
-            <td><code>[some document].link</code></td>
-            <td>Render link to preview of relevant document</td>
-        </tr>
-        <tr>
-            <td><code>as:select</code></td>
-            <td>Add the attribute for a select input</td>
-        </tr>
-        <tr>
-            <td><code>options:</code></td>
-            <td>Add the options attribute to a select input</td>
-        </tr>
-        <tr>
-            <td><code>option_values:</code></td>
-            <td>Add the option_values attribute to a select input</td>
-        </tr>
-        <tr>
-            <td><code>as:account_collection</code></td>
-            <td>Add the attribute for an account collection input</td>
-        </tr>
-        <tr>
-            <td><code>placeholder:</code></td>
-            <td>Add the placeholder attribute to an input</td>
-        </tr>
-        <tr>
-            <td><code>required:</code></td>
-            <td>Add the required attribute to an input</td>
-        </tr>
-        <tr>
-            <td><code>default:</code></td>
-            <td>Add the default attribute or filter to an input or variable</td>
-        </tr>
-        <tr>
-            <td><code>import_title:</code></td>
-            <td>Add import_title attribute to _both_ fori loops and inputs within fori loop when importing reconciliation data to distinguish between different collections</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Radio Group</strong></td>
-        </tr>
-        <tr>
-            <td><code>radiogroup</code></td>
-            <td>Add a radio button input group</td>
-        </tr>
-        <tr>
-            <td><code>radioinput</code></td>
-            <td>Add individual buttons within a radio button group</td>
-        </tr>
-        <tr>
-            <td><code>autoreload:</code></td>
-            <td>Add the attribute to a radiogroup tag to auto-reload</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Control Flow</strong></td>
-        </tr>
-        <tr>
-            <td><code>if</code></td>
-            <td>Add opening and closing if-tags</td>
-        </tr>
-        <tr>
-            <td><code>if else</code></td>
-            <td>Add opening and closing if-tags with else-statement</td>
-        </tr>
-        <tr>
-            <td><code>endif</code></td>
-            <td>Only add closing if-tag</td>
-        </tr>
-        <tr>
-            <td><code>else</code></td>
-            <td>Only add else-tag</td>
-        </tr>
-        <tr>
-            <td><code>elsif</code></td>
-            <td>Only add elsif-tag</td>
-        </tr>
-        <tr>
-            <td><code>ifi</code></td>
-            <td>Add opening and closing ifi-tags</td>
-        </tr>
-        <tr>
-            <td><code>endifi</code></td>
-            <td>Only add closing ifi-tag</td>
-        </tr>
-        <tr>
-            <td><code>unless</code></td>
-            <td>Add opening and closing unless-tags</td>
-        </tr>
-        <tr>
-            <td><code>endunless</code></td>
-            <td>Only add closing unless-tag</td>
-        </tr>
-        <tr>
-            <td><code>case</code></td>
-            <td>Add opening and closing case-tags with a when and else-statement</td>
-        </tr>
-        <tr>
-            <td><code>endcase</code></td>
-            <td>Only add closing case-tag</td>
-        </tr>
-        <tr>
-            <td><code>when</code></td>
-            <td>Add a when-tag that is used within case-tags</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Iterations</strong></td>
-        </tr>
-        <tr>
-            <td><code>for</code></td>
-            <td>Add opening and closing forloop-tags</td>
-        </tr>
-        <tr>
-            <td><code>endfor</code></td>
-            <td>Only add closing forloop-tag</td>
-        </tr>
-        <tr>
-            <td><code>fori</code></td>
-            <td>Add opening and closing foriloop-tags</td>
-        </tr>
-        <tr>
-            <td><code>endfori</code></td>
-            <td>Only add closing foriloop-tag</td>
-        </tr>
-        <tr>
-            <td><code>import_title</code></td>
-            <td>Add import_title attribute to _both_ fori loops and inputs within fori loop when importing reconciliation data to distinguish between different collections</td>
-        </tr>
-        <tr>
-            <td><code>forloop.index</code></td>
-            <td>Add the forloop.index variable inside a forloop</td>
-        </tr>
-        <tr>
-            <td><code>forloop.index0</code></td>
-            <td>Add the forloop.index0 variable inside a forloop</td>
-        </tr>
-        <tr>
-            <td><code>forloop.first</code></td>
-            <td>Add the forloop.first variable inside a forloop</td>
-        </tr>
-        <tr>
-            <td><code>forloop.last</code></td>
-            <td>Add the forloop.last variable inside a forloop</td>
-        </tr>
-        <tr>
-            <td><code>break</code></td>
-            <td>Add the break-tag inside a forloop</td>
-        </tr>
-        <tr>
-            <td><code>continue</code></td>
-            <td>Add the continue-tag inside a forloop</td>
-        </tr>
-        <tr>
-            <td><code>limit</code></td>
-            <td>Add the limit attribute to a forloop</td>
-        </tr>
-        <tr>
-            <td><code>offset</code></td>
-            <td>Add the offset attribute to a forloop</td>
-        </tr>
-        <tr>
-            <td><code>reversed</code></td>
-            <td>Add the reversed attribute to a forloop</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Unreconciled</strong></td>
-        </tr>
-        <tr>
-            <td><code>unreconciled</code></td>
-            <td>Add the unreconciled tag as an indicator with unreconciled text</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Result</strong></td>
-        </tr>
-        <tr>
-            <td><code>result</code></td>
-            <td>Add a result tag</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Rollforward</strong></td>
-        </tr>
-        <tr>
-            <td><code>rollforward</code></td>
-            <td>Add a rollforward tag</td>
-        </tr>
-        <tr>
-            <td><code>rollforward.period</code></td>
-            <td>Add the rollforward.period variable</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Locale</strong></td>
-        </tr>
-        <tr>
-            <td><code>locale</code></td>
-            <td>Add opening and closing locale tags</td>
-        </tr>
-        <tr>
-            <td><code>endlocale</code></td>
-            <td>Only add closing locale-tag</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Include</strong></td>
-        </tr>
-        <tr>
-            <td><code>include</code></td>
-            <td>Add a tag to include a local or shared part</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Linkto</strong></td>
-        </tr>
-        <tr>
-            <td><code>linkto</code></td>
-            <td>Add opening and closing linkto-tags</td>
-        </tr>
-        <tr>
-            <td><code>target:</code></td>
-            <td>Add a target attribute to a linkto tag</td>
-        </tr>
-        <tr>
-            <td><code>new_tab:</code></td>
-            <td>Add a new_tab attribute to a linkto tag</td>
-        </tr>
-        <tr>
-            <td><code>as:button</code></td>
-            <td>Add the attribute for a button to a linkto-tag</td>
-        </tr>
-        <tr>
-            <td><code>endlinkto</code></td>
-            <td>Only add closing linkto-tag</td>
-        </tr>
-        <tr>
-            <td><code>target</code></td>
-            <td>Add a target tag with an id</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Adjustment Button</strong></td>
-        </tr>
-        <tr>
-            <td><code>adjustmentbutton</code></td>
-            <td>Add opening and closing adjustmentbutton-tags</td>
-        </tr>
-        <tr>
-            <td><code>adjustmentbuttonwithpurpose</code></td>
-            <td>Add an adjustmentbutton tag with a purpose attribute</td>
-        </tr>
-        <tr>
-            <td><code>endadjustmentbutton</code></td>
-            <td>Only add closing adjustmentbutton-tag</td>
-        </tr>
-        <tr>
-            <td><code>adjustmenttransaction</code></td>
-            <td>Add adjustmenttransaction-tag</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Group</strong></td>
-        </tr>
-        <tr>
-            <td><code>group</code></td>
-            <td>Add a closing and opening group-tag inside nic-tags</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>ADD NEW INPUTS</strong></td>
-        </tr>
-        <tr>
-            <td><code>addnewinputs</code></td>
-            <td>Add opening and closing addnewinputs-tags</td>
-        </tr>
-        <tr>
-            <td><code>endaddnewinputs</code></td>
-            <td>Only add closing addnewinputs-tag</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>SIGNMARKER</strong></td>
-        </tr>
-        <tr>
-            <td><code>signmarker</code></td>
-            <td>Add a signmarker tag</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>PUSH & POP</strong></td>
-        </tr>
-        <tr>
-            <td><code>push</code></td>
-            <td>Add a push tag</td>
-        </tr>
-        <tr>
-            <td><code>pop</code></td>
-            <td>Add a pop tag</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Change Orientation</strong></td>
-        </tr>
-        <tr>
-            <td><code>changeorientation</code></td>
-            <td>Add a changeorientation tag</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Currency Configuration</strong></td>
-        </tr>
-        <tr>
-            <td><code>currencyconfiguration</code></td>
-            <td>Add opening and closing currencyconfiguration tags with the possible attributes</td>
-        </tr>
-        <tr>
-            <td><code>endcurrencyconfiguration</code></td>
-            <td>Only add closing currencyconfiguration tag</td>
-        </tr>
-        <tr>
-            <td><code>zero_format</code></td>
-            <td>Add attribute to set format of zeroes to "0" or "-"</td>
-        </tr>
-        <tr>
-            <td><code>negative_format</code></td>
-            <td>Add attribute to set format of negative numbers to "-xxx" or "(xxx)"</td>
-        </tr>
-        <tr>
-            <td><code>precision</code></td>
-            <td>Add attribute to set number of decimal places</td>
-        </tr>
-        <tr>
-            <td><code>delimiter</code></td>
-            <td>Add attribute to set style of delimiters to "x,xxx", "x.xxx", "xxxx", or "x xxx"</td>
-        </tr>
-        <tr>
-            <td><code>separator</code></td>
-            <td>Add attribute to set style of decimal separator to either "x,xx" or "x.xx"</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>New Page</strong></td>
-        </tr>
-        <tr>
-            <td><code>newpage</code></td>
-            <td>Add a newpage tag to signify the start of a new page in the PDF export</td>
-        </tr>
-        <tr>
-            <td><code>section_break</code></td>
-            <td>Add the attribute to create section breaks within input mode</td>
-        </tr>
-        <tr>
-            <td colspan="2"><strong>Styling</strong></td>
-        </tr>
-        <tr>
-            <td><code>stripnewlines</code></td>
-            <td>Add opening and closing stripnewlines-tags</td>
-        </tr>
-        <tr>
-            <td><code>endstripnewlines</code></td>
-            <td>Only add closing endstripnewlines-tag</td>
-        </tr>
-        <tr>
-            <td><code>newline</code></td>
-            <td>Add a newline tag</td>
-        </tr>
-        <tr>
-            <td><code>indent</code></td>
-            <td>Add an indent-tag with the possible options listed</td>
-        </tr>
-        <tr>
-            <td><code>fontsize</code></td>
-            <td>Add a font-tag with the possible options for the font-size listed</td>
-        </tr>
-        <tr>
-            <td><code>fontcolor</code></td>
-            <td>Add a font-tag with the attribute to a hex-color options</td>
-        </tr>
-        <tr>
-            <td><code>infotextinline</code></td>
-            <td>Add an inline-infotext inside ic-tags</td>
-        </tr>
-        <tr>
-            <td><code>infotextblock</code></td>
-            <td>Add full-width infotext inside ic-tags</td>
-        </tr>
-        <tr>
-            <td><code>infotexthover</code></td>
-            <td>Add an infotext with the as="hover" attribute</td>
-        </tr>
-        <tr>
-            <td><code>warningtextinline</code></td>
-            <td>Add an inline-warningtext inside ic-tags</td>
-        </tr>
-        <tr>
-            <td><code>warningtextblock</code></td>
-            <td>Add full-width warningtext inside ic-tags</td>
-        </tr>
-        <tr>
-            <td><code>warningtexthover</code></td>
-            <td>Add an warningtext with the as="hover"</td>
-        </tr>
-    </tbody>
-    </table>
+    <!--DROPS SNIPPETS -->
     <h2>Drops Snippets</h2>
     <table>
     <thead>

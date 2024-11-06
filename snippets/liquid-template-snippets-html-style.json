@@ -3,18 +3,19 @@
     "prefix": "<p>",
     "body": "<p>${1:content}</p>",
     "description": "Add opening and closing <p> tags for paragraph text formatting in HTML"
-    },
-
-  "HTML hr-tags": {
-    "prefix": "hr",
-    "body": "<hr>",
-    "description": "Add horizontal rule tag in HTML"
   },
+
   "HTML break tag": {
     "prefix": "br",
     "body": "<br>",
     "description": "Add HTML line-break tag"
   },
+  "HTML hr-tags": {
+    "prefix": "hr",
+    "body": "<hr>",
+    "description": "Add horizontal rule tag in HTML"
+  },
+
 
   "HTML bold tag": {
     "prefix": "b",
@@ -58,7 +59,7 @@
     "description": [
       "Add opening and closing <h1> tags for section heading text formatting in HTML\n",
       "<h1> is the largest heading and <h6> is the smallest\n",
-      "Cannot be used inside HTML tables"
+      "Cannot be used inside HTML tables within a Liquid template"
     ]    
   },
   "HTML Header 2": {
@@ -67,7 +68,7 @@
     "description": [
       "Add opening and closing <h2> tags for section heading text formatting in HTML\n",
       "<h1> is the largest heading and <h6> is the smallest\n",
-      "Cannot be used inside HTML tables"
+      "Cannot be used inside HTML tables within a Liquid template"
     ]
   },
   "HTML Header 3": {
@@ -76,7 +77,7 @@
     "description": [
       "Add opening and closing <h3> tags for section heading text formatting in HTML\n",
       "<h1> is the largest heading and <h6> is the smallest\n",
-      "Cannot be used inside HTML tables"
+      "Cannot be used inside HTML tables within a Liquid template"
     ]
   },
   "HTML Header 4": {
@@ -85,7 +86,7 @@
     "description": [
       "Add opening and closing <h4> tags for section heading text formatting in HTML\n",
       "<h1> is the largest heading and <h6> is the smallest\n",
-      "Cannot be used inside HTML tables"
+      "Cannot be used inside HTML tables within a Liquid template"
     ]
   },
   "HTML Header 5": {
@@ -94,7 +95,7 @@
     "description": [
       "Add opening and closing <h5> tags for section heading text formatting in HTML\n",
       "<h1> is the largest heading and <h6> is the smallest\n",
-      "Cannot be used inside HTML tables"
+      "Cannot be used inside HTML tables within a Liquid template"
     ]
   },
   "HTML Header 6": {
@@ -103,7 +104,7 @@
     "description": [
       "Add opening and closing <h6> tags for section heading text formatting in HTML\n",
       "<h1> is the largest heading and <h6> is the smallest\n",
-      "Cannot be used inside HTML tables"
+      "Cannot be used inside HTML tables within a Liquid template"
     ]
   },
 
