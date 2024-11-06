@@ -114,7 +114,7 @@
       },
       {
         "language": "liquid",
-        "path": "./snippets/liquid-template-snippets-html-style.json"
+        "path": "./snippets/liquid-template-snippets-style.json"
       },
       {
         "language": "liquid",

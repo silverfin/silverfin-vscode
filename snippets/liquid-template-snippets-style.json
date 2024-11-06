@@ -1,4 +1,80 @@
 {
+  "stripnewlines tag": {
+    "prefix": "stripnewlines",
+    "body": [
+      "{% stripnewlines %}",
+      "\t${1:content}",
+      "{% endstripnewlines %}"
+    ],
+    "description": [
+      "It removes any newline characters (line breaks) from a string. The tag newline must be used when a break within stripnewlines is needed."
+    ]
+  },
+  "end stripnewlines tag": {
+    "prefix": "endstripnewlines",
+    "body": "{% endstripnewlines %}"
+  },
+  "newline table": {
+    "prefix": "newline",
+    "body": "{% newline %}",
+    "description": "The tag newline must be used when a break within a \"stripnewline\" block is needed."
+  },
+  "indent tag": {
+    "prefix": "indent",
+    "body": "{::indent level=\"${1:1-10}\"}${2:content}{:/indent}",
+    "description": "An indentation or indent is a technique that is used to appoint paragraphs or other logical blocks in the code."
+  },
+  "font size tag": {
+    "prefix": "fontsize",
+    "body": "{::font size=\"${1:xxs/xs/s/m/l/xl}\"}${2:content}{:/font}",
+    "description": "The font tag in combination with the size attribute makes it possible to adjust the size of your text. The size attribute has five possible values: xxs, xs, s, m, l and xl."
+  },
+  "font color tag": {
+    "prefix": "fontcolor",
+    "body": "<font color=\"${1:FFFFFF}\">${2:content}</font>",
+    "description": "Colors should be avoided in general apart from its use on the disabled titles where light grey can be applied (Hexadecimal code = “CCCCCC”)"
+  },
+  "infotext inline tag": {
+    "prefix": "infotextinline",
+    "body": "{% ic %}{::infotext}${1:content}{:/infotext}{% endic %}",
+    "description": "The Silverfin templating language gives the opportunity to add info text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
+  "infotext block tag": {
+    "prefix": "infotextblock",
+    "body": [
+      "{% ic %}{::infotext}",
+      "${1:content}",
+      "{:/infotext}{% endic %}"
+    ],
+    "description": "The Silverfin templating language gives the opportunity to add info text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
+  "infotext hover tag": {
+    "prefix": "infotexthover",
+    "body": "{% ic %}{::infotext as=\"hover\"}${1:content}{:/infotext}{% endic %}",
+    "description": "The Silverfin templating language gives the opportunity to add info text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
+  "warningtext inline tag": {
+    "prefix": "warningtextinline",
+    "body": "{% ic %}{::warningtext}${1:content}{:/warningtext}{% endic %}",
+    "description": "The Silverfin templating language gives the opportunity to add warning text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
+  "warningtext block tag": {
+    "prefix": "warningtextblock",
+    "body": [
+      "{% ic %}{::warningtext}",
+      "${1:content}",
+      "{:/warningtext}{% endic %}"
+    ],
+    "description": "The Silverfin templating language gives the opportunity to add warning text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
+  "Warning Text Hover": {
+    "prefix": "warningtexthover",
+    "body": "{% ic %}{::warningtext as=\"hover\"}${1:content}{:/warningtext}{% endic %}",
+    "description": "The Silverfin templating language gives the opportunity to add warning text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
+
+
+
   "HTML p-tags": {
     "prefix": "<p>",
     "body": "<p>${1:content}</p>",
