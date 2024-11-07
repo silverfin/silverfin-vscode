@@ -219,8 +219,8 @@ export default class TestsViewProvider implements vscode.WebviewViewProvider {
         <vscode-data-grid-cell grid-column="1">
           ${
             this.firmIdStored
-              ? `Push updates to Silverfin in firm ${this.firmIdStored}`
-              : "You need to add a default firm before you can activate development mode to push automatically to Silverfin"
+              ? `Push updates to Platform in firm ${this.firmIdStored}`
+              : "You need to add a default firm before you can activate development mode to push automatically to Platform"
           } <i>(on save)</i>
         </vscode-data-grid-cell>
         <vscode-data-grid-cell grid-column="2" class="vs-actions">
