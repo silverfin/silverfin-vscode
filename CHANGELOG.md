@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.18.4]
+
+- Bump Silverfin CLI version (1.26.15 -> 1.27.1) and update hard-coded links to the SF environment 
+
 ## [1.18.3]
 
 - Bump Silverfin CLI version (1.26.14 -> 1.26.15)
