@@ -888,322 +888,9 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
     </tbody>
   </table>
   <br>
-    <!-- FILTER SNIPPETS -->
-    <h3>Filter Snippets</h3>
-    <table>
-    <thead>
-        <tr>
-            <th style="width: 30%;">Shortcut</th>
-            <th style="width: 70%;">Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td colspan="2"><b>Date and Time</b></td>
-        </tr>
-        <tr>
-            <td><code>date:"%d/%m/%Y"</code></td>
-            <td>Add the filter for standard BE date formatting (DD/MM/YYYY)</td>
-        </tr>
-        <tr>
-            <td><code>date:"%F"</code></td>
-            <td>Add the filter for ISO date formatting (YYYY-MM-DD)</td>
-        </tr>
-        <tr>
-            <td><code>localized_date</code></td>
-            <td>Display a date according to the time-zone from where template is being executed</td>
-        </tr>
-        <tr>
-            <td colspan="2"><b>Localized</b></td>
-        </tr>
-        <tr>
-            <td><code>localized</code></td>
-            <td>Add the localized filter</td>
-        </tr>
-        <tr>
-            <td><code>localize:</code></td>
-            <td>Add the localize attribute</td>
-        </tr>
-        <tr>
-            <td colspan="2"><b>Number</b></td>
-        </tr>
-        <tr>
-            <td><code>abs</code></td>
-            <td>Add filter to return the absolute value of a number</td>
-        </tr>
-        <tr>
-            <td><code>ABS (function)</code></td>
-            <td>Add function to return absolute value from wrapped input</td>
-        </tr>
-        <tr>
-            <td><code>ceil</code></td>
-            <td>Add filter to return value rounded-up</td>
-        </tr>
-        <tr>
-            <td><code>floor</code></td>
-            <td>Add filter to return value rounded-down</td>
-        </tr>
-        <tr>
-            <td><code>currency</code></td>
-            <td>Add filter to return a value in the currency format</td>
-        </tr>
-        <tr>
-            <td><code>invert</code></td>
-            <td>Add filter to invert value of inputed accounts - <em>only</em> works with currency filter</td>
-        </tr>
-        <tr>
-            <td><code>integer</code></td>
-            <td>Add filter to convert value to the nearest whole number</td>
-        </tr>
-        <tr>
-            <td><code>INT (function)</code></td>
-            <td>Add function to convert wrapped input to nearest whole number</td>
-        </tr>
-        <tr>
-            <td><code>percentage</code></td>
-            <td>Add filter to return value as percentage</td>
-        </tr>
-        <tr>
-            <td><code>number_to_human</code></td>
-            <td>Add filter to convert inputted accounts into combination of integers + English words e.g. "287 Thousand"</td>
-        </tr>
-        <tr>
-            <td><code>number_to_currency</code></td>
-            <td>Add filter to convert a <em>string</em> value to the currency format</td>
-        </tr>
-        <tr>
-            <td><code>round</code></td>
-            <td>Add filter to return s rounded value (with default of two decimal places)</td>
-        </tr>
-        <tr>
-            <td><code>modulo</code></td>
-            <td>Add filter to divide value by a number and return the remainder</td>
-        </tr>
-        <tr>
-            <td><code>max (function)</code></td>
-            <td>Add the MAX function to return the largest value of an array of numbers</td>
-        </tr>
-        <tr>
-            <td><code>min (function)</code></td>
-            <td>Add the MIN function to return the smallest value in an array of numbers</td>
-        </tr>
-        <tr>
-            <td><code>At_least</code></td>
-            <td>Add filter to limit input to a minimum value</td>
-        </tr>
-        <tr>
-            <td><code>At_most</code></td>
-            <td>Add filter to limit input to a maximum value</td>
-        </tr>
-        <tr>
-            <td><code>add_rounding_difference</code></td>
-            <td>Add the add_rounding_difference filter</td>
-        </tr>
-        <tr>
-            <td colspan="2"><b>String</b></td>
-        </tr>
-        <tr>
-            <td><code>remove</code></td>
-            <td>Add filter to removes substring from a given string</td>
-        </tr>
-        <tr>
-            <td><code>replace</code></td>
-            <td>Add filter to replace substring A with substring B within a given string</td>
-        </tr>
-        <tr>
-            <td><code>upcase</code></td>
-            <td>Add filter to transform all letters of a given string into uppercase</td>
-        </tr>
-        <tr>
-            <td><code>downcase</code></td>
-            <td>Add filter to transform all letters of a given string into lowercase</td>
-        </tr>
-        <tr>
-            <td><code>capitalize</code></td>
-            <td>Add filter to capitalise <em>each</em> word in a given string</td>
-        </tr>
-        <tr>
-            <td><code>append</code></td>
-            <td>Add filter to attach String B to the end of String A</td>
-        </tr>
-        <tr>
-            <td><code>prepend</code></td>
-            <td>Add filter to attach String B at the start of String B</td>
-        </tr>
-        <tr>
-            <td><code>size</code></td>
-            <td>Add filter to return the number of characters within a given String</td>
-        </tr>
-        <tr>
-            <td><code>strip</code></td>
-            <td>Add filter to string any whitespaces at the start and end of a given string</td>
-        </tr>
-        <tr>
-            <td><code>default</code></td>
-            <td>Add attribute to a string variable to return a default value <em>if</em> no value stored in the variable</td>
-        </tr>
-        <tr>
-            <td><code>slice</code></td>
-            <td>Add filter to return a substring of a given String, beginning from a certain index for a certain length</td>
-        </tr>
-        <tr>
-            <td><code>newline_to_br / multiline_table</code></td>
-            <td>Add filter to replace every newline character ("\n") with an HTML line break ("&lt;br&gt;")</td>
-        </tr>
-        <tr>
-            <td><code>string_value</code></td>
-            <td>Add filter to return a value from a variable or drop as a String rather than the inferred data type</td>
-        </tr>
-        <tr>
-            <td><code>url_encode</code></td>
-            <td>Add filter to replace any URL-unsafe character with three characters: a percent sign and the corresponding Hex value of the character replaced</td>
-        </tr>
-        <tr>
-            <td><code>url_decode</code></td>
-            <td>Add filter to decode a String encoded by the above url_encode filter</td>
-        </tr>
-        <tr>
-            <td><code>strip_html</code></td>
-            <td>Add filter to remove any HTML tags from a String</td>
-        </tr>
-        <tr>
-            <td><code>md5</code></td>
-            <td>Converts a string into an MD5 hash</td>
-        </tr>
-        <tr>
-            <td><code>transliterate</code></td>
-            <td>Transliterates strings based on the Unicoder library</td>
-        </tr>
-        <tr>
-            <td colspan="2"><b>Array Operations</b></td>
-        </tr>
-        <tr>
-            <td><code>concat</code></td>
-            <td>Add the Concat filter</td>
-        </tr>
-        <tr>
-            <td><code>split</code></td>
-            <td>Add the Split filter</td>
-        </tr>
-        <tr>
-            <td><code>first</code></td>
-            <td>Add the First filter</td>
-        </tr>
-        <tr>
-            <td><code>last</code></td>
-            <td>Add the Last filter</td>
-        </tr>
-        <tr>
-            <td><code>join</code></td>
-            <td>Add the Join filter</td>
-        </tr>
-        <tr>
-            <td><code>sort</code></td>
-            <td>Add the Sort filter</td>
-        </tr>
-        <tr>
-            <td><code>uniq</code></td>
-            <td>Add the Uniq filter</td>
-        </tr>
-        <tr>
-            <td><code>reverse</code></td>
-            <td>Add the Reverse filter</td>
-        </tr>
-        <tr>
-            <td><code>map</code></td>
-            <td>Add the map filter</td>
-        </tr>
-        <tr>
-            <td><code>where</code></td>
-            <td>Add the where filter</td>
-        </tr>
-        <tr>
-            <td><code>group</code></td>
-            <td>Add the group filter</td>
-        </tr>
-        <tr>
-            <td><code>index by</code></td>
-            <td>Add the index by filter</td>
-        </tr>
-        <tr>
-            <td><code>range</code></td>
-            <td>Add the range filter</td>
-        </tr>
-        <tr>
-            <td colspan="2"><b>Other</b></td>
-        </tr>
-        <tr>
-            <td><code>allow_false</code></td>
-            <td>Add the filter of allow_false</td>
-        </tr>
-        <tr>
-            <td><code>analytical_code</code></td>
-            <td>Add the analytical_code filter</td>
-        </tr>
-        <tr>
-            <td colspan="2"><b>Date Manipulation</b></td>
-        </tr>
-        <tr>
-            <td><code>advance_years</code></td>
-            <td>Add the advance_years filter</td>
-        </tr>
-        <tr>
-            <td><code>advance_months</code></td>
-            <td>Add the advance_months filter</td>
-        </tr>
-        <tr>
-            <td><code>advance_weeks</code></td>
-            <td>Add the advance_weeks filter</td>
-        </tr>
-        <tr>
-            <td><code>advance_days</code></td>
-            <td>Add the advance_days filter</td>
-        </tr>
-        <tr>
-            <td><code>advance_hours</code></td>
-            <td>Add the advance_hours filter</td>
-        </tr>
-        <tr>
-            <td><code>advance_minutes</code></td>
-            <td>Add the advance_minutes filter</td>
-        </tr>
-        <tr>
-            <td><code>advance_seconds</code></td>
-            <td>Add the advance_seconds filter</td>
-        </tr>
-        <tr>
-            <td><code>retract_years</code></td>
-            <td>Add the retract_years filter</td>
-        </tr>
-        <tr>
-            <td><code>retract_months</code></td>
-            <td>Add the retract_months filter</td>
-        </tr>
-        <tr>
-            <td><code>retract_weeks</code></td>
-            <td>Add the retract_weeks filter</td>
-        </tr>
-        <tr>
-            <td><code>retract_days</code></td>
-            <td>Add the retract_days filter</td>
-        </tr>
-        <tr>
-            <td><code>retract_hours</code></td>
-            <td>Add the retract_hours filter</td>
-        </tr>
-        <tr>
-            <td><code>retract_minutes</code></td>
-            <td>Add the retract_minutes filter</td>
-        </tr>
-        <tr>
-            <td><code>retract_seconds</code></td>
-            <td>Add the retract_seconds filter</td>
-        </tr>
-    </tbody>
-    </table>
-    <!--DROPS SNIPPETS -->
-    <h2>Drops Snippets</h2>
-    <table>
+  <!--DROPS SNIPPETS -->
+  <h2>Drops Snippets</h2>
+  <table>
     <thead>
         <tr>
             <th style="width: 30%;">Shortcut</th>
@@ -1569,9 +1256,361 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
             <td>Return all drops under the User drop</td>
         </tr>
     </tbody>
-    </table>
-    <h2>Table Snippets</h2>
-    <table class="usr-width-100">
+  </table>
+  <br>
+  <!-- FILTER SNIPPETS -->
+  <h3>Filter Snippets</h3>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 30%;">Shortcut</th>
+        <th style="width: 70%;">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Allow false -->
+      <tr>
+        <td colspan="2"><b>Allow False</b></td>
+      </tr>
+      <tr>
+        <td><code>allow_false</code></td>
+        <td>Add the filter to allow falsy values not to be overwritten by defaults</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Array -->
+      <tr>
+        <td colspan="2"><b>Array</b></td>
+      </tr>
+      <tr>
+        <td><code>concat</code></td>
+        <td>Add filter to combine two arrays</td>
+      </tr>
+      <tr>
+        <td><code>split</code></td>
+        <td>Add filter to split a String into an array</td>
+      </tr>
+      <tr>
+        <td><code>first</code></td>
+        <td>Add filter to return the first value of an array</td>
+      </tr>
+      <tr>
+        <td><code>last</code></td>
+        <td>Add filter to return the last value of an array</td>
+      </tr>
+      <tr>
+        <td><code>join</code></td>
+        <td>Add filter to transform an array into a String</td>
+      </tr>
+      <tr>
+        <td><code>sort</code></td>
+        <td>Add filter to sort an array alphabetically</td>
+      </tr>
+      <tr>
+        <td><code>uniq</code></td>
+        <td>Add filter to remove duplicate values from an array</td>
+      </tr>
+      <tr>
+        <td><code>reverse</code></td>
+        <td>Add filter to reverse order of items in an array</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Collection -->
+      <tr>
+        <td colspan="2"><b>Collection</b></td>
+      </tr>
+      <tr>
+        <td><code>concat</code></td>
+        <td>Add filter to combine two collections</td>
+      </tr>
+      <tr>
+        <td><code>map</code></td>
+        <td>Add filter to create array from collection</td>
+      </tr>
+      <tr>
+        <td><code>range</code></td>
+        <td>Add filter to <strong>accounts collection</strong> to return accounts in a given range</td>
+      </tr>
+      <tr>
+        <td><code>group_by</code></td>
+        <td>Add filter to group items of collection by a specified field</td>
+      </tr>
+      <tr>
+        <td><code>index_by</code></td>
+        <td>Add filter to reference item by an alternate index</td>
+      </tr>
+      <tr>
+        <td><code>where</code></td>
+        <td>Add filter to create array from collection, only including items which meet specified condition </td>
+      </tr>
+      <tr>
+        <td><code>analytical_code</code></td>
+        <td>Add filter to <strong>accounts collection</strong> to return accounts for specified dimension/company code</td>
+      </tr>
+      <tr>
+        <td><code>add_rounding_difference</code></td>
+        <td>Add filter to <strong>accounts collection</strong> to remove (and reallocate) decimal values</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Date and time -->
+      <tr>
+        <td colspan="2"><b>Date and Time</b></td>
+      </tr>
+      <tr>
+        <td><code>date:"%d/%m/%Y"</code></td>
+        <td>Add filter for standard BE date formatting (DD/MM/YYYY)</td>
+      </tr>
+      <tr>
+        <td><code>date:"%F"</code></td>
+        <td>Add filter for ISO date formatting (YYYY-MM-DD)</td>
+      </tr>
+      <tr>
+        <td><code>"now"</code></td>
+        <td>Display today's date</td>
+      </tr>
+      <tr>
+        <td><code>localized_date</code></td>
+        <td>Display a date according to the time-zone from where template is being executed</td>
+      </tr>
+      <tr>
+        <td><code>advance_years</code></td>
+        <td>Add filter to advance date by specified number of years</td>
+      </tr>
+      <tr>
+        <td><code>advance_months</code></td>
+        <td>Add filter to advance date by specified number of months</td>
+      </tr>
+      <tr>
+        <td><code>advance_weeks</code></td>
+        <td>Add filter to advance date by specified number of weeks</td>
+      </tr>
+      <tr>
+        <td><code>advance_days</code></td>
+        <td>Add filter to advance date by specified number of days</td>
+      </tr>
+      <tr>
+        <td><code>advance_hours</code></td>
+        <td>Add filter to advance date by specified number of hours</td>
+      </tr>
+      <tr>
+        <td><code>advance_minutes</code></td>
+        <td>Add filter to advance date by specified number of minutes</td>
+      </tr>
+      <tr>
+        <td><code>advance_seconds</code></td>
+        <td>Add filter to advance date by specified number of seconds</td>
+      </tr>
+      <tr>
+        <td><code>retract_years</code></td>
+        <td>Add filter to retract date by specified number of years</td>
+      </tr>
+      <tr>
+        <td><code>retract_months</code></td>
+        <td>Add filter to retract date by specified number of months</td>
+      </tr>
+      <tr>
+        <td><code>retract_weeks</code></td>
+        <td>Add filter to retract date by specified number of weeks</td>
+      </tr>
+      <tr>
+        <td><code>retract_days</code></td>
+        <td>Add filter to retract date by specified number of days</td>
+      </tr>
+      <tr>
+        <td><code>retract_hours</code></td>
+        <td>Add filter to retract date by specified number of hours</td>
+      </tr>
+      <tr>
+        <td><code>retract_minutes</code></td>
+        <td>Add filter to retract date by specified number of minutes</td>
+      </tr>
+      <tr>
+        <td><code>retract_seconds</code></td>
+        <td>Add filter to retract date by specified number of seconds</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Localized -->
+      <tr>
+        <td colspan="2"><b>Localized</b></td>
+      </tr>
+      <tr>
+        <td><code>localized</code></td>
+        <td>Add filter on custom input drop with localized attribute, to retrieve value in local language</td>
+      </tr>
+      <tr>
+        <td><code>localized:</code></td>
+        <td>Add functionality to a text input <em>only</em>, to store text in local language</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Number -->
+      <tr>
+        <td colspan="2"><b>Number</b></td>
+      </tr>
+      <tr>
+        <td><code>abs</code></td>
+        <td>Add filter to return the absolute value of a number</td>
+      </tr>
+      <tr>
+        <td><code>ABS (function)</code></td>
+        <td>Add function to return absolute value from wrapped input</td>
+      </tr>
+      <tr>
+        <td><code>ceil</code></td>
+        <td>Add filter to return value rounded-up</td>
+      </tr>
+      <tr>
+        <td><code>floor</code></td>
+        <td>Add filter to return value rounded-down</td>
+      </tr>
+      <tr>
+        <td><code>currency</code></td>
+        <td>Add filter to return a value in the currency format</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>invert</code></td>
+        <td>Add filter to invert value of inputed accounts - <em>only</em> works with currency filter</td>
+      </tr>
+      <tr>
+        <td><code>integer</code></td>
+        <td>Add filter to convert value to the nearest whole number</td>
+      </tr>
+      <tr>
+        <td><code>INT (function)</code></td>
+        <td>Add function to convert wrapped input to nearest whole number</td>
+      </tr>
+      <tr>
+        <td><code>percentage</code></td>
+        <td>Add filter to return value as percentage</td>
+      </tr>
+      <tr>
+        <td><code>number_to_human</code></td>
+        <td>Add filter to convert inputted accounts into combination of integers + English words e.g. "287 Thousand"</td>
+      </tr>
+      <tr>
+        <td><code>number_to_currency</code></td>
+        <td>Add filter to convert a <em>string</em> value to the currency format</td>
+      </tr>
+      <tr>
+        <td><code>round</code></td>
+        <td>Add filter to return s rounded value (with default of two decimal places)</td>
+      </tr>
+      <tr>
+        <td><code>modulo</code></td>
+        <td>Add filter to divide value by a number and return the remainder</td>
+      </tr>
+      <tr>
+        <td><code>MAX (function)</code></td>
+        <td>Add the MAX function to return the largest value of an array of numbers</td>
+      </tr>
+      <tr>
+        <td><code>MIN (function)</code></td>
+        <td>Add the MIN function to return the smallest value in an array of numbers</td>
+      </tr>
+      <tr>
+        <td><code>at_least</code></td>
+        <td>Add filter to limit input to a minimum value</td>
+      </tr>
+      <tr>
+        <td><code>at_most</code></td>
+        <td>Add filter to limit input to a maximum value</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- String -->
+      <tr>
+        <td colspan="2"><b>String</b></td>
+      </tr>
+      <tr>
+        <td><code>remove</code></td>
+        <td>Add filter to removes substring from a given string</td>
+      </tr>
+      <tr>
+        <td><code>replace</code></td>
+        <td>Add filter to replace substring A with substring B within a given string</td>
+      </tr>
+      <tr>
+        <td><code>upcase</code></td>
+        <td>Add filter to transform all letters of a given string into uppercase</td>
+      </tr>
+      <tr>
+        <td><code>downcase</code></td>
+        <td>Add filter to transform all letters of a given string into lowercase</td>
+      </tr>
+      <tr>
+        <td><code>capitalize</code></td>
+        <td>Add filter to capitalise <em>each</em> word in a given string</td>
+      </tr>
+      <tr>
+        <td><code>append</code></td>
+        <td>Add filter to attach String B to the end of String A</td>
+      </tr>
+      <tr>
+        <td><code>prepend</code></td>
+        <td>Add filter to attach String B at the start of String B</td>
+      </tr>
+      <tr>
+        <td><code>size</code></td>
+        <td>Add filter to return the number of characters within a given String</td>
+      </tr>
+      <tr>
+        <td><code>strip</code></td>
+        <td>Add filter to string any whitespaces at the start and end of a given string</td>
+      </tr>
+      <tr>
+        <td><code>default</code></td>
+        <td>Add attribute to a string variable to return a default value <em>if</em> no value stored in the variable</td>
+      </tr>
+      <tr>
+        <td><code>slice</code></td>
+        <td>Add filter to return a substring of a given String, beginning from a certain index for a certain length</td>
+      </tr>
+      <tr>
+        <td><code>newline_to_br / multiline_table</code></td>
+        <td>Add filter to replace every newline character ("\n") with an HTML line break ("&lt;br&gt;")</td>
+      </tr>
+      <tr>
+        <td><code>string_value</code></td>
+        <td>Add filter to return a value from a variable or drop as a String rather than the inferred data type</td>
+      </tr>
+      <tr>
+        <td><code>url_encode</code></td>
+        <td>Add filter to replace any URL-unsafe character with three characters: a percent sign and the corresponding Hex value of the character replaced</td>
+      </tr>
+      <tr>
+        <td><code>url_decode</code></td>
+        <td>Add filter to decode a String encoded by the above url_encode filter</td>
+      </tr>
+      <tr>
+        <td><code>strip_html</code></td>
+        <td>Add filter to remove any HTML tags from a String</td>
+      </tr>
+      <tr>
+        <td><code>md5</code></td>
+        <td>Converts a string into an MD5 hash</td>
+      </tr>
+      <tr>
+        <td><code>transliterate</code></td>
+        <td>Transliterates strings based on the Unicoder library</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <!-- TABLE SNIPPETS -->
+  <h2>Table Snippets</h2>
+  <table class="usr-width-100">
     <thead>
         <tr>
             <th class="usr-width-30">Shortcut</th>
@@ -1784,7 +1823,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
             <td>Add <code>usr-hide-samepage-header</code> class to hide header when content continues on same page</td>
         </tr>
     </tbody>
-</table>
+  </table>
 </body>
 </html>
 ****

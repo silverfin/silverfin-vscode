@@ -832,7 +832,7 @@
   },
   "section break attribute": {
     "prefix": "section_break",
-    "body": "section_break:true",
+    "body": "{% newpage section_break:true %}",
     "description": [
       "Use to visualize the split between pages in input mode. Use with newpage tag"
     ]
