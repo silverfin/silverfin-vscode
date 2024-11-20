@@ -75,7 +75,9 @@ export default class FirmViewProvider implements vscode.WebviewViewProvider {
     ); // [[firmId, firmName]...]
     const usedInFirmsRows = templateUsedInFirmsData
       .map((item: TemplateUsedInFirmData) => {
-        let templateUrl = `https://live.getsilverfin.com/f/${item.firmId}/${item.templateFolder}/${item.templateId}/edit`;
+        const baseURL = process.env.SF_HOST || "https://live.getsilverfin.com";
+        console.log("TEST A");
+        let templateUrl = `${baseURL}/f/${item.firmId}/${item.templateFolder}/${item.templateId}/edit`;
         return /*html*/ `<vscode-data-grid-row grid-columns="2">
                 <vscode-data-grid-cell grid-column="1">
                   ${item.firmId}
@@ -97,7 +99,9 @@ export default class FirmViewProvider implements vscode.WebviewViewProvider {
           firm[0].toString() === firmId.toString()
             ? /*html*/ `<vscode-tag>Active</vscode-tag>`
             : "";
-        let firmUrl = `https://live.getsilverfin.com/f/${firm[0]}`;
+        const baseURL = process.env.SF_HOST || "https://live.getsilverfin.com";
+        console.log("TEST B");
+        let firmUrl = `${baseURL}/f/${firm[0]}`;
         return /*html*/ `<vscode-data-grid-row>
                   <vscode-data-grid-cell grid-column="1">
                       ${firm[0]} ${firm[1] ? `(${firm[1]})` : ""}
