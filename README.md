@@ -135,321 +135,1662 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
 
 <br>
 
-| SHORTCUT                  | DESCRIPTION |
-| ------------------------- | ---------------------------------------- |
-| <span style="font-size:1.4em;">**TAG SNIPPETS**<br></span> |
-| **COMMENTS**                                                                                                   
-| comment                   | Add opening and closing comment-tags                                                   |
-| endcomment                | Only add the closing comment-tag                                                       |
-| ic                        | Add opening and closing ic-tags                                                        |
-| endic                     | Only add the closing ic-tag                                                            |
-| nic                       | Add opening and closing nic-tags                                                       |
-| endnic                    | Only add the closing nic-tag                                                           |
-| &emsp;
-| **VARIABLES**
-| assign                    | Add an assign-tag        |
-| capture                   | Add opening and closing capture-tags |
-| endcapture                | Only add the closing capture-tag |
-| &emsp;
-| **TRANSLATIONS**
-| t=                        | Set a translation with a default (different languages to be set depending on market) |
-| t                         | Get a defined translation |
-| &emsp;
-| **INPUT**
-| input                     | Add a standard text-input |
-| &emsp; as:text                  | Add the attribute for a textarea input |
-| &emsp; as:currency              | Add the attribute for a currency input |
-| &emsp; as:integer               | Add the attribute for an integer input |
-| &emsp; as:percentage            | Add the attribute for a percentage input |
-| &emsp; &emsp;precision:         | Add the attribute to define the precision on a percentage input |
-| &emsp; &emsp;strip_insignificant_zeros | Add the attribute to strip the final decimal zeros from a percentage value on an input |
-| &emsp; as:boolean               | Add the attribute for a boolean input |
-| &emsp;&emsp; autoreload:        | Add the attribute to a boolean input to auto-reload |
-| &emsp; as:date                  | Add the attribute for a date input |
-| &emsp;&emsp; format:            | Add the attribute to define the date format display inside an input |
-| &emsp; as:file                  | Add the attribute for a file input |
-| &emsp;&emsp;document <br><br>   | Add the attribute to show name of the (first) attached documents of a relevant custom value |
-| &emsp;&emsp;documents <br><br>  | Add the attribute to show names of all attached documents of a relevant custom value |
-| &emsp;&emsp;[some documents].size | Count number of files attached of a relevant custom value|
-| &emsp;&emsp;[some document].file_name | Render name of relevant document |
-| &emsp;&emsp;[some document].link | Render link to preview of relevant document |
-| &emsp;as:select                 | Add the attribute for a select input |
-| &emsp;&emsp;options:            | Add the options attribute to a select input |
-| &emsp;&emsp;option_values:      | Add the option_values attribute to a select input |
-| &emsp;as:account_collection     | Add the attribute for an account collection input |
-| &emsp;placeholder:        | Add the placeholder attribute to an input |
-| &emsp;required:           | Add the required attribute to an input |
-| &emsp;default:            | Add the default attribute or filter to an input or variable |
-| &emsp; import_title: <br><br> | Add import_title attribute to _both_ fori loops and inputs within fori loop when importing reconciliation data to distinguish between different collections |
-| &emsp;
-| **RADIO GROUP**
-| radiogroup               | Add a radio button input group |
-| radioinput               | Add individual buttons within a radio button group |
-| &emsp; autoreload:       | Add the attribute to a radiogroup tag to auto-reload |
-| &emsp;
-| **CONTROL FLOW**
-| if                        | Add opening and closing if-tags |
-| if else                   | Add opening and closing if-tags with else-statement                                    |
-| endif                     | Only add closing if-tag                                                                |
-| else                      | Only add else-tag                                                                      |
-| elsif                     | Only add elsif-tag                                                                     |
-| ifi                       | Add opening and closing ifi-tags                                                       |
-| endifi                    | Only add closing ifi-tag                                                               |
-| unless                    | Add opening and closing unless-tags                                                    |
-| endunless                 | Only add closing unless-tag                                                            |
-| case                      | Add opening and closing case-tags with a when and else-statement                       |
-| endcase                   | Only add closing case-tag                                                              |
-| when                      | Add a when-tag that is used within case-tags                                           |
-| &emsp;
-| **ITERATIONS**
-| for                       | Add opening and closing forloop-tags |
-| endfor                    | Only add closing forloop-tag |
-| fori                      | Add opening and closing foriloop-tags |
-| endfori                   | Only add closing foriloop-tag |
-| &emsp; import_title <br><br> | Add import_title attribute to _both_ fori loops and inputs within fori loop when importing reconciliation data to distinguish between different collections |
-| forloop.index             | Add the forloop.index variable inside a forloop |
-| forloop.index0            | Add the forloop.index0 variable inside a forloop |
-| forloop.first             | Add the forloop.first variable inside a forloop |
-| forloop.last              | Add the forloop.last variable inside a forloop |
-| break                     | Add the break-tag inside a forloop |
-| continue                  | Add the continue-tag inside a forloop                                                  |
-| limit                     | Add the limit attribute to a forloop                                                   |
-| offset                    | Add the offset attribute to a forloop                                                  |
-| reversed                  | Add the reversed attribute to a forloop                                                |
-| &emsp;
-| **UNRECONCILED**
-| unreconciled              | Add the unreconciled tag as an indicator with unreconciled text                        |
-| &emsp;
-| **RESULT**
-| result                    | Add a result tag                                                                       |
-| &emsp;
-| **ROLLFORWARD**
-| rollforward               | Add a rollforward tag                                                                  |
-| rollforward.period        | Add the rollforward.period variable                                                    |
-| &emsp;
-| **LOCALE**
-| locale                    | Add opening and closing locale tags                                                    |
-| endlocale                 | Only add closing locale-tag                                                            |
-| &emsp;
-| **INCLUDE**
-| include                   | Add a tag to include a local or shared part                                            |
-| &emsp;
-| **LINKTO**
-| linkto                    | Add opening and closing linkto-tags                                                    |
-| &emsp;target:             | Add a target attribute to a linkto tag                                                 |
-| &emsp;new_tab:            | Add a new_tab attribute to a linkto tag                                                |
-| &emsp;as:button           | Add the attribute for a button to a linkto-tag                                         |
-| endlinkto                 | Only add closing linkto-tag                                                            |
-| target                    | Add a target tag with an id                                                            |
-| &emsp;
-| **ADJUSTMENT BUTTON**
-| adjustmentbutton          | Add opening and closing adjustmentbutton-tags                                          |
-| endadjustmentbutton       | Only add closing adjustmentbutton-tag                                                  |
-| adjustmenttransaction     | Add adjustmenttransaction-tag                                                          |
-| &emsp;
-| **GROUP**
-| group                     | Add a closing and opening group-tag inside nic-tags                                    |
-| &emsp;
-| **ADD NEW INPUTS**
-| addnewinputs              | Add opening and closing addnewinputs-tags                                              |
-| endaddnewinputs           | Only add closing addnewinputs-tag                                                      |
-| &emsp;
-| **SIGNMARKER**
-| signmarker                | Add a signmarker tag                                                                   |
-| &emsp;
-| **PUSH & POP**
-| push                      | Add a push tag                                                                         |
-| pop                       | Add a pop tag                                                                          |
-| &emsp;
-| **CHANGE ORIENTATION**
-| changeorientation         | Add a changeorientation tag                                                            |
-| &emsp;
-| **CURRENCY CONFIGURATION**|               
-| currencyconfiguration     | Add opening and closing currencyconfiguration tags with the possible attributes |
-| endcurrencyconfiguration  | Only add closing currencyconfiguration tag |
-| zero_format               | Add attribute to set format of zeroes to "0" or "-" |
-| negative_format           | Add attribute to set format of negative numbers to "-xxx" or "(xxx)" |
-| precision                 | Add attribute to set number of decimal places |
-| delimiter                 | Add attribute to set style of delimiters to "x,xxx", "x.xxx", "xxxx", or "x xxx" |
-| separator                 | Add attribute to set style of decimal separator to either "x,xx" or "x.xx"
-| &emsp;
-| **NEW PAGE**
-| newpage                   | Add a newpage tag to signify the start of a new page in the PDF export                 |
-| section_break             | Add the attribute to create section breaks within input mode                           |
-| &emsp;
-| **STYLING**
-| stripnewlines             | Add opening and closing stripnewlines-tags                                             |
-| endstripnewlines          | Only add closing endstripnewlines-tag                                                  |
-| newline                   | Add a newline tag                                                                      |
-| indent                    | Add an indent-tag with the possible options listed                                     |
-| fontsize                  | Add a font-tag with the possible options for the font-size listed                      |
-| fontcolor                 | Add a font-tag with the attribute to a hex-color options                               |
-| infotextinline            | Add an inline-infotext inside ic-tags                                                  |
-| infotextblock             | Add full-width infotext inside ic-tags                                                 |
-| infotexthover             | Add an infotext with the as="hover" attribute                                          |
-| warningtextinline         | Add an inline-warningtext inside ic-tags                                               |
-| warningtextblock          | Add full-width warningtext inside ic-tags                                              |
-| warningtexthover          | Add an warningtext with the as="hover"                                                 |
-| <br><br> |
-| <span style="font-size:1.4em;">**FILTER SNIPPETS**</span> | |
-| **DATE AND TIME**
-| date:"%d/%m/%Y"           | Add the filter for standard BE date formatting (DD/MM/YYYY)                            |
-| date:"%F"                 | Add the filter for ISO date formatting (YYYY-MM-DD)                                    |
-| &emsp;
-| **LOCALIZED**
-| localized                 | Add the localized filter                                                               |
-| localize:                 | Add the localize attribute                                                             |
-| &emsp;
-| **NUMBER** 
-| abs                       | Add filter to return the absolute value of a number |
-| &emsp;ABS (function)      | Add function to return absolute value from wrapped input |
-| ceil                      | Add filter to return value rounded-up |
-| floor                     | Add filter to return value rounded-down |
-| currency                  | Add filter to return a value in the currency format |
-| &emsp;invert              | Add filter to invert value of inputed accounts - _only_ works with currency filter |
-| integer                   | Add filter to convert value to the nearest whole number |        
-| &emsp;INT (function)      | Add function to convert wrapped input to nearest whole number |
-| percentage                | Add filter to return value as percentage |
-| number_to_human<br><br>   | Add filter to convert inputted accounts into combination of integers + English words e.g. "287 Thousand" |
-| number_to_currency        | Add filter to convert a _string_ value to the currency format |
-| round                     | Add filter to return s rounded value (with default of two decimal places) |
-| modulo                    | Add filter to divide value by a number and return the remainder |
-| max (function)            | Add the MAX function to return the largest value of an array of numbers |
-| min (function)            | Add the MIN function to return the smallest value in an array of numbers |
-| At_least                  | Add filter to limit input to a minimum value |
-| At_most                   | Add filter to limit input to a maximum value |
-| &emsp;
-| **STRING**
-| remove                            | Add filter to removes substring from a given string |
-| replace                           | Add filter to replace substring A with substring B within a given string |
-| upcase                            | Add filter to transform all letters of a given string into uppercase |
-| downcase                          | Add filter to transform all letters of a given string into lowercase |
-| capitalize                        | Add filter to capitalise _each_ word in a given string |
-| append                            | Add filter to attach String B to the end of String A |
-| prepend                           | Add filter to attach String B at the start of String B |
-| size                              | Add filter to return the number of characters within a given String |
-| strip                             | Add filter to string any whitespaces at the start and end of a given string |
-| default                           | Add attribute to a string variable to return a default value _if_ no value stored in the variable |
-| slice                             | Add filter to return a substring of a given String, beginning from a certain index for a certain length |
-| newline_to_br / multiline_table   | Add filter to replace every newline character ("\n") with an HTML line break ("&lt;br&gt;") |
-| string_value                      | Add filter to return a value from a variable or drop as a String rather than the inferred data type |
-| url_encode                        | Add filter to replace any URL-unsafe character with three characters: a percent sign and the corresponding Hex value of the character replaced |
-| url_decode                        | Add filter to decode a String encoded by the above url_encode filter |
-| strip_html                        | Add filter to remove any HTML tags from a String |
-| <br><br> |
-| <span style="font-size:1.4em;">**DROPS SNIPPETS**</span> |
-| **ACCOUNTS**
-| accounts.starred<br>accounts.assets<br>accounts.liabilities<br>accounts.revenues<br>accounts.expenses<br>accounts.income<br>accounts.equity| Add the method for returning a new accounts drop with only these accounts<br><br><br><br><br><br><br> |
-| accounts.count            | Add the method which returns the number of account drops in the accounts drop                                                                      |
-| accounts.credit_value     | Add the method to return the sum of all credit values for all accounts in this accounts drop for this period                                       |
-| accounts.debit_value     | Add the method to return the sum of all debit values for all accounts in this accounts drop for this period                                         |
-| accounts.first | Add the method to return the first account drop of the accounts drop                                                                                          |
-| accounts.include_zeros | Add the method to return an accounts drop that includes all accounts, including those with a zero balance                                            |
-| accounts.name | Add the method to return the name of the first account in this drop                                                                                            |
-| accounts.p_and_l_rounding_difference,<br>accounts.bs_rounding_difference | Add the methods to display the exact rounding difference when using the core rounding functionality |
-| p_and_l_rounding_account,<br>bs_rounding_account | Add the methods to return the account drop where the rounding difference is stored                                          |
-| return_values_in_millions | Add the method to display the value of the individual account drops in the created accounts drop in millions                                                 |
-| return_values_in_thousands | Add the method to display the value of the individual account drops in the created accounts drop in thousands |
-| value | Add the method to return the sum of all values for all accounts in this accounts drop for this period |
-| &emsp;
-| **COMPANY**
-| company.analytical_type_(0..x)_codes | Add the method to return drop with information about dimensions/companies in an analytical/consolidation file |
-| company.city | Add the method to return the city from the company settings |
-| company.company_form | Add the method to return the company form from the company settings |
-| company.country | Add the method to return the country from the company settings |
-| company.country_code | Add the method to return rhe country code based upon the country from the company settings |
-| company.currency | Add the method to return the currency code from the company settings |
-| company.custom | Add the method to attach custom information to a company, independant of the period |
-| company.file_code | Add the method to return the file number from the company settings |
-| company.locales | Add the method to return the available languages for the company |
-| company.name | Add the method to return the company name from the company settings |
-| company.periods_per_year | Add the method to returns 1,4,12 depending on the reporting frequency (yearly, quarterly or monthly)
-| company.postalcode | Add the method to return the post code from the company settings |
-| company.street | Add the method to return the street from the company settings |
-| company.vat_identifier | Add the method to return the vat identifier from the company settings |
-| &emsp;
-| **PEOPLE**
-| people.count | Add the method to count the number of person drops on the people drop (can also use with directors and shareholders drops) |
-| people.first | Add the method to return the first person drop in the people drop (can also use with directors and shareholders drops) |
-| directors.active_as_director| Add the filter for directors which returns those directors active during the book year |
-| directors.active_as_director_on| Add the filter for directors which returns those directors active in a specific date |
-| &emsp;
-| **PERIOD**
-| period.accounts | Add the method to return a collection of all accounts with bookings on this period |
-| period.account_mapping_list.name | Add the method to return the name of the mapping list used for this period |
-| period.account_mapping_list.id | Add the method to return the id of the mapping list on firm level |
-| period.account_mapping_list.marketplace_template_id | Add the method to return the id of the mapping list on marketplace |
-| period.adjustments | Add the method to return all the adjustments for the period |
-| period.bookyear_index | Add the method to return the  index number of the current book year as an integer. The first book year equals 1 |
-| period.calendar_years | Add the method to add an array of all calendar years in the fiscal year. The information for each calendar year is:<br>start_date, end_date, amount_of_days for the number of days the bookyear has in the calendar year, and<br> amount_of_days_in_full_year for the total number of days in the calendar year |
-| period.custom | Add method to attach custom information to a period. This is done automatically in reconciliations |
-| period.directors | Add method to return people drop of *all* individuals who are directors |
-| period.end_date | Add method to return the date this period ends |
-| period.exists | Add method to return true when the period exists in the Silverfin database |
-| period.fiscal_year | Add method to return the fiscal year of this period |
-| period.is_first_year | Add method to return true if the period is in the first book year of this client file |
-| period.month_end_dates | Add method to return an array of all the end dates of the calendar months in this fiscal year |
-| period.name | Add method to return the name of the period |
-| period.people | Add method to return the people drop of *all* people attached to the period (typically copied from general<br> company level) |
-| period.reconciliations | Add method to return a collection of all reconciliations for this period. You can ask for a specific reconciliation<br> by adding the handle. I.e. period.reconciliations.the_handle. |
-| period.reports | Add method to return a collection of all reports for this period. You can ask for a specific report by adding the<br> handle. I.e. period.reports.the_handle |
-| period.shareholders | Add method to return the people drop of *all* individuals who are shareholders |
-| period.start_date | Add method to return the date this period starts |
-| period.year_end | Add method to return the period at the end of the fiscal year this period is in |
-| period.year_end_date | Add method to return the date of the end of the fiscal year of this period |
-| period.year_start_date | Add method to return the date of the start of the fiscal year of this period |
-| period.minus_xp/y <br><br> | Add method to return the period drop of the current period minus the amount of periods or years defined |
-| period.plus_xp/y <br><br>  | Add method to return the period drop of the current period plus the amount of periods or years defined |
-| &emsp;
-| **RECONCILIATIONS**
-| reconciliations.count | Add method which returns the amount of active reconciliations |
-| reconciliations.[reconciliation_handle]* | Add method which returns the specific reconcilaition with matching handle<br>**Don't actually use the word handle but use that handle of the specific reconciliation instead* |
-| reconciliations.star | Add method which returns reconciliations that are marked with a star |
-| &emsp;
-| **USER**
-| user.name | Add method to return name of the Silverfin user |
-| user.email | Add method to return Email of the Silverfin user |
-| <br><br> |
-| <span style="font-size:1.4em;">**TABLE SNIPPETS**</span>                                                           |
-| table | Add snippet for a minimal HTML table with a header, body and width classes defined                         |
-| thead                     | Add opening and closing thead-tags for an HTML table                                   |
-| tbody                     | Add opening and closing tbody-tags for an HTML table                                   |
-| tr                        | Add opening and closing tr-tags for an HTML table with nested td-elements              |
-| th                        | Add opening and closing th-tags for an HTML table                                      |
-| td                        | Add opening and closing td-tags for an HTML table                                      |
-| br                        | Add an HTML line-break tag                                                             |
-| b                         | Add opening and closing b-tags for bold text formatting in HTML                        |
-| i                         | Add opening and closing i-tags for italic text formatting in HTML                      |
-| u                         | Add opening and closing u-tags for underlined text formatting in HTML                  |
-| usr-width-                | Add usr-width-\* class |
-| usr-align-left            | Add usr-align-left class |
-| usr-align-center          | Add usr-align-center class                                                             |
-| usr-align-right           | Add usr-align-right class                                                              |
-| usr-align-justify         | Add usr-align-justify class                                                            |
-| usr-valign-top            | Add usr-valign-top class                                                               |
-| usr-valign-center         | Add usr-valign-center class                                                            |
-| usr-align-bottom          | Add usr-valign-bottom class                                                            |
-| usr-line-top              | Add usr-line-top class                                                                 |
-| usr-line-bottom           | Add usr-line-bottom class                                                              |
-| usr-line-left             | Add usr-line-left class                                                                |
-| usr-line-right            | Add usr-line-right class                                                               |
-| usr-double-line-top       | Add usr-double-line-top class                                                          |
-| usr-double-line-bottom    | Add usr-double-line-bottom class                                                       |
-| usr-double-line-right     | Add usr-double-line-right class                                                        |
-| usr-line-left             | Add usr-line-left class |
-| usr-valign-center               | Add usr-valign-center class |
-| usr-line-right                  | Add usr-line-right class |
-| usr-border-color-\*             | Add class to set table cell border colour in Hex |
-| usr-background-color-\*             | Add class to set table cell background colour in Hex |
-| usr-indent-\*                   | Add usr-indent class with list of possible values |
-| usr-repeated-header             | Add usr-repeated-header class |
-| usr-no-left-padding             | Add usr-no-left-padding class |
-| usr-grayed-out-background-input | Add class to set table cell background to grey |
-| usr-grayed-out-line-bottom-input| Add class to set faint table cell bottom lines |
+## Silverfin Snippets Reference
 
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silverfin Shortcut Reference</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      table-layout: fixed;
+    }
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      border: 1px solid #ddd;
+      padding: 8px;
+      font-size: 17px;
+    }
+    h3 {
+      color: #ddd;
+      font-size: 18px;
+    }
+    .attribute {
+      padding-left: 2em;
+    }
+    .sub-attribute {
+      padding-left: 4em;
+    }
+    .section-break {
+      padding-top: 2em;
+    }
+  </style>
+</head>
+<body>
+  <!-- STYLE SNIPPETS -->
+  <h3>Style Snippets</h3>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 30%;">Shortcut</th>
+        <th style="width: 70%;">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><b>Styling</b></td>
+      </tr>
+      <tr>
+        <td><code>stripnewlines</code></td>
+        <td>Add opening and closing <code>stripnewlines</code></td>
+      </tr>
+      <tr>
+        <td><code>endstripnewlines</code></td>
+        <td>Only add closing <code>endstripnewlines</code> tag</td>
+      </tr>
+      <tr>
+        <td><code>newline</code></td>
+        <td>Add a <code>newline</code> tag</td>
+      </tr>
+      <tr>
+        <td><code>indent</code></td>
+        <td>Add an <code>indent</code> tag with the possible indentation levels listed</td>
+      </tr>
+      <tr>
+        <td><code>fontsize</code></td>
+        <td>Add a <code>font</code> tag with the possible options for font-size listed</td>
+      </tr>
+      <tr>
+        <td><code>fontcolor</code></td>
+        <td>Add a <code>font</code> tag with the hex-colour attribute included</td>
+      </tr>
+      <tr>
+        <td><code>infotextinline</code></td>
+        <td>Add <em>inline</em> <code>infotext</code> inside <code>ic</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>infotextblock</code></td>
+        <td>Add <em>full-width</em> <code>infotext</code> inside <code>ic</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>infotexthover</code></td>
+        <td>Add <code>infotext</code> with the as="hover" attribute</td>
+      </tr>
+      <tr>
+        <td><code>warningtextinline</code></td>
+        <td>Add <em>inline</em> <code>warningtext</code> inside <code>ic</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>warningtextblock</code></td>
+        <td>Add <em>full-width</em> <code>warningtext</code> inside <code>ic</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>warningtexthover</code></td>
+        <td>Add <code>warningtext</code> tag with the as="hover" attribute</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- HTML styling -->
+      <tr>
+        <td colspan="2"><b>HTML styling</b></td>
+      </tr>
+      <tr>
+        <td><code>&lt;p&gt;</code></td>
+        <td>Add opening and closing <code>&lt;p&gt;</code> tags for paragraph text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>br</code></td>
+        <td>Add an HTML line-break tag</td>
+      </tr>
+      <tr>
+        <td><code>hr</code></td>
+        <td>Add horizontal rule tag in HTML</td>
+      </tr>
+      <tr>
+        <td><code>b</code></td>
+        <td>Add opening and closing <code>&lt;b&gt;</code> tags for bold text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>i</code></td>
+        <td>Add opening and closing <code>&lt;i&gt;</code> tags for italic text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>u</code></td>
+        <td>Add opening and closing <code>&lt;u&gt;</code> tags for underlined text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>em</code></td>
+        <td>Add opening and closing <code>&lt;em&gt;</code> tags for emphasized (italic) text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>strong</code></td>
+        <td>Add opening and closing <code>&lt;strong&gt;</code> tags for strong (bold) text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>sub</code></td>
+        <td>Add opening and closing <code>&lt;sub&gt;</code> tags for subscript text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>sup</code></td>
+        <td>Add opening and closing <code>&lt;sup&gt;</code> tags for superscript text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>h1, h2, h3, h4, h5, h6</code></td>
+        <td>
+          Add opening and closing tags for section heading text formatting in HTML. <code>&lt;h1&gt;</code> is the largest heading and <code>&lt;h6&gt;</code> is the smallest.<br>
+          <strong>Cannot</strong> be used inside HTML tables within a Liquid template
+        </td>
+      </tr>
+      <tr>
+        <td><code>a, anchor</code></td>
+        <td>Add opening and closing <code>&lt;a&gt;</code> tags for hyperlink text formatting in HTML</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <!-- TAG SNIPPETS -->
+  <h3>Tag Snippets</h3>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 30%;">Shortcut</th>
+        <th style="width: 70%;">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Comments -->
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><b>Comments</b></td>
+      </tr>
+      <tr>
+        <td><code>comment</code></td>
+        <td>Add opening and closing <code>comment</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>endcomment</code></td>
+        <td>Only add the closing <code>comment</code> tag</td>
+      </tr>
+      <tr>
+        <td><code>ic</code></td>
+        <td>Add opening and closing <code>ic</code> tags (input only)</td>
+      </tr>
+      <tr>
+        <td><code>endic</code></td>
+        <td>Only add the closing <code>ic</code> tag (input only)</td>
+      </tr>
+      <tr>
+        <td><code>nic</code></td>
+        <td>Add opening and closing <code>nic</code> tags (export only)</td>
+      </tr>
+      <tr>
+        <td><code>endnic</code></td>
+        <td>Only add the closing <code>nic</code> tag (export only)</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Variables -->
+      <tr>
+        <td colspan="2"><b>Variables</b></td>
+      </tr>
+      <tr>
+        <td><code>assign</code></td>
+        <td>Add an <code>assign</code> tag for variables</td>
+      </tr>
+      <tr>
+        <td><code>assign [dynamic]</code></td>
+        <td>Add an <code>assign</code> tag for dynamic variables</td>
+      </tr>
+      <tr>
+        <td><code>capture</code></td>
+        <td>Add opening and closing <code>capture</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>endcapture</code></td>
+        <td>Only add the closing <code>capture</code> tag</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Translations -->
+      <tr>
+        <td colspan="2"><b>Translations</b></td>
+      </tr>
+      <tr>
+        <td><code>t=</code></td>
+        <td>Set a translation with a default (different languages to be set depending on market)</td>
+      </tr>
+      <tr>
+        <td><code>t</code></td>
+        <td>Call a defined translation</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Input -->
+      <tr>
+        <td colspan="2"><b>Input</b></td>
+      </tr>
+      <tr>
+        <td><code>input</code></td>
+        <td>Add a standard text-input</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>as:text</code></td>
+        <td>Add the attribute for a textarea input</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>as:currency</code></td>
+        <td>Add the attribute for a currency input</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>as:currency,invert:true</code></td>
+        <td>Add the attribute for a currency input with inverted value stored in database</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>precision:</code></td>
+        <td>Add the sub-attribute to define the precision on a currency input</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>as:integer</code></td>
+        <td>Add the attribute for an integer input</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>as:percentage</code></td>
+        <td>Add the attribute for a percentage input</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>precision:</code></td>
+        <td>Add the sub-attribute to define the precision on a percentage input</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>strip_insignificant_zeros</code></td>
+        <td>Add the sub-attribute to strip the final decimal zeros from a percentage value on an input</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>as:boolean</code></td>
+        <td>Add the attribute for a boolean input</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>autoreload:</code></td>
+        <td>Add the sub-attribute to a boolean input to auto-reload</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>as:date</code></td>
+        <td>Add the attribute for a date input</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>format:</code></td>
+        <td>Add the sub-attribute to define the date format display inside an input</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>as:file</code></td>
+        <td>Add the attribute for a file input</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>show_label:</code></td>
+        <td>Add the sub-attribute to add a label to file input field</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>max_size:</code></td>
+        <td>Add the sub-attribute to limit size (in MB) of files users can attach</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>document</code></td>
+        <td>Add the attribute to show name of the (first) attached documents of a relevant custom value</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>documents</code></td>
+        <td>Add the attribute to show names of all attached documents of a relevant custom value</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>[some documents].size</code></td>
+        <td>Count number of files attached of a relevant custom value</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>[some document].file_name</code></td>
+        <td>Render name of relevant document</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>[some document].link</code></td>
+        <td>Render link to preview of relevant document</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>as:select</code></td>
+        <td>Add the attribute for a select input</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>options:</code></td>
+        <td>Add the options sub-attribute to a select input</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>option_values:</code></td>
+        <td>Add the option_values sub-attribute to a select input</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>as:account_collection</code></td>
+        <td>Add the attribute for an account collection input</td>
+      </tr>
+      <tr>
+        <td class="sub-attribute"><code>range:</code></td>
+        <td>Add the range sub-attribute to an account collection input</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>placeholder:</code></td>
+        <td>Add the placeholder attribute to an input</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>required:</code></td>
+        <td>Add the required attribute to an input</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>default:</code></td>
+        <td>Add the default attribute or filter to an input or variable</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>import_title:</code></td>
+        <td>Add import_title attribute to _both_ fori loops and inputs within fori loop when importing reconciliation data to distinguish between different collections</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>assign:</code></td>
+        <td>Add the assign attribute to assign input value to a variable</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Radio Group -->
+      <tr>
+        <td colspan="2"><b>Radio Group</b></td>
+      </tr>
+      <tr>
+        <td><code>radiogroup</code></td>
+        <td>Add a radio button input group</td>
+      </tr>
+      <tr>
+        <td><code>radioinput</code></td>
+        <td>Add individual buttons within a radio button group</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>autoreload:</code></td>
+        <td>Add the attribute to a radiogroup tag to auto-reload</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Control Flow -->
+      <tr>
+        <td colspan="2"><b>Control Flow</b></td>
+      </tr>
+      <tr>
+        <td><code>if</code></td>
+        <td>Add opening and closing <code>if</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>if else</code></td>
+        <td>Add opening and closing <code>if</code> tags with <code>else</code> statement</td>
+      </tr>
+      <tr>
+        <td><code>endif</code></td>
+        <td>Only add closing <code>if</code> tag</td>
+      </tr>
+      <tr>
+        <td><code>else</code></td>
+        <td>Only add <code>else</code> tag</td>
+      </tr>
+      <tr>
+        <td><code>elsif</code></td>
+        <td>Only add <code>elsif</code> tag</td>
+      </tr>
+      <tr>
+        <td><code>ifi</code></td>
+        <td>Add opening and closing <code>ifi</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>endifi</code></td>
+        <td>Only add closing <code>ifi</code> tag</td>
+      </tr>
+      <tr>
+        <td><code>unless</code></td>
+        <td>Add opening and closing <code>unless</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>endunless</code></td>
+        <td>Only add closing <code>unless</code> tag</td>
+      </tr>
+      <tr>
+        <td><code>case</code></td>
+        <td>Add opening and closing <code>case</code> tags with a <code>when</code> and <code>else</code> statement</td>
+      </tr>
+      <tr>
+        <td><code>endcase</code></td>
+        <td>Only add closing <code>case</code> tag</td>
+      </tr>
+      <tr>
+        <td><code>when</code></td>
+        <td>Add a <code>when</code> tag that is used within <code>case</code> tags</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Iterations -->
+      <tr>
+        <td colspan="2"><b>Iterations</b></td>
+      </tr>
+      <tr>
+        <td><code>for</code></td>
+        <td>Add opening and closing <code>for</code> loop tags</td>
+      </tr>
+      <tr>
+        <td><code>endfor</code></td>
+        <td>Only add a closing <code>for</code> loop tag</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>limit</code></td>
+        <td>Add the limit attribute to a for loop</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>offset</code></td>
+        <td>Add the offset attribute to a for loop</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>reversed</code></td>
+        <td>Add the reversed attribute to a for loop</td>
+      </tr>
+      <tr>
+        <td><code>fori</code></td>
+        <td>Add opening and closing <code>fori</code> loop tags</td>
+      </tr>
+      <tr>
+        <td><code>endfori</code></td>
+        <td>Only add a closing <code>fori</code> loop tag</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>import_title</code></td>
+        <td>Add import_title attribute to _both_ fori loops and inputs within fori loop when importing reconciliation data to distinguish between different collections</td>
+      </tr>
+      <tr>
+        <td><code>forloop.index</code></td>
+        <td>Add the forloop.index variable inside a for loop</td>
+      </tr>
+      <tr>
+        <td><code>forloop.index0</code></td>
+        <td>Add the forloop.index0 variable inside a for loop</td>
+      </tr>
+      <tr>
+        <td><code>forloop.first</code></td>
+        <td>Add the forloop.first variable inside a for loop</td>
+      </tr>
+      <tr>
+        <td><code>forloop.last</code></td>
+        <td>Add the forloop.last variable inside a for loop</td>
+      </tr>
+      <tr>
+        <td><code>break</code></td>
+        <td>Add the <code>break</code> tag inside a for loop</td>
+      </tr>
+      <tr>
+        <td><code>continue</code></td>
+        <td>Add the <code>continue</code> inside a for loop</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Unreconciled -->
+      <tr>
+        <td colspan="2"><b>Unreconciled</b></td>
+      </tr>
+      <tr>
+        <td><code>unreconciled</code></td>
+        <td>Add the <code>unreconciled</code> tag as an indicator with unreconciled text</td>
+      </tr>
+      <tr>
+        <td><code>unreconciled-withoutindicator</code></td>
+        <td>Add the <code>unreconciled</code> tag as an indicator with unreconciled text</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Result -->
+      <tr>
+        <td colspan="2"><b>Result</b></td>
+      </tr>
+      <tr>
+        <td><code>result</code></td>
+        <td>Add a <code>result</code> tag</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Rollforward -->
+      <tr>
+        <td colspan="2"><b>Rollforward</b></td>
+      </tr>
+      <tr>
+        <td><code>rollforward</code></td>
+        <td>Add a <code>rollforward</code> tag</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>as:file</code></td>
+        <td>Add as:file attribute to a <code>rollforward</code> tag </td>
+      </tr>
+      <tr>
+        <td><code>rollforward.period</code></td>
+        <td>Add the <code>rollforward.period</code> variable</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Locale -->
+      <tr>
+        <td colspan="2"><b>Locale</b></td>
+      </tr>
+      <tr>
+        <td><code>locale</code></td>
+        <td>Add opening and closing <code>locale</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>endlocale</code></td>
+        <td>Only add closing <code>locale</code> tag</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Include -->
+      <tr>
+        <td colspan="2"><b>Include</b></td>
+      </tr>
+      <tr>
+        <td><code>include</code></td>
+        <td>Add a tag to include a local or shared part</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Linkto -->
+      <tr>
+        <td colspan="2"><b>Linkto</b></td>
+      </tr>
+      <tr>
+        <td><code>linkto</code></td>
+        <td>Add opening and closing <code>linkto</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>endlinkto</code></td>
+        <td>Only add closing <code>linkto</code> tag</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>target:</code></td>
+        <td>Add a target attribute to a <code>linkto</code> tag</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>new_tab:</code></td>
+        <td>Add a new_tab attribute to a <code>linkto</code> tag</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>as:button</code></td>
+        <td>Add the attribute for a button to a <code>linkto</code> tag</td>
+      </tr>
+      <tr>
+        <td><code>target</code></td>
+        <td>Add a <code>target</code> tag with an id</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Adjustment button -->
+      <tr>
+        <td colspan="2"><b>Adjustment Button</b></td>
+      </tr>
+      <tr>
+        <td><code>adjustmentbutton</code></td>
+        <td>Add opening and closing <code>adjustmentbutton</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>adjustmentbuttonwithpurpose</code></td>
+        <td>Add an <code>adjustmentbutton</code> tag with a purpose attribute</td>
+      </tr>
+      <tr>
+        <td><code>endadjustmentbutton</code></td>
+        <td>Only add closing <code>adjustmentbutton</code> tag</td>
+      </tr>
+      <tr>
+        <td><code>adjustmenttransaction</code></td>
+        <td>Add <code>adjustmenttransaction</code> tag</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Group -->
+      <tr>
+        <td colspan="2"><b>Group</b></td>
+      </tr>
+      <tr>
+        <td><code>group</code></td>
+        <td>Add a closing and opening <code>group</code> tag inside <code>nic</code> tags</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Add new inputs -->
+      <tr>
+        <td colspan="2"><b>Add New Inputs</b></td>
+      </tr>
+      <tr>
+        <td><code>addnewinputs</code></td>
+        <td>Add opening and closing <code>addnewinputs</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>endaddnewinputs</code></td>
+        <td>Only add closing <code>addnewinputs</code> tag</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Signmarker -->
+      <tr>
+        <td colspan="2"><b>Signmarker</b></td>
+      </tr>
+      <tr>
+        <td><code>signmarker</code></td>
+        <td>Add a <code>signmarker</code> tag</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Push & Pop -->
+      <tr>
+        <td colspan="2"><b>Push & Pop</b></td>
+      </tr>
+      <tr>
+        <td><code>push</code></td>
+        <td>Add a <code>push</code> tag</td>
+      </tr>
+      <tr>
+        <td><code>pop</code></td>
+        <td>Add a <code>pop</code> tag</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Change orientation -->
+      <tr>
+        <td colspan="2"><b>Change Orientation</b></td>
+      </tr>
+      <tr>
+        <td><code>changeorientation</code></td>
+        <td>Add a <code>changeorientation</code> tag</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Currency configuration -->
+      <tr>
+        <td colspan="2"><b>Currency Configuration</b></td>
+      </tr>
+      <tr>
+        <td><code>currencyconfiguration</code></td>
+        <td>Add opening and closing <code>currencyconfiguration</code> tags with the possible attributes</td>
+      </tr>
+      <tr>
+        <td><code>endcurrencyconfiguration</code></td>
+        <td>Only add closing <code>currencyconfiguration</code> tag</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>zero_format</code></td>
+        <td>Add attribute to set format of zeroes to "0" or "-"</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>negative_format</code></td>
+        <td>Add attribute to set format of negative numbers to "-xxx" or "(xxx)"</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>precision</code></td>
+        <td>Add attribute to set number of decimal places</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>delimiter</code></td>
+        <td>Add attribute to set style of delimiters to "x,xxx", "x.xxx", "xxxx", or "x xxx"</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>separator</code></td>
+        <td>Add attribute to set style of decimal separator to either "x,xx" or "x.xx"</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- New page -->
+      <tr>
+        <td colspan="2"><b>New Page</b></td>
+      </tr>
+      <tr>
+        <td><code>newpage</code></td>
+        <td>Add a newpage tag to signify the start of a new page in the PDF export with optional orientation attribute</td>
+      </tr>
+      <tr>
+        <td><code>section_break</code></td>
+        <td>Add the attribute to create section breaks within input mode</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <!--DROPS SNIPPETS -->
+  <h2>Drops Snippets</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 30%;">Shortcut</th>
+        <th style="width: 70%;">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Account drops -->
+      <!-- <tr>
+        <td colspan="2"><b>Account Drops</b></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr> -->
+      <!-- Accounts drops -->
+      <tr>
+        <td colspan="2"><b>Accounts Drops</b></td>
+      </tr>
+      <tr>
+        <td>
+          <code>accounts.starred</code><br>
+          <code>accounts.assets</code><br>
+          <code>accounts.liabilities</code><br>
+          <code>accounts.revenues</code><br>
+          <code>accounts.expenses</code><br>
+          <code>accounts.income</code><br>
+          <code>accounts.equity</code>
+        </td>
+        <td style="vertical-align: top">Return an accounts drop with only specified accounts type</td>
+      </tr>
+      <tr>
+        <td><code>accounts.count</code></td>
+        <td>Return number of account drops in the accounts drop</td>
+      </tr>
+      <tr>
+        <td><code>accounts.credit_value</code></td>
+        <td>Return sum of credit value of all accounts in the accounts drop</td>
+      </tr>
+      <tr>
+        <td><code>accounts.debit_value</code></td>
+        <td>Return sum of debit value of all accounts in rhe accounts drop</td>
+      </tr>
+      <tr>
+        <td><code>accounts.first</code></td>
+        <td>Return the first account drop of the accounts drop</td>
+      </tr>
+      <tr>
+        <td><code>accounts.include_zeros</code></td>
+        <td>Return an accounts drop that includes <em>all</em> accounts, including those with a zero balance</td>
+      </tr>
+      <tr>
+        <td><code>accounts.name</code></td>
+        <td>Return the name of the first account in this drop</td>
+      </tr>
+      <tr>
+        <td>
+          <code>accounts.p_and_l_rounding_difference</code>,<br>
+          <code>accounts.bs_rounding_difference</code>
+        </td>
+        <td>Display the exact Profit & Loss/ Balance Sheet rounding difference when using the core rounding functionality</td>
+      </tr>
+      <tr>
+        <td>
+          <code>accounts.p_and_l_rounding_account</code>,<br>
+          <code>accounts.bs_rounding_account</code>
+        </td>
+        <td>Return the account drop where the Profit & Loss/ Balance Sheet rounding difference is stored</td>
+      </tr>
+      <tr>
+        <td><code>accounts.return_values_in_millions</code></td>
+        <td>Display the value of the individual account drops in the created accounts drop in millions</td>
+      </tr>
+      <tr>
+        <td><code>accounts.return_values_in_thousands</code></td>
+        <td>Display the value of the individual account drops in the created accounts drop in thousands</td>
+      </tr>
+      <tr>
+        <td><code>accounts.value</code></td>
+        <td>Return the sum of all values for all accounts in this accounts drop for this period</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Company drops -->
+      <tr>
+        <td colspan="2"><b>Company Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>company.analytical_type_(0..x)_codes</code></td>
+        <td>Returns drop with information about dimensions/companies in an analytical/consolidation file</td>
+      </tr>
+      <tr>
+        <td><code>company.city</code></td>
+        <td>Return the city from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.company_form</code></td>
+        <td>Return the company form from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.company_type</code></td>
+        <td>Return the company type from company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.country</code></td>
+        <td>Return the country from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.country_code</code></td>
+        <td>Return the country code based upon the country from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.currency</code></td>
+        <td>Return the currency code from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.custom</code></td>
+        <td>Attach custom information to a company, independant of the period</td>
+      </tr>
+      <tr>
+        <td><code>company.file_code</code></td>
+        <td>Return the file number from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.locales</code></td>
+        <td>Return the available languages for the company</td>
+      </tr>
+      <tr>
+        <td><code>company.name</code></td>
+        <td>Return the company name from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.periods_per_year</code></td>
+        <td>Returns 1,4,12 depending on the reporting frequency (yearly, quarterly or monthly)</td>
+      </tr>
+      <tr>
+        <td><code>company.postalcode</code></td>
+        <td>Return the post code from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.street</code></td>
+        <td>Return the street from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.vat_identifier</code></td>
+        <td>Return the vat identifier from the company settings</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Custom drops -->
+      <!-- People drops -->
+      <tr>
+        <td><code>people.count</code></td>
+        <td>Return of count of number of person drops within the people drop (can also use with directors and shareholders drops)</td>
+      </tr>
+      <tr>
+        <td><code>people.first</code></td>
+        <td>Return first the person drop in the people drop (can also use with directors and shareholders drops)</td>
+      </tr>
+      <tr>
+        <td><code>directors.active_as_director</code></td>
+        <td>Add the filter for directors which returns those directors active during the book year</td>
+      </tr>
+      <tr>
+        <td><code>directors.active_as_director_on</code></td>
+        <td>Add the filter for directors which returns those directors active in a specific date</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Period -->  
+      <tr>
+        <td colspan="2"><b>Period Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>period.accounts</code></td>
+        <td>Return an accounts drop of all accounts with bookings on this period</td>
+      </tr>
+      <tr>
+        <td><code>period.account_mapping_list.name</code></td>
+        <td>Return the name of the mapping list used for this period</td>
+      </tr>
+      <tr>
+        <td><code>period.account_mapping_list.id</code></td>
+        <td>Return the id of the mapping list on firm level</td>
+      </tr>
+      <tr>
+        <td><code>period.account_mapping_list.marketplace_template_id</code></td>
+        <td>Return the id of the mapping list on the marketplace</td>
+      </tr>
+      <tr>
+        <td><code>period.adjustments</code></td>
+        <td>Return adjustments drop of all adjustments for the period</td>
+      </tr>
+      <tr>
+        <td><code>period.bookyear_index</code></td>
+        <td>Return the index number of the current book year as an integer. The first book year equals 1</td>
+      </tr>
+      <tr>
+        <td style="vertical-align:top"><code>period.calendar_years</code></td>
+        <td>
+          Add the method to add an array of all calendar years in the fiscal year. The information for each calendar year is:<br>
+          start_date, end_date, amount_of_days for the number of days the bookyear has in the calendar year, and amount_of_days_in_full_year for the total number of days in the calendar year
+      </td>
+      </tr>
+      <tr>
+        <td><code>period.custom</code></td>
+        <td>Attach custom information to a period. This is done <em>automatically</em> in reconciliations</td>
+      </tr>
+      <tr>
+        <td><code>period.directors</code></td>
+        <td>Return a people drop of all individuals who are directors</td>
+      </tr>
+      <tr>
+        <td><code>period.end_date</code></td>
+        <td>Return the date this period ends</td>
+      </tr>
+      <tr>
+        <td><code>period.exists</code></td>
+        <td>Return true when the period exists in the Silverfin database</td>
+      </tr>
+      <tr>
+        <td><code>period.fiscal_year</code></td>
+        <td>Return the fiscal year of this period</td>
+      </tr>
+      <tr>
+        <td><code>period.is_first_year</code></td>
+        <td>Return true if the period is in the first book year of this client file</td>
+      </tr>
+      <tr>
+        <td><code>period.month_end_dates</code></td>
+        <td>Return an array of all the end dates of the calendar months in this fiscal year</td>
+      </tr>
+      <tr>
+        <td><code>period.name</code></td>
+        <td>Return the name of the period</td>
+      </tr>
+      <tr>
+        <td><code>period.people</code></td>
+        <td>
+          Return the people drop of all people attached to the period (typically copied from general company level)
+        </td>
+      </tr>
+      <tr>
+        <td><code>period.reconciliations</code></td>
+        <td>
+          Return a reconciliations drop of all reconciliations for this period. You can ask for a specific reconciliation by adding the handle. I.e. period.reconciliations.the_handle.
+        </td>
+      </tr>
+      <tr>
+        <td><code>period.reports</code></td>
+        <td>Return a reports drop of all reports for this period. You can ask for a specific report by adding the handle. I.e. period.reports.the_handle</td>
+      </tr>
+      <tr>
+        <td><code>period.shareholders</code></td>
+        <td>Return a people drop of all individuals who are shareholders</td>
+      </tr>
+      <tr>
+        <td><code>period.start_date</code></td>
+        <td>Return the date this period starts</td>
+      </tr>
+      <tr>
+        <td><code>period.year_end</code></td>
+        <td>Return the period at the end of the fiscal year this period is in</td>
+      </tr>
+      <tr>
+        <td><code>period.year_end_date</code></td>
+        <td>Return the date of the end of the fiscal year of this period</td>
+      </tr>
+      <tr>
+        <td><code>period.year_start_date</code></td>
+        <td>Return the date of the start of the fiscal year of this period</td>
+      </tr>
+      <tr>
+        <td><code>period.minus__xp/y</code></td>
+        <td>Return the period drop of the current period minus the amount of periods or years defined</td>
+      </tr>
+      <tr>
+        <td><code>period.plus__xp/y</code></td>
+        <td>Return the period drop of the current period plus the amount of periods or years defined</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Reconciliations -->
+      <tr>
+        <td colspan="2"><b>Reconciliations Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>reconciliations.count</code></td>
+        <td>Returns the number of active reconciliations</td>
+      </tr>
+      <tr style>
+        <td><code>reconciliations.[reconciliation_handle]</code> *</td>
+        <td>
+          Return the specific reconcilaition with matching handle<br>
+          * <i>Don't actually use the word handle but use that handle of the specific reconciliation instead</i>
+        </td>
+      </tr>
+      <tr>
+        <td><code>reconciliations.star</code></td>
+        <td>Return reconciliations drop of all starred reconciliations</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- User drops -->
+      <tr>
+        <td colspan="2"><b>User Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>user.name</code></td>
+        <td>Return name of the current Silverfin user</td>
+      </tr>
+      <tr>
+        <td><code>user.email</code></td>
+        <td>Return email address of the current Silverfin user</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <!-- FILTER SNIPPETS -->
+  <h3>Filter Snippets</h3>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 30%;">Shortcut</th>
+        <th style="width: 70%;">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Allow false -->
+      <tr>
+        <td colspan="2"><b>Allow False</b></td>
+      </tr>
+      <tr>
+        <td><code>allow_false</code></td>
+        <td>Add the filter to allow falsy values not to be overwritten by defaults</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Array -->
+      <tr>
+        <td colspan="2"><b>Array</b></td>
+      </tr>
+      <tr>
+        <td><code>concat</code></td>
+        <td>Add filter to combine two arrays</td>
+      </tr>
+      <tr>
+        <td><code>split</code></td>
+        <td>Add filter to split a String into an array</td>
+      </tr>
+      <tr>
+        <td><code>first</code></td>
+        <td>Add filter to return the first value of an array</td>
+      </tr>
+      <tr>
+        <td><code>last</code></td>
+        <td>Add filter to return the last value of an array</td>
+      </tr>
+      <tr>
+        <td><code>join</code></td>
+        <td>Add filter to transform an array into a String</td>
+      </tr>
+      <tr>
+        <td><code>sort</code></td>
+        <td>Add filter to sort an array alphabetically</td>
+      </tr>
+      <tr>
+        <td><code>uniq</code></td>
+        <td>Add filter to remove duplicate values from an array</td>
+      </tr>
+      <tr>
+        <td><code>reverse</code></td>
+        <td>Add filter to reverse order of items in an array</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Collection -->
+      <tr>
+        <td colspan="2"><b>Collection</b></td>
+      </tr>
+      <tr>
+        <td><code>concat</code></td>
+        <td>Add filter to combine two collections</td>
+      </tr>
+      <tr>
+        <td><code>map</code></td>
+        <td>Add filter to create array from collection</td>
+      </tr>
+      <tr>
+        <td><code>range</code></td>
+        <td>Add filter to <strong>accounts collection</strong> to return accounts in a given range</td>
+      </tr>
+      <tr>
+        <td><code>group_by</code></td>
+        <td>Add filter to group items of collection by a specified field</td>
+      </tr>
+      <tr>
+        <td><code>index_by</code></td>
+        <td>Add filter to reference item by an alternate index</td>
+      </tr>
+      <tr>
+        <td><code>where</code></td>
+        <td>Add filter to create array from collection, only including items which meet specified condition </td>
+      </tr>
+      <tr>
+        <td><code>analytical_code</code></td>
+        <td>Add filter to <strong>accounts collection</strong> to return accounts for specified dimension/company code</td>
+      </tr>
+      <tr>
+        <td><code>add_rounding_difference</code></td>
+        <td>Add filter to <strong>accounts collection</strong> to remove (and reallocate) decimal values</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Date and time -->
+      <tr>
+        <td colspan="2"><b>Date and Time</b></td>
+      </tr>
+      <tr>
+        <td><code>date:"%d/%m/%Y"</code></td>
+        <td>Add filter for standard BE date formatting (DD/MM/YYYY)</td>
+      </tr>
+      <tr>
+        <td><code>date:"%F"</code></td>
+        <td>Add filter for ISO date formatting (YYYY-MM-DD)</td>
+      </tr>
+      <tr>
+        <td><code>"now"</code></td>
+        <td>Display today's date</td>
+      </tr>
+      <tr>
+        <td><code>localized_date</code></td>
+        <td>Display a date according to the time-zone from where template is being executed</td>
+      </tr>
+      <tr>
+        <td><code>advance_years</code></td>
+        <td>Add filter to advance date by specified number of years</td>
+      </tr>
+      <tr>
+        <td><code>advance_months</code></td>
+        <td>Add filter to advance date by specified number of months</td>
+      </tr>
+      <tr>
+        <td><code>advance_weeks</code></td>
+        <td>Add filter to advance date by specified number of weeks</td>
+      </tr>
+      <tr>
+        <td><code>advance_days</code></td>
+        <td>Add filter to advance date by specified number of days</td>
+      </tr>
+      <tr>
+        <td><code>advance_hours</code></td>
+        <td>Add filter to advance date by specified number of hours</td>
+      </tr>
+      <tr>
+        <td><code>advance_minutes</code></td>
+        <td>Add filter to advance date by specified number of minutes</td>
+      </tr>
+      <tr>
+        <td><code>advance_seconds</code></td>
+        <td>Add filter to advance date by specified number of seconds</td>
+      </tr>
+      <tr>
+        <td><code>retract_years</code></td>
+        <td>Add filter to retract date by specified number of years</td>
+      </tr>
+      <tr>
+        <td><code>retract_months</code></td>
+        <td>Add filter to retract date by specified number of months</td>
+      </tr>
+      <tr>
+        <td><code>retract_weeks</code></td>
+        <td>Add filter to retract date by specified number of weeks</td>
+      </tr>
+      <tr>
+        <td><code>retract_days</code></td>
+        <td>Add filter to retract date by specified number of days</td>
+      </tr>
+      <tr>
+        <td><code>retract_hours</code></td>
+        <td>Add filter to retract date by specified number of hours</td>
+      </tr>
+      <tr>
+        <td><code>retract_minutes</code></td>
+        <td>Add filter to retract date by specified number of minutes</td>
+      </tr>
+      <tr>
+        <td><code>retract_seconds</code></td>
+        <td>Add filter to retract date by specified number of seconds</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Localized -->
+      <tr>
+        <td colspan="2"><b>Localized</b></td>
+      </tr>
+      <tr>
+        <td><code>localized</code></td>
+        <td>Add filter on custom input drop with localized attribute, to retrieve value in local language</td>
+      </tr>
+      <tr>
+        <td><code>localized:</code></td>
+        <td>Add functionality to a text input <em>only</em>, to store text in local language</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Number -->
+      <tr>
+        <td colspan="2"><b>Number</b></td>
+      </tr>
+      <tr>
+        <td><code>abs</code></td>
+        <td>Add filter to return the absolute value of a number</td>
+      </tr>
+      <tr>
+        <td><code>ABS (function)</code></td>
+        <td>Add function to return absolute value from wrapped input</td>
+      </tr>
+      <tr>
+        <td><code>ceil</code></td>
+        <td>Add filter to return value rounded-up</td>
+      </tr>
+      <tr>
+        <td><code>floor</code></td>
+        <td>Add filter to return value rounded-down</td>
+      </tr>
+      <tr>
+        <td><code>currency</code></td>
+        <td>Add filter to return a value in the currency format</td>
+      </tr>
+      <tr>
+        <td class="attribute"><code>invert</code></td>
+        <td>Add filter to invert value of inputed accounts - <em>only</em> works with currency filter</td>
+      </tr>
+      <tr>
+        <td><code>integer</code></td>
+        <td>Add filter to convert value to the nearest whole number</td>
+      </tr>
+      <tr>
+        <td><code>INT (function)</code></td>
+        <td>Add function to convert wrapped input to nearest whole number</td>
+      </tr>
+      <tr>
+        <td><code>percentage</code></td>
+        <td>Add filter to return value as percentage</td>
+      </tr>
+      <tr>
+        <td><code>number_to_human</code></td>
+        <td>Add filter to convert inputted accounts into combination of integers + English words e.g. "287 Thousand"</td>
+      </tr>
+      <tr>
+        <td><code>number_to_currency</code></td>
+        <td>Add filter to convert a <em>string</em> value to the currency format</td>
+      </tr>
+      <tr>
+        <td><code>round</code></td>
+        <td>Add filter to return s rounded value (with default of two decimal places)</td>
+      </tr>
+      <tr>
+        <td><code>modulo</code></td>
+        <td>Add filter to divide value by a number and return the remainder</td>
+      </tr>
+      <tr>
+        <td><code>MAX (function)</code></td>
+        <td>Add the MAX function to return the largest value of an array of numbers</td>
+      </tr>
+      <tr>
+        <td><code>MIN (function)</code></td>
+        <td>Add the MIN function to return the smallest value in an array of numbers</td>
+      </tr>
+      <tr>
+        <td><code>at_least</code></td>
+        <td>Add filter to limit input to a minimum value</td>
+      </tr>
+      <tr>
+        <td><code>at_most</code></td>
+        <td>Add filter to limit input to a maximum value</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- String -->
+      <tr>
+        <td colspan="2"><b>String</b></td>
+      </tr>
+      <tr>
+        <td><code>remove</code></td>
+        <td>Add filter to removes substring from a given string</td>
+      </tr>
+      <tr>
+        <td><code>replace</code></td>
+        <td>Add filter to replace substring A with substring B within a given string</td>
+      </tr>
+      <tr>
+        <td><code>upcase</code></td>
+        <td>Add filter to transform all letters of a given string into uppercase</td>
+      </tr>
+      <tr>
+        <td><code>downcase</code></td>
+        <td>Add filter to transform all letters of a given string into lowercase</td>
+      </tr>
+      <tr>
+        <td><code>capitalize</code></td>
+        <td>Add filter to capitalise <em>each</em> word in a given string</td>
+      </tr>
+      <tr>
+        <td><code>append</code></td>
+        <td>Add filter to attach String B to the end of String A</td>
+      </tr>
+      <tr>
+        <td><code>prepend</code></td>
+        <td>Add filter to attach String B at the start of String B</td>
+      </tr>
+      <tr>
+        <td><code>size</code></td>
+        <td>Add filter to return the number of characters within a given String</td>
+      </tr>
+      <tr>
+        <td><code>strip</code></td>
+        <td>Add filter to string any whitespaces at the start and end of a given string</td>
+      </tr>
+      <tr>
+        <td><code>default</code></td>
+        <td>Add attribute to a string variable to return a default value <em>if</em> no value stored in the variable</td>
+      </tr>
+      <tr>
+        <td><code>slice</code></td>
+        <td>Add filter to return a substring of a given String, beginning from a certain index for a certain length</td>
+      </tr>
+      <tr>
+        <td><code>newline_to_br / multiline_table</code></td>
+        <td>Add filter to replace every newline character ("\n") with an HTML line break ("&lt;br&gt;")</td>
+      </tr>
+      <tr>
+        <td><code>string_value</code></td>
+        <td>Add filter to return a value from a variable or drop as a String rather than the inferred data type</td>
+      </tr>
+      <tr>
+        <td><code>url_encode</code></td>
+        <td>Add filter to replace any URL-unsafe character with three characters: a percent sign and the corresponding Hex value of the character replaced</td>
+      </tr>
+      <tr>
+        <td><code>url_decode</code></td>
+        <td>Add filter to decode a String encoded by the above url_encode filter</td>
+      </tr>
+      <tr>
+        <td><code>strip_html</code></td>
+        <td>Add filter to remove any HTML tags from a String</td>
+      </tr>
+      <tr>
+        <td><code>md5</code></td>
+        <td>Converts a string into an MD5 hash</td>
+      </tr>
+      <tr>
+        <td><code>transliterate</code></td>
+        <td>Transliterates strings based on the Unicoder library</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <!-- TABLE SNIPPETS -->
+  <h2>Table Snippets</h2>
+  <table class="usr-width-100">
+    <thead>
+      <tr>
+        <th style="width: 30%;">Shortcut</th>
+        <th style="width: 70%;">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- HTML Elements -->
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><b>HTML Elements</b></td>
+      </tr>
+      <!-- Table Elements -->
+      <tr>
+        <td colspan="2"><i>Table Elements</i></td>
+      </tr>
+      <tr>
+        <td><code>table</code></td>
+        <td>Add snippet for a minimal HTML table with a header, body, and width classes defined</td>
+      </tr>
+      <tr>
+        <td><code>thead</code></td>
+        <td>Add opening and closing <code>&lt;thead&gt;</code> tags for an HTML table</td>
+      </tr>
+      <tr>
+        <td><code>tbody</code></td>
+        <td>Add opening and closing <code>&lt;tbody&gt;</code> tags for an HTML table</td>
+      </tr>
+      <tr>
+        <td><code>tr</code></td>
+        <td>Add opening and closing <code>&lt;tr&gt;</code> tags for an HTML table with nested <code>&lt;td&gt;</code> elements</td>
+      </tr>
+      <tr>
+        <td><code>th</code></td>
+        <td>Add opening and closing <code>&lt;th&gt;</code> tags for an HTML table</td>
+      </tr>
+      <tr>
+        <td><code>td</code></td>
+        <td>Add opening and closing <code>&lt;td&gt;</code> tags for an HTML table</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Text Formatting Elements -->
+      <tr>
+        <td colspan="2"><i>Text Formatting Elements</i></td>
+      </tr>
+      <tr>
+        <td><code>br</code></td>
+        <td>Add an HTML line-break tag</td>
+      </tr>
+      <tr>
+        <td><code>b</code></td>
+        <td>Add opening and closing <code>&lt;b&gt;</code> tags for bold text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>i</code></td>
+        <td>Add opening and closing <code>&lt;i&gt;</code> tags for italic text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>u</code></td>
+        <td>Add opening and closing <code>&lt;u&gt;</code> tags for underlined text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>em</code></td>
+        <td>Add opening and closing <code>&lt;em&gt;</code> tags for emphasized (italic) text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>sub</code></td>
+        <td>Add opening and closing <code>&lt;sub&gt;</code> tags for subscript text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>sup</code></td>
+        <td>Add opening and closing <code>&lt;sup&gt;</code> tags for superscript text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- HTML Attributes -->
+      <tr>
+        <td colspan="2"><b>HTML Attributes</b></td>
+      </tr>
+      <tr>
+        <td><code>class</code></td>
+        <td>Add <code>class</code> attribute to HTML elements</td>
+      </tr>
+      <tr>
+        <td><code>colspan</code></td>
+        <td>Add <code>colspan</code> attribute to HTML <code>&lt;td&gt;</code> or <code>&lt;th&gt;</code> element</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- CSS Classes -->
+      <tr>
+        <td colspan="2"><b>CSS Classes</b></td>
+      </tr>
+      <!-- Alignment Classes -->
+      <tr>
+        <td colspan="2"><i>Alignment Classes</i></td>
+      </tr>
+      <tr>
+        <td><code>usr-width-</code></td>
+        <td>Add <code>usr-width-*</code> class to set element width</td>
+      </tr>
+      <tr>
+        <td><code>usr-align-left</code></td>
+        <td>Add <code>usr-align-left</code> class to align text left</td>
+      </tr>
+      <tr>
+        <td><code>usr-align-center</code></td>
+        <td>Add <code>usr-align-center</code> class to align text center</td>
+      </tr>
+      <tr>
+        <td><code>usr-align-right</code></td>
+        <td>Add <code>usr-align-right</code> class to align text right</td>
+      </tr>
+      <tr>
+        <td><code>usr-align-justify</code></td>
+        <td>Add <code>usr-align-justify</code> class to justify text</td>
+      </tr>
+      <tr>
+        <td><code>usr-valign-top</code></td>
+        <td>Add <code>usr-valign-top</code> class to vertically align content to top</td>
+      </tr>
+      <tr>
+        <td><code>usr-valign-center</code></td>
+        <td>Add <code>usr-valign-center</code> class to vertically align content to center</td>
+      </tr>
+      <tr>
+        <td><code>usr-valign-bottom</code></td>
+        <td>Add <code>usr-valign-bottom</code> class to vertically align content to bottom</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Border Classes -->
+      <tr>
+        <td colspan="2"><i>Border Classes</i></td>
+      </tr>
+      <tr>
+        <td><code>usr-line-top</code></td>
+        <td>Add <code>usr-line-top</code> class to add a top border</td>
+      </tr>
+      <tr>
+        <td><code>usr-line-bottom</code></td>
+        <td>Add <code>usr-line-bottom</code> class to add a bottom border</td>
+      </tr>
+      <tr>
+        <td><code>usr-line-left</code></td>
+        <td>Add <code>usr-line-left</code> class to add a left border</td>
+      </tr>
+      <tr>
+        <td><code>usr-line-right</code></td>
+        <td>Add <code>usr-line-right</code> class to add a right border</td>
+      </tr>
+      <tr>
+        <td><code>usr-double-line-top</code></td>
+        <td>Add <code>usr-double-line-top</code> class to add a double top border</td>
+      </tr>
+      <tr>
+        <td><code>usr-double-line-bottom</code></td>
+        <td>Add <code>usr-double-line-bottom</code> class to add a double bottom border</td>
+      </tr>
+      <tr>
+        <td><code>usr-double-line-left</code></td>
+        <td>Add <code>usr-double-line-left</code> class to add a double left border</td>
+      </tr>
+      <tr>
+        <td><code>usr-double-line-right</code></td>
+        <td>Add <code>usr-double-line-right</code> class to add a double right border</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Color and Styling Classes -->
+      <tr>
+        <td colspan="2"><i>Color and Styling Classes</i></td>
+      </tr>
+      <tr>
+        <td><code>usr-border-color-*</code></td>
+        <td>Add class to set table cell border color in Hex</td>
+      </tr>
+      <tr>
+        <td><code>usr-background-color-*</code></td>
+        <td>Add class to set table cell background color in Hex</td>
+      </tr>
+      <tr>
+        <td><code>usr-indent-*</code></td>
+        <td>Add <code>usr-indent-*</code> class to indent content</td>
+      </tr>
+      <tr>
+        <td><code>usr-repeated-header</code></td>
+        <td>Add <code>usr-repeated-header</code> class to repeat table header on new pages in PDF export</td>
+      </tr>
+      <tr>
+        <td><code>usr-no-left-padding</code></td>
+        <td>Add <code>usr-no-left-padding</code> class to remove default left padding</td>
+      </tr>
+      <tr>
+        <td><code>usr-grayed-out-background-input</code></td>
+        <td>Add class to set table cell background to gray</td>
+      </tr>
+      <tr>
+        <td><code>usr-grayed-out-line-bottom-input</code></td>
+        <td>Add class to set faint table cell bottom lines</td>
+      </tr>
+      <tr>
+        <td><code>usr-hide-samepage-header</code></td>
+        <td>Add <code>usr-hide-samepage-header</code> class to hide header when content continues on same page</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>
 
 ## Third party extensions
 
 - YAML extension: To apply our Schema to YAML files, we need to have [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) activated (this extension should be added automatically since it is set as a dependency).
 - Auto Close Tag: To enable VS Code to automatically close HTML tags in Liquid files, we need to have [Jun Han's Auto Close Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag) activated (this extension should be added automatically since it is set as a dependency).
+

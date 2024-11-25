@@ -1,0 +1,841 @@
+{
+  "comment tag": {
+    "prefix": "comment",
+    "body": [
+      "{% comment %}${1:your comment}{% endcomment %}"
+    ],
+    "description": [
+      "Comments are an easy way to let other programmers\nknow what you are doing without displaying code on the front end.\n",
+      "You always need an opening and closing comment to\nindicate which block should not be displayed.\n",
+      "Any text within the opening and closing comment blocks\nwill not be in output and any code within the comment blocks will not be executed."
+      ]
+    },
+  "end comment tag": {
+    "prefix": "endcomment",
+    "body": "{% endcomment %}"
+  },
+  "input comment tag": {
+    "prefix": "ic",
+    "body": [
+      "{% ic %}${1:content}{% endic %}"
+    ],
+    "description": "Displaying something in input view and not\nin export view, can be done with an input comment."
+  },
+  "end input comment tag": {
+    "prefix": "endic",
+    "body": "{% endic %}"
+  },
+  "non-input comment tag": {
+    "prefix": "nic",
+    "body": [
+      "{% nic %}${1:content}{% endnic %}"
+    ],
+    "description": "Displaying something in export view and\nnot in input view, can be done with a non input comment."
+  },
+  "end non-input comment tag": {
+    "prefix": "endnic",
+    "body": "{% endnic %}"
+  },
+
+
+
+  "assign tag": {
+    "prefix": "assign",
+    "body": [
+      "{% assign ${1:variable} = ${2:content} %}"
+    ],
+    "description": [
+      "Assign tag is used to assign a value to a variable or a dynamic variable.\n",
+      "When you assign a value to a variable, you will create a string."
+    ]
+  },
+  "assign dynamic tag": {
+    "prefix": "assign [dynamic]",
+    "body": [
+      "{% assign [${1:variable}] = ${2:content} %}"
+    ],
+    "description": [
+      "Assign tag is used to assign a value to a variable that is dynamic.\n",
+      "When you assign a value to a variable, you will create a string."
+    ]
+  },
+  "capture tag": {
+    "prefix": "capture",
+    "body": [
+      "{% capture ${1:variable} %}${2:content}{% endcapture %}"
+    ],
+    "description": [
+      "With this function you capture the string inside of\nthe opening and closing tags and assigns it to a variable.\n",
+      "Variables that you create using capture are stored as strings."
+    ]
+  },
+  "end capture tag": {
+    "prefix": "endcapture",
+    "body": "{% endcapture %}"
+  },
+
+
+
+  "set translation tag": {
+    "prefix": "t=",
+    "body": [
+      "{% t= \"t_${1:key}\" default:\"${2:default translation}\" %}"
+    ],
+    "description": [
+      "To make sure that the content of the template is translated\nin different languages, you need to set translation by:\n",
+      " 1. indicating the language to which you would like to translate your text; and",
+      " 2. adding text in that particular language."
+    ]
+  },
+  "set translation (BE-standard) tag": {
+    "prefix": "t=",
+    "body": [
+      "{% t= \"t_${1:key}\" default:\"${2:default translation}\" nl:\"${3:NL translation}\" fr:\"${4:FR translation}\" %}"
+    ],
+    "description": [
+      "To make sure that the content of the template is translated\nin different languages, you need to set translation by:\n",
+      " 1. indicating the language to which you would like to translate your text; and",
+      " 2. adding text in that particular language."
+    ]
+  },
+  "get translation tag": {
+    "prefix": "t",
+    "body": [
+      "{% t \"t_${1:key}\" %}"
+    ],
+    "description": [
+      "To execute the translation, the word/content\nshould be placed in brackets with the letter 't' in front of it."
+    ]
+  },
+
+
+
+  "input tag": {
+    "prefix": "input",
+    "body": [
+      "{% input custom.${1:namespace}.${2:key} %}"
+    ],
+    "description": [
+      "We use an input tag to allow users to enter information in\nan input field and to store this information in a custom drop.\n",
+      "Drops can be seen as a \"database\" and are used to access\ndata from Silverfin.\n",
+      "To reference an item in a custom drop, you always need\n\"a namespace\" and \"a key\"."
+    ]
+  },  
+  "as text attribute": {
+    "prefix": "as:text",
+    "body": "as:text",
+    "description": "When using the \"as text\", a standard string field is shown as a text field."
+  },
+  "as currency attribute": {
+    "prefix": "as:currency",
+    "body": "as:currency",
+    "description": "When using the \"as currency\", a standard string field is shown as a numeric value with decimals."
+  },
+  "as currency invert attribute": {
+    "prefix": "as:currency,invert:",
+    "body": "as:currency,invert:true",
+    "description": "When using \"invert\", the sign of the currency input which is stored in the database will be inverted."
+  },
+  "as integer attribute": {
+    "prefix": "as:integer",
+    "body": "as:integer",
+    "description": "When using the \"as integer\", a standard string field is shown as an integer value."
+  },
+  "as percentage attribute": {
+    "prefix": "as:percentage",
+    "body": "as:percentage",
+    "description": "When using the \"as percentage\", a standard string field is shown as a percentage value."
+  },
+  "as boolean attribute": {
+    "prefix": "as:boolean",
+    "body": "as:boolean",
+    "description": "When using the \"as boolean\", a checkbox is created."
+  },
+  "as date attribute": {
+    "prefix": "as:date",
+    "body": "as:date",
+    "description": "When using the \"as date\", a standard string field is shown as a date."
+  },
+  "as file attribute": {
+    "prefix": "as:file",
+    "body": "as:file",
+    "description": [
+      "Using file as a value for the as attribute gives the opportunity to upload and\nattachment or annex that can contain multiple files by clicking the paperclip icon.\n",
+      "Also used as an attribute for \"rollforward\" tags for inputs that contain files"
+    ]
+  },
+  "document attribute": {
+    "prefix": ".document",
+    "body": ".document",
+    "description": [
+      "Render name of the (first) attached documents of a relevant custom value"
+    ]
+  },
+  "documents attribute": {
+    "prefix": ".documents",
+    "body": ".documents",
+    "description": [
+      "Render names of all attached documents of a relevant custom value"
+    ]
+  },
+  "document name": {
+    "prefix": ".file_name",
+    "body": ".file_name",
+    "description": [
+      "Render document name of a relevant custom value"
+    ]
+  },
+  "docment link": {
+    "prefix": ".link",
+    "body": ".link",
+    "description": [
+      "Render link to a document preview of a relevant custom value"
+    ]
+  },
+  "as select attribute": {
+    "prefix": "as:select",
+    "body": "as:select",
+    "description": "When using the \"as select\", a dropdown is created."
+  },
+  "as account collection attribute": {
+    "prefix": "as:account_collection",
+    "body": "as:account_collection range:\"${1:6 4,7 4__7}\"",
+    "description": [
+      "Account collections are used to be able to pick accounts from a certain range of accounts.\n",
+      "\nRanges can be further refined by using comma's and/or double underscores.\n",
+      "The comma's will select individual account ranges.\n",
+      "\"4,7\": This range will return all 4 and 7 accounts.\n",
+      "\nUsing double underscore will select the entire range of accounts.\n",
+      "\"4__7\": This range will return all 4, 5, 6 and 7 accounts."
+    ]
+  },
+
+  "precision attribute": {
+    "prefix": "precision",
+    "body": "precision:${1:1}",
+    "description": "Defines the amount of decimals stored for percentage values and in currency configuration"
+  },
+  "strip insignificant zeros attribute": {
+    "prefix": "strip_insignificant_zeros:",
+    "body": "strip_insignificant_zeros:${1:true}",
+    "description": "If you set \"strip_insignificant_zeros:true\", the final decimal zeros from a percentage value will be removed."
+  },
+  "date format attribute": {
+    "prefix": "format:",
+    "body": "format:\"${1:%d/%m/%Y}\"",
+    "description": [
+      "Customize how the date is displayed inside the input field using the \"format\" attribute.\n",
+      "In the 'Date and Time' section there is a list of useful format types that can be applied."
+    ]
+  },
+  "show label attribute": {
+    "prefix": "show_label:",
+    "body": "show_label:true",
+    "description": [
+      "Add label to file input field.\n",
+      "Display 'Attach' when empty and 'Manage' when contains data."
+    ]
+  },
+  "maximum size attribute": {
+    "prefix": "max_size:",
+    "body": "max_size:${1:int}",
+    "description": [
+      "Add limit to file input of file size users can attach."
+    ]
+  },
+  "select options attribute": {
+    "prefix": "options:",
+    "body": "options:${1:options variable}",
+    "description": [
+      "The select value needs to be accompanied by the option attribute.\n",
+      "The option attribute contains a list of possible options which are divided by a pipe |."
+    ]
+  },
+  "select option values attribute": {
+    "prefix": "option_values:",
+    "body": "option_values:${1:values variable}",
+    "description": [
+      "Optionally the attribute option_values can be added.\n",
+      "The value returned by the variable will in this case\nnot be the options presented but the corresponding option value."
+    ]
+  },
+  "range attribute": {
+    "prefix": "range:",
+    "body": "range:\"${1:text}\"",
+    "description": [
+      "Optionally set range of accounts accessible by the accounts collection attribute."
+    ]
+  },
+  "placeholder attribute": {
+    "prefix": "placeholder:",
+    "body": "placeholder:${1:value}",
+    "description": [
+      "When creating an input field, a standard placeholder shown,\nis the last part of your variable name (e.g. the key).\n",
+      "It is possible to change the placeholder with the placeholder attribute."
+    ]
+  },
+  "required attribute": {
+    "prefix": "required:",
+    "body": "required:${1:true}",
+    "description": [
+      "The required attribute allows to change the input field\nfrom a regular one to mandatory field.\n",
+      "In other words, by using required attribute you specify\nthat the field must be filled out before submitting the form."
+    ]
+  },
+  "default": {
+    "prefix": "default:",
+    "body": "default:${1:value}",
+    "description": [
+      "Optional attribute: Use in combination with nearly any input tag type to show a default value."
+    ]
+  },
+  "assign:": {
+    "prefix": "assign:",
+    "body": "assign:${1:variable}",
+    "description": [
+      "Optional attribute: Use to assign input value to a variable."
+    ]
+  },
+
+
+
+  "radiogroup tag": {
+      "prefix": "radiogroup",
+    "body": [
+      "{% radiogroup custom.${1:namespace}.${2:key} %}",
+      "\t{% radioinput label:\"${3:label}\" value:\"${4:value}\" %}",
+      "{% endradiogroup %}"
+    ],
+    "description": "Radio button input group tag. Presents a list of answers, of which only one can be selected."
+  },
+  "radioinput tag": {
+    "prefix": "radioinput",
+    "body": "{% radioinput label:\"${1:label}\" value:\"${2:value}\" %}",
+    "description": "Radio button input tag. Use to add a radio button to a radiogroup."
+  },
+
+  "autoreload attribute": {
+    "prefix": "autoreload:",
+    "body": "autoreload:true",
+    "description": "The autoreload attribute automatically reloads the page when the input field is changed."
+  },
+
+
+
+  "if tag": {
+    "prefix": "if",
+    "body": [
+      "{% if ${1:var} %}",
+      "\t${2:content}",
+      "{% endif %}"
+    ],
+    "description": [
+      "The if statement checks whether a condition is true or false.\n",
+      "If the condition is true, the code within the if statement gets executed."
+    ]
+  },
+  "end if tag": {
+    "prefix": "endif",
+    "body": "{% endif %}"
+  },
+  "else tag": {
+    "prefix": "else",
+    "body": [
+      "{% else %}",
+      "\t${1:content}"
+    ],
+    "description": [
+      "The else statement is used in combination with the if statement.\n",
+      "If the if statement is false, the else part will be executed."
+    ]
+  },
+  "elsif tag": {
+    "prefix": "elsif",
+    "body": [
+      "{% elsif ${1:var} %}",
+      "\t${2:content}"
+    ],
+    "description": [
+      "The elsif statement is used in combination with the if statement.\n",
+      "If the if statement is false, there will be checked if the elsif statement is true."
+    ]
+  },
+  "if else tag": {
+    "prefix": "ifelse",
+    "body": [
+      "{% if ${1:var} %}",
+      "\t${2:content}",
+      "{% else %}",
+      "\t${3:content}",
+      "{% endif %}"
+    ],
+    "description": [
+      "The if statement checks whether a condition is true or false.\n",
+      "If the condition is true, the code within the if statement gets executed, otherwise the code in the else-statement gets executed"
+    ]
+  },
+  "ifi tag": {
+    "prefix": "ifi",
+    "body": [
+      "{% ifi ${1:var} %}",
+      "\t${2:content}",
+      "{% endifi %}"
+    ],
+    "description": [
+      "An ifi statement can be seen as an if statement\nthat is always true in input view and depends on the condition in export view.\n",
+      "The ifi statement can be combined with the elsif and/or else tags."
+    ]
+  },
+  "end ifi tag": {
+    "prefix": "endifi",
+    "body": "{% endifi %}"
+  },
+  "unless tag": {
+    "prefix": "unless",
+    "body": [
+      "{% unless ${1:var} %}",
+      "\t${2:content}",
+      "{% endunless %}"
+    ],
+    "description": [
+      "Code within unless tag will be executed unless the statement is true.\n",
+      "It is the antagonist of the if statement.\n",
+      "The unless statement can be combined with elsif and/or else tags."
+    ]
+  },
+  "end unless tag": {
+    "prefix": "endunless",
+    "body": "{% endunless %}"
+  },
+  "case tag": {
+    "prefix": "case",
+    "body": [
+      "{% case ${1:condition} %}",
+      "{% when ${2:case} %}",
+      "\t${3:content}",
+      "{% else %}",
+      "\t${4:content}",
+      "{% endcase %}"
+    ],
+    "description": [
+      "The case statement is similar to a series of if statements on the same expression.\n",
+      "In many occasions, you may want to compare the same variable with different variables."
+    ]
+  },
+  "end case tag": {
+    "prefix": "endcase",
+    "body": "{% endcase %}"
+  },
+  "when tag": {
+    "prefix": "when",
+    "body": [
+      "{% when ${1:case} %}",
+      "\t${2:content}"
+    ],
+    "description": [
+      "The when statement is used in combination with the case statement.\n",
+      "It is used to check if the case is true."
+    ]
+  },
+
+
+    
+  "for loop tag": {
+    "prefix": "for",
+    "body": [
+      "{% for ${1:item} in ${2:array} %}",
+      "\t${3:content}",
+      "{% endfor %}"
+    ],
+    "description": [
+      "To print all the variables in our custom collection, we can print all variables individually:\n",
+      "{{ custom.the_namespace.the_namespace_1.some_data }}\n",
+      "{{ custom.the_namespace.the_namespace_2.some_data }}\n",
+      "{{ custom.the_namespace.the_namespace_3.some_data }}\n",
+      "...\n",
+      "Or we can use a for loop.\n",
+      "For loops can be used to iterate over collections Drops, a range of Numbers or Arrays."
+    ]
+  },
+  "end for tag": {
+    "prefix": "endfor",
+    "body": "{% endfor %}"
+  },
+  "fori loop tag": {
+    "prefix": "fori",
+    "body": [
+      "{% fori ${1:item} in ${2:array} %}",
+      "\t${3:content}",
+      "{% endfori %}"
+    ],
+    "description": [
+      "This is an auto expandable for loop.\n",
+      "So if you for example use input fields:\n",
+      "When you add something to input field and save the template,\nthe fori loop will automatically add another section."
+    ]
+  },
+  "end fori loop tag": {
+    "prefix": "endfori",
+    "body": "{% endfori %}"
+  },
+  "import_title attribute": {
+    "prefix": "import_title:",
+    "body": "import_title:\"${1:title}\"",
+    "description": [
+        "Use attribute to distinguish between imported collections.",
+        "Apply to fori tag for collection name, and inputs for name of fields"
+    ]
+  },
+  "forloop index": {
+    "prefix": "forloop.index",
+    "body": "forloop.index",
+    "description": "Return the index of the current iteration."
+  },
+  "forloop index0 ": {
+    "prefix": "forloop.index0",
+    "body": "forloop.index0",
+    "description": "Return the index of the current iteration (zero based)."
+  },
+  "forloop first": {
+    "prefix": "forloop.first",
+    "body": "forloop.first",
+    "description": "Return a boolean checking if this is the first loop."
+  },
+  "last forloop": {
+    "prefix": "forloop.last",
+    "body": "forloop.last",
+    "description": "Return a boolean checking if this is the last loop."
+  },
+  "break forloop tag": {
+    "prefix": "break",
+    "body": "{% break %}",
+    "description": "Causes the loop to stop iterating when it encounters the break tag."
+  },
+  "continue forloop tag": {
+    "prefix": "continue",
+    "body": "{% continue %}",
+    "description": "Causes the loop to continue on the next iteration and skip the current."
+  },
+  "limit forloop attribute": {
+    "prefix": "limit",
+    "body": "limit:${1:int}",
+    "description": "The limit tag allows to exit the for loop at a specific index."
+  },
+  "offset forloop attribute": {
+    "prefix": "offset",
+    "body": "offset:${1:int}",
+    "description": "Offset tag allows to start the for loop at a specific index."
+  },
+  "reversed forloop attribute": {
+    "prefix": "reversed",
+    "body": "reversed",
+    "description": "Reversed tag allows to reverse the order of the loop."
+  },
+
+
+
+  "unreconciled tag": {
+    "prefix": "unreconciled",
+    "body": "{% unreconciled ${1:value} as:indicator unreconciled_text:${2:description} %}",
+    "description": [
+      "Unreconciled tags are used to indicate whether or not a template in the working papers\n(account or reconciliation template) is reconciled;",
+      "this is used quite often and has a direct impact on the progress of the working papers.",
+      "When the formula within an unreconciled tag has zero as an outcome (not to be mistaken for empty),\nthe template will be fully reconciled and a green dot will be visible at the template level."
+    ]
+  },
+  "unreconciled without indicator tag": {
+    "prefix": "unreconciled-withoutindicator",
+    "body": "{% unreconciled ${1:value} %}",
+    "description": [
+      "Unreconciled tags are used to indicate whether or not a template in the working papers\n(account or reconciliation template) is reconciled;",
+      "this is used quite often and has a direct impact on the progress of the working papers.",
+      "When the formula within an unreconciled tag has zero as an outcome (not to be mistaken for empty),\nthe template will be fully reconciled and a green dot will be visible at the template level."
+    ]
+  },
+
+
+
+  "result tag": {
+    "prefix": "result",
+    "body": "{% result \"${1:name}\" ${2:content} %}",
+    "description": [
+      "If you want to reference a certain value or variable from\nreconciliation template A in another template, it can be done with the so-called result tags\nin Silverfin templating language (further on - STL)."
+    ]
+  },
+
+
+    
+  "rollforward tag": {
+    "prefix": "rollforward",
+    "body": "{% rollforward ${1:value_to_rollforward} ${2:target_input} %}",
+    "description": [
+      "Rollforward is used to copy data from a chosen period to a database variable in the current period.",
+      "This is done by pressing the copy data option under the action button in the Silverfin platform."
+    ]
+  },
+  "rollforward period variable": {
+    "prefix": "rollforward.period",
+    "body": "rollforward.period",
+    "description": [
+      "It is possible to use rollforward.period to check from which period the data is copied.",
+      "This can be useful if you only want to rollforward in specific cases."
+    ]
+  },
+
+
+
+  "locale tag": {
+    "prefix": "locale",
+    "body": [
+      "{% locale ${1:locale} %}",
+      "\t${2:content}",
+      "{% endlocale %}"
+    ],
+    "description": [
+      "When using locale with logic tags, you can force a language and ignore the chosen user language."
+    ]
+  },
+  "end locale tag": {
+    "prefix": "endlocale",
+    "body": "{% endlocale %}"
+  },
+
+
+
+  "include part tag": {
+    "prefix": "include",
+    "body": "{% include \"parts/${1:[part name]}\" %}",
+    "description": [
+      "Call a reconciliation part.\n",
+      "The code of reconciliation templates is stored in a main part and in 15 optional parts.\n",
+      "The main part is always loaded first, while the additional parts are only loaded when they are called."
+    ]
+  },
+  "include shared part tag": {
+    "prefix": "include",
+    "body": "{% include \"shared/${1:[shared part name]}\" %}",
+    "description": [
+      "Call a global shared part"
+    ]
+  },
+  "include part tag with variables": {
+    "prefix": "include",
+    "body": "{% include \"parts/${1:[part name]}\" ${2:variable_a}:${3:variable_a_from_template} %}",
+    "description": [
+      "Call a reconciliation part with parameters.\n",
+      "The code of reconciliation templates is stored in a main part and in 15 optional parts.",
+      "The main part is always loaded first, while the additional parts are only loaded when they are called."
+    ]
+  },
+  "include shared part tag with variables": {
+    "prefix": "include",
+    "body": "{% include \"shared/${1:[part name]}\" ${2:variable_a}:${3:variable_a_from_template} %}",
+    "description": [
+      "Call global shared part with parameters."
+    ]
+  },
+
+
+
+  "linkto tag": {
+    "prefix": "linkto",
+    "body": "{% linkto period.reconciliations.${1:handle} %}${2:text}{% endlinkto %}",
+    "description": [
+      "Linkto tags can be used to jump to other templates or to jump to a specific section in the same or another template."
+    ]
+  },
+  "end linkto tag": {
+    "prefix": "endlinkto",
+    "body": "{% endlinkto %}"
+  },
+  "target tag": {
+    "prefix": "target",
+    "body": "{::target id=\"${1:target_id}\"}${2:text}{:/target}",
+    "description": "Use in the target template to define the target ID."
+  },
+  "target linkto attribute": {
+    "prefix": "target:",
+    "body": "target:",
+    "description": [
+      "In order to jump to a specific section of a template, you should define the target.",
+      "As an example we want to jump to the additional explanation section in template benefit in kind."
+    ]
+  },
+  "new tab linkto attribute": {
+    "prefix": "new_tab:",
+    "body": "new_tab:true",
+    "description": [
+      "Open the specific link in a new tab.\n"
+    ]
+  },
+  "button linkto attribute": {
+    "prefix": "as:button",
+    "body": "as:button",
+    "description": [
+      "Apply a button format to linkto hyperlink.\n"
+    ]
+  },
+
+
+
+  "adjustment button tag": {
+    "prefix": "adjustmentbutton",
+    "body": [
+      "{% adjustmentbutton text:\"${1:text}\" category:\"${2:text}\" %}",
+      "\t${3:content}",
+      "{% endadjustmentbutton %}"
+    ],
+    "description": "Create button to automatically make an adjustment, filled with values taken from Liquid logic."
+  },
+  "adjustment button tag with purpose": {
+    "prefix": "adjustmentbuttonwithpurpose",
+    "body": [
+      "{% adjustmentbutton text:\"${1:text}\" category:\"${2:text}\" purpose:\"${3:text}\" %}",
+      "\t${4:content}",
+      "{% endadjustmentbutton %}"
+    ],
+    "description": "Create button to automatically make an adjustment, filled with values taken from Liquid logic, with purpose filter."
+  },
+  "end adjustment button tag": {
+    "prefix": "endadjustmentbutton",
+    "body": "{% endadjustmentbutton %}"
+  },
+  "adjustment transaction tag": {
+    "prefix": "adjustmenttransaction",
+    "body": "{% adjustmenttransaction account_number:${1:number} description:\"${2:text}\" value:${3:value} %}",
+    "description": [
+      "Define transaction inside Adjustment Button."
+    ]
+  },
+
+
+
+  "group tag": {
+    "prefix": "group",
+    "body": [
+      "{% nic %}",
+      "{:/group}",
+      "{::group}",
+      "{% endnic %}"
+    ],
+    "description": [
+      "Use to ensure delineated section of template remains on the same page on PDF export.\n",
+      "For accounts and reconciliation templates, first close and then open the group tag.",
+      "This is due to the fact that the group tag is already opened in advanced settings in styles of the template and/or of the header of the template."
+    ]
+  },
+
+
+
+  "addnewinputs tag": {
+    "prefix": "addnewinputs",
+    "body": [
+      "{% addnewinputs %}",
+      "\t${1:content}",
+      "{% endaddnewinputs %}"
+    ],
+    "description": "Use an \"addnewinputs\" tag to allow user sorting information that was stored/added in the collection."
+  },
+  "end addnewinputs tag": {
+    "prefix": "endaddnewinputs",
+    "body": "{% endaddnewinputs %}"
+  },
+
+
+
+  "signmarker tag": {
+    "prefix": "signmarker",
+    "body": "{% signmarker ${1:parameters} %}",
+    "description": [
+      "Use to markup where template can be digitally signed (using 3rd party software).\n",
+      "First add \"signmarker\" tag in code, close to where the actual signature would be located.",
+      "External provider will use these tags to add digital signatures.\n",
+      "Parameters:",
+      "name",
+      "email",
+      "phone",
+      "role",
+      "on_behalf_of\n"
+    ]
+  },
+
+
+
+  "push tag": {
+    "prefix": "push",
+    "body": "{% push ${1:item} to:${2:array} %}",
+    "description": [
+        "Push tag will add an item at the end of your array."
+    ]
+  },
+  "pop tag": {
+    "prefix": "pop",
+    "body": "{% pop ${1:item} to:${2:array} %}",
+    "description": "Pop tag will remove the last item of your array and will give you the option to store this value into a variable."
+  },
+
+
+
+  "change orientation tag": {
+    "prefix": "changeorientation",
+    "body": "{% changeorientation \"${1:landscape}{2:portrait}\" %}",
+    "description": [
+      "Use the {% changeorientation “orientation of choice” %} tag to change the orientation of PDF export.\n",
+      "Warning: Function will apply to everything below and will not close.",
+      "Once \"landscape\" is selected, all following content will appear in landscape.",
+      "To revert back to portrait, apply the tag again."
+    ]
+  },
+
+
+
+  "currency configuration tag": {
+    "prefix": "currencyconfiguration",
+    "body": "{% currencyconfiguration %}",
+    "description": [
+      "Configure the formatting of \"currency\" filter within the tag in a template, regardless of the firm/locale level currency display settings"
+    ]
+  },
+  "end currency configuration tag": {
+    "prefix": "endcurrencyconfiguration",
+    "body": "{% endcurrencyconfiguration %}"
+  },
+  "currency configuration zero format attribute": {
+    "prefix": "zero_format:",
+    "body": "zero_format:\"${1|0,-|}\"",
+    "description": "Set format of zero values in currency configuration"
+  },
+  "currency configuration negative format attribute": {
+    "prefix": "negative_format:",
+    "body": "negative_format:\"${1|-xxx,(xxx)|}\"",
+    "description": "Set format of negative values in currency configuration"
+  },
+  "currency configuration delimiter attribute": {
+    "prefix": "delimiter:",
+    "body": "delimiter:${1|\"\\,\",\".\",\"\",\" \"|}",
+    "description": "Set delimiter in currency configuration"
+  },
+  "currency configuration separator attribute": {
+    "prefix": "separator:",
+    "body": "separator:\"${1|\\,,.|}\"",
+    "description": "Set separator in currency configuration"
+  },
+
+
+
+  "new page tag": {
+    "prefix": "newpage",
+    "body": "{% newpage${1| , \"landscape\" , \"portrait\" |}%}",
+    "description": [
+      "Insert a page break or start on a new page in the PDF export."
+    ]
+  },
+  "section break attribute": {
+    "prefix": "section_break",
+    "body": "{% newpage section_break:true %}",
+    "description": [
+      "Use to visualize the split between pages in input mode. Use with newpage tag"
+    ]
+  }
+  
+}

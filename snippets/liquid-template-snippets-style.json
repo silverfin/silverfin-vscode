@@ -1,0 +1,192 @@
+{
+  "stripnewlines tag": {
+    "prefix": "stripnewlines",
+    "body": [
+      "{% stripnewlines %}",
+      "\t${1:content}",
+      "{% endstripnewlines %}"
+    ],
+    "description": [
+      "It removes any newline characters (line breaks) from a string. The tag newline must be used when a break within stripnewlines is needed."
+    ]
+  },
+  "end stripnewlines tag": {
+    "prefix": "endstripnewlines",
+    "body": "{% endstripnewlines %}"
+  },
+  "newline table": {
+    "prefix": "newline",
+    "body": "{% newline %}",
+    "description": "The tag newline must be used when a break within a \"stripnewline\" block is needed."
+  },
+  "indent tag": {
+    "prefix": "indent",
+    "body": "{::indent level=\"${1:1-10}\"}${2:content}{:/indent}",
+    "description": "An indentation or indent is a technique that is used to appoint paragraphs or other logical blocks in the code."
+  },
+  "font size tag": {
+    "prefix": "fontsize",
+    "body": "{::font size=\"${1:xxs/xs/s/m/l/xl}\"}${2:content}{:/font}",
+    "description": "The font tag in combination with the size attribute makes it possible to adjust the size of your text. The size attribute has five possible values: xxs, xs, s, m, l and xl."
+  },
+  "font color tag": {
+    "prefix": "fontcolor",
+    "body": "<font color=\"${1:FFFFFF}\">${2:content}</font>",
+    "description": "Colors should be avoided in general apart from its use on the disabled titles where light grey can be applied (Hexadecimal code = “CCCCCC”)"
+  },
+  "infotext inline tag": {
+    "prefix": "infotextinline",
+    "body": "{% ic %}{::infotext}${1:content}{:/infotext}{% endic %}",
+    "description": "The Silverfin templating language gives the opportunity to add info text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
+  "infotext block tag": {
+    "prefix": "infotextblock",
+    "body": [
+      "{% ic %}{::infotext}",
+      "${1:content}",
+      "{:/infotext}{% endic %}"
+    ],
+    "description": "The Silverfin templating language gives the opportunity to add info text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
+  "infotext hover tag": {
+    "prefix": "infotexthover",
+    "body": "{% ic %}{::infotext as=\"hover\"}${1:content}{:/infotext}{% endic %}",
+    "description": "The Silverfin templating language gives the opportunity to add info text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
+  "warningtext inline tag": {
+    "prefix": "warningtextinline",
+    "body": "{% ic %}{::warningtext}${1:content}{:/warningtext}{% endic %}",
+    "description": "The Silverfin templating language gives the opportunity to add warning text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
+  "warningtext block tag": {
+    "prefix": "warningtextblock",
+    "body": [
+      "{% ic %}{::warningtext}",
+      "${1:content}",
+      "{:/warningtext}{% endic %}"
+    ],
+    "description": "The Silverfin templating language gives the opportunity to add warning text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
+  "Warning Text Hover": {
+    "prefix": "warningtexthover",
+    "body": "{% ic %}{::warningtext as=\"hover\"}${1:content}{:/warningtext}{% endic %}",
+    "description": "The Silverfin templating language gives the opportunity to add warning text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
+
+
+
+  "HTML p-tags": {
+    "prefix": "<p>",
+    "body": "<p>${1:content}</p>",
+    "description": "Add opening and closing <p> tags for paragraph text formatting in HTML"
+  },
+
+  "HTML break tag": {
+    "prefix": "br",
+    "body": "<br>",
+    "description": "Add HTML line-break tag"
+  },
+  "HTML hr-tags": {
+    "prefix": "hr",
+    "body": "<hr>",
+    "description": "Add horizontal rule tag in HTML"
+  },
+
+
+  "HTML bold tag": {
+    "prefix": "b",
+    "body": "<b>${1:content}</b>",
+    "description": "Add opening and closing <b> tags for bold text formatting in HTML"
+  },
+  "HTML italic tag": {
+    "prefix": "i",
+    "body": "<i>${1:content}</i>",
+    "description": "Add opening and closing <i> tags for italic text formatting in HTML"
+  },
+  "HTML underline tag": {
+    "prefix": "u",
+    "body": "<u>${1:content}</u>",
+    "description": "Add opening and closing <u> tags for underlined text formatting in HTML"
+  },
+  "HTML em-tags": {
+    "prefix": "em",
+    "body": "<em>${1:content}</em>",
+    "description": "Add opening and closing <em> tags for emphasized (italic) text formatting in HTML"
+  },
+  "HTML strong-tags": {
+    "prefix": "strong",
+    "body": "<strong>${1:content}</strong>",
+    "description": "Add opening and closing <strong> tags for strong (bold) text formatting in HTML"
+  },
+  "HTML sub-tags": {
+    "prefix": "sub",
+    "body": "<sub>${1:content}</sub>",
+    "description": "Add opening and closing <sub> tags for subscript text formatting in HTML"
+  },
+  "HTML sup-tags": {
+    "prefix": "sup",
+    "body": "<sup>${1:content}</sup>",
+    "description": "Add opening and closing <sup> tags for superscript text formatting in HTML"
+  },
+
+  "HTML Header 1": {
+    "prefix": "h1",
+    "body": "<h1>${1:content}</h1>",
+    "description": [
+      "Add opening and closing <h1> tags for section heading text formatting in HTML\n",
+      "<h1> is the largest heading and <h6> is the smallest\n",
+      "Cannot be used inside HTML tables within a Liquid template"
+    ]    
+  },
+  "HTML Header 2": {
+    "prefix": "h2",
+    "body": "<h2>${1:content}</h2>",
+    "description": [
+      "Add opening and closing <h2> tags for section heading text formatting in HTML\n",
+      "<h1> is the largest heading and <h6> is the smallest\n",
+      "Cannot be used inside HTML tables within a Liquid template"
+    ]
+  },
+  "HTML Header 3": {
+    "prefix": "h3",
+    "body": "<h3>${1:content}</h3>",
+    "description": [
+      "Add opening and closing <h3> tags for section heading text formatting in HTML\n",
+      "<h1> is the largest heading and <h6> is the smallest\n",
+      "Cannot be used inside HTML tables within a Liquid template"
+    ]
+  },
+  "HTML Header 4": {
+    "prefix": "h4",
+    "body": "<h4>${1:content}</h4>",
+    "description": [
+      "Add opening and closing <h4> tags for section heading text formatting in HTML\n",
+      "<h1> is the largest heading and <h6> is the smallest\n",
+      "Cannot be used inside HTML tables within a Liquid template"
+    ]
+  },
+  "HTML Header 5": {
+    "prefix": "h5",
+    "body": "<h5>${1:content}</h5>",
+    "description": [
+      "Add opening and closing <h5> tags for section heading text formatting in HTML\n",
+      "<h1> is the largest heading and <h6> is the smallest\n",
+      "Cannot be used inside HTML tables within a Liquid template"
+    ]
+  },
+  "HTML Header 6": {
+    "prefix": "h6",
+    "body": "<h6>${1:content}</h6>",
+    "description": [
+      "Add opening and closing <h6> tags for section heading text formatting in HTML\n",
+      "<h1> is the largest heading and <h6> is the smallest\n",
+      "Cannot be used inside HTML tables within a Liquid template"
+    ]
+  },
+
+  "HTML a-tags": {
+    "prefix": ["anchor","a"],
+    "body": "<a href=\"https://${1:url}\">${2:content}</a>",
+    "description": "Add opening and closing <a> tags with href for hyperlink text formatting in HTML"
+  }
+}

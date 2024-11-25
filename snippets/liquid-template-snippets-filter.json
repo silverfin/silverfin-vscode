@@ -1,0 +1,465 @@
+{
+  "allow_false filter": {
+    "prefix": "allow_false",
+    "body": ", allow_false:true",
+    "description": [
+      "Add the \"allow_false\" filter to allow falsy values not to be overwritten be default values"
+    ]
+  },
+
+
+
+  "concat filter": {
+    "prefix": "concat",
+    "body": "| concat",
+    "description": [
+      "Add the \"concat\" filter to combine two arrays/collections",
+      "Please note duplicate items will NOT be removed"
+    ]    
+  },
+  "split filter": {
+    "prefix": "Split",
+    "body": "| split:\"${1:delimiter}\"",
+    "description": [
+      "Add the \"split\" filter to split a String into an array",
+      "Delimiter argument will determine where to split items"
+    ]
+  },
+  "first filter": {
+    "prefix": "first",
+    "body": "| first",
+    "description": "Add the \"first\" filter to return first value of an array"
+  },
+  "last filter": {
+    "prefix": "last",
+    "body": "| last",
+    "description": "Add the \"last\" filter to return last value of an array"
+  },
+  "Join filter": {
+    "prefix": "join",
+    "body": "| join:\"${1:delimiter}\"",
+    "description": [
+      "Add the \"join\" filter to combine each item in array into a single String",
+      "Delimiter arguement will determine character(s) to insert between items"
+    ]
+  },
+  "Sort filter": {
+    "prefix": "sort",
+    "body": "| sort",
+    "description": "Add the \"sort\" filter to sort array alphabetically"
+  },
+  "Size filter": {
+    "prefix": "size",
+    "body": "| size",
+    "description": [
+      "Add the \"size\" filter to return number of items in array/characters in a String"
+    ]
+  },
+  "Uniq filter": {
+    "prefix": "uniq",
+    "body": "| uniq",
+    "description": "Add the \"uniq\" filter to remove duplicate items from an array"
+  },
+  "Reverse filter": {
+    "prefix": "reverse",
+    "body": "| reverse",
+    "description": "Add the \"reverse\" filter to reverse order of items in an array"
+  },
+
+
+
+  "map filter": {
+    "prefix": "map",
+    "body": "| map:\"${1:field}\"",
+    "description": [
+      "Add the \"map\" filter to create an array from a collection",
+      "Field argument specifies what property from collection to map to array"
+    ]
+  },
+  "range filter": {
+    "prefix": "range",
+    "body": "| range:\"${1:range}\"",
+    "description": [
+      "Add the \"range\" filter to an accounts collection to return accounts in the given range"
+    ]
+  },
+  "group filter": {
+    "prefix": "group_by",
+    "body": "| group_by:\"${1:field}\"",
+    "description": [
+      "Add the \"group_by\" filter to group items by a specified field",
+      "Items will be grouped where specified field is identical"
+    ]
+  },
+  "index by filter": {
+    "prefix": "index_by",
+    "body": "| index_by:\"${1:field}\"",
+    "description": "Add the \"index_by\" filter to reference items by an alternate index"
+  },
+  "where filter": {
+    "prefix": "where",
+    "body": "| where:\"${1:key}\",\"${1:value}\"",
+    "description": [
+      "Add the \"where\" filter to create array from collection, only including items which meet specified condition",
+      "Key and Value arguments specify value of valid item property"
+    ]
+  },
+  "analytical_code filter": {
+    "prefix": "analytical_code",
+    "body": "| analytical_code:${1:dimension.code}",
+    "description": [
+      "Add the \"analytical_code\" filter to an accounts collection to return accounts for specified dimension/company code",
+      "Often used within a \"for dimension in company.analytical_type_n_codes\" for loop"
+    ]
+  },
+  "add_rounding_difference filter": {
+    "prefix": "add_rounding_difference",
+    "body": "| add_rounding_difference",
+    "description": [
+      "Add the add_rounding_difference filter to an accounts collection to decimal values",
+      "Decimal values will be reallocated to an indicated BS and P&L Account",
+      "Core rounding functionality must be activated for this filter to work"
+    ]
+  },
+
+
+
+  "Date filter - DD/MM/YYYY format": {
+    "prefix": "date: DD/MM/YYYY",
+    "body": "| date:\"%d/%m/%Y\"",
+    "description": "Standard date format: DD/MM/YYYY."
+  },
+  "Date filter - YYYY-MM-DD format": {
+    "prefix": "date: YYYY-MM-DD",
+    "body": "| date:\"%F\"",
+    "description": [
+      "Comparison date format: YYYY-MM-DD.",
+      "Required for calculations or comparisons between multiple dates."
+    ]
+  },
+  "now constant": {
+    "prefix": "\"now\"",
+    "body": "{{ \"now\" | date:\"${1:date-format}\" }}",
+    "description": "Display today's date"
+  },
+  "localized_date filter": {
+    "prefix": "localized_date",
+    "body": "| localized_date:\"${1:date-format}\"",
+    "description": "Display a date according to the time-zone from where the template is being executed"
+  },
+  "advance_years filter": {
+    "prefix": "advance_years",
+    "body": "| advance_years:${1:year(s)}",
+    "description": "Add the \"advance_years\" filter to advance date by specified number of years"
+  },
+  "advance_months filter": {
+    "prefix": "advance_months",
+    "body": "| advance_months:${1:month(s)}",
+    "description": "Add the \"advance_months\" filter to advance date by specified number of months"
+  },
+  "advance_weeks filter": {
+    "prefix": "advance_weeks",
+    "body": "| advance_weeks:${1:week(s)}",
+    "description": "Add the \"advance_weeks\" filter to advance date by specified number of weeks"
+  },
+  "advance_days filter": {
+    "prefix": "advance_days",
+    "body": "| advance_days:${1:day(s)}",
+    "description": "Add the \"advance_days\" filter to advance date by specified number of days"
+  },
+  "advance_hours filter": {
+    "prefix": "advance_hours",
+    "body": "| advance_hours:${1:hour(s)}",
+    "description": "Add the \"advance_hours\" filter to advance date by specified number of hours"
+  },
+  "advance_minutes filter": {
+    "prefix": "advance_minutes",
+    "body": "| advance_minutes:${1:minute(s)}",
+    "description": "Add the \"advance_minutes\" filter to advance date by specified number of minutes"
+  },
+  "advance_seconds filter": {
+    "prefix": "advance_seconds",
+    "body": "| advance_seconds:${1:second(s)}",
+    "description": "Add the \"advance_seconds\" filter to advance date by specified number of seconds"
+  },
+  "retract_years filter": {
+    "prefix": "retract_years",
+    "body": "| retract_years:${1:year(s)}",
+    "description": "Add the \"retract_years\" filter to retract date by specified number of years"
+  },
+  "retract_months filter": {
+    "prefix": "retract_months",
+    "body": "| retract_months:${1:month(s}",
+    "description": "Add the \"retract_months\" filter to retract date by specified number of months"
+  },
+  "retract_weeks filter": {
+    "prefix": "retract_weeks",
+    "body": "| retract_weeks:${1:week(s)}",
+    "description": "Add the \"retract_weeks\" filter to retract date by specified number of weeks"
+  },
+  "retract_days filter": {
+    "prefix": "retract_days",
+    "body": "| retract_days:${1:day(s)}",
+    "description": "Add the \"retract_days\" filter to retract date by specified number of days"
+  },
+  "retract_hours filter": {
+    "prefix": "retract_hours",
+    "body": "| retract_hours:${1:hour(s)}",
+    "description": "Add the \"retract_hours\" filter to retract date by specified number of hours"
+  },
+  "retract_minutes filter": {
+    "prefix": "retract_minutes",
+    "body": "| retract_minutes:${1:minute(s)}",
+    "description": "Add the \"retract_minutes\" filter to retract date by specified number of minutes"
+  },
+  "retract_seconds filter": {
+    "prefix": "retract_seconds",
+    "body": "| retract_seconds:${1:number(s)}",
+    "description": "Add the \"retract_seconds\" filter to retract date by specified number of seconds"
+  },
+
+
+
+  "Localized filter": {
+    "prefix": "localized",
+    "body": "| localized",
+    "description": "Render value of custom input (with localized attribute) in local language"
+  },
+  "Localized attribute": {
+    "prefix": "localized:",
+    "body": "localized:true",
+    "description": [
+      "Set local language to be applied to the input field",
+      "Works on text input fields only"
+    ]
+  },
+
+
+
+
+  "abs filter": {
+    "prefix": "abs",
+    "body": "| abs",
+    "description": "Return the absolute value of a number"
+  },
+  "ABS function": {
+    "prefix": "ABS(",
+    "body": "ABS(${1:value})",
+    "description": "Return absolute value of wrapped input value"
+  },
+  "ceil filter": {
+    "prefix": "ceil",
+    "body": "| ceil:${1:-10 to 10}",
+    "description": [
+      "Rounds the input value up:",
+      "  ceil:0 to the nearest whole number",
+      "  ceil:1 to the nearest 0.1",
+      "  ceil:-1 to the nearest 10"
+    ]
+  },
+  "floor filter": {
+    "prefix": "floor",
+    "body": "| floor:${1:-10 to 10}",
+    "description": [
+      "Rounds the input value down:",
+      "  floor:0 to the nearest whole number",
+      "  floor:1 to the nearest 0.1",
+      "  floor:-1 to the nearest 10"
+    ]
+  },
+  "currency filter (default)": {
+    "prefix": "currency",
+    "body": "| currency",
+    "description": "Apply currency format with default of 2 decimal places"
+  },
+  "currency filter": {
+    "prefix": "currency:",
+    "body": "| currency:${1:-10 to 10}",
+    "description": [
+      "Apply currency format:",
+      "  currency:0 display no decimal places",
+      "  currency:2 display 2 decimal places",
+      "  currency:-3 hide first 3 decimals"
+    ]
+  },
+  "invert filter": {
+    "prefix": "invert",
+    "body": "invert:true",
+    "description": [
+      "Invert value of accounts",
+      "Only works with the currency filter"
+    ]
+  },
+  "integer filter": {
+    "prefix": "integer",
+    "body": "| integer",
+    "description": "Convert number to an Integer value"
+  },
+  "INT function": {
+    "prefix": "INT",
+    "body": "INT(${1:value})",
+    "description": "Convert wrapped number to an Integer value"
+  },
+  "percentage filter (default)": {
+    "prefix": "percentage",
+    "body": "| percentage",
+    "description": "Apply percentage format with default of two decimal places"
+  },
+  "percentage filter": {
+    "prefix": "percentage:",
+    "body": "| percentage:${1:-10 to 10}",
+    "description": [
+      "Apply percentage format:",
+      "  percentage:0 display no decimal places",
+      "  percentage:4 display 4 decimal places"
+    ]
+  },
+  "number to human filter": {
+    "prefix": "number_to_human",
+    "body": "| number_to_human",
+    "description": "Output accounts value as combination of integers and English words e.g., 287 thousand"
+  },
+  "number to currency filter": {
+    "prefix": "number_to_currency",
+    "body": "| number_to_currency",
+    "description": "Convert String value into currency format"
+  },
+  "round filter (default)": {
+    "prefix": "round",
+    "body": "| round",
+    "description": "Apply rounding with default of two decimal places"
+  },
+  "round filter": {
+    "prefix": "round:",
+    "body": "| round:${1:-10 to 10}",
+    "description": [
+      "Apply rounding:",
+      "  round:0 round to 0 decimal places",
+      "  round:4 round to 4 decimal places",
+      "  round:-1 round to the nearest 10"
+    ]
+  },
+  "modulo filter": {
+    "prefix": "modulo",
+    "body": "| modulo:${1:value}",
+    "description": "Divide by value and return the remainder"
+  },
+  "MAX function": {
+    "prefix": [
+      "max",
+      "MAX"
+    ],
+    "body": "MAX(${1:value})",
+    "description": "Apply MAX function to wrapped array"
+  },
+  "MIN function": {
+    "prefix": [
+      "min",
+      "MIN"
+    ],
+    "body": "MIN(${1:value})",
+    "description": "Apply MIN function to wrapped array"
+  },
+  "at least filter": {
+    "prefix": "at_least",
+    "body": "| at_least:${1:value}",
+    "description": "Limit to minimum specified value"
+  },
+  "at most filter": {
+    "prefix": "at_most",
+    "body": "| at_most:${1:value}",
+    "description": "Limit to maximum specified value"
+  },
+
+
+
+  "remove filter": {
+    "prefix": "remove",
+    "body": "| remove:\"${1:sub-string}\"",
+    "description": "Remove specified value from a String"
+  },
+  "replace filter": {
+    "prefix": "replace",
+    "body": "| replace:\"${1:target sub-string}\",\"${2:replacement sub-string}\"",
+    "description": "Replace target sub-string with replacement sub-string"
+  },
+  "upcase filter": {
+    "prefix": "upcase",
+    "body": "| upcase",
+    "description": "Convert String to uppercase"
+  },
+  "downcase filter": {
+    "prefix": "downcase",
+    "body": "| downcase",
+    "description": "Convert String to lowercase"
+  },
+  "capitalize filter": {
+    "prefix": "capitalize",
+    "body": "| capitalize",
+    "description": "Capitalize each word of a String"
+  },
+  "append filter": {
+    "prefix": "append",
+    "body": "| append:\"${1:String to add}\"",
+    "description": "Add String to the end of a String"
+  },
+  "prepend filter": {
+    "prefix": "prepend",
+    "body": "| prepend:\"${1:String to add}\"",
+    "description": "Add String to the beginning of a String"
+  },
+  "strip filter": {
+    "prefix": "strip",
+    "body": "| strip",
+    "description": "Remove leading and trailing whitespaces"
+  },
+  "slice filter": {
+    "prefix": "slice",
+    "body": "| slice:${1:start}, ${2:end}",
+    "description": [
+      "Return sub-string of a String",
+      "First argument specifies index of starting character",
+      "Second argument specifies index of character sub-string goes up to"
+    ]
+  },
+  "newline_to_br filter": {
+    "prefix": "newline_to_br",
+    "body": "| newline_to_br",
+    "description": "Convert newline characters to HTML line breaks"
+  },
+  "multiline_table filter": {
+    "prefix": "multiline_table",
+    "body": "| multiline_table",
+    "description": "Convert newline characters to HTML line breaks"
+  },
+  "string_value drop": {
+    "prefix": ".string_value",
+    "body": ".string_value",
+    "description": "Convert variable or drop to a String value"
+  },
+  "url_encode": {
+    "prefix": "url_encode",
+    "body": "| url_encode",
+    "description": "Encode any URL-unsafe characters in a String into hex"
+  },
+  "url_decode": {
+    "prefix": "url_decode",
+    "body": "| url_decode",
+    "description": "Decode hex-encoded String"
+  },
+  "strip_html filter": {
+    "prefix": "strip_html",
+    "body": "| strip_html",
+    "description": "Remove HTML tags from a String"
+  },
+  "md5 filter": {
+    "prefix": "md5",
+    "body": "| md5",
+    "description": "Convert a String into an MD5 hash"
+  },
+  "transliterate filter": {
+    "prefix": "transliterate",
+    "body": "| transliterate",
+    "description": "Transliterate strings based on the Unicoder library"
+  }
+}
