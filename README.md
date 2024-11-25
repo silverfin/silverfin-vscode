@@ -149,9 +149,6 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         </td>
       </tr>
       <tr>
-        <td colspan="2">&emsp;</td>
-      </tr>
-      <tr>
         <td colspan="2"><b>Styling</b></td>
       </tr>
       <tr>
@@ -261,7 +258,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add opening and closing <code>&lt;a&gt;</code> tags for hyperlink text formatting in HTML</td>
       </tr>
       <tr>
-        <td colspan="2"><b>HTML styling</b></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- TAG SNIPPETS -->
       <tr>
@@ -270,9 +267,6 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         </td>
       </tr>
       <!-- Comments -->
-      <tr>
-        <td colspan="2" class="section-break"></td>
-      </tr>
       <tr>
         <td colspan="2"><b>Comments</b></td>
       </tr>
@@ -301,7 +295,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Only add the closing <code>nic</code> tag (export only)</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Variables -->
       <tr>
@@ -324,7 +318,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Only add the closing <code>capture</code> tag</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Translations -->
       <tr>
@@ -339,7 +333,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Call a defined translation</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Input -->
       <tr>
@@ -350,127 +344,127 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add a standard text-input</td>
       </tr>
       <tr>
-        <td class="attribute"><code>as:text</code></td>
+        <td><code>&emsp;as:text</code></td>
         <td>Add the attribute for a textarea input</td>
       </tr>
       <tr>
-        <td class="attribute"><code>as:currency</code></td>
+        <td><code>&emsp;as:currency</code></td>
         <td>Add the attribute for a currency input</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>as:currency,invert:true</code></td>
+        <td><code>&emsp;&emsp;as:currency,invert:true</code></td>
         <td>Add the attribute for a currency input with inverted value stored in database</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>precision:</code></td>
+        <td><code>&emsp;&emsp;precision:</code></td>
         <td>Add the sub-attribute to define the precision on a currency input</td>
       </tr>
       <tr>
-        <td class="attribute"><code>as:integer</code></td>
+        <td><code>&emsp;as:integer</code></td>
         <td>Add the attribute for an integer input</td>
       </tr>
       <tr>
-        <td class="attribute"><code>as:percentage</code></td>
+        <td><code>&emsp;as:percentage</code></td>
         <td>Add the attribute for a percentage input</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>precision:</code></td>
+        <td><code>&emsp;&emsp;precision:</code></td>
         <td>Add the sub-attribute to define the precision on a percentage input</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>strip_insignificant_zeros</code></td>
+        <td><code>&emsp;&emsp;strip_insignificant_zeros</code></td>
         <td>Add the sub-attribute to strip the final decimal zeros from a percentage value on an input</td>
       </tr>
       <tr>
-        <td class="attribute"><code>as:boolean</code></td>
+        <td><code>&emsp;as:boolean</code></td>
         <td>Add the attribute for a boolean input</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>autoreload:</code></td>
+        <td><code>&emsp;&emsp;autoreload:</code></td>
         <td>Add the sub-attribute to a boolean input to auto-reload</td>
       </tr>
       <tr>
-        <td class="attribute"><code>as:date</code></td>
+        <td><code>&emsp;as:date</code></td>
         <td>Add the attribute for a date input</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>format:</code></td>
+        <td><code>&emsp;&emsp;format:</code></td>
         <td>Add the sub-attribute to define the date format display inside an input</td>
       </tr>
       <tr>
-        <td class="attribute"><code>as:file</code></td>
+        <td><code>&emsp;as:file</code></td>
         <td>Add the attribute for a file input</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>show_label:</code></td>
+        <td><code>&emsp;&emsp;show_label:</code></td>
         <td>Add the sub-attribute to add a label to file input field</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>max_size:</code></td>
+        <td><code>&emsp;&emsp;max_size:</code></td>
         <td>Add the sub-attribute to limit size (in MB) of files users can attach</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>document</code></td>
+        <td><code>&emsp;&emsp;document</code></td>
         <td>Add the attribute to show name of the (first) attached documents of a relevant custom value</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>documents</code></td>
+        <td><code>&emsp;&emsp;documents</code></td>
         <td>Add the attribute to show names of all attached documents of a relevant custom value</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>[some documents].size</code></td>
+        <td><code>&emsp;&emsp;[some documents].size</code></td>
         <td>Count number of files attached of a relevant custom value</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>[some document].file_name</code></td>
+        <td><code>&emsp;&emsp;[some document].file_name</code></td>
         <td>Render name of relevant document</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>[some document].link</code></td>
+        <td><code>&emsp;&emsp;[some document].link</code></td>
         <td>Render link to preview of relevant document</td>
       </tr>
       <tr>
-        <td class="attribute"><code>as:select</code></td>
+        <td><code>&emsp;&emsp;as:select</code></td>
         <td>Add the attribute for a select input</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>options:</code></td>
+        <td><code>&emsp;&emsp;options:</code></td>
         <td>Add the options sub-attribute to a select input</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>option_values:</code></td>
+        <td><code>&emsp;&emsp;option_values:</code></td>
         <td>Add the option_values sub-attribute to a select input</td>
       </tr>
       <tr>
-        <td class="attribute"><code>as:account_collection</code></td>
+        <td><code>&emsp;as:account_collection</code></td>
         <td>Add the attribute for an account collection input</td>
       </tr>
       <tr>
-        <td class="sub-attribute"><code>range:</code></td>
+        <td><code>&emsp;&emsp;range:</code></td>
         <td>Add the range sub-attribute to an account collection input</td>
       </tr>
       <tr>
-        <td class="attribute"><code>placeholder:</code></td>
+        <td><code>&emsp;placeholder:</code></td>
         <td>Add the placeholder attribute to an input</td>
       </tr>
       <tr>
-        <td class="attribute"><code>required:</code></td>
+        <td><code>&emsp;required:</code></td>
         <td>Add the required attribute to an input</td>
       </tr>
       <tr>
-        <td class="attribute"><code>default:</code></td>
+        <td><code>&emsp;default:</code></td>
         <td>Add the default attribute or filter to an input or variable</td>
       </tr>
       <tr>
-        <td class="attribute"><code>import_title:</code></td>
+        <td><code>&emsp;import_title:</code></td>
         <td>Add import_title attribute to _both_ fori loops and inputs within fori loop when importing reconciliation data to distinguish between different collections</td>
       </tr>
       <tr>
-        <td class="attribute"><code>assign:</code></td>
+        <td><code>&emsp;assign:</code></td>
         <td>Add the assign attribute to assign input value to a variable</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Radio Group -->
       <tr>
@@ -485,11 +479,11 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add individual buttons within a radio button group</td>
       </tr>
       <tr>
-        <td class="attribute"><code>autoreload:</code></td>
+        <td><code>&emsp;autoreload:</code></td>
         <td>Add the attribute to a radiogroup tag to auto-reload</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Control Flow -->
       <tr>
@@ -544,7 +538,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add a <code>when</code> tag that is used within <code>case</code> tags</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Iterations -->
       <tr>
@@ -559,15 +553,15 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Only add a closing <code>for</code> loop tag</td>
       </tr>
       <tr>
-        <td class="attribute"><code>limit</code></td>
+        <td><code>&emsp;limit</code></td>
         <td>Add the limit attribute to a for loop</td>
       </tr>
       <tr>
-        <td class="attribute"><code>offset</code></td>
+        <td><code>&emsp;offset</code></td>
         <td>Add the offset attribute to a for loop</td>
       </tr>
       <tr>
-        <td class="attribute"><code>reversed</code></td>
+        <td><code>&emsp;reversed</code></td>
         <td>Add the reversed attribute to a for loop</td>
       </tr>
       <tr>
@@ -579,7 +573,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Only add a closing <code>fori</code> loop tag</td>
       </tr>
       <tr>
-        <td class="attribute"><code>import_title</code></td>
+        <td><code>&emsp;import_title</code></td>
         <td>Add import_title attribute to _both_ fori loops and inputs within fori loop when importing reconciliation data to distinguish between different collections</td>
       </tr>
       <tr>
@@ -607,7 +601,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add the <code>continue</code> inside a for loop</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Unreconciled -->
       <tr>
@@ -622,7 +616,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add the <code>unreconciled</code> tag as an indicator with unreconciled text</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Result -->
       <tr>
@@ -633,7 +627,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add a <code>result</code> tag</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Rollforward -->
       <tr>
@@ -644,7 +638,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add a <code>rollforward</code> tag</td>
       </tr>
       <tr>
-        <td class="attribute"><code>as:file</code></td>
+        <td><code>&emsp;as:file</code></td>
         <td>Add as:file attribute to a <code>rollforward</code> tag </td>
       </tr>
       <tr>
@@ -652,7 +646,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add the <code>rollforward.period</code> variable</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Locale -->
       <tr>
@@ -667,7 +661,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Only add closing <code>locale</code> tag</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Include -->
       <tr>
@@ -678,7 +672,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add a tag to include a local or shared part</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Linkto -->
       <tr>
@@ -693,15 +687,15 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Only add closing <code>linkto</code> tag</td>
       </tr>
       <tr>
-        <td class="attribute"><code>target:</code></td>
+        <td><code>&emsp;target:</code></td>
         <td>Add a target attribute to a <code>linkto</code> tag</td>
       </tr>
       <tr>
-        <td class="attribute"><code>new_tab:</code></td>
+        <td><code>&emsp;new_tab:</code></td>
         <td>Add a new_tab attribute to a <code>linkto</code> tag</td>
       </tr>
       <tr>
-        <td class="attribute"><code>as:button</code></td>
+        <td><code>&emsp;as:button</code></td>
         <td>Add the attribute for a button to a <code>linkto</code> tag</td>
       </tr>
       <tr>
@@ -709,7 +703,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add a <code>target</code> tag with an id</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Adjustment button -->
       <tr>
@@ -732,7 +726,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add <code>adjustmenttransaction</code> tag</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Group -->
       <tr>
@@ -743,7 +737,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add a closing and opening <code>group</code> tag inside <code>nic</code> tags</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Add new inputs -->
       <tr>
@@ -758,7 +752,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Only add closing <code>addnewinputs</code> tag</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Signmarker -->
       <tr>
@@ -769,7 +763,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add a <code>signmarker</code> tag</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Push & Pop -->
       <tr>
@@ -784,7 +778,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add a <code>pop</code> tag</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Change orientation -->
       <tr>
@@ -795,7 +789,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add a <code>changeorientation</code> tag</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Currency configuration -->
       <tr>
@@ -810,27 +804,27 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Only add closing <code>currencyconfiguration</code> tag</td>
       </tr>
       <tr>
-        <td class="attribute"><code>zero_format</code></td>
+        <td><code>&emsp;zero_format</code></td>
         <td>Add attribute to set format of zeroes to "0" or "-"</td>
       </tr>
       <tr>
-        <td class="attribute"><code>negative_format</code></td>
+        <td><code>&emsp;negative_format</code></td>
         <td>Add attribute to set format of negative numbers to "-xxx" or "(xxx)"</td>
       </tr>
       <tr>
-        <td class="attribute"><code>precision</code></td>
+        <td><code>&emsp;precision</code></td>
         <td>Add attribute to set number of decimal places</td>
       </tr>
       <tr>
-        <td class="attribute"><code>delimiter</code></td>
+        <td><code>&emsp;delimiter</code></td>
         <td>Add attribute to set style of delimiters to "x,xxx", "x.xxx", "xxxx", or "x xxx"</td>
       </tr>
       <tr>
-        <td class="attribute"><code>separator</code></td>
+        <td><code>&emsp;separator</code></td>
         <td>Add attribute to set style of decimal separator to either "x,xx" or "x.xx"</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- New page -->
       <tr>
@@ -844,28 +838,21 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td><code>section_break</code></td>
         <td>Add the attribute to create section breaks within input mode</td>
       </tr>
-    </tbody>
-  </table>
-  <br>
-  <!--DROPS SNIPPETS -->
-  <h2>Drops Snippets</h2>
-  <table>
-    <thead>
       <tr>
-        <th style="width: 30%;">Shortcut</th>
-        <th style="width: 70%;">Description</th>
+        <td colspan="2">&emsp;</td>
       </tr>
-    </thead>
-    <tbody>
+      <!-- DROPS SNIPPETS -->
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">
+          <h3>Drops Snippets</h3>  
+        </td>
       </tr>
       <!-- Account drops -->
       <!-- <tr>
         <td colspan="2"><b>Account Drops</b></td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr> -->
       <!-- Accounts drops -->
       <tr>
@@ -881,7 +868,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
           <code>accounts.income</code><br>
           <code>accounts.equity</code>
         </td>
-        <td style="vertical-align: top">Return an accounts drop with only specified accounts type</td>
+        <td>Return an accounts drop with only specified accounts type</td>
       </tr>
       <tr>
         <td><code>accounts.count</code></td>
@@ -909,24 +896,31 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       </tr>
       <tr>
         <td>
-          <code>accounts.p_and_l_rounding_difference</code>,<br>
-          <code>accounts.bs_rounding_difference</code>
+          <code>accounts.</code><br>
+          <code>p_and_l_rounding_difference</code>,<br>
+          <code>accounts.</code><br>
+          <code>bs_rounding_difference</code>
         </td>
         <td>Display the exact Profit & Loss/ Balance Sheet rounding difference when using the core rounding functionality</td>
       </tr>
       <tr>
         <td>
-          <code>accounts.p_and_l_rounding_account</code>,<br>
-          <code>accounts.bs_rounding_account</code>
+          <code>accounts.<br>p_and_l_rounding_account</code>,<br>
+          <code>accounts.<br>bs_rounding_account</code>
         </td>
         <td>Return the account drop where the Profit & Loss/ Balance Sheet rounding difference is stored</td>
       </tr>
       <tr>
-        <td><code>accounts.return_values_in_millions</code></td>
+        <td>
+          <code>accounts.</code><br>
+          <code></code>return_values_in_millions</code></td>
         <td>Display the value of the individual account drops in the created accounts drop in millions</td>
       </tr>
       <tr>
-        <td><code>accounts.return_values_in_thousands</code></td>
+        <td>
+          <code>accounts.</code><br>
+          <code>return_values_in_thousands</code>
+        </td>
         <td>Display the value of the individual account drops in the created accounts drop in thousands</td>
       </tr>
       <tr>
@@ -934,14 +928,17 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Return the sum of all values for all accounts in this accounts drop for this period</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Company drops -->
       <tr>
         <td colspan="2"><b>Company Drops</b></td>
       </tr>
       <tr>
-        <td><code>company.analytical_type_(0..x)_codes</code></td>
+        <td>
+          <code>company.</code><br>
+          <code>analytical_type_(0..x)_codes</code>
+        </td>
         <td>Returns drop with information about dimensions/companies in an analytical/consolidation file</td>
       </tr>
       <tr>
@@ -1001,7 +998,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Return the vat identifier from the company settings</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Custom drops -->
       <!-- People drops -->
@@ -1014,15 +1011,21 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Return first the person drop in the people drop (can also use with directors and shareholders drops)</td>
       </tr>
       <tr>
-        <td><code>directors.active_as_director</code></td>
+        <td>
+          <code>directors.</code><br>
+          <code>active_as_director</code>
+        </td>
         <td>Add the filter for directors which returns those directors active during the book year</td>
       </tr>
       <tr>
-        <td><code>directors.active_as_director_on</code></td>
+        <td>
+          <code>directors.</code><br>
+          <code>active_as_director_on</code>
+        </td>
         <td>Add the filter for directors which returns those directors active in a specific date</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Period -->  
       <tr>
@@ -1033,15 +1036,27 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Return an accounts drop of all accounts with bookings on this period</td>
       </tr>
       <tr>
-        <td><code>period.account_mapping_list.name</code></td>
+        <td>
+          <code>period.</code><br>
+          <code>account_mapping_list.</code><br>
+          <code>name</code>
+        </td>
         <td>Return the name of the mapping list used for this period</td>
       </tr>
       <tr>
-        <td><code>period.account_mapping_list.id</code></td>
+        <td>
+          <code>period.</code><br>
+          <code>account_mapping_list.</code><br>
+          <code>id</code>
+        </td>
         <td>Return the id of the mapping list on firm level</td>
       </tr>
       <tr>
-        <td><code>period.account_mapping_list.marketplace_template_id</code></td>
+        <td>
+          <code>period.</code><br>
+          <code>account_mapping_list.</code><br>
+          <code>marketplace_template_id</code>
+        </td>
         <td>Return the id of the mapping list on the marketplace</td>
       </tr>
       <tr>
@@ -1053,7 +1068,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Return the index number of the current book year as an integer. The first book year equals 1</td>
       </tr>
       <tr>
-        <td style="vertical-align:top"><code>period.calendar_years</code></td>
+        <td><code>period.calendar_years</code></td>
         <td>
           Add the method to add an array of all calendar years in the fiscal year. The information for each calendar year is:<br>
           start_date, end_date, amount_of_days for the number of days the bookyear has in the calendar year, and amount_of_days_in_full_year for the total number of days in the calendar year
@@ -1136,7 +1151,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Return the period drop of the current period plus the amount of periods or years defined</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Reconciliations -->
       <tr>
@@ -1147,7 +1162,10 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Returns the number of active reconciliations</td>
       </tr>
       <tr style>
-        <td><code>reconciliations.[reconciliation_handle]</code> *</td>
+        <td>
+          <code>reconciliations.</code><br>
+          <code>[reconciliation_handle]</code> *
+          </td>
         <td>
           Return the specific reconcilaition with matching handle<br>
           * <i>Don't actually use the word handle but use that handle of the specific reconciliation instead</i>
@@ -1158,7 +1176,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Return reconciliations drop of all starred reconciliations</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- User drops -->
       <tr>
@@ -1172,21 +1190,14 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td><code>user.email</code></td>
         <td>Return email address of the current Silverfin user</td>
       </tr>
-    </tbody>
-  </table>
-  <br>
-  <!-- FILTER SNIPPETS -->
-  <h3>Filter Snippets</h3>
-  <table>
-    <thead>
       <tr>
-        <th style="width: 30%;">Shortcut</th>
-        <th style="width: 70%;">Description</th>
+        <td colspan="2">&emsp;</td>
       </tr>
-    </thead>
-    <tbody>
+      <!-- FILTER SNIPPETS -->
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">
+          <h3>Filter Snippets</h3>
+        </td>
       </tr>
       <!-- Allow false -->
       <tr>
@@ -1197,7 +1208,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add the filter to allow falsy values not to be overwritten by defaults</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Array -->
       <tr>
@@ -1236,7 +1247,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add filter to reverse order of items in an array</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Collection -->
       <tr>
@@ -1275,7 +1286,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add filter to <strong>accounts collection</strong> to remove (and reallocate) decimal values</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Date and time -->
       <tr>
@@ -1354,7 +1365,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add filter to retract date by specified number of seconds</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Localized -->
       <tr>
@@ -1369,7 +1380,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add functionality to a text input <em>only</em>, to store text in local language</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Number -->
       <tr>
@@ -1396,7 +1407,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add filter to return a value in the currency format</td>
       </tr>
       <tr>
-        <td class="attribute"><code>invert</code></td>
+        <td><code>&emsp;invert</code></td>
         <td>Add filter to invert value of inputed accounts - <em>only</em> works with currency filter</td>
       </tr>
       <tr>
@@ -1444,7 +1455,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add filter to limit input to a maximum value</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- String -->
       <tr>
@@ -1522,23 +1533,16 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td><code>transliterate</code></td>
         <td>Transliterates strings based on the Unicoder library</td>
       </tr>
-    </tbody>
-  </table>
-  <br>
-  <!-- TABLE SNIPPETS -->
-  <h2>Table Snippets</h2>
-  <table class="usr-width-100">
-    <thead>
       <tr>
-        <th style="width: 30%;">Shortcut</th>
-        <th style="width: 70%;">Description</th>
+        <td colspan="2">&emsp;</td>
       </tr>
-    </thead>
-    <tbody>
+      <!-- TABLE SNIPPETS -->
+      <tr>
+        <td colspan="2">
+          <h3>Table Snippets</h3>
+        </td>
+      </tr>
       <!-- HTML Elements -->
-      <tr>
-        <td colspan="2" class="section-break"></td>
-      </tr>
       <tr>
         <td colspan="2"><b>HTML Elements</b></td>
       </tr>
@@ -1571,7 +1575,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add opening and closing <code>&lt;td&gt;</code> tags for an HTML table</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Text Formatting Elements -->
       <tr>
@@ -1606,7 +1610,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add opening and closing <code>&lt;sup&gt;</code> tags for superscript text formatting in HTML</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- HTML Attributes -->
       <tr>
@@ -1621,7 +1625,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add <code>colspan</code> attribute to HTML <code>&lt;td&gt;</code> or <code>&lt;th&gt;</code> element</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- CSS Classes -->
       <tr>
@@ -1664,7 +1668,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add <code>usr-valign-bottom</code> class to vertically align content to bottom</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Border Classes -->
       <tr>
@@ -1703,7 +1707,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add <code>usr-double-line-right</code> class to add a double right border</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- Color and Styling Classes -->
       <tr>
