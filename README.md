@@ -148,11 +148,13 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       width: 100%;
       border-collapse: collapse;
       margin-bottom: 20px;
+      table-layout: fixed;
     }
     td {
       border: 1px solid #ddd;
       padding: 8px;
       text-align: left;
+      vertical-align: top;
     }
     th {
       border: 1px solid #ddd;
@@ -892,369 +894,328 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
   <h2>Drops Snippets</h2>
   <table>
     <thead>
-        <tr>
-            <th style="width: 30%;">Shortcut</th>
-            <th style="width: 70%;">Description</th>
-        </tr>
+      <tr>
+        <th style="width: 30%;">Shortcut</th>
+        <th style="width: 70%;">Description</th>
+      </tr>
     </thead>
     <tbody>
-        <tr>
-            <td colspan="2"><b>Common Drops</b></td>
-        </tr>
-        <tr>
-            <td><code>.size</code></td>
-            <td>Return size of an array or string</td>
-        </tr>
-        <tr>
-            <td><code>count</code></td>
-            <td>Return count of all items in drop or collection (integer)</td>
-        </tr>
-        <tr>
-            <td><code>email</code></td>
-            <td>Return email address of person or user (String)</td>
-        </tr>
-        <tr>
-            <td><code>first</code></td>
-            <td>Return first item in drop or collection (integer)</td>
-        </tr>
-        <tr>
-            <td><code>id</code></td>
-            <td>Return unique identifier of account or mapping list (String)</td>
-        </tr>
-        <tr>
-            <td><code>name</code></td>
-            <td>Return name of item. If applied to an array, will return the name of the first item in the array (String)</td>
-        </tr>
-        <tr>
-            <td><code>value</code></td>
-            <td>Return (sum) value of the drop or collection (Number)</td>
-        </tr>
-        <tr>
-            <td><code>custom.</code></td>
-            <td>Return custom drops with placeholder namespace and key</td>
-        </tr>
-        <tr>
-            <td colspan="2"><b>Accounts Drops</b></td>
-        </tr>
-        <tr>
-            <td><code>accounts</code></td>
-            <td>All drops under the accounts drop</td>
-        </tr>
-        <tr>
-            <td><code>starred</code></td>
-            <td>Return all starred accounts - must use with variable of type accounts</td>
-        </tr>
-        <tr>
-            <td><code>starred.</code></td>
-            <td>All drops under the starred drop</td>
-        </tr>
-        <tr>
-            <td><code>assets</code></td>
-            <td>Return all assets accounts - must use with variable of type accounts</td>
-        </tr>
-        <tr>
-            <td><code>assets.</code></td>
-            <td>All drops under the assets drop</td>
-        </tr>
-        <tr>
-            <td><code>liabilities</code></td>
-            <td>Return all liabilities accounts - must use with variable of type accounts</td>
-        </tr>
-        <tr>
-            <td><code>liabilities.</code></td>
-            <td>All drops under the liabilities drop</td>
-        </tr>
-        <tr>
-            <td><code>revenues</code></td>
-            <td>Return all revenue accounts - must use with variable of type accounts</td>
-        </tr>
-        <tr>
-            <td><code>revenues.</code></td>
-            <td>All drops under the revenue drop</td>
-        </tr>
-        <tr>
-            <td><code>expenses</code></td>
-            <td>Return all expenses accounts - must use with variable of type accounts</td>
-        </tr>
-        <tr>
-            <td><code>expenses.</code></td>
-            <td>All drops under the expenses drop</td>
-        </tr>
-        <tr>
-            <td><code>income</code></td>
-            <td>Return all income accounts - must use with variable of type accounts</td>
-        </tr>
-        <tr>
-            <td><code>income.</code></td>
-            <td>All drops under the income drop</td>
-        </tr>
-        <tr>
-            <td><code>equity</code></td>
-            <td>Return all equity accounts - must use with variable of type accounts</td>
-        </tr>
-        <tr>
-            <td><code>equity.</code></td>
-            <td>All drops for the equity drop</td>
-        </tr>
-        <tr>
-            <td><code>credit_value</code></td>
-            <td>Return sum of credit value of all selected accounts - must use with variable of type accounts</td>
-        </tr>
-        <tr>
-            <td><code>debit_value</code></td>
-            <td>Return sum of debit value of all selected accounts - must use with variable of type accounts</td>
-        </tr>
-        <tr>
-            <td><code>first</code></td>
-            <td>All drops under the account drop</td>
-        </tr>
-        <tr>
-            <td><code>include_zeros</code></td>
-            <td>Return accounts drop, including accounts with a zero balance, from all selected accounts - must use with variable of type accounts</td>
-        </tr>
-        <tr>
-            <td><code>include_zeros.</code></td>
-            <td>All drops for the equity drop</td>
-        </tr>
-        <tr>
-            <td><code>p_and_l_rounding_difference</code></td>
-            <td>Return exact PnL rounding difference when using the core rounding functionality - must use with variable of type accounts</td>
-        </tr>
-        <tr>
-            <td><code>bs_rounding_difference</code></td>
-            <td>Return exact BS rounding difference when using the core rounding functionality - must use with variable of type accounts</td>
-        </tr>
-        <tr>
-            <td><code>p_and_l_rounding_account</code></td>
-            <td>Return the account used for PnL rounding</td>
-        </tr>
-        <tr>
-            <td><code>bs_rounding_account</code></td>
-            <td>Return the account used for BS rounding</td>
-        </tr>
-        <tr>
-            <td><code>return_values_in_millions</code></td>
-            <td>Return value of the individual account drops in the selected accounts drop in millions - must use with variable of type accounts</td>
-        </tr>
-        <tr>
-            <td><code>return_values_in_thousands</code></td>
-            <td>Return value of the individual account drops in the selected accounts drop in thousands - must use with variable of type accounts</td>
-        </tr>
-        <tr>
-            <td colspan="2"><b>Company Drops</b></td>
-        </tr>
-        <tr>
-            <td><code>company</code></td>
-            <td>Return all drops under the Company drop</td>
-        </tr>
-        <tr>
-            <td><code>analytical_type_(0..x)_codes</code></td>
-            <td>Returns drop of dimensions/companies in an analytical/consolidation file (drop)</td>
-        </tr>
-        <tr>
-            <td><code>city</code></td>
-            <td>Return city from company settings (String)</td>
-        </tr>
-        <tr>
-            <td><code>company_form</code></td>
-            <td>Return company form from company settings (String)</td>
-        </tr>
-        <tr>
-            <td><code>company_type</code></td>
-            <td>Return company type from company settings (String)</td>
-        </tr>
-        <tr>
-            <td><code>country</code></td>
-            <td>Return country from company settings (String)</td>
-        </tr>
-        <tr>
-            <td><code>country_code</code></td>
-            <td>Return country code, based on country (String)</td>
-        </tr>
-        <tr>
-            <td><code>currency</code></td>
-            <td>Return company currency, based on country (String)</td>
-        </tr>
-        <tr>
-            <td><code>file_code</code></td>
-            <td>Return file number from company settings (String)</td>
-        </tr>
-        <tr>
-            <td><code>locales</code></td>
-            <td>Return available languages from company settings (array)</td>
-        </tr>
-        <tr>
-            <td><code>periods_per_year</code></td>
-            <td>Returns 1,4,12 depending on the reporting frequency (integer)</td>
-        </tr>
-        <tr>
-            <td><code>postalcode</code></td>
-            <td>Return post code from company settings (String)</td>
-        </tr>
-        <tr>
-            <td><code>street</code></td>
-            <td>Return street from company settings (String)</td>
-        </tr>
-        <tr>
-            <td><code>vat_identifier</code></td>
-            <td>Return VAT identifier from company settings (String)</td>
-        </tr>
-        <tr>
-            <td colspan="2"><b>People Drops</b></td>
-        </tr>
-        <tr>
-            <td><code>people</code></td>
-            <td>All drops under the People drop</td>
-        </tr>
-        <tr>
-            <td><code>directors</code></td>
-            <td>All drops under the special Directors drop</td>
-        </tr>
-        <tr>
-            <td><code>shareholders</code></td>
-            <td>All drops under the special Shareholders drop</td>
-        </tr>
-        <tr>
-            <td><code>first</code></td>
-            <td>All drops under the person drop</td>
-        </tr>
-        <tr>
-            <td><code>active_as_director</code></td>
-            <td>Return all active directors - must use with special directors drop</td>
-        </tr>
-        <tr>
-            <td><code>active_as_director</code></td>
-            <td>All drops under the active as directors filter</td>
-        </tr>
-        <tr>
-            <td><code>active_as_director_on</code></td>
-            <td>Return all active directors on a certain date - must use with special directors drop</td>
-        </tr>
-        <tr>
-            <td><code>active_as_director_on.</code></td>
-            <td>All drops under the active as directors on filter</td>
-        </tr>
-        <tr>
-            <td colspan="2"><b>Period Drops</b></td>
-        </tr>
-        <tr>
-            <td><code>period</code></td>
-            <td>Return all drops under the Period drop</td>
-        </tr>
-        <tr>
-            <td><code>accounts</code></td>
-            <td>Return all accounts in the period - must use with variable of type period (drop)</td>
-        </tr>
-        <tr>
-            <td><code>account_mapping_list</code></td>
-            <td>All drops under the Account Mapping List drop</td>
-        </tr>
-        <tr>
-            <td><code>marketplace_template_id</code></td>
-            <td>Return id of Mapping List on the marketplace - must use with variable of type period (integer)</td>
-        </tr>
-        <tr>
-            <td><code>adjustments</code></td>
-            <td>Return all adjustments in the period - must use with variable of type period (drop)</td>
-        </tr>
-        <tr>
-            <td><code>bookyear_index</code></td>
-            <td>Return index of the bookyear in the period (first year is 1) - must use with variable of type period (integer)</td>
-        </tr>
-        <tr>
-            <td><code>calendar_years</code></td>
-            <td>Return an array of all calendar years in the fiscal year - must use with variable of type period (array)</td>
-        </tr>
-        <tr>
-            <td><code>directors</code></td>
-            <td>Return all directors in the period - must use with variable of type period (special drop)</td>
-        </tr>
-        <tr>
-            <td><code>end_date</code></td>
-            <td>Return end date of the period - must use with variable of type period (date)</td>
-        </tr>
-        <tr>
-            <td><code>exists</code></td>
-            <td>Return true if the period exists - must use with variable of type period (boolean)</td>
-        </tr>
-        <tr>
-            <td><code>fiscal_year</code></td>
-            <td>Return fiscal year of the period - must use with variable of type period (string)</td>
-        </tr>
-        <tr>
-            <td><code>is_first_year</code></td>
-            <td>Return true if the period is the first book year of client file - must use with variable of type period (boolean)</td>
-        </tr>
-        <tr>
-            <td><code>month_end_dates</code></td>
-            <td>Return an array of all month end dates in the fiscal year - must use with variable of type period (array)</td>
-        </tr>
-        <tr>
-            <td><code>people</code></td>
-            <td>Return all people in the period - must use with variable of type period (drop)</td>
-        </tr>
-        <tr>
-            <td><code>reconciliations</code></td>
-            <td>Return all reconciliations in the period - must use with variable of type period (drop)</td>
-        </tr>
-        <tr>
-            <td><code>reports</code></td>
-            <td>Return collection of Reports for the period - must use with variable of type period (drop)</td>
-        </tr>
-        <tr>
-            <td><code>reports</code></td>
-            <td>Return specific report for the period - must use with variable of type period (drop)</td>
-        </tr>
-        <tr>
-            <td><code>shareholders</code></td>
-            <td>Return all shareholders in the period - must use with variable of type period (special drop)</td>
-        </tr>
-        <tr>
-            <td><code>start_date</code></td>
-            <td>Return start date of the period - must use with variable of type period (date)</td>
-        </tr>
-        <tr>
-            <td><code>year_end</code></td>
-            <td>Return period drop of period at end of fiscal year - must use with variable of type period (drop)</td>
-        </tr>
-        <tr>
-            <td><code>year_end_date</code></td>
-            <td>Return end date of the fiscal year - must use with variable of type period (date)</td>
-        </tr>
-        <tr>
-            <td><code>year_start_date</code></td>
-            <td>Return start date of the fiscal year - must use with variable of type period (date)</td>
-        </tr>
-        <tr>
-            <td><code>minus__xp/y</code></td>
-            <td>Return period before current period by a set number of periods or year - must use with variable of type period (drop)</td>
-        </tr>
-        <tr>
-            <td><code>plus__xp/y</code></td>
-            <td>Return period after current period by a set number of periods or year - must use with variable of type period (drop)</td>
-        </tr>
-        <tr>
-            <td colspan="2"><b>Reconciliations Drops</b></td>
-        </tr>
-        <tr>
-            <td><code>reconciliations</code></td>
-            <td>All drops under the Reconciliations drop</td>
-        </tr>
-        <tr>
-            <td><code>starred</code></td>
-            <td>Return all starred reconciliations - must use with variable of type reconciliations (drop)</td>
-        </tr>
-        <tr>
-            <td><code>starred</code></td>
-            <td>All drops under the Starred Reconciliation drop</td>
-        </tr>
-        <tr>
-            <td colspan="2"><b>User Drops</b></td>
-        </tr>
-        <tr>
-            <td><code>user</code></td>
-            <td>Return all drops under the User drop</td>
-        </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Account drops -->
+      <!-- <tr>
+        <td colspan="2"><b>Account Drops</b></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr> -->
+      <!-- Accounts drops -->
+      <tr>
+        <td colspan="2"><b>Accounts Drops</b></td>
+      </tr>
+      <tr>
+        <td>
+          <code>accounts.starred</code><br>
+          <code>accounts.assets</code><br>
+          <code>accounts.liabilities</code><br>
+          <code>accounts.revenues</code><br>
+          <code>accounts.expenses</code><br>
+          <code>accounts.income</code><br>
+          <code>accounts.equity</code>
+        </td>
+        <td style="vertical-align: top">Return an accounts drop with only specified accounts type</td>
+      </tr>
+      <tr>
+        <td><code>accounts.count</code></td>
+        <td>Return number of account drops in the accounts drop</td>
+      </tr>
+      <tr>
+        <td><code>accounts.credit_value</code></td>
+        <td>Return sum of credit value of all accounts in the accounts drop</td>
+      </tr>
+      <tr>
+        <td><code>accounts.debit_value</code></td>
+        <td>Return sum of debit value of all accounts in rhe accounts drop</td>
+      </tr>
+      <tr>
+        <td><code>accounts.first</code></td>
+        <td>Return the first account drop of the accounts drop</td>
+      </tr>
+      <tr>
+        <td><code>accounts.include_zeros</code></td>
+        <td>Return an accounts drop that includes <em>all</em> accounts, including those with a zero balance</td>
+      </tr>
+      <tr>
+        <td><code>accounts.name</code></td>
+        <td>Return the name of the first account in this drop</td>
+      </tr>
+      <tr>
+        <td>
+          <code>accounts.p_and_l_rounding_difference</code>,<br>
+          <code>accounts.bs_rounding_difference</code>
+        </td>
+        <td>Display the exact Profit & Loss/ Balance Sheet rounding difference when using the core rounding functionality</td>
+      </tr>
+      <tr>
+        <td>
+          <code>accounts.p_and_l_rounding_account</code>,<br>
+          <code>accounts.bs_rounding_account</code>
+        </td>
+        <td>Return the account drop where the Profit & Loss/ Balance Sheet rounding difference is stored</td>
+      </tr>
+      <tr>
+        <td><code>accounts.return_values_in_millions</code></td>
+        <td>Display the value of the individual account drops in the created accounts drop in millions</td>
+      </tr>
+      <tr>
+        <td><code>accounts.return_values_in_thousands</code></td>
+        <td>Display the value of the individual account drops in the created accounts drop in thousands</td>
+      </tr>
+      <tr>
+        <td><code>accounts.value</code></td>
+        <td>Return the sum of all values for all accounts in this accounts drop for this period</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Company drops -->
+      <tr>
+        <td colspan="2"><b>Company Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>company.analytical_type_(0..x)_codes</code></td>
+        <td>Returns drop with information about dimensions/companies in an analytical/consolidation file</td>
+      </tr>
+      <tr>
+        <td><code>company.city</code></td>
+        <td>Return the city from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.company_form</code></td>
+        <td>Return the company form from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.company_type</code></td>
+        <td>Return the company type from company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.country</code></td>
+        <td>Return the country from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.country_code</code></td>
+        <td>Return the country code based upon the country from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.currency</code></td>
+        <td>Return the currency code from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.custom</code></td>
+        <td>Attach custom information to a company, independant of the period</td>
+      </tr>
+      <tr>
+        <td><code>company.file_code</code></td>
+        <td>Return the file number from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.locales</code></td>
+        <td>Return the available languages for the company</td>
+      </tr>
+      <tr>
+        <td><code>company.name</code></td>
+        <td>Return the company name from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.periods_per_year</code></td>
+        <td>Returns 1,4,12 depending on the reporting frequency (yearly, quarterly or monthly)</td>
+      </tr>
+      <tr>
+        <td><code>company.postalcode</code></td>
+        <td>Return the post code from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.street</code></td>
+        <td>Return the street from the company settings</td>
+      </tr>
+      <tr>
+        <td><code>company.vat_identifier</code></td>
+        <td>Return the vat identifier from the company settings</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Custom drops -->
+      <!-- People drops -->
+      <tr>
+        <td><code>people.count</code></td>
+        <td>Return of count of number of person drops within the people drop (can also use with directors and shareholders drops)</td>
+      </tr>
+      <tr>
+        <td><code>people.first</code></td>
+        <td>Return first the person drop in the people drop (can also use with directors and shareholders drops)</td>
+      </tr>
+      <tr>
+        <td><code>directors.active_as_director</code></td>
+        <td>Add the filter for directors which returns those directors active during the book year</td>
+      </tr>
+      <tr>
+        <td><code>directors.active_as_director_on</code></td>
+        <td>Add the filter for directors which returns those directors active in a specific date</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Period -->  
+      <tr>
+        <td colspan="2"><b>Period Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>period.accounts</code></td>
+        <td>Return an accounts drop of all accounts with bookings on this period</td>
+      </tr>
+      <tr>
+        <td><code>period.account_mapping_list.name</code></td>
+        <td>Return the name of the mapping list used for this period</td>
+      </tr>
+      <tr>
+        <td><code>period.account_mapping_list.id</code></td>
+        <td>Return the id of the mapping list on firm level</td>
+      </tr>
+      <tr>
+        <td><code>period.account_mapping_list.marketplace_template_id</code></td>
+        <td>Return the id of the mapping list on the marketplace</td>
+      </tr>
+      <tr>
+        <td><code>period.adjustments</code></td>
+        <td>Return adjustments drop of all adjustments for the period</td>
+      </tr>
+      <tr>
+        <td><code>period.bookyear_index</code></td>
+        <td>Return the index number of the current book year as an integer. The first book year equals 1</td>
+      </tr>
+      <tr>
+        <td style="vertical-align:top"><code>period.calendar_years</code></td>
+        <td>
+          Add the method to add an array of all calendar years in the fiscal year. The information for each calendar year is:<br>
+          start_date, end_date, amount_of_days for the number of days the bookyear has in the calendar year, and<br>
+          amount_of_days_in_full_year for the total number of days in the calendar year
+      </td>
+      </tr>
+      <tr>
+        <td><code>period.custom</code></td>
+        <td>Attach custom information to a period. This is done <em>automatically</em> in reconciliations</td>
+      </tr>
+      <tr>
+        <td><code>period.directors</code></td>
+        <td>Return a people drop of all individuals who are directors</td>
+      </tr>
+      <tr>
+        <td><code>period.end_date</code></td>
+        <td>Return the date this period ends</td>
+      </tr>
+      <tr>
+        <td><code>period.exists</code></td>
+        <td>Return true when the period exists in the Silverfin database</td>
+      </tr>
+      <tr>
+        <td><code>period.fiscal_year</code></td>
+        <td>Return the fiscal year of this period</td>
+      </tr>
+      <tr>
+        <td><code>period.is_first_year</code></td>
+        <td>Return true if the period is in the first book year of this client file</td>
+      </tr>
+      <tr>
+        <td><code>period.month_end_dates</code></td>
+        <td>Return an array of all the end dates of the calendar months in this fiscal year</td>
+      </tr>
+      <tr>
+        <td><code>period.name</code></td>
+        <td>Return the name of the period</td>
+      </tr>
+      <tr>
+        <td><code>period.people</code></td>
+        <td>
+          Return the people drop of all people attached to the period (typically copied from general company level)
+        </td>
+      </tr>
+      <tr>
+        <td><code>period.reconciliations</code></td>
+        <td>
+          Return a reconciliations drop of all reconciliations for this period. You can ask for a specific reconciliation by adding the handle. I.e. period.reconciliations.the_handle.
+        </td>
+      </tr>
+      <tr>
+        <td><code>period.reports</code></td>
+        <td>Return a reports drop of all reports for this period. You can ask for a specific report by adding the handle. I.e. period.reports.the_handle</td>
+      </tr>
+      <tr>
+        <td><code>period.shareholders</code></td>
+        <td>Return a people drop of all individuals who are shareholders</td>
+      </tr>
+      <tr>
+        <td><code>period.start_date</code></td>
+        <td>Return the date this period starts</td>
+      </tr>
+      <tr>
+        <td><code>period.year_end</code></td>
+        <td>Return the period at the end of the fiscal year this period is in</td>
+      </tr>
+      <tr>
+        <td><code>period.year_end_date</code></td>
+        <td>Return the date of the end of the fiscal year of this period</td>
+      </tr>
+      <tr>
+        <td><code>period.year_start_date</code></td>
+        <td>Return the date of the start of the fiscal year of this period</td>
+      </tr>
+      <tr>
+        <td><code>period.minus__xp/y</code></td>
+        <td>Return the period drop of the current period minus the amount of periods or years defined</td>
+      </tr>
+      <tr>
+        <td><code>period.plus__xp/y</code></td>
+        <td>Return the period drop of the current period plus the amount of periods or years defined</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Reconciliations -->
+      <tr>
+        <td colspan="2"><b>Reconciliations Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>reconciliations.count</code></td>
+        <td>Returns the number of active reconciliations</td>
+      </tr>
+      <tr style>
+        <td><code>reconciliations.[reconciliation_handle]</code> *</td>
+        <td>
+          Return the specific reconcilaition with matching handle<br>
+          * <i>Don't actually use the word handle but use that handle of the specific reconciliation instead</i>
+        </td>
+      </tr>
+      <tr>
+        <td><code>reconciliations.star</code></td>
+        <td>Return reconciliations drop of all starred reconciliations</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- User drops -->
+      <tr>
+        <td colspan="2"><b>User Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>user.name</code></td>
+        <td>Return name of the current Silverfin user</td>
+      </tr>
+      <tr>
+        <td><code>user.email</code></td>
+        <td>Return email address of the current Silverfin user</td>
+      </tr>
     </tbody>
   </table>
   <br>
