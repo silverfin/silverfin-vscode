@@ -58,11 +58,21 @@
     "description": "Add opening and closing <td> tags for cells within an HTML table body"
   },
 
+
+
   "HTML class": {
     "prefix": "class",
     "body": "class=\"${1:class-name}\"",
     "description": "Add class attribute to HTML elements"
   },
+  "colspan": {
+    "prefix": "colspan",
+    "body": "colspan=\"${1:number-of-columns}\"",
+    "description": "Add colspan attribute to an <td>/<th> element"
+  },
+
+
+
   "HTML width class": {
     "prefix": "usr-width-",
     "body": "usr-width-${1:1__100}",
@@ -127,6 +137,7 @@
       "content to bottom of table cell"
     ]
   },
+
   "HTML line top class": {
     "prefix": "usr-line-top",
     "body": "usr-line-top",
@@ -167,6 +178,7 @@
       "body": "usr-double-line-right",
       "description": "Add class to add double-line right border to table cell"
   },
+
   "HTML border colour class": {
     "prefix": "usr-border-color-",
     "body": "usr-border-color-${1:FFFFFF}",

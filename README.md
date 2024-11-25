@@ -1099,8 +1099,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td style="vertical-align:top"><code>period.calendar_years</code></td>
         <td>
           Add the method to add an array of all calendar years in the fiscal year. The information for each calendar year is:<br>
-          start_date, end_date, amount_of_days for the number of days the bookyear has in the calendar year, and<br>
-          amount_of_days_in_full_year for the total number of days in the calendar year
+          start_date, end_date, amount_of_days for the number of days the bookyear has in the calendar year, and amount_of_days_in_full_year for the total number of days in the calendar year
       </td>
       </tr>
       <tr>
@@ -1573,221 +1572,223 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
   <h2>Table Snippets</h2>
   <table class="usr-width-100">
     <thead>
-        <tr>
-            <th class="usr-width-30">Shortcut</th>
-            <th class="usr-width-70">Description</th>
-        </tr>
+      <tr>
+        <th style="width: 30%;">Shortcut</th>
+        <th style="width: 70%;">Description</th>
+      </tr>
     </thead>
     <tbody>
-        <!-- HTML Elements -->
-        <tr>
-            <td colspan="2"><b>HTML Elements</b></td>
-        </tr>
-        <!-- Table Elements -->
-        <tr>
-            <td colspan="2"><em>Table Elements</em></td>
-        </tr>
-        <tr>
-            <td><code>table</code></td>
-            <td>Add snippet for a minimal HTML table with a header, body, and width classes defined</td>
-        </tr>
-        <tr>
-            <td><code>thead</code></td>
-            <td>Add opening and closing <code>&lt;thead&gt;</code> tags for an HTML table</td>
-        </tr>
-        <tr>
-            <td><code>tbody</code></td>
-            <td>Add opening and closing <code>&lt;tbody&gt;</code> tags for an HTML table</td>
-        </tr>
-        <tr>
-            <td><code>tr</code></td>
-            <td>Add opening and closing <code>&lt;tr&gt;</code> tags for an HTML table with nested <code>&lt;td&gt;</code> elements</td>
-        </tr>
-        <tr>
-            <td><code>th</code></td>
-            <td>Add opening and closing <code>&lt;th&gt;</code> tags for an HTML table</td>
-        </tr>
-        <tr>
-            <td><code>td</code></td>
-            <td>Add opening and closing <code>&lt;td&gt;</code> tags for an HTML table</td>
-        </tr>
-        <!-- Text Formatting Elements -->
-        <tr>
-            <td colspan="2"><em>Text Formatting Elements</em></td>
-        </tr>
-        <tr>
-            <td><code>br</code></td>
-            <td>Add an HTML line-break tag</td>
-        </tr>
-        <tr>
-            <td><code>b</code></td>
-            <td>Add opening and closing <code>&lt;b&gt;</code> tags for bold text formatting in HTML</td>
-        </tr>
-        <tr>
-            <td><code>i</code></td>
-            <td>Add opening and closing <code>&lt;i&gt;</code> tags for italic text formatting in HTML</td>
-        </tr>
-        <tr>
-            <td><code>u</code></td>
-            <td>Add opening and closing <code>&lt;u&gt;</code> tags for underlined text formatting in HTML</td>
-        </tr>
-        <tr>
-            <td><code>em</code></td>
-            <td>Add opening and closing <code>&lt;em&gt;</code> tags for emphasized (italic) text formatting in HTML</td>
-        </tr>
-        <tr>
-            <td><code>sub</code></td>
-            <td>Add opening and closing <code>&lt;sub&gt;</code> tags for subscript text formatting in HTML</td>
-        </tr>
-        <tr>
-            <td><code>sup</code></td>
-            <td>Add opening and closing <code>&lt;sup&gt;</code> tags for superscript text formatting in HTML</td>
-        </tr>
-        <tr>
-            <td><code>h1</code></td>
-            <td>Add opening and closing <code>&lt;h1&gt;</code> tags for heading text formatting in HTML</td>
-        </tr>
-        <tr>
-            <td><code>h2</code></td>
-            <td>Add opening and closing <code>&lt;h2&gt;</code> tags for sub-heading text formatting in HTML</td>
-        </tr>
-        <tr>
-            <td><code>a</code></td>
-            <td>Add opening and closing <code>&lt;a&gt;</code> tags for hyperlink text formatting in HTML</td>
-        </tr>
-        <tr>
-            <td><code>hr</code></td>
-            <td>Add horizontal rule tag in HTML</td>
-        </tr>
-        <tr>
-            <td><code>&lt;p&gt;</code></td>
-            <td>Add opening and closing <code>&lt;p&gt;</code> tags for paragraph text formatting in HTML</td>
-        </tr>
-        <!-- HTML Attributes -->
-        <tr>
-            <td colspan="2"><b>HTML Attributes</b></td>
-        </tr>
-        <tr>
-            <td><code>class</code></td>
-            <td>Add <code>class</code> attribute to HTML elements</td>
-        </tr>
-        <!-- CSS Classes -->
-        <tr>
-            <td colspan="2"><b>CSS Classes</b></td>
-        </tr>
-        <!-- Alignment Classes -->
-        <tr>
-            <td colspan="2"><em>Alignment Classes</em></td>
-        </tr>
-        <tr>
-            <td><code>usr-width-</code></td>
-            <td>Add <code>usr-width-*</code> class to set element width</td>
-        </tr>
-        <tr>
-            <td><code>usr-align-left</code></td>
-            <td>Add <code>usr-align-left</code> class to align text left</td>
-        </tr>
-        <tr>
-            <td><code>usr-align-center</code></td>
-            <td>Add <code>usr-align-center</code> class to align text center</td>
-        </tr>
-        <tr>
-            <td><code>usr-align-right</code></td>
-            <td>Add <code>usr-align-right</code> class to align text right</td>
-        </tr>
-        <tr>
-            <td><code>usr-align-justify</code></td>
-            <td>Add <code>usr-align-justify</code> class to justify text</td>
-        </tr>
-        <tr>
-            <td><code>usr-valign-top</code></td>
-            <td>Add <code>usr-valign-top</code> class to vertically align content to top</td>
-        </tr>
-        <tr>
-            <td><code>usr-valign-center</code></td>
-            <td>Add <code>usr-valign-center</code> class to vertically align content to center</td>
-        </tr>
-        <tr>
-            <td><code>usr-valign-bottom</code></td>
-            <td>Add <code>usr-valign-bottom</code> class to vertically align content to bottom</td>
-        </tr>
-        <!-- Border Classes -->
-        <tr>
-            <td colspan="2"><em>Border Classes</em></td>
-        </tr>
-        <tr>
-            <td><code>usr-line-top</code></td>
-            <td>Add <code>usr-line-top</code> class to add a top border</td>
-        </tr>
-        <tr>
-            <td><code>usr-line-bottom</code></td>
-            <td>Add <code>usr-line-bottom</code> class to add a bottom border</td>
-        </tr>
-        <tr>
-            <td><code>usr-line-left</code></td>
-            <td>Add <code>usr-line-left</code> class to add a left border</td>
-        </tr>
-        <tr>
-            <td><code>usr-line-right</code></td>
-            <td>Add <code>usr-line-right</code> class to add a right border</td>
-        </tr>
-        <tr>
-            <td><code>usr-double-line-top</code></td>
-            <td>Add <code>usr-double-line-top</code> class to add a double top border</td>
-        </tr>
-        <tr>
-            <td><code>usr-double-line-bottom</code></td>
-            <td>Add <code>usr-double-line-bottom</code> class to add a double bottom border</td>
-        </tr>
-        <tr>
-            <td><code>usr-double-line-left</code></td>
-            <td>Add <code>usr-double-line-left</code> class to add a double left border</td>
-        </tr>
-        <tr>
-            <td><code>usr-double-line-right</code></td>
-            <td>Add <code>usr-double-line-right</code> class to add a double right border</td>
-        </tr>
-        <!-- Color and Styling Classes -->
-        <tr>
-            <td colspan="2"><em>Color and Styling Classes</em></td>
-        </tr>
-        <tr>
-            <td><code>usr-border-color-*</code></td>
-            <td>Add class to set table cell border color in Hex</td>
-        </tr>
-        <tr>
-            <td><code>usr-background-color-*</code></td>
-            <td>Add class to set table cell background color in Hex</td>
-        </tr>
-        <tr>
-            <td><code>usr-indent-*</code></td>
-            <td>Add <code>usr-indent-*</code> class to indent content</td>
-        </tr>
-        <tr>
-            <td><code>usr-repeated-header</code></td>
-            <td>Add <code>usr-repeated-header</code> class to repeat table header on new pages in PDF export</td>
-        </tr>
-        <tr>
-            <td><code>usr-no-left-padding</code></td>
-            <td>Add <code>usr-no-left-padding</code> class to remove default left padding</td>
-        </tr>
-        <tr>
-            <td><code>usr-grayed-out-background-input</code></td>
-            <td>Add class to set table cell background to gray</td>
-        </tr>
-        <tr>
-            <td><code>usr-grayed-out-line-bottom-input</code></td>
-            <td>Add class to set faint table cell bottom lines</td>
-        </tr>
-        <tr>
-            <td><code>usr-hide-samepage-header</code></td>
-            <td>Add <code>usr-hide-samepage-header</code> class to hide header when content continues on same page</td>
-        </tr>
+      <!-- HTML Elements -->
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><b>HTML Elements</b></td>
+      </tr>
+      <!-- Table Elements -->
+      <tr>
+        <td colspan="2"><i>Table Elements</i></td>
+      </tr>
+      <tr>
+        <td><code>table</code></td>
+        <td>Add snippet for a minimal HTML table with a header, body, and width classes defined</td>
+      </tr>
+      <tr>
+        <td><code>thead</code></td>
+        <td>Add opening and closing <code>&lt;thead&gt;</code> tags for an HTML table</td>
+      </tr>
+      <tr>
+        <td><code>tbody</code></td>
+        <td>Add opening and closing <code>&lt;tbody&gt;</code> tags for an HTML table</td>
+      </tr>
+      <tr>
+        <td><code>tr</code></td>
+        <td>Add opening and closing <code>&lt;tr&gt;</code> tags for an HTML table with nested <code>&lt;td&gt;</code> elements</td>
+      </tr>
+      <tr>
+        <td><code>th</code></td>
+        <td>Add opening and closing <code>&lt;th&gt;</code> tags for an HTML table</td>
+      </tr>
+      <tr>
+        <td><code>td</code></td>
+        <td>Add opening and closing <code>&lt;td&gt;</code> tags for an HTML table</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Text Formatting Elements -->
+      <tr>
+        <td colspan="2"><i>Text Formatting Elements</i></td>
+      </tr>
+      <tr>
+        <td><code>br</code></td>
+        <td>Add an HTML line-break tag</td>
+      </tr>
+      <tr>
+        <td><code>b</code></td>
+        <td>Add opening and closing <code>&lt;b&gt;</code> tags for bold text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>i</code></td>
+        <td>Add opening and closing <code>&lt;i&gt;</code> tags for italic text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>u</code></td>
+        <td>Add opening and closing <code>&lt;u&gt;</code> tags for underlined text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>em</code></td>
+        <td>Add opening and closing <code>&lt;em&gt;</code> tags for emphasized (italic) text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>sub</code></td>
+        <td>Add opening and closing <code>&lt;sub&gt;</code> tags for subscript text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td><code>sup</code></td>
+        <td>Add opening and closing <code>&lt;sup&gt;</code> tags for superscript text formatting in HTML</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- HTML Attributes -->
+      <tr>
+        <td colspan="2"><b>HTML Attributes</b></td>
+      </tr>
+      <tr>
+        <td><code>class</code></td>
+        <td>Add <code>class</code> attribute to HTML elements</td>
+      </tr>
+      <tr>
+        <td><code>colspan</code></td>
+        <td>Add <code>colspan</code> attribute to HTML <code>&lt;td&gt;</code> or <code>&lt;th&gt;</code> element</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- CSS Classes -->
+      <tr>
+        <td colspan="2"><b>CSS Classes</b></td>
+      </tr>
+      <!-- Alignment Classes -->
+      <tr>
+        <td colspan="2"><i>Alignment Classes</i></td>
+      </tr>
+      <tr>
+        <td><code>usr-width-</code></td>
+        <td>Add <code>usr-width-*</code> class to set element width</td>
+      </tr>
+      <tr>
+        <td><code>usr-align-left</code></td>
+        <td>Add <code>usr-align-left</code> class to align text left</td>
+      </tr>
+      <tr>
+        <td><code>usr-align-center</code></td>
+        <td>Add <code>usr-align-center</code> class to align text center</td>
+      </tr>
+      <tr>
+        <td><code>usr-align-right</code></td>
+        <td>Add <code>usr-align-right</code> class to align text right</td>
+      </tr>
+      <tr>
+        <td><code>usr-align-justify</code></td>
+        <td>Add <code>usr-align-justify</code> class to justify text</td>
+      </tr>
+      <tr>
+        <td><code>usr-valign-top</code></td>
+        <td>Add <code>usr-valign-top</code> class to vertically align content to top</td>
+      </tr>
+      <tr>
+        <td><code>usr-valign-center</code></td>
+        <td>Add <code>usr-valign-center</code> class to vertically align content to center</td>
+      </tr>
+      <tr>
+        <td><code>usr-valign-bottom</code></td>
+        <td>Add <code>usr-valign-bottom</code> class to vertically align content to bottom</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Border Classes -->
+      <tr>
+        <td colspan="2"><i>Border Classes</i></td>
+      </tr>
+      <tr>
+        <td><code>usr-line-top</code></td>
+        <td>Add <code>usr-line-top</code> class to add a top border</td>
+      </tr>
+      <tr>
+        <td><code>usr-line-bottom</code></td>
+        <td>Add <code>usr-line-bottom</code> class to add a bottom border</td>
+      </tr>
+      <tr>
+        <td><code>usr-line-left</code></td>
+        <td>Add <code>usr-line-left</code> class to add a left border</td>
+      </tr>
+      <tr>
+        <td><code>usr-line-right</code></td>
+        <td>Add <code>usr-line-right</code> class to add a right border</td>
+      </tr>
+      <tr>
+        <td><code>usr-double-line-top</code></td>
+        <td>Add <code>usr-double-line-top</code> class to add a double top border</td>
+      </tr>
+      <tr>
+        <td><code>usr-double-line-bottom</code></td>
+        <td>Add <code>usr-double-line-bottom</code> class to add a double bottom border</td>
+      </tr>
+      <tr>
+        <td><code>usr-double-line-left</code></td>
+        <td>Add <code>usr-double-line-left</code> class to add a double left border</td>
+      </tr>
+      <tr>
+        <td><code>usr-double-line-right</code></td>
+        <td>Add <code>usr-double-line-right</code> class to add a double right border</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="section-break"></td>
+      </tr>
+      <!-- Color and Styling Classes -->
+      <tr>
+        <td colspan="2"><i>Color and Styling Classes</i></td>
+      </tr>
+      <tr>
+        <td><code>usr-border-color-*</code></td>
+        <td>Add class to set table cell border color in Hex</td>
+      </tr>
+      <tr>
+        <td><code>usr-background-color-*</code></td>
+        <td>Add class to set table cell background color in Hex</td>
+      </tr>
+      <tr>
+        <td><code>usr-indent-*</code></td>
+        <td>Add <code>usr-indent-*</code> class to indent content</td>
+      </tr>
+      <tr>
+        <td><code>usr-repeated-header</code></td>
+        <td>Add <code>usr-repeated-header</code> class to repeat table header on new pages in PDF export</td>
+      </tr>
+      <tr>
+        <td><code>usr-no-left-padding</code></td>
+        <td>Add <code>usr-no-left-padding</code> class to remove default left padding</td>
+      </tr>
+      <tr>
+        <td><code>usr-grayed-out-background-input</code></td>
+        <td>Add class to set table cell background to gray</td>
+      </tr>
+      <tr>
+        <td><code>usr-grayed-out-line-bottom-input</code></td>
+        <td>Add class to set faint table cell bottom lines</td>
+      </tr>
+      <tr>
+        <td><code>usr-hide-samepage-header</code></td>
+        <td>Add <code>usr-hide-samepage-header</code> class to hide header when content continues on same page</td>
+      </tr>
     </tbody>
   </table>
 </body>
 </html>
-****
+
 ## Third party extensions
 
 - YAML extension: To apply our Schema to YAML files, we need to have [Red Hat's YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) activated (this extension should be added automatically since it is set as a dependency).
