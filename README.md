@@ -139,56 +139,17 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Silverfin Shortcut Reference</title>
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-      table-layout: fixed;
-    }
-    td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
-      vertical-align: top;
-    }
-    th {
-      border: 1px solid #ddd;
-      padding: 8px;
-      font-size: 17px;
-    }
-    h3 {
-      color: #ddd;
-      font-size: 18px;
-    }
-    .attribute {
-      padding-left: 2em;
-    }
-    .sub-attribute {
-      padding-left: 4em;
-    }
-    .section-break {
-      padding-top: 2em;
-    }
-  </style>
-</head>
 <body>
-  <!-- STYLE SNIPPETS -->
-  <h3>Style Snippets</h3>
   <table>
-    <thead>
-      <tr>
-        <th style="width: 30%;">Shortcut</th>
-        <th style="width: 70%;">Description</th>
-      </tr>
-    </thead>
     <tbody>
+      <!-- STYLE SNIPPETS -->
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">
+          <h3>Style Snippets</h3>  
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">&emsp;</td>
       </tr>
       <tr>
         <td colspan="2"><b>Styling</b></td>
@@ -242,7 +203,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add <code>warningtext</code> tag with the as="hover" attribute</td>
       </tr>
       <tr>
-        <td colspan="2" class="section-break"></td>
+        <td colspan="2">&emsp;</td>
       </tr>
       <!-- HTML styling -->
       <tr>
@@ -299,19 +260,15 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td><code>a, anchor</code></td>
         <td>Add opening and closing <code>&lt;a&gt;</code> tags for hyperlink text formatting in HTML</td>
       </tr>
-    </tbody>
-  </table>
-  <br>
-  <!-- TAG SNIPPETS -->
-  <h3>Tag Snippets</h3>
-  <table>
-    <thead>
       <tr>
-        <th style="width: 30%;">Shortcut</th>
-        <th style="width: 70%;">Description</th>
+        <td colspan="2"><b>HTML styling</b></td>
       </tr>
-    </thead>
-    <tbody>
+      <!-- TAG SNIPPETS -->
+      <tr>
+        <td colspan="2">
+          <h3>Tag Snippets</h3>  
+        </td>
+      </tr>
       <!-- Comments -->
       <tr>
         <td colspan="2" class="section-break"></td>
