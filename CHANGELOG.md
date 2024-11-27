@@ -2,6 +2,11 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+
+## [1.19.1]
+
+- Bump Silverfin CLI version (1.27.1 -> 1.27.3)
+
 ## [1.19.0]
 
 - Restructure snippets/ refactor README, and complete filter snippets
