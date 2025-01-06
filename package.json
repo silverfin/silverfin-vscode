@@ -1,7 +1,7 @@
 {
   "name": "silverfin-development-toolkit",
   "displayName": "Silverfin Development Toolkit",
-  "version": "1.19.1",
+  "version": "1.19.2",
   "publisher": "Silverfin",
   "icon": "resources/sf-icon.png",
   "engines": {
@@ -280,7 +280,7 @@
     "esbuild": "^0.16.17",
     "eslint": "^8.56.0",
     "glob": "^7.2.0",
-    "mocha": "^9.2.1",
+    "mocha": "^11.0.1",
     "typescript": "^4.5.5"
   },
   "prettier": {
