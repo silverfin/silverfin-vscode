@@ -836,6 +836,32 @@
     "description": [
       "Use to visualize the split between pages in input mode. Use with newpage tag"
     ]
+  },
+
+
+
+  "inputvalidation integer/currency": {
+    "prefix": "input_validation integer/currency",
+    "body": "{% input_validation \"${1:validation_name}\" as:numeric min:${2:value} max:${3:value} %}",
+    "description": [
+      "With input_validation you can validate how data is created.\n",
+      "For integers/currencies you can add a minimum and/or maximum value."
+    ]
+  },
+  "inputvalidation date": {
+    "prefix": "input_validation date",
+    "body": "{% input_validation \"${1:validation_name}\" start_date:${2:YYYY-MM-DD} end_date:${3:YYYY-MM-DD} %}",
+    "description": [
+      "With input_validation you can validate how data is created.\n",
+      "For dates you can add a start date and/or end date."
+    ]
+  },
+  "validation attribute": {
+    "prefix": "validation:",
+    "body": "validation:${1:validation_name}",
+    "description": [
+    "After defining an input_validation variable, the validation attribute can be assigned to inputs.\n",
+    "In doing so the end user will be made aware of incorrect data inputs as well as making the template unreconciled in these cases."
+    ]
   }
-  
 }
