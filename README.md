@@ -464,6 +464,10 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add the assign attribute to assign input value to a variable</td>
       </tr>
       <tr>
+        <td><code>&emsp;validation:</code></td>
+        <td>Add the validation attribute to add an input_validation variable to an input</td>
+      </tr>
+      <tr>
         <td colspan="2">&emsp;</td>
       </tr>
       <!-- Radio Group -->
@@ -837,6 +841,21 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <tr>
         <td><code>section_break</code></td>
         <td>Add the attribute to create section breaks within input mode</td>
+      </tr>
+      <tr>
+        <td colspan="2">&emsp;</td>
+      </tr>
+      <!-- Input validation -->
+      <tr>
+        <td colspan="2"><b>Input Validation</b></td>
+      </tr>
+      <tr>
+        <td><code>input_validation integer/currency</code></td>
+        <td>Add an input_validation variable for integers/currencies with min and/or max values</td>
+      </tr>
+      <tr>
+        <td><code>input_validation date</code></td>
+        <td>Add an input_validation variable for dates with start and/or end dates</td>
       </tr>
       <tr>
         <td colspan="2">&emsp;</td>
