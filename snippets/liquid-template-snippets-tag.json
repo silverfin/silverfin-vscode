@@ -863,5 +863,32 @@
     "After defining an input_validation variable, the validation attribute can be assigned to inputs.\n",
     "In doing so the end user will be made aware of incorrect data inputs as well as making the template unreconciled in these cases."
     ]
+  },
+
+
+
+  "as external account collection attribute": {
+    "prefix": "as:external_account_collection",
+    "body": "as:external_account_collection range:\"${1:6 4,7 4__7}\" company:\"${2:item}\"",
+    "description": [
+      "External account collections are used to be able to pick accounts from a certain range of external company accounts.\n",
+      "Ranges can be further refined by using comma's and/or double underscores.\n",
+      "These external account collections always require a company attribute.\n",
+      "This company attribute needs to refer to the item name of the current loop."
+    ]
+  },
+  "as external company collection attribute": {
+    "prefix": "as:external_company_collection",
+    "body": "as:external_company_collection companies_var:\"${1:selected_external_companies}\"",
+    "description": [
+      "External company collections are used to assign the companies selected in the input to a variable name that is defined in the companies_var."
+    ]
+  },
+  "external company single selection attribute": {
+    "prefix": "single_selection:true",
+    "body": "single_selection:true",
+    "description": [
+      "This attribute limits the amount of companies that can be selected in the external_company_collection to one."
+    ]
   }
 }

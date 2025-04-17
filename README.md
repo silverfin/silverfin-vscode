@@ -860,6 +860,25 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <tr>
         <td colspan="2">&emsp;</td>
       </tr>
+      <!-- External collection attributes -->
+      <tr>
+        <td colspan="2"><b>External collection attributes</b></td>
+      </tr>
+      <tr>
+        <td><code>external_account_collection</code></td>
+        <td>Add the attribute for an external account collection and define the account range</td>
+      </tr>
+      <tr>
+        <td><code>external_company_collection</code></td>
+        <td>Add the attribute for an external company collection which assigns the companies selected in the input to a variable name</td>
+      </tr>
+      <tr>
+        <td><code>single_selection:true</code></td>
+        <td>Add the attribute which limits the external company collection to a single item</td>
+      </tr>
+      <tr>
+        <td colspan="2">&emsp;</td>
+      </tr>
       <!-- DROPS SNIPPETS -->
       <tr>
         <td colspan="2">
