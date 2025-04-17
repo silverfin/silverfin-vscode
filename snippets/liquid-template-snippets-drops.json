@@ -174,7 +174,7 @@
 
   "Company drop (with options)": {
     "prefix": "company.",
-    "body": "company.${1|analytical_type_(0..x)_codes,city,company_form,company_type,country,country_code,currency,custom,file_code,locales,name,periods_per_year,postalcode,street,vat_identifier|}",
+    "body": "company.${1|analytical_type_(0..x)_codes,city,company_form,company_type,country,country_code,currency,custom,external_companies,file_code,locales,name,periods_per_year,postalcode,street,vat_identifier|}",
     "description": "Return all drops under the Company drop"
   },
   "Dimension/company set drop": {
@@ -298,7 +298,7 @@
     "body": "accounts",
     "description": "Return all accounts in the period - must use with variable of type period (drop)"
   },
-  "Account mapping list drop (with optiont)": {
+  "Account mapping list drop (with options)": {
     "prefix": "account_mapping_list.",
     "body": "account_mapping_list.${1|name,id,marketplace_template_id|}",
     "description": "All drops under the Account Mapping List drop"
@@ -433,6 +433,28 @@
     "prefix": "user.",
     "body": "user.${1|name,email|}",
     "description": "Return all drops under the User drop"
+  },
+
+
+
+  "External companies drop (with options)": {
+    "prefix": "external_companies.",
+    "body": "external_companies.${1|name,id,period|}",
+    "description": "Return all drops under the External companies drop"
+  },
+  "External companies period drop": {
+    "prefix": "external_companies.period.",
+    "body": "external_companies.period.${1|accounts,reconciliations|}",
+    "description": "All drops under the External companies period drop"
+  },
+  "External companies accounts drop": {
+    "prefix": "external_companies.period.accounts",
+    "body": "external_companies.period.accounts.${1|name,return_values_in_millions,return_values_in_ones,return_values_in_thousands,value|}",
+    "description": "All drops under the External companies period accounts drop"
+  },
+  "External companies reconciliations drop": {
+    "prefix": "external_companies.period.reconciliations",
+    "body": "external_companies.period.reconciliations.${1|count,handle,starred|}",
+    "description": "All drops under the External companies period reconciliations drop"
   }
-  
 }

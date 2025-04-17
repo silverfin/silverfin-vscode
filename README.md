@@ -1212,6 +1212,25 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <tr>
         <td colspan="2">&emsp;</td>
       </tr>
+      <!-- External companies drops -->
+      <tr>
+        <td colspan="2"><b>External companies Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>external_companies.period</code></td>
+        <td>Return period information from the external company</td>
+      </tr>
+      <tr>
+        <td><code>external_companies.period.accounts</code></td>
+        <td>Return external company accounts information</td>
+      </tr>
+      <tr>
+        <td><code>external_companies.period.reconciliations</code></td>
+        <td>Return external company reconciliations information</td>
+      </tr>
+      <tr>
+        <td colspan="2">&emsp;</td>
+      </tr>
       <!-- FILTER SNIPPETS -->
       <tr>
         <td colspan="2">
