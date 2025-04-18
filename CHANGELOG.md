@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.20.0]
+
+- Update Liquid Testing JSON schema to support company links
+
 ## [1.19.3]
 
 - Bump Silverfin CLI version (1.30.3 -> 1.31.0)
