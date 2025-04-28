@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.20.2]
+
+- Revert silverfin-cli version to 1.31.0 (as following versions introduce breaking changes related to liquid testing for account templates currently not supported in the extension)
+
 ## [1.20.1]
 
 - Add new snippets for Inputvalidation and Cross-Company Data
