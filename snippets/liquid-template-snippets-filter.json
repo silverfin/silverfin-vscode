@@ -3,7 +3,7 @@
     "prefix": "allow_false",
     "body": ", allow_false:true",
     "description": [
-      "Add the \"allow_false\" filter to allow falsy values not to be overwritten be default values"
+      "Add the \"allow_false\" filter to allow falsy values not to be overwritten by default values"
     ]
   },
 
@@ -15,7 +15,7 @@
     "description": [
       "Add the \"concat\" filter to combine two arrays/collections",
       "Please note duplicate items will NOT be removed"
-    ]    
+    ]
   },
   "split filter": {
     "prefix": "Split",
@@ -40,7 +40,7 @@
     "body": "| join:\"${1:delimiter}\"",
     "description": [
       "Add the \"join\" filter to combine each item in array into a single String",
-      "Delimiter arguement will determine character(s) to insert between items"
+      "Delimiter argument will determine character(s) to insert between items"
     ]
   },
   "Sort filter": {
@@ -189,7 +189,7 @@
   },
   "retract_months filter": {
     "prefix": "retract_months",
-    "body": "| retract_months:${1:month(s}",
+    "body": "| retract_months:${1:month(s)}",
     "description": "Add the \"retract_months\" filter to retract date by specified number of months"
   },
   "retract_weeks filter": {

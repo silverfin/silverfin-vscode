@@ -464,6 +464,10 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add the assign attribute to assign input value to a variable</td>
       </tr>
       <tr>
+        <td><code>&emsp;validation:</code></td>
+        <td>Add the validation attribute to add an input_validation variable to an input</td>
+      </tr>
+      <tr>
         <td colspan="2">&emsp;</td>
       </tr>
       <!-- Radio Group -->
@@ -841,6 +845,40 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <tr>
         <td colspan="2">&emsp;</td>
       </tr>
+      <!-- Input validation -->
+      <tr>
+        <td colspan="2"><b>Input Validation</b></td>
+      </tr>
+      <tr>
+        <td><code>input_validation integer/currency</code></td>
+        <td>Add an input_validation variable for integers/currencies with min and/or max values</td>
+      </tr>
+      <tr>
+        <td><code>input_validation date</code></td>
+        <td>Add an input_validation variable for dates with start and/or end dates</td>
+      </tr>
+      <tr>
+        <td colspan="2">&emsp;</td>
+      </tr>
+      <!-- External collection attributes -->
+      <tr>
+        <td colspan="2"><b>External collection attributes</b></td>
+      </tr>
+      <tr>
+        <td><code>external_account_collection</code></td>
+        <td>Add the attribute for an external account collection and define the account range</td>
+      </tr>
+      <tr>
+        <td><code>external_company_collection</code></td>
+        <td>Add the attribute for an external company collection which assigns the companies selected in the input to a variable name</td>
+      </tr>
+      <tr>
+        <td><code>single_selection:true</code></td>
+        <td>Add the attribute which limits the external company collection to a single item</td>
+      </tr>
+      <tr>
+        <td colspan="2">&emsp;</td>
+      </tr>
       <!-- DROPS SNIPPETS -->
       <tr>
         <td colspan="2">
@@ -1189,6 +1227,25 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <tr>
         <td><code>user.email</code></td>
         <td>Return email address of the current Silverfin user</td>
+      </tr>
+      <tr>
+        <td colspan="2">&emsp;</td>
+      </tr>
+      <!-- External companies drops -->
+      <tr>
+        <td colspan="2"><b>External companies Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>external_companies.period</code></td>
+        <td>Return period information from the external company</td>
+      </tr>
+      <tr>
+        <td><code>external_companies.period.accounts</code></td>
+        <td>Return external company accounts information</td>
+      </tr>
+      <tr>
+        <td><code>external_companies.period.reconciliations</code></td>
+        <td>Return external company reconciliations information</td>
       </tr>
       <tr>
         <td colspan="2">&emsp;</td>
