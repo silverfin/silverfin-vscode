@@ -103,7 +103,7 @@ function postMessageSetDefaultFirm() {
 // They should also have an attribute named "data-test-name" to identify the test to run
 // They should also have an attribute named "data-template-type" to identify the template type (reconciliationText or accountTemplate)
 // They should also have an attribute named "data-template-handle" to identify the template handle
-// <vscode-button class="run-test" data-html-type="input" data-test-name="test_name">
+// <vscode-button class="run-test" data-html-type="input" data-test-name="test_name" data-template-handle="handle" data-template-type="reconciliationText">
 function runTestButton() {
   const buttons = document.getElementsByClassName("run-test");
   const buttonsArray = Array.from(buttons);

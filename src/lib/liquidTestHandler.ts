@@ -22,6 +22,7 @@ export default class LiquidTestHandler {
   htmlPanel: vscode.WebviewPanel | undefined;
   firstRowRange: vscode.Range;
   templateHandle: string | false = false;
+  templateType: types.testableTemplateTypes | false = false;
   firmId: Number | undefined = undefined;
   optionAllTestsMsg = "Run all Liquid Tests (no html)";
 
@@ -39,10 +40,10 @@ export default class LiquidTestHandler {
   public async runAllTestsCommand() {
     try {
       const prepared = this.prepareToRun();
-      if (!prepared || !this.templateHandle) {
+      if (!prepared || !this.templateHandle || !this.templateType) {
         return;
       }
-      this.runTest(this.templateHandle, "", false, "none");
+      this.runTest(this.templateType, this.templateHandle, "", false, "none");
     } catch (error) {
       this.outputLog(`Error while running command all tests`, { error });
     }
@@ -51,7 +52,7 @@ export default class LiquidTestHandler {
   public async runTestWithOptionsCommand(mode: types.htmlOpenModes) {
     try {
       const prepared = this.prepareToRun();
-      if (!prepared || !this.templateHandle) {
+      if (!prepared || !this.templateHandle || !this.templateType) {
         return;
       }
       const testName = await this.selectTest();
@@ -60,7 +61,13 @@ export default class LiquidTestHandler {
       }
       const htmlRenderMode: types.htmlRenderModes =
         testName === "" ? "none" : mode;
-      this.runTest(this.templateHandle, testName, false, htmlRenderMode);
+      this.runTest(
+        this.templateType,
+        this.templateHandle,
+        testName,
+        false,
+        htmlRenderMode
+      );
     } catch (error) {
       this.outputLog(`Error while running command test with option`, { error });
     }
@@ -69,11 +76,13 @@ export default class LiquidTestHandler {
   /**
    * Run test process. Update diagnostic collection if needed. Open HTML panel if needed. Handle Status Bar status.
    * @param templateHandle Template Handle
+   * @param templateType Template Type
    * @param testName Test Name (empty string for all tests)
    * @param previewOnly If true, the diagnostic collection won't be updated
    * @param htmlRenderMode "all" | "input" | "preview" | "none"
    * */
   public async runTest(
+    templateType: types.testableTemplateTypes,
     templateHandle: string,
     testName: string,
     previewOnly: boolean,
@@ -82,14 +91,15 @@ export default class LiquidTestHandler {
     try {
       this.setStatusBarRunning();
       this.firmId = await this.firmHandler.setFirmID();
+      this.templateType = templateType;
       this.templateHandle = templateHandle;
       this.outputLog("New test run", {
         templateHandle,
+        templateType,
         testName,
         previewOnly,
         htmlRenderMode
       });
-      const templateType = "reconciliationText"; // TODO: temporal fix until account templates are supported
       // Test Run
       let response: types.ResponseObject =
         await SilverfinToolkit.liquidTestRunner.runTests(
@@ -442,11 +452,19 @@ export default class LiquidTestHandler {
     // Set the right path
     utils.setCWD();
 
+    // Check template type
+    const templateType = await templateUtils.getTemplateType(templatePath);
+    if (!templateType) {
+      vscode.window.showErrorMessage("Template type not identified.");
+      return false;
+    }
+    const templateTypePath = templateUtils.FOLDERS[templateType];
+
     // Check if the test file stored in the config is the one running
     const configData = await templateUtils.getTemplateConfigData();
     const testPath = posix.join(
       process.cwd(),
-      "reconciliation_texts",
+      templateTypePath,
       templateHandle,
       configData.test
     );
@@ -547,7 +565,7 @@ export default class LiquidTestHandler {
 
   private outputResponse(response: types.ResponseObject) {
     this.extensionLogger.log(
-      `Firm ID: ${this.firmId}. Template: ${this.templateHandle}`,
+      `Firm ID: ${this.firmId}. Template handle: ${this.templateHandle}. Template type: ${this.templateType}.`,
       JSON.stringify({ response })
     );
   }
