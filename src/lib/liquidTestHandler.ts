@@ -89,10 +89,12 @@ export default class LiquidTestHandler {
         previewOnly,
         htmlRenderMode
       });
+      const templateType = "reconciliationText"; // TODO: temporal fix until account templates are supported
       // Test Run
       let response: types.ResponseObject =
         await SilverfinToolkit.liquidTestRunner.runTests(
           this.firmId,
+          templateType,
           templateHandle,
           testName,
           false,
