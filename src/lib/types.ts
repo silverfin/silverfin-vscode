@@ -109,6 +109,7 @@ export type htmlOpenModes = "input" | "preview";
 
 export type TestRunDetails = {
   templateHandle: string;
+  templateType: testableTemplateTypes;
   testName: string;
   previewOnly: boolean;
   htmlType: htmlRenderModes;
@@ -119,6 +120,8 @@ export type templateTypes =
   | "exportFile"
   | "accountTemplate"
   | "sharedPart";
+
+export type testableTemplateTypes = "reconciliationText" | "accountTemplate";
 
 export type sharedPartUsedIn = {
   id: { [key: string]: Number };

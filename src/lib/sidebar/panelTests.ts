@@ -276,6 +276,7 @@ export default class TestsViewProvider implements vscode.WebviewViewProvider {
         case "run-test":
           previewOnly = message.htmlType === "none" ? false : true;
           this.liquidTestRunner.runTest(
+            message.templateType,
             message.templateHandle,
             message.testName,
             previewOnly,
@@ -296,8 +297,11 @@ export default class TestsViewProvider implements vscode.WebviewViewProvider {
             (await templateUtils.getTemplateHandle()) || "";
           this.lockedHandle = templateHandle;
           previewOnly = message.htmlType === "none" ? false : true;
+          const templateType =
+            (await templateUtils.getTemplateType()) as types.testableTemplateTypes;
           this.testDetails = {
             templateHandle,
+            templateType,
             testName: message.testName,
             previewOnly: previewOnly,
             htmlType: message.htmlType
@@ -319,6 +323,7 @@ export default class TestsViewProvider implements vscode.WebviewViewProvider {
     this.lockedHandle = "";
     this.testDetails = {
       templateHandle: "",
+      templateType: "" as types.testableTemplateTypes,
       testName: "",
       previewOnly: false,
       htmlType: "none"
@@ -367,6 +372,7 @@ export default class TestsViewProvider implements vscode.WebviewViewProvider {
       switch (this.devModeOption) {
         case "liquid-tests":
           this.liquidTestRunner.runTest(
+            this.testDetails.templateType,
             this.testDetails.templateHandle,
             this.testDetails.testName,
             this.testDetails.previewOnly,
