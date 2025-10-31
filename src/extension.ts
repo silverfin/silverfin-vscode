@@ -17,6 +17,11 @@ import StatusBarDevMode from "./lib/statusBar/statusBarDevMode";
 import StatusBarItem from "./lib/statusBar/statusBarItem";
 import TemplateCommander from "./lib/templateCommander";
 import TemplateUpdater from "./lib/templateUpdater";
+import {
+  activateSilverfinLanguageServer,
+  deactivateSilverfinLanguageServer
+} from "./lib/silverfinLanguageClient";
+import { SettingsHandler } from "./lib/settingsHandler";
 
 export async function activate(context: vscode.ExtensionContext) {
   ExtensionContext.set(context);
@@ -46,6 +51,12 @@ export async function activate(context: vscode.ExtensionContext) {
     liquidTestHandler,
     templateUpdater
   );
+
+  // Activate Silverfin Language Server
+  const settings = new SettingsHandler(context);
+  activateSilverfinLanguageServer(context, settings);
 }
 
-export function deactivate() {}
+export function deactivate() {
+  return deactivateSilverfinLanguageServer();
+}

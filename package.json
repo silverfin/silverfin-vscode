@@ -1,11 +1,11 @@
 {
   "name": "silverfin-development-toolkit",
   "displayName": "Silverfin Development Toolkit",
-  "version": "1.24.0",
+  "version": "1.25.0",
   "publisher": "Silverfin",
   "icon": "resources/sf-icon.png",
   "engines": {
-    "vscode": "^1.66.0"
+    "vscode": "^1.82.0"
   },
   "categories": [
     "Snippets",
@@ -29,6 +29,7 @@
     "@vscode/webview-ui-toolkit": "^1.2.2",
     "axios": "^1.17.0",
     "silverfin-cli": "github:silverfin/silverfin-cli#a66cebf325f5050d8028d897d84cd1cde0f0f6ed",
+    "vscode-languageclient": "^9.0.1",
     "yaml": "^2.2.2"
   },
   "contributes": {
@@ -140,6 +141,21 @@
         "path": "./snippets/liquid-template-snippets-tag.json"
       }
     ],
+    "configuration": {
+      "title": "Silverfin",
+      "properties": {
+        "silverfin.languageServerEnable": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable Silverfin Language Server (experimental). Requires `silverfin-ls` to be installed."
+        },
+        "silverfin.languageServerPath": {
+          "type": "string",
+          "default": "",
+          "description": "Set custom path for Silverfin Language Server. Leave empty to use `silverfin-ls` from your PATH."
+        }
+      }
+    },
     "commands": [
       {
         "command": "silverfin-development-toolkit.runAllTests",
@@ -291,12 +307,12 @@
     "@types/glob": "^7.2.0",
     "@types/mocha": "^9.1.0",
     "@types/node": "14.x",
-    "@types/vscode": "^1.66.0",
+    "@types/vscode": "^1.82.0",
     "@types/vscode-webview": "^1.57.1",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
     "@vscode/test-electron": "^2.1.2",
-    "esbuild": "^0.16.17",
+    "esbuild": "^0.25.11",
     "eslint": "^8.56.0",
     "glob": "^7.2.0",
     "mocha": "^11.0.1",

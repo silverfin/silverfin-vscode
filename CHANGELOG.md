@@ -2,6 +2,10 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.25.0]
+
+- Introduce experimental Silverfin Language Server wrapper (`silverfin-ls`)
+
 ## [1.24.0]
 
 - Allow subfolders in template directories
@@ -72,7 +76,7 @@ All notable changes to the "silverfin-development-toolkit" extension will be doc
 ## [1.16.5]
 
 - Fix so different expectation errors in liquid test results are added correctly from quick fixes
-   
+
 ## [1.16.4]
 
 - Fix issue where a wrong list of shared parts was shown if the current default firm ID did not exist in the config of a template
@@ -89,7 +93,7 @@ All notable changes to the "silverfin-development-toolkit" extension will be doc
 ## [1.16.1]
 
 - Fix shared parts Quick Fix
- 
+
 ## [1.16.0]
 
 - New command to run Silverfin CLI commands in bulk. Create, update, import, add shared part, remove shared part, get template id.
