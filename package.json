@@ -1,7 +1,7 @@
 {
   "name": "silverfin-development-toolkit",
   "displayName": "Silverfin Development Toolkit",
-  "version": "1.21.0",
+  "version": "2.0.0",
   "publisher": "Silverfin",
   "icon": "resources/sf-icon.png",
   "engines": {
@@ -28,6 +28,7 @@
     "@vscode/codicons": "^0.0.33",
     "@vscode/webview-ui-toolkit": "^1.2.2",
     "silverfin-cli": "github:silverfin/silverfin-cli",
+    "vscode-languageclient": "^9.0.1",
     "yaml": "^2.2.2"
   },
   "contributes": {
@@ -260,13 +261,15 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
-    "compile": "node ./esbuild.js",
-    "package": "NODE_ENV=production node ./esbuild.js",
+    "compile": "npm run build:language-server && node ./esbuild.js",
+    "package": "npm run build:language-server && NODE_ENV=production node ./esbuild.js",
     "watch": "node ./esbuild.js --watch",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
-    "build:language-config": "node scripts/make-language-configuration"
+    "build:language-config": "node scripts/make-language-configuration",
+    "build:language-server": "cd liquid-ls && npm install && npm run build",
+    "postinstall": "npm run build:language-server"
   },
   "devDependencies": {
     "@types/glob": "^7.2.0",
@@ -277,7 +280,7 @@
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
     "@vscode/test-electron": "^2.1.2",
-    "esbuild": "^0.16.17",
+    "esbuild": "^0.25.11",
     "eslint": "^8.56.0",
     "glob": "^7.2.0",
     "mocha": "^11.0.1",

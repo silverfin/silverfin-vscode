@@ -6,6 +6,18 @@
 
 This extension aims to support the creation of **Liquid templates** with the [Silverfin Templating Language](https://developer.silverfin.com/docs) and the development of [Liquid testing YAML](https://developer.silverfin.com/docs/liquid-testing) files.
 
+## Features
+
+### Language Server Protocol (LSP) Support
+
+The extension now includes a fully integrated **Liquid Language Server** that provides:
+
+- **Hover Information**: Get documentation for Liquid tags, filters, and translation keys directly in your editor
+- **Go to Definition**: Navigate seamlessly to shared parts, text parts, translations, and variables
+- **Context-Aware Intelligence**: The language server understands your template structure and relationships between main templates, text parts, and shared parts
+
+The language server is automatically activated when you open `.liquid` files and runs in the background to provide these features.
+
 ## Setup & Basic Usage
 
 ### Authorisation
