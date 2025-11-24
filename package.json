@@ -122,6 +122,22 @@
         "path": "./snippets/liquid-template-snippets-tag.json"
       }
     ],
+    "configuration": {
+      "title": "Silverfin Liquid",
+      "properties": {
+        "silverfinLiquid.hover.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable hover information for liquid templates"
+        },
+        "silverfinLiquid.logLevel": {
+          "type": "string",
+          "enum": ["debug", "info", "warn", "error", "none"],
+          "default": "info",
+          "description": "Set the log level for the liquid language server"
+        }
+      }
+    },
     "commands": [
       {
         "command": "silverfin-development-toolkit.runAllTests",

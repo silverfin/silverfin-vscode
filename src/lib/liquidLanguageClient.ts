@@ -42,17 +42,25 @@ export function activateLiquidLanguageServer(
     }
   };
 
+  // Get configuration from VS Code settings
+  const config = vscode.workspace.getConfiguration("silverfinLiquid");
+  const hoverEnabled = config.get<boolean>("hover.enabled", true);
+  const logLevel = config.get<string>("logLevel", "info");
+
   // Options to control the language client
   const clientOptions: LanguageClientOptions = {
     // Register the server for liquid documents
     documentSelector: [{ scheme: "file", language: "liquid" }],
     synchronize: {
       // Notify the server about file changes to '.liquid' files contained in the workspace
-      fileEvents: vscode.workspace.createFileSystemWatcher("**/*.liquid")
+      fileEvents: vscode.workspace.createFileSystemWatcher("**/*.liquid"),
+      // Also synchronize configuration changes
+      configurationSection: "silverfinLiquid"
     },
     initializationOptions: {
-      // Pass the log level from extension configuration
-      logLevel: "info"
+      // Pass configuration from VS Code settings
+      hover: hoverEnabled,
+      logLevel: logLevel
     }
   };
 
