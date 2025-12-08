@@ -1,7 +1,7 @@
 {
   "name": "silverfin-development-toolkit",
   "displayName": "Silverfin Development Toolkit",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "publisher": "Silverfin",
   "icon": "resources/sf-icon.png",
   "engines": {
@@ -132,7 +132,13 @@
         },
         "silverfinLiquid.logLevel": {
           "type": "string",
-          "enum": ["debug", "info", "warn", "error", "none"],
+          "enum": [
+            "debug",
+            "info",
+            "warn",
+            "error",
+            "none"
+          ],
           "default": "info",
           "description": "Set the log level for the liquid language server"
         }
