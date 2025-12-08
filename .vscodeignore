@@ -8,3 +8,17 @@ vsc-extension-quickstart.md
 **/.eslintrc.json
 **/*.map
 **/*.ts
+liquid-ls/src/**
+liquid-ls/.git/**
+liquid-ls/.gitignore
+liquid-ls/tsconfig.json
+liquid-ls/jest.config.js
+liquid-ls/eslint.config.mjs
+liquid-ls/fixtures/**
+liquid-ls/package-lock.json
+liquid-ls/README.md
+liquid-ls/mise.toml
+liquid-ls/.prettierrc.json
+!liquid-ls/out/**
+!liquid-ls/node_modules/**
+!liquid-ls/package.json

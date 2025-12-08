@@ -17,6 +17,10 @@ import StatusBarDevMode from "./lib/statusBar/statusBarDevMode";
 import StatusBarItem from "./lib/statusBar/statusBarItem";
 import TemplateCommander from "./lib/templateCommander";
 import TemplateUpdater from "./lib/templateUpdater";
+import {
+  activateLiquidLanguageServer,
+  deactivateLiquidLanguageServer
+} from "./lib/liquidLanguageClient";
 
 export async function activate(context: vscode.ExtensionContext) {
   ExtensionContext.set(context);
@@ -46,6 +50,11 @@ export async function activate(context: vscode.ExtensionContext) {
     liquidTestHandler,
     templateUpdater
   );
+
+  // Activate Liquid Language Server
+  activateLiquidLanguageServer(context);
 }
 
-export function deactivate() {}
+export function deactivate() {
+  return deactivateLiquidLanguageServer();
+}
