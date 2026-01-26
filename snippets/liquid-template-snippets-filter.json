@@ -9,6 +9,26 @@
 
 
 
+  "default filter": {
+    "prefix": "default",
+    "body": "| default:\"${1:fallback_value}\"",
+    "description": [
+      "Add the \"default\" filter to set a fallback value when a variable is nil, false, or empty",
+      "Example: {{ company.company_form | default:\"NV\" }}"
+    ]
+  },
+  "default filter with allow_false": {
+    "prefix": "default-allow-false",
+    "body": "| default:${1:fallback_value}, allow_false:true",
+    "description": [
+      "Add the \"default\" filter with allow_false to preserve falsy values (false, nil, empty)",
+      "Without allow_false, a variable set to 'false' would be replaced by the default value",
+      "Use a comma between default and allow_false"
+    ]
+  },
+
+
+
   "concat filter": {
     "prefix": "concat",
     "body": "| concat",
