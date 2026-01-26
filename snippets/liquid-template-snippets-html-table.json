@@ -81,6 +81,14 @@
       "to % value in range 1 - 100"
     ]
   },
+  "HTML bordered class": {
+    "prefix": "usr-bordered",
+    "body": "usr-bordered",
+    "description": [
+      "Add class to <table> element",
+      "automatically adds borders to the entire table."
+    ]
+  },
   "HTML align left class": {
     "prefix": "usr-align-left",
     "body": "usr-align-left",
