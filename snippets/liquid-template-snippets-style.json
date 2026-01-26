@@ -72,6 +72,25 @@
     "body": "{% ic %}{::warningtext as=\"hover\"}${1:content}{:/warningtext}{% endic %}",
     "description": "The Silverfin templating language gives the opportunity to add warning text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
   },
+  "cautiontext inline tag": {
+    "prefix": "cautiontextinline",
+    "body": "{% ic %}{::cautiontext}${1:content}{:/cautiontext}{% endic %}",
+    "description": "The Silverfin templating language gives the opportunity to add caution text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
+  "cautiontext block tag": {
+    "prefix": "cautiontextblock",
+    "body": [
+      "{% ic %}{::cautiontext}",
+      "${1:content}",
+      "{:/cautiontext}{% endic %}"
+    ],
+    "description": "The Silverfin templating language gives the opportunity to add caution text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
+  "cautiontext hover tag": {
+    "prefix": "cautiontexthover",
+    "body": "{% ic %}{::cautiontext as=\"hover\"}${1:content}{:/cautiontext}{% endic %}",
+    "description": "The Silverfin templating language gives the opportunity to add caution text. There are 3 ways to present it: as an inline element, as a block or as a hover element."
+  },
 
 
 
