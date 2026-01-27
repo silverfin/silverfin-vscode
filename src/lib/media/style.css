@@ -36,3 +36,86 @@ body {
   white-space: pre-wrap;
   word-break: break-all;
 }
+
+/* Editable config fields with inline editing */
+.config-value.editable-click {
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.config-value.editable-click:hover {
+  background-color: var(--vscode-list-hoverBackground);
+}
+
+.config-value.editable-click i.codicon-edit {
+  opacity: 0.5;
+  font-size: 12px;
+}
+
+.config-value.editable-click:hover i.codicon-edit {
+  opacity: 0.8;
+}
+
+/* Boolean field styling - checkbox */
+.config-checkbox {
+  cursor: pointer;
+}
+
+.config-checkbox.save-success {
+  animation: savePulse 0.5s ease;
+}
+
+/* Input fields for inline editing - hidden by default */
+.config-input {
+  margin: 0;
+  display: none !important;
+}
+
+.config-input-string,
+.config-input-dropdown {
+  width: 100%;
+  min-width: 200px;
+}
+
+/* Editing state - when input is visible */
+.config-input.editing {
+  display: block !important;
+}
+
+/* Ensure display values don't look like inputs */
+.config-value {
+  background: transparent;
+  border: none;
+  padding: 2px 4px;
+}
+
+/* Save success feedback */
+.config-value.save-success {
+  background-color: var(--vscode-testing-iconPassed, rgba(0, 200, 0, 0.2)) !important;
+  animation: savePulse 0.5s ease;
+}
+
+/* Save error feedback */
+.config-value.save-error {
+  background-color: var(--vscode-testing-iconFailed, rgba(200, 0, 0, 0.2)) !important;
+  animation: savePulse 0.5s ease;
+}
+
+@keyframes savePulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
