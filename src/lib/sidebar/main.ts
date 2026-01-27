@@ -11,7 +11,8 @@ import {
   vsCodeDropdown,
   vsCodeLink,
   vsCodeOption,
-  vsCodeTag
+  vsCodeTag,
+  vsCodeTextField
 } from "@vscode/webview-ui-toolkit";
 
 provideVSCodeDesignSystem().register(
@@ -23,7 +24,8 @@ provideVSCodeDesignSystem().register(
   vsCodeDataGridCell(),
   vsCodeCheckbox(),
   vsCodeDropdown(),
-  vsCodeOption()
+  vsCodeOption(),
+  vsCodeTextField()
 );
 
 const vscode = acquireVsCodeApi();
@@ -39,6 +41,87 @@ function main() {
   createNewPartButton();
   addSharedPartButton();
   removeSharedPartButton();
+
+  // Handle checkbox changes for boolean fields
+  function setupCheckboxListeners() {
+    const checkboxes = document.querySelectorAll("vscode-checkbox.config-checkbox");
+    checkboxes.forEach((checkbox) => {
+      // Remove existing listeners to avoid duplicates
+      if ((checkbox as any).hasAttribute("data-listener-attached")) {
+        return;
+      }
+      (checkbox as any).setAttribute("data-listener-attached", "true");
+
+      checkbox.addEventListener("change", function (e) {
+        const target = e.target as any;
+        const fieldKey = target.getAttribute("data-field-key");
+        const fieldLabel = target.getAttribute("data-field-label");
+        const isChecked = target.checked;
+
+        if (!fieldKey || !fieldLabel) {
+          return;
+        }
+
+        // Add visual feedback
+        target.classList.add("save-success");
+        setTimeout(() => {
+          target.classList.remove("save-success");
+        }, 500);
+
+        // Save the change
+        postMessageSaveConfigField(fieldKey, isChecked, fieldLabel);
+      });
+    });
+  }
+
+  // Setup checkbox listeners on load
+  setupCheckboxListeners();
+
+  editableConfigFieldsClick();
+
+  // Re-attach event listeners when DOM changes (e.g., after panel refresh)
+  // Use a debounce to avoid excessive calls
+  let timeoutId: NodeJS.Timeout | null = null;
+  const observer = new MutationObserver((mutations) => {
+    // Check if checkboxes or config-value elements were added/removed
+    const hasCheckboxChanges = mutations.some(mutation =>
+      Array.from(mutation.addedNodes).some(node =>
+        node.nodeType === Node.ELEMENT_NODE &&
+        ((node as Element).tagName === "VSCODE-CHECKBOX" ||
+          (node as Element).querySelector?.("vscode-checkbox.config-checkbox"))
+      )
+    );
+
+    const hasConfigChanges = mutations.some(mutation =>
+      Array.from(mutation.addedNodes).some(node =>
+        node.nodeType === Node.ELEMENT_NODE &&
+        (node as Element).querySelector?.(".config-value.editable-click")
+      ) ||
+      Array.from(mutation.removedNodes).some(node =>
+        node.nodeType === Node.ELEMENT_NODE &&
+        (node as Element).querySelector?.(".config-value.editable-click")
+      )
+    );
+
+    if (hasCheckboxChanges) {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        setupCheckboxListeners();
+      }, 100);
+    }
+
+    if (hasConfigChanges) {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        editableConfigFieldsClick();
+      }, 150);
+    }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
 }
 
 // Add event listener to all buttons with class "open-file"
@@ -235,5 +318,149 @@ function removeSharedPartButton() {
 function postMessageRemoveSharedPart() {
   vscode.postMessage({
     type: "remove-shared-part"
+  });
+}
+
+function editableConfigFieldsClick() {
+  const editableFields = document.querySelectorAll(".config-value.editable-click:not([data-listener-attached])");
+  editableFields.forEach((field) => {
+    const fieldElement = field as HTMLElement;
+    // Mark as having listener attached to avoid duplicates
+    fieldElement.setAttribute("data-listener-attached", "true");
+
+    const fieldType = fieldElement.getAttribute("data-field-type");
+
+    // Boolean fields are handled by checkbox listeners, skip them here
+    if (fieldType !== "boolean") {
+      // String and dropdown fields: show input on click
+      fieldElement.addEventListener("click", function (e) {
+        e.stopPropagation();
+        const fieldKey = fieldElement.getAttribute("data-field-key");
+        const fieldLabel = fieldElement.getAttribute("data-field-label");
+        const currentValue = fieldElement.getAttribute("data-field-value");
+        if (!fieldKey || !fieldLabel) {
+          return;
+        }
+
+        // Find the corresponding input element
+        const input = fieldElement.parentElement?.querySelector(`.config-input[data-field-key="${fieldKey}"]`) as HTMLElement;
+        if (!input) {
+          return;
+        }
+
+        // Hide the display value and show the input
+        fieldElement.style.display = "none";
+        input.classList.add("editing");
+
+        // Focus the input
+        if (input instanceof HTMLInputElement || input.tagName === "VSCODE-TEXT-FIELD") {
+          setTimeout(() => {
+            (input as any).focus();
+            if (input instanceof HTMLInputElement) {
+              input.select();
+            }
+          }, 10);
+        } else if (input.tagName === "VSCODE-DROPDOWN") {
+          setTimeout(() => {
+            (input as any).focus();
+          }, 10);
+        }
+
+        // Store original value for cancel
+        input.setAttribute("data-original-value", currentValue || "");
+
+        // Handle save on blur
+        const handleBlur = () => {
+          saveFieldValue(fieldKey, fieldLabel, fieldElement, input);
+        };
+
+        // Handle save on Enter (for text fields)
+        const handleKeyDown = (e: KeyboardEvent) => {
+          if (e.key === "Enter" && input.tagName === "VSCODE-TEXT-FIELD") {
+            e.preventDefault();
+            saveFieldValue(fieldKey, fieldLabel, fieldElement, input);
+          } else if (e.key === "Escape") {
+            e.preventDefault();
+            cancelFieldEdit(fieldElement, input);
+          }
+        };
+
+        // Handle change for dropdowns
+        const handleChange = () => {
+          if (input.tagName === "VSCODE-DROPDOWN") {
+            saveFieldValue(fieldKey, fieldLabel, fieldElement, input);
+          }
+        };
+
+        // Remove old listeners if any
+        input.removeEventListener("blur", handleBlur);
+        input.removeEventListener("keydown", handleKeyDown);
+        input.removeEventListener("change", handleChange);
+
+        // Add new listeners
+        input.addEventListener("blur", handleBlur);
+        input.addEventListener("keydown", handleKeyDown);
+        if (input.tagName === "VSCODE-DROPDOWN") {
+          input.addEventListener("change", handleChange);
+        }
+      });
+    }
+  });
+}
+
+function saveFieldValue(
+  fieldKey: string,
+  fieldLabel: string,
+  displayElement: HTMLElement,
+  inputElement: HTMLElement
+) {
+  let newValue: string | boolean;
+
+  if (inputElement.tagName === "VSCODE-TEXT-FIELD") {
+    newValue = (inputElement as any).value || "";
+  } else if (inputElement.tagName === "VSCODE-DROPDOWN") {
+    newValue = (inputElement as any).value || "";
+  } else {
+    newValue = (inputElement as HTMLInputElement).value || "";
+  }
+
+  const originalValue = inputElement.getAttribute("data-original-value");
+
+  // Only save if value changed
+  if (String(newValue) !== String(originalValue)) {
+    postMessageSaveConfigField(fieldKey, newValue, fieldLabel);
+  } else {
+    // Just hide input and show display
+    inputElement.classList.remove("editing");
+    displayElement.style.display = "";
+  }
+}
+
+function cancelFieldEdit(displayElement: HTMLElement, inputElement: HTMLElement) {
+  // Restore original value
+  const originalValue = inputElement.getAttribute("data-original-value");
+  if (inputElement.tagName === "VSCODE-TEXT-FIELD") {
+    (inputElement as any).value = originalValue || "";
+  } else if (inputElement.tagName === "VSCODE-DROPDOWN") {
+    (inputElement as any).value = originalValue || "";
+  } else {
+    (inputElement as HTMLInputElement).value = originalValue || "";
+  }
+
+  // Hide input and show display
+  inputElement.classList.remove("editing");
+  displayElement.style.display = "";
+}
+
+function postMessageSaveConfigField(
+  fieldKey: string | null,
+  fieldValue: string | boolean,
+  fieldLabel: string | null
+) {
+  vscode.postMessage({
+    type: "save-config-field",
+    fieldKey: fieldKey,
+    fieldValue: fieldValue,
+    fieldLabel: fieldLabel
   });
 }
