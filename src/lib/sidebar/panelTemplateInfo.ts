@@ -161,56 +161,100 @@ export default class TemplateInformationViewProvider
     this.templateType = await templateUtils.getTemplateType();
 
     const configDataEntries = Object.entries(configData) || [];
-    /* eslint-disable */
-    const configItems: any = {
-      reconciliationText: {
-        handle: "Handle",
-        name_en: "Name (en)",
-        name_nl: "Name (nl)",
-        name_fr: "Name (fr)",
-        reconciliation_type: "Reconciliation type",
-        virtual_account_number: "Virtual account number",
-        is_active: "Active?",
-        public: "Public?",
-        externally_managed: "Externally managed?"
-      },
-      sharedPart: {
-        name: "Name"
-      },
-      accountTemplate: {
-        name_en: "Name (en)",
-        name_nl: "Name (nl)",
-        name_fr: "Name (fr)",
-        account_range: "Account range",
-        mapping_list_ranges: "Mapping list ranges"
-      },
-      exportFile: {
-        name: "Name",
-        file_name: "File name",
-        encoding: "Encoding"
-      }
-    };
 
-    /* eslint-enable */
+    // Get field configurations for current template type
+    const fieldConfigs = this.templateType ? this.fieldConfigs[this.templateType] || {} : {};
 
-    // Establish which type of template is being used
-    let items: { [index: string]: any } = {};
-    if (this.templateType) {
-      items = configItems[this.templateType];
-    }
-
+    // Filter to only show fields that have a configuration
     const filtered = configDataEntries.filter(([key, _]) =>
-      Object.keys(items).includes(key)
+      Object.keys(fieldConfigs).includes(key)
     );
 
     const configItemsRows = filtered
       .map(([key, value]) => {
-        return /*html*/ `<vscode-data-grid-row>
+        const displayValue = value ? value : "";
+        const fieldConfig = fieldConfigs[key];
+        if (!fieldConfig) {
+          return ""; // Skip fields without configuration
+        }
+
+        const isEditable = fieldConfig.editable;
+        const fieldType = fieldConfig.type;
+
+        // Format display value for different types
+        let formattedDisplayValue = displayValue;
+        let actualValue = value;
+        if (fieldType === "boolean") {
+          // Handle boolean values - could be true, false, "true", "false", or empty
+          const boolValue = value === true || value === "true";
+          actualValue = boolValue;
+          formattedDisplayValue = boolValue ? "true" : "false";
+        } else if (fieldType === "reconciliation_type") {
+          const options = fieldConfig.options || [];
+          const option = options.find(opt => opt.value === displayValue);
+          formattedDisplayValue = option ? option.label : displayValue;
+        }
+
+        // Generate input HTML based on field type
+        let inputHtml = "";
+        if (fieldType === "string") {
+          inputHtml = /*html*/ `
+            <vscode-text-field
+              class="config-input config-input-string"
+              data-field-key="${key}"
+              value="${this.escapeHtml(String(displayValue))}"
+              style="display: none; width: 100%;"
+            ></vscode-text-field>`;
+        } else if (fieldType === "reconciliation_type") {
+          const options = fieldConfig.options || [];
+          const optionsHtml = options.map((opt: { value: string; label: string }) =>
+            `<vscode-option value="${this.escapeHtml(opt.value)}" ${opt.value === displayValue ? 'selected' : ''}>${this.escapeHtml(opt.label)}</vscode-option>`
+          ).join("");
+          inputHtml = /*html*/ `
+            <vscode-dropdown
+              class="config-input config-input-dropdown"
+              data-field-key="${key}"
+              style="display: none; width: 100%;"
+            >
+              ${optionsHtml}
+            </vscode-dropdown>`;
+        }
+
+        // For boolean fields, render checkbox directly instead of text
+        if (fieldType === "boolean" && isEditable) {
+          const boolValue = actualValue === true || actualValue === "true";
+          return /*html*/ `<vscode-data-grid-row>
                   <vscode-data-grid-cell grid-column="1">
-                    ${items[key]}
+                    ${fieldConfig.label}
                   </vscode-data-grid-cell>
                   <vscode-data-grid-cell grid-column="2" class="vs-actions">
-                    ${value ? value : ""}
+                    <vscode-checkbox
+                      class="config-checkbox"
+                      data-field-key="${key}"
+                      data-field-label="${fieldConfig.label}"
+                      ${boolValue ? 'checked' : ''}
+                    ></vscode-checkbox>
+                  </vscode-data-grid-cell>
+                </vscode-data-grid-row>`;
+        }
+
+        return /*html*/ `<vscode-data-grid-row>
+                  <vscode-data-grid-cell grid-column="1">
+                    ${fieldConfig.label}
+                  </vscode-data-grid-cell>
+                  <vscode-data-grid-cell grid-column="2" class="vs-actions">
+                    <span
+                      class="config-value ${isEditable ? 'editable-click' : ''}"
+                      data-field-key="${key}"
+                      data-field-label="${fieldConfig.label}"
+                      data-field-value="${this.escapeHtml(String(displayValue))}"
+                      data-field-type="${fieldType || ''}"
+                      title="${isEditable ? 'Click to edit' : ''}"
+                    >
+                      ${this.escapeHtml(String(formattedDisplayValue))}
+                      ${isEditable ? '<i class="codicon codicon-edit" style="margin-left: 8px; opacity: 0.6;"></i>' : ''}
+                    </span>
+                    ${inputHtml}
                   </vscode-data-grid-cell>
                 </vscode-data-grid-row>`;
       })
@@ -290,5 +334,16 @@ export default class TemplateInformationViewProvider
     vscode.workspace.onDidSaveTextDocument(() => {
       vscode.commands.executeCommand("template-info-panel.refresh");
     });
+  }
+
+  private escapeHtml(text: string): string {
+    const map: { [key: string]: string } = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    };
+    return text.replace(/[&<>"']/g, (m) => map[m]);
   }
 }
