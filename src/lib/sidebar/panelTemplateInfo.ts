@@ -152,6 +152,7 @@ export default class TemplateInformationViewProvider
       localResourceRoots: [this._extensionUri]
     };
     await this.setContent(webviewView);
+    this.messageHandler(webviewView);
   }
 
   // Section's html created based on the ActiveTextEditor
@@ -281,6 +282,99 @@ export default class TemplateInformationViewProvider
       htmlBody
     );
     webviewView.webview.html = htmlContent;
+  }
+
+  private messageHandler(webviewView: vscode.WebviewView) {
+    webviewView.webview.onDidReceiveMessage(async (message: any) => {
+      switch (message.type) {
+        case "save-config-field":
+          await this.handleSaveConfigField(
+            message.fieldKey,
+            message.fieldValue,
+            message.fieldLabel,
+            webviewView
+          );
+          return;
+      }
+    });
+  }
+
+  private async handleSaveConfigField(
+    fieldKey: string,
+    fieldValue: string | boolean,
+    fieldLabel: string,
+    webviewView: vscode.WebviewView
+  ) {
+    const success = await this.updateConfigField(fieldKey, fieldValue);
+
+    if (success) {
+      // Wait a bit for file system to sync, then refresh
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Force reload the config document if it's open
+      const configPath = await templateUtils.getTemplateConfigPath();
+      if (configPath) {
+        const configUri = vscode.window.activeTextEditor?.document.uri.with({
+          path: configPath
+        });
+        if (configUri) {
+          try {
+            // Re-open the document to get fresh data
+            await vscode.workspace.openTextDocument(configUri);
+          } catch (error) {
+            // Document might not be open, that's okay
+          }
+        }
+      }
+
+      // Refresh the panel to show new value
+      await this.setContent(webviewView);
+    } else {
+      vscode.window.showErrorMessage(
+        `Failed to update ${fieldLabel}`
+      );
+    }
+  }
+
+  private async updateConfigField(
+    fieldKey: string,
+    fieldValue: string | boolean
+  ): Promise<boolean> {
+    try {
+      const configPath = await templateUtils.getTemplateConfigPath();
+      const configData = await templateUtils.getTemplateConfigData();
+
+      if (!configPath || !configData) {
+        return false;
+      }
+
+      // Update the field - preserve type for booleans
+      const fieldType = this.getFieldType(fieldKey);
+      if (fieldType === "boolean") {
+        // Handle boolean values - could be boolean true/false or string "true"/"false"
+        if (typeof fieldValue === "boolean") {
+          configData[fieldKey] = fieldValue;
+        } else {
+          configData[fieldKey] = fieldValue === "true";
+        }
+      } else {
+        configData[fieldKey] = fieldValue;
+      }
+
+      // Write back to file with proper formatting
+      const newConfigData = new Uint8Array(
+        Buffer.from(JSON.stringify(configData, null, 2), "utf8")
+      );
+
+      await vscode.workspace.fs.writeFile(
+        vscode.Uri.file(configPath),
+        newConfigData
+      );
+
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   /**
