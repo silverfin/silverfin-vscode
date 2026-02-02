@@ -200,6 +200,18 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add <code>warningtext</code> tag with the as="hover" attribute</td>
       </tr>
       <tr>
+        <td><code>cautiontextinline</code></td>
+        <td>Add <em>inline</em> <code>cautiontext</code> inside <code>ic</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>cautiontextblock</code></td>
+        <td>Add <em>full-width</em> <code>cautiontext</code> inside <code>ic</code> tags</td>
+      </tr>
+      <tr>
+        <td><code>cautiontexthover</code></td>
+        <td>Add <code>cautiontext</code> tag with the as="hover" attribute</td>
+      </tr>
+      <tr>
         <td colspan="2">&emsp;</td>
       </tr>
       <!-- HTML styling -->
@@ -444,6 +456,10 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add the range sub-attribute to an account collection input</td>
       </tr>
       <tr>
+        <td><code>&emsp;&emsp;accounts_var:</code></td>
+        <td>Add the accounts_var sub-attribute to assign selected accounts to a variable</td>
+      </tr>
+      <tr>
         <td><code>&emsp;placeholder:</code></td>
         <td>Add the placeholder attribute to an input</td>
       </tr>
@@ -589,6 +605,14 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add the forloop.index0 variable inside a for loop</td>
       </tr>
       <tr>
+        <td><code>forloop.rindex</code></td>
+        <td>Add the forloop.rindex variable inside a for loop (reverse index)</td>
+      </tr>
+      <tr>
+        <td><code>forloop.length</code></td>
+        <td>Add the forloop.length variable inside a for loop</td>
+      </tr>
+      <tr>
         <td><code>forloop.first</code></td>
         <td>Add the forloop.first variable inside a for loop</td>
       </tr>
@@ -730,6 +754,10 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add <code>adjustmenttransaction</code> tag</td>
       </tr>
       <tr>
+        <td><code>adjustmenttransaction-analytical</code></td>
+        <td>Add <code>adjustmenttransaction</code> tag with analytical dimension</td>
+      </tr>
+      <tr>
         <td colspan="2">&emsp;</td>
       </tr>
       <!-- Group -->
@@ -858,6 +886,18 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add an input_validation variable for dates with start and/or end dates</td>
       </tr>
       <tr>
+        <td><code>input_validation string</code></td>
+        <td>Add an input_validation variable for strings with min and/or max length</td>
+      </tr>
+      <tr>
+        <td><code>input_validation pattern</code></td>
+        <td>Add an input_validation variable for strings with regex pattern validation</td>
+      </tr>
+      <tr>
+        <td><code>input_validation exclusive</code></td>
+        <td>Add an input_validation variable for numbers with exclusive bounds (min_exclusive/max_exclusive)</td>
+      </tr>
+      <tr>
         <td colspan="2">&emsp;</td>
       </tr>
       <!-- External collection attributes -->
@@ -886,12 +926,20 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         </td>
       </tr>
       <!-- Account drops -->
-      <!-- <tr>
+      <tr>
         <td colspan="2"><b>Account Drops</b></td>
       </tr>
       <tr>
+        <td><code>account.</code></td>
+        <td>Return available properties for a single account drop (access via period.accounts.[account_number])</td>
+      </tr>
+      <tr>
+        <td><code>transaction.</code></td>
+        <td>Return available properties for a transaction drop (access via account.transactions)</td>
+      </tr>
+      <tr>
         <td colspan="2">&emsp;</td>
-      </tr> -->
+      </tr>
       <!-- Accounts drops -->
       <tr>
         <td colspan="2"><b>Accounts Drops</b></td>
@@ -1041,6 +1089,13 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <!-- Custom drops -->
       <!-- People drops -->
       <tr>
+        <td colspan="2"><b>People Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>person.</code></td>
+        <td>Return available properties for a single person drop</td>
+      </tr>
+      <tr>
         <td><code>people.count</code></td>
         <td>Return of count of number of person drops within the people drop (can also use with directors and shareholders drops)</td>
       </tr>
@@ -1102,6 +1157,14 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Return adjustments drop of all adjustments for the period</td>
       </tr>
       <tr>
+        <td><code>adjustment.</code></td>
+        <td>Return available properties for a single adjustment drop</td>
+      </tr>
+      <tr>
+        <td><code>adjustments.</code></td>
+        <td>Return available properties for the adjustments collection drop</td>
+      </tr>
+      <tr>
         <td><code>period.bookyear_index</code></td>
         <td>Return the index number of the current book year as an integer. The first book year equals 1</td>
       </tr>
@@ -1157,8 +1220,16 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         </td>
       </tr>
       <tr>
+        <td><code>reconciliation.</code></td>
+        <td>Return available properties for a single reconciliation drop</td>
+      </tr>
+      <tr>
         <td><code>period.reports</code></td>
         <td>Return a reports drop of all reports for this period. You can ask for a specific report by adding the handle. I.e. period.reports.the_handle</td>
+      </tr>
+      <tr>
+        <td><code>report.</code></td>
+        <td>Return available properties for a single report drop</td>
       </tr>
       <tr>
         <td><code>period.shareholders</code></td>
@@ -1214,6 +1285,10 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Return reconciliations drop of all starred reconciliations</td>
       </tr>
       <tr>
+        <td><code>results.</code></td>
+        <td>Access results from other templates using results.[variable_name]</td>
+      </tr>
+      <tr>
         <td colspan="2">&emsp;</td>
       </tr>
       <!-- User drops -->
@@ -1250,15 +1325,77 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <tr>
         <td colspan="2">&emsp;</td>
       </tr>
+      <!-- Consolidated companies drops -->
+      <tr>
+        <td colspan="2"><b>Consolidated Companies Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>consolidated_companies.</code></td>
+        <td>Return available properties for the consolidated companies drop</td>
+      </tr>
+      <tr>
+        <td><code>consolidated_companies.period.</code></td>
+        <td>Return period information from the consolidated company</td>
+      </tr>
+      <tr>
+        <td><code>consolidated_companies.period.accounts</code></td>
+        <td>Return consolidated company accounts information</td>
+      </tr>
+      <tr>
+        <td><code>consolidated_companies.period.adjustments</code></td>
+        <td>Return consolidated company adjustments information</td>
+      </tr>
+      <tr>
+        <td colspan="2">&emsp;</td>
+      </tr>
+      <!-- Export drops -->
+      <tr>
+        <td colspan="2"><b>Export Drops (Style Settings)</b></td>
+      </tr>
+      <tr>
+        <td><code>export.</code></td>
+        <td>Return available properties for the export drop (only in Style settings)</td>
+      </tr>
+      <tr>
+        <td><code>selected_accounts_and_reconciliation_texts.</code></td>
+        <td>Return properties for selected accounts and reconciliation texts (Detail text section)</td>
+      </tr>
+      <tr>
+        <td><code>toc.</code></td>
+        <td>Return properties for table of contents drop (Table of contents text)</td>
+      </tr>
+      <tr>
+        <td><code>toc_with_title_pages.</code></td>
+        <td>Return properties for table of contents with title pages drop</td>
+      </tr>
+      <tr>
+        <td><code>page.</code></td>
+        <td>Return page number information within export</td>
+      </tr>
+      <tr>
+        <td><code>page_title.</code></td>
+        <td>Return page title information (Title text section)</td>
+      </tr>
+      <tr>
+        <td><code>render_configuration.</code></td>
+        <td>Control what is shown/hidden in input/preview/export view</td>
+      </tr>
+      <tr>
+        <td colspan="2">&emsp;</td>
+      </tr>
       <!-- FILTER SNIPPETS -->
       <tr>
         <td colspan="2">
           <h3>Filter Snippets</h3>
         </td>
       </tr>
-      <!-- Allow false -->
+      <!-- Default and Allow false -->
       <tr>
-        <td colspan="2"><b>Allow False</b></td>
+        <td colspan="2"><b>Default</b></td>
+      </tr>
+      <tr>
+        <td><code>default</code></td>
+        <td>Add the default filter to set a fallback value when a variable is nil, false, or empty</td>
       </tr>
       <tr>
         <td><code>allow_false</code></td>
@@ -1691,6 +1828,10 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <!-- Alignment Classes -->
       <tr>
         <td colspan="2"><i>Alignment Classes</i></td>
+      </tr>
+      <tr>
+        <td><code>usr-bordered</code></td>
+        <td>Add <code>usr-bordered</code> class to add borders to entire table</td>
       </tr>
       <tr>
         <td><code>usr-width-</code></td>

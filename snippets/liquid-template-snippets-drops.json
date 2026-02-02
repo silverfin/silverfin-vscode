@@ -49,7 +49,7 @@
   },
   "Transaction drop (with options)": {
     "prefix": "transactions.[transaction_number].",
-    "body": "transaction.${1|value,date,relation,account|}",
+    "body": "transactions.[${1:transaction_number}].${2|value,date,relation,account|}",
     "description": "All drops under the transaction drop - access via account.transactions"
   },
 
@@ -543,7 +543,7 @@
 
   "Page drop (with options)": {
     "prefix": "page.",
-    "body": "page.${1|number, total_number|}",
+    "body": "page.${1|number,total_number|}",
     "description": "All drops under the page drop - contains information about page numbers within export"
   },
   "Page title drop (with options)": {
