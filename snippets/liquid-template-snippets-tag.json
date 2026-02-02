@@ -600,16 +600,6 @@
       "This can be useful if you only want to rollforward in specific cases."
     ]
   },
-  "rollforward file tag": {
-    "prefix": "rollforward-file",
-    "body": "{% rollforward ${1:source_file_input} ${2:target_file_input} as:file %}",
-    "description": [
-      "Rollforward tag for inputs that contain files.\n",
-      "The as:file attribute is required when copying or clearing file inputs.",
-      "Use {% rollforward nil custom.file.input as:file %} to clear a file input."
-    ]
-  },
-
 
 
   "locale tag": {

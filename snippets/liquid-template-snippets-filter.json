@@ -1,14 +1,4 @@
 {
-  "allow_false filter": {
-    "prefix": "allow_false",
-    "body": ", allow_false:true",
-    "description": [
-      "Add the \"allow_false\" filter to allow falsy values not to be overwritten by default values"
-    ]
-  },
-
-
-
   "default filter": {
     "prefix": "default",
     "body": "| default:\"${1:fallback_value}\"",
@@ -17,13 +7,11 @@
       "Example: {{ company.company_form | default:\"NV\" }}"
     ]
   },
-  "default filter with allow_false": {
-    "prefix": "default-allow-false",
-    "body": "| default:${1:fallback_value}, allow_false:true",
+  "allow_false filter": {
+    "prefix": "allow_false",
+    "body": ", allow_false:true",
     "description": [
-      "Add the \"default\" filter with allow_false to preserve falsy values (false, nil, empty)",
-      "Without allow_false, a variable set to 'false' would be replaced by the default value",
-      "Use a comma between default and allow_false"
+      "Add the \"allow_false\" filter to allow falsy values not to be overwritten by default values"
     ]
   },
 
