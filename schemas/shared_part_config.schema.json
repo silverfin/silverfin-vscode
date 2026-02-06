@@ -35,6 +35,10 @@
       "type": "boolean",
       "description": "Whether the account template can be edited in the Platform UI or only externally"
     },
+    "hide_code": {
+      "type": "boolean",
+      "description": "Whether to hide the underlying code from users"
+    },
     "used_in": {
       "type": "array",
       "description": "List of templates that use this shared part",
