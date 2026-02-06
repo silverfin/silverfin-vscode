@@ -99,21 +99,21 @@
         "url": "./schemas/liquid-tests.schema.json"
       }
     ],
-    "configValidation": [
+    "jsonValidation": [
       {
-        "fileMatch": ["**/reconciliation_texts/*/config.json"],
+        "fileMatch": "**/reconciliation_texts/*/config.json",
         "url": "./schemas/reconciliation_text_config.schema.json"
       },
       {
-        "fileMatch": ["**/account_templates/*/config.json"],
+        "fileMatch": "**/account_templates/*/config.json",
         "url": "./schemas/account_template_config.schema.json"
       },
       {
-        "fileMatch": ["**/shared_parts/*/config.json"],
+        "fileMatch": "**/shared_parts/*/config.json",
         "url": "./schemas/shared_part_config.schema.json"
       },
       {
-        "fileMatch": ["**/export_files/*/config.json"],
+        "fileMatch": "**/export_files/*/config.json",
         "url": "./schemas/export_file_config.schema.json"
       }
     ],
