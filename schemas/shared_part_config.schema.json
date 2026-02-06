@@ -33,7 +33,7 @@
     },
     "externally_managed": {
       "type": "boolean",
-      "description": "Whether the account template can be edited in the Platform UI or only externally"
+      "description": "Whether the shared part can be edited in the Platform UI or only externally"
     },
     "hide_code": {
       "type": "boolean",
