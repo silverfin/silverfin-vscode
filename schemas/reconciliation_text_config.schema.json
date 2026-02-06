@@ -37,77 +37,64 @@
     "handle": {
       "type": "string",
       "description": "Unique identifier for the reconciliation text (lowercase with underscores)",
-      "pattern": "^[a-z0-9_]+$"
+      "pattern": "^[a-zA-Z0-9_]+$"
     },
     "name_en": {
-      "type": "string",
-      "description": "Display name in English",
-      "minLength": 1
+      "type": ["string", "null"],
+      "description": "Display name in English"
     },
     "name_fr": {
-      "type": "string",
-      "description": "Display name in French",
-      "minLength": 1
+      "type": ["string", "null"],
+      "description": "Display name in French"
     },
     "name_nl": {
       "type": "string",
-      "description": "Display name in Dutch",
+      "description": "Display name in Dutch (required)",
       "minLength": 1
     },
     "name_de": {
-      "type": "string",
-      "description": "Display name in German",
-      "minLength": 1
+      "type": ["string", "null"],
+      "description": "Display name in German"
     },
     "name_da": {
-      "type": "string",
-      "description": "Display name in Danish",
-      "minLength": 1
+      "type": ["string", "null"],
+      "description": "Display name in Danish"
     },
     "name_se": {
-      "type": "string",
-      "description": "Display name in Swedish",
-      "minLength": 1
+      "type": ["string", "null"],
+      "description": "Display name in Swedish"
     },
     "name_fi": {
-      "type": "string",
-      "description": "Display name in Finnish",
-      "minLength": 1
+      "type": ["string", "null"],
+      "description": "Display name in Finnish"
     },
     "description_en": {
-      "type": "string",
-      "description": "Partner description name in English",
-      "minLength": 1
+      "type": ["string", "null"],
+      "description": "Partner description in English"
     },
     "description_fr": {
-      "type": "string",
-      "description": "Partner description name in French",
-      "minLength": 1
+      "type": ["string", "null"],
+      "description": "Partner description in French"
     },
     "description_nl": {
-      "type": "string",
-      "description": "Partner description name in Dutch",
-      "minLength": 1
+      "type": ["string", "null"],
+      "description": "Partner description in Dutch"
     },
     "description_de": {
-      "type": "string",
-      "description": "Partner description name in German",
-      "minLength": 1
+      "type": ["string", "null"],
+      "description": "Partner description in German"
     },
     "description_da": {
-      "type": "string",
-      "description": "Partner description name in Danish",
-      "minLength": 1
+      "type": ["string", "null"],
+      "description": "Partner description in Danish"
     },
     "description_se": {
-      "type": "string",
-      "description": "Partner description name in Swedish",
-      "minLength": 1
+      "type": ["string", "null"],
+      "description": "Partner description in Swedish"
     },
     "description_fi": {
-      "type": "string",
-      "description": "Partner description name in Finnish",
-      "minLength": 1
+      "type": ["string", "null"],
+      "description": "Partner description in Finnish"
     },
     "auto_hide_formula": {
       "type": "string",
@@ -159,7 +146,7 @@
       "description": "Whether the output can be downloaded as a DOCX file"
     },
     "test_firm_id": {
-      "type": "integer",
+      "type": ["integer", "string", "null"],
       "description": "The firm ID to use for the liquid test"
     },
     "text": {
