@@ -1,0 +1,145 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "export_file_config.schema.json",
+  "title": "Export File Configuration",
+  "description": "Schema for config.json files in export_files directory",
+  "type": "object",
+  "required": [
+    "id",
+    "name_nl",
+    "file_name",
+    "externally_managed",
+    "text",
+    "text_parts"
+  ],
+  "properties": {
+    "id": {
+      "type": "object",
+      "description": "Maps internal system IDs to numeric identifiers for different partner systems",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "minProperties": 1
+    },
+    "partner_id": {
+      "type": "object",
+      "description": "Maps partner codes to numeric partner identifiers",
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "name_en": {
+      "type": "string",
+      "description": "Display name in English",
+      "minLength": 1
+    },
+    "name_fr": {
+      "type": "string",
+      "description": "Display name in French",
+      "minLength": 1
+    },
+    "name_nl": {
+      "type": "string",
+      "description": "Unique identifier for the account template in Dutch",
+      "minLength": 1
+    },
+    "name_de": {
+      "type": "string",
+      "description": "Display name in German",
+      "minLength": 1
+    },
+    "name_da": {
+      "type": "string",
+      "description": "Display name in Danish",
+      "minLength": 1
+    },
+    "name_se": {
+      "type": "string",
+      "description": "Display name in Swedish",
+      "minLength": 1
+    },
+    "name_fi": {
+      "type": "string",
+      "description": "Display name in Finnish",
+      "minLength": 1
+    },
+    "description_en": {
+      "type": "string",
+      "description": "Partner description name in English",
+      "minLength": 1
+    },
+    "description_fr": {
+      "type": "string",
+      "description": "Partner description name in French",
+      "minLength": 1
+    },
+    "description_nl": {
+      "type": "string",
+      "description": "Partner description name in Dutch",
+      "minLength": 1
+    },
+    "description_de": {
+      "type": "string",
+      "description": "Partner description name in German",
+      "minLength": 1
+    },
+    "description_da": {
+      "type": "string",
+      "description": "Partner description name in Danish",
+      "minLength": 1
+    },
+    "description_se": {
+      "type": "string",
+      "description": "Partner description name in Swedish",
+      "minLength": 1
+    },
+    "description_fi": {
+      "type": "string",
+      "description": "Partner description name in Finnish",
+      "minLength": 1
+    },
+    "file_name": {
+      "type": "string",
+      "description": "Name of the export file",
+      "minLength": 1
+    },
+    "externally_managed": {
+      "type": "boolean",
+      "description": "Whether the account template can be edited in the Platform UI or only externally"
+    },
+    "encoding": {
+      "type": "string",
+      "description": "Encoding of the export file"
+    },
+    "published": {
+      "type": "boolean",
+      "description": "Whether the account template is published/released"
+    },
+    "hide_code": {
+      "type": "boolean",
+      "description": "Whether to hide the underlying code from users"
+    },
+    "download_warning": {
+      "type": "string",
+      "description": "Warning message to display when an invalid export file is downloaded"
+    },
+    "test_firm_id": {
+      "type": "integer",
+      "description": "The firm ID to use for the liquid test"
+    },
+    "text": {
+      "type": "string",
+      "description": "Path to the main Liquid template file",
+      "const": "main.liquid"
+    },
+    "text_parts": {
+      "type": "object",
+      "description": "Maps component names to their Liquid template file paths",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": ".*\\.liquid$"
+      }
+    }
+  },
+  "additionalProperties": false
+}
