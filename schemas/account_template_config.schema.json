@@ -115,7 +115,7 @@
       "description": "List of account mapping configurations for different environments",
       "items": {
         "type": "object",
-        "required": ["account_range", "type", "env_id"],
+        "required": ["account_range"],
         "properties": {
           "account_range": {
             "type": "string",
@@ -132,27 +132,13 @@
           },
           "partner_account_mapping_list_id": {
             "type": "integer",
-            "description": "Partner mapping list ID (used when type is 'partner')"
+            "description": "Partner mapping list ID"
           },
           "account_mapping_list_id": {
             "type": "integer",
-            "description": "Firm mapping list ID (used when type is 'firm')"
+            "description": "Firm mapping list ID"
           }
-        },
-        "oneOf": [
-          {
-            "properties": {
-              "type": { "const": "partner" }
-            },
-            "required": ["partner_account_mapping_list_id"]
-          },
-          {
-            "properties": {
-              "type": { "const": "firm" }
-            },
-            "required": ["account_mapping_list_id"]
-          }
-        ]
+        }
       }
     },
     "published": {
