@@ -221,22 +221,38 @@ export default class TemplateInformationViewProvider
             </vscode-dropdown>`;
         }
 
-        // For boolean fields, render checkbox directly instead of text
-        if (fieldType === "boolean" && isEditable) {
+        // For boolean fields, render checkbox (editable) or checkmark icon (non-editable)
+        if (fieldType === "boolean") {
           const boolValue = actualValue === true || actualValue === "true";
-          return /*html*/ `<vscode-data-grid-row>
-                  <vscode-data-grid-cell grid-column="1">
-                    ${fieldConfig.label}
-                  </vscode-data-grid-cell>
-                  <vscode-data-grid-cell grid-column="2" class="vs-actions">
-                    <vscode-checkbox
-                      class="config-checkbox"
-                      data-field-key="${key}"
-                      data-field-label="${fieldConfig.label}"
-                      ${boolValue ? 'checked' : ''}
-                    ></vscode-checkbox>
-                  </vscode-data-grid-cell>
-                </vscode-data-grid-row>`;
+          
+          if (isEditable) {
+            // Editable: show interactive checkbox
+            return /*html*/ `<vscode-data-grid-row>
+                    <vscode-data-grid-cell grid-column="1">
+                      ${fieldConfig.label}
+                    </vscode-data-grid-cell>
+                    <vscode-data-grid-cell grid-column="2" class="vs-actions">
+                      <vscode-checkbox
+                        class="config-checkbox"
+                        data-field-key="${key}"
+                        data-field-label="${fieldConfig.label}"
+                        ${boolValue ? 'checked' : ''}
+                      ></vscode-checkbox>
+                    </vscode-data-grid-cell>
+                  </vscode-data-grid-row>`;
+          } else {
+            // Non-editable: show static checkmark icon
+            return /*html*/ `<vscode-data-grid-row>
+                    <vscode-data-grid-cell grid-column="1">
+                      ${fieldConfig.label}
+                    </vscode-data-grid-cell>
+                    <vscode-data-grid-cell grid-column="2" class="vs-actions">
+                      <span class="config-value-boolean">
+                        ${boolValue ? '<i class="codicon codicon-check"></i>' : ''}
+                      </span>
+                    </vscode-data-grid-cell>
+                  </vscode-data-grid-row>`;
+          }
         }
 
         return /*html*/ `<vscode-data-grid-row>

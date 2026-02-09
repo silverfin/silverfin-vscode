@@ -70,6 +70,19 @@ body {
   animation: savePulse 0.5s ease;
 }
 
+/* Static boolean display (non-editable) */
+.config-value-boolean {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.config-value-boolean i.codicon-check {
+  color: var(--vscode-checkbox-foreground, var(--vscode-foreground));
+  font-size: 14px;
+}
+
 /* Input fields for inline editing - hidden by default */
 .config-input {
   margin: 0;
