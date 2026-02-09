@@ -196,10 +196,6 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add <em>full-width</em> <code>warningtext</code> inside <code>ic</code> tags</td>
       </tr>
       <tr>
-        <td><code>warningtexthover</code></td>
-        <td>Add <code>warningtext</code> tag with the as="hover" attribute</td>
-      </tr>
-      <tr>
         <td><code>cautiontextinline</code></td>
         <td>Add <em>inline</em> <code>cautiontext</code> inside <code>ic</code> tags</td>
       </tr>
@@ -878,11 +874,43 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td colspan="2"><b>Input Validation</b></td>
       </tr>
       <tr>
+        <td><code>input_validation</code></td>
+        <td>Add an input_validation variable with the possible attributes</td>
+      </tr>
+      <tr>
+        <td><code>&emsp;as:numeric</code></td>
+        <td>Add the attribute for a numeric input</td>
+      </tr>
+      <tr>
+        <td><code>&emsp;as:numeric_exclusive</code></td>
+        <td>Add the attribute for a numeric input with exclusive bounds</td>
+      </tr>
+      <tr>
+        <td><code>&emsp;as:date_range</code></td>
+        <td>Add the attribute for a date range input with start and/or end dates</td>
+      </tr>
+      <tr>
+        <td><code>&emsp;as:string</code></td>
+        <td>Add the attribute for a string input with min and/or max length</td>
+      </tr>
+      <tr>
+        <td><code>&emsp;as:pattern</code></td>
+        <td>Add the attribute for a string input with regex pattern validation</td>
+      </tr>
+      <tr>
+        <td><code>&emsp;validation:</code></td>
+        <td>Add the validation attribute to an input_validation variable</td>
+      </tr>
+      <tr>
         <td><code>input_validation integer/currency</code></td>
         <td>Add an input_validation variable for integers/currencies with min and/or max values</td>
       </tr>
       <tr>
-        <td><code>input_validation date</code></td>
+        <td><code>input_validation exclusive</code></td>
+        <td>Add an input_validation variable for numbers with exclusive bounds (min_exclusive/max_exclusive)</td>
+      </tr>
+      <tr>
+        <td><code>input_validation date_range</code></td>
         <td>Add an input_validation variable for dates with start and/or end dates</td>
       </tr>
       <tr>
@@ -892,10 +920,6 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <tr>
         <td><code>input_validation pattern</code></td>
         <td>Add an input_validation variable for strings with regex pattern validation</td>
-      </tr>
-      <tr>
-        <td><code>input_validation exclusive</code></td>
-        <td>Add an input_validation variable for numbers with exclusive bounds (min_exclusive/max_exclusive)</td>
       </tr>
       <tr>
         <td colspan="2">&emsp;</td>
@@ -925,24 +949,17 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
           <h3>Drops Snippets</h3>  
         </td>
       </tr>
-      <!-- Account drops -->
-      <tr>
-        <td colspan="2"><b>Account Drops</b></td>
-      </tr>
-      <tr>
-        <td><code>account.</code></td>
-        <td>Return available properties for a single account drop (access via period.accounts.[account_number])</td>
-      </tr>
-      <tr>
-        <td><code>transaction.</code></td>
-        <td>Return available properties for a transaction drop (access via account.transactions)</td>
-      </tr>
-      <tr>
-        <td colspan="2">&emsp;</td>
-      </tr>
       <!-- Accounts drops -->
       <tr>
         <td colspan="2"><b>Accounts Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>accounts.[account_number].</code></td>
+        <td>Access a single account and its properties (value, name, number, transactions, etc.)</td>
+      </tr>
+      <tr>
+        <td><code>accounts.[account_number].transactions.[some_transaction].</code></td>
+        <td>Access transaction properties (value, date, relation, account)</td>
       </tr>
       <tr>
         <td>
@@ -1092,8 +1109,8 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td colspan="2"><b>People Drops</b></td>
       </tr>
       <tr>
-        <td><code>person.</code></td>
-        <td>Return available properties for a single person drop</td>
+        <td><code>people.[some_person].</code></td>
+        <td>Access a single person and its properties (name, email, director, shareholder, etc.)</td>
       </tr>
       <tr>
         <td><code>people.count</code></td>
@@ -1153,18 +1170,6 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Return the id of the mapping list on the marketplace</td>
       </tr>
       <tr>
-        <td><code>period.adjustments</code></td>
-        <td>Return adjustments drop of all adjustments for the period</td>
-      </tr>
-      <tr>
-        <td><code>adjustment.</code></td>
-        <td>Return available properties for a single adjustment drop</td>
-      </tr>
-      <tr>
-        <td><code>adjustments.</code></td>
-        <td>Return available properties for the adjustments collection drop</td>
-      </tr>
-      <tr>
         <td><code>period.bookyear_index</code></td>
         <td>Return the index number of the current book year as an integer. The first book year equals 1</td>
       </tr>
@@ -1220,16 +1225,8 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         </td>
       </tr>
       <tr>
-        <td><code>reconciliation.</code></td>
-        <td>Return available properties for a single reconciliation drop</td>
-      </tr>
-      <tr>
         <td><code>period.reports</code></td>
         <td>Return a reports drop of all reports for this period. You can ask for a specific report by adding the handle. I.e. period.reports.the_handle</td>
-      </tr>
-      <tr>
-        <td><code>report.</code></td>
-        <td>Return available properties for a single report drop</td>
       </tr>
       <tr>
         <td><code>period.shareholders</code></td>
@@ -1262,6 +1259,30 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <tr>
         <td colspan="2">&emsp;</td>
       </tr>
+      <!-- Adjustments drops -->
+      <tr>
+        <td colspan="2"><b>Adjustments Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>adjustment.</code></td>
+        <td>Return available properties for a single adjustment drop</td>
+      </tr>
+      <tr>
+        <td><code>adjustments</code></td>
+        <td>Return all adjustments in the period - must use with variable of type period (drop)</td>
+      </tr>
+      <tr>
+        <td><code>adjustments.</code></td>
+        <td>Return available properties for the adjustments collection drop</td>
+      </tr>
+      <!-- Person drops -->
+      <tr>
+        <td colspan="2"><b>Person Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>person.</code></td>
+        <td>Access a single person and its properties (name, email, director, shareholder, etc.)</td>
+      </tr>
       <!-- Reconciliations -->
       <tr>
         <td colspan="2"><b>Reconciliations Drops</b></td>
@@ -1281,16 +1302,38 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         </td>
       </tr>
       <tr>
+Ÿ        <td><code>reconciliations.[reconciliation_handle].results.[variable_name]</code></td>
+        <td>Access results from other templates using the specific reconciliation handle and variable name, e.g., <code>reconciliations.[handle].results.[variable_name]</code></td>
+      </tr>
+      <tr>
         <td><code>reconciliations.star</code></td>
         <td>Return reconciliations drop of all starred reconciliations</td>
       </tr>
       <tr>
-        <td><code>results.</code></td>
-        <td>Access results from other templates using results.[variable_name]</td>
+        <td><code>reconciliation.</code></td>
+        <td>Return available properties for a single reconciliation drop</td>
       </tr>
       <tr>
         <td colspan="2">&emsp;</td>
       </tr>
+      <!-- Reports drops -->
+       <tr>
+        <td colspan="2"><b>Reports Drops</b></td>
+      </tr>
+      <tr>
+        <td><code>reports.</code></td>
+        <td>Return available properties for the reports collection drop</td>
+      </tr>
+      <tr>
+        <td><code>reports.[report_handle].</code></td>
+        <td>Return available properties for a single report drop</td>
+      </tr>
+      <tr>
+      <tr>
+        <td><code>report.</code></td>
+        <td>Return available properties for a single report drop</td>
+      </tr>
+      <tr> 
       <!-- User drops -->
       <tr>
         <td colspan="2"><b>User Drops</b></td>
@@ -1311,7 +1354,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td colspan="2"><b>External companies Drops</b></td>
       </tr>
       <tr>
-        <td><code>external_companies.period</code></td>
+        <td><code>external_companies.period.</code></td>
         <td>Return period information from the external company</td>
       </tr>
       <tr>
