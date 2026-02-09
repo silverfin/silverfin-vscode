@@ -561,7 +561,7 @@
   },
 
 
-  
+
   "Toc with title pages drop (with options)": {
     "prefix": "toc_with_title_pages.",
     "body": "toc_with_title_pages.${1|anchor,number,title,type,until_number|}",
@@ -575,6 +575,9 @@
     "body": "page.${1|number,total_number|}",
     "description": "All drops under the page drop - contains information about page numbers within export"
   },
+
+
+  
   "Page title drop (with options)": {
     "prefix": "page_title.",
     "body": "page_title.${1|title|}",
