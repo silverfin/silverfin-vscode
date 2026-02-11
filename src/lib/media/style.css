@@ -105,6 +105,22 @@ body {
   background: transparent;
   border: none;
   padding: 2px 4px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* JSON/Object display formatting */
+.config-value pre {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: var(--vscode-editor-font-family, monospace);
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  color: var(--vscode-descriptionForeground);
 }
 
 /* Save success feedback */

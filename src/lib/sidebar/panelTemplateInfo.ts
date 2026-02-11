@@ -37,8 +37,7 @@ type FieldConfigMap = {
  * Provider that handles the view for Template Information
  */
 export default class TemplateInformationViewProvider
-  implements vscode.WebviewViewProvider
-{
+  implements vscode.WebviewViewProvider {
   private readonly viewType = "template-info";
   private _view?: vscode.WebviewView;
   private templateType!: types.templateTypes | false;
@@ -105,7 +104,7 @@ export default class TemplateInformationViewProvider
       description_se: { label: "Description (se)", editable: true, type: "string" },
       description_fi: { label: "Description (fi)", editable: true, type: "string" },
       account_range: { label: "Account range", editable: true, type: "string" },
-      mapping_list_ranges: { label: "Mapping list ranges", editable: true, type: "string" },
+      mapping_list_ranges: { label: "Mapping list ranges", editable: false, type: "string" },
       externally_managed: { label: "Externally managed?", editable: false, type: "boolean" },
       published: { label: "Published?", editable: true, type: "boolean" },
       hide_code: { label: "Hide code?", editable: true, type: "boolean" },
@@ -194,6 +193,20 @@ export default class TemplateInformationViewProvider
           const options = fieldConfig.options || [];
           const option = options.find(opt => opt.value === displayValue);
           formattedDisplayValue = option ? option.label : displayValue;
+        } else if (key === "mapping_list_ranges" && Array.isArray(value)) {
+          // Format as human-readable: "407 (partner), 408 (partner)"
+          formattedDisplayValue = value
+            .map((item: any) => {
+              if (typeof item === "object" && item !== null) {
+                const range = item.account_range ?? item.range ?? "?";
+                const type = item.type ?? "";
+                return type ? `${range} (${type})` : String(range);
+              }
+              return String(item);
+            })
+            .join(", ");
+        } else if (typeof value === "object" && value !== null) {
+          formattedDisplayValue = JSON.stringify(value);
         }
 
         // Generate input HTML based on field type
@@ -224,7 +237,7 @@ export default class TemplateInformationViewProvider
         // For boolean fields, render checkbox (editable) or checkmark icon (non-editable)
         if (fieldType === "boolean") {
           const boolValue = actualValue === true || actualValue === "true";
-          
+
           if (isEditable) {
             // Editable: show interactive checkbox
             return /*html*/ `<vscode-data-grid-row>
@@ -255,6 +268,14 @@ export default class TemplateInformationViewProvider
           }
         }
 
+        // Check if this is JSON formatted content (for arrays/objects)
+        const isJsonFormatted = typeof formattedDisplayValue === 'string' &&
+          (formattedDisplayValue.startsWith('[') || formattedDisplayValue.startsWith('{'));
+
+        const displayContent = isJsonFormatted
+          ? `<pre>${this.escapeHtml(String(formattedDisplayValue))}</pre>`
+          : this.escapeHtml(String(formattedDisplayValue));
+
         return /*html*/ `<vscode-data-grid-row>
                   <vscode-data-grid-cell grid-column="1">
                     ${fieldConfig.label}
@@ -268,7 +289,7 @@ export default class TemplateInformationViewProvider
                       data-field-type="${fieldType || ''}"
                       title="${isEditable ? 'Click to edit' : ''}"
                     >
-                      ${this.escapeHtml(String(formattedDisplayValue))}
+                      ${displayContent}
                       ${isEditable ? '<i class="codicon codicon-edit" style="margin-left: 8px; opacity: 0.6;"></i>' : ''}
                     </span>
                     ${inputHtml}
