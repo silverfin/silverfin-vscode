@@ -194,17 +194,21 @@ export default class TemplateInformationViewProvider
           const option = options.find(opt => opt.value === displayValue);
           formattedDisplayValue = option ? option.label : displayValue;
         } else if (key === "mapping_list_ranges" && Array.isArray(value)) {
-          // Format as human-readable: "407 (partner), 408 (partner)"
-          formattedDisplayValue = value
-            .map((item: any) => {
-              if (typeof item === "object" && item !== null) {
-                const range = item.account_range ?? item.range ?? "?";
-                const type = item.type ?? "";
-                return type ? `${range} (${type})` : String(range);
-              }
-              return String(item);
-            })
-            .join(", ");
+          // Render as multiple grid rows: section label in col 1, then each property as indented label (col 1) + value (col 2)
+          const mappingRows = this.formatMappingListRangesAsRows(value);
+          return mappingRows
+            .map(
+              (row) => /*html*/ `
+                  <vscode-data-grid-row>
+                    <vscode-data-grid-cell grid-column="1">
+                      <span style="white-space: pre">${this.escapeHtml(row.label)}</span>
+                    </vscode-data-grid-cell>
+                    <vscode-data-grid-cell grid-column="2" class="vs-actions">
+                      <span class="config-value">${this.escapeHtml(row.value)}</span>
+                    </vscode-data-grid-cell>
+                  </vscode-data-grid-row>`
+            )
+            .join("");
         } else if (typeof value === "object" && value !== null) {
           formattedDisplayValue = JSON.stringify(value);
         }
@@ -268,7 +272,7 @@ export default class TemplateInformationViewProvider
           }
         }
 
-        // Check if this is JSON formatted content (for arrays/objects)
+        // Use <pre> for multi-line or JSON content so formatting is preserved
         const isJsonFormatted = typeof formattedDisplayValue === 'string' &&
           (formattedDisplayValue.startsWith('[') || formattedDisplayValue.startsWith('{'));
 
@@ -465,6 +469,39 @@ export default class TemplateInformationViewProvider
     vscode.workspace.onDidSaveTextDocument(() => {
       vscode.commands.executeCommand("template-info-panel.refresh");
     });
+  }
+
+  /**
+   * Format mapping_list_ranges as grid rows: section label in col 1, then each property
+   * as indented label (col 1) + value (col 2). Indented labels align with "Mapping list ranges".
+   */
+  private formatMappingListRangesAsRows(items: any[]): Array<{ label: string; value: string }> {
+    const labelForKey: Record<string, string> = {
+      account_range: "Account range",
+      type: "Type",
+      env_id: "Environment id",
+      partner_account_mapping_list_id: "Mapping list id (P)",
+      account_mapping_list_id: "Mapping list id (F)"
+    };
+    const keyOrder = ["account_range", "type", "env_id", "partner_account_mapping_list_id", "account_mapping_list_id"];
+    // Use non-breaking spaces so indent is preserved (HTML collapses normal spaces in grid cells)
+    const indent = "\u00A0\u00A0\u00A0\u00A0";
+
+    const rows: Array<{ label: string; value: string }> = [];
+    rows.push({ label: "Mapping list ranges", value: "" });
+
+    for (const item of items) {
+      if (typeof item !== "object" || item === null) {
+        rows.push({ label: indent + String(item), value: "" });
+        continue;
+      }
+      const keys = keyOrder.filter((k) => item[k] !== undefined && item[k] !== null && item[k] !== "");
+      for (const k of keys) {
+        const humanLabel = labelForKey[k] ?? k;
+        rows.push({ label: indent + humanLabel, value: String(item[k]) });
+      }
+    }
+    return rows;
   }
 
   private escapeHtml(text: string): string {
