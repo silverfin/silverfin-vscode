@@ -130,7 +130,6 @@ export default class TemplateInformationViewProvider
       encoding: { label: "Encoding", editable: true, type: "string" },
       published: { label: "Published?", editable: true, type: "boolean" },
       hide_code: { label: "Hide code?", editable: true, type: "boolean" },
-      download_warning: { label: "Download warning", editable: true, type: "string" },
       test_firm_id: { label: "Test firm ID", editable: true, type: "number" }
     }
   };
