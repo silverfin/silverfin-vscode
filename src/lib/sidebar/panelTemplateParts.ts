@@ -138,16 +138,19 @@ export default class TemplatePartsViewProvider
     partNames = Object.keys(configData.text_parts) || [];
     const partsRows = partNames
       .map(
-        (partName: string, index: number) => /*html*/ `<vscode-data-grid-row>
+        (partName: string, index: number) => {
+          const partPath = configData.text_parts[partName];
+          return /*html*/ `<vscode-data-grid-row>
                         <vscode-data-grid-cell grid-column="1">
                         ${index + 1}. ${partName}
                         </vscode-data-grid-cell>
                         <vscode-data-grid-cell grid-column="2" class="vs-actions">
-                          <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/${templateFolder}/${handle}/text_parts/${partName}.liquid" title="Open file in a new tab">
+                          <vscode-button appearance="icon" aria-label="Open-file" class="open-file" data-value="/${templateFolder}/${handle}/${partPath}" title="Open file in a new tab">
                             <i class="codicon codicon-go-to-file"></i>
                           </vscode-button>
                         </vscode-data-grid-cell>
-                      </vscode-data-grid-row>`
+                      </vscode-data-grid-row>`;
+        }
       )
       .join("");
 
