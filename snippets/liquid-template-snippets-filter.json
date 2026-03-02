@@ -1,4 +1,12 @@
 {
+  "default filter": {
+    "prefix": "default",
+    "body": "| default:\"${1:fallback_value}\"",
+    "description": [
+      "Add the \"default\" filter to set a fallback value when a variable is nil, false, or empty",
+      "Example: {{ company.company_form | default:\"NV\" }}"
+    ]
+  },
   "allow_false filter": {
     "prefix": "allow_false",
     "body": ", allow_false:true",

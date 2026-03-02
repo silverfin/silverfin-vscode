@@ -42,6 +42,16 @@
     "body": "accounts.${1|assets,bs_rounding_account,bs_rounding_difference,count,credit_value,debit_value,equity,expenses,first,including_zeros,income,liabilities,name,p_and_l_rounding_account,p_and_l_rounding_difference,revenues,return_value_in_millions,return_value_in_thousands,starred|}",
     "description": "All drops under the accounts drop"
   },
+  "Account drop (with options)": { 
+    "prefix": "accounts.[account_number].",
+    "body": "accounts.[${1:account_number}].${2|asset?,asset_or_expense,credit_value,custom,debit_value,equity?,expense?,id,income?,liability?,liability_or_income,link,name,mapped_number,number,opening_value,original_name,original_number,results,transactions,value,value_without_adjustments|}",
+    "description": "All drops under the account drop - access a single account via period.accounts.[account_number]"
+  },
+  "Transaction drop (with options)": {
+    "prefix": "accounts.[account_number].transactions.",
+    "body": "accounts.[${1:account_number}].transactions.[${2:some_transaction}].${3|value,date,relation,account|}",
+    "description": "All drops under the transaction drop - access via accounts.[account_number].transactions"
+  },
 
   "Starred accounts drop": {
     "prefix": "starred",
@@ -265,6 +275,11 @@
     "body": "first.${1|address_1,address_2,amount_of_shares,amount_of_votes,custom,director,director_end_date,director_start_date,email,external_id,name,persistent_id,shareholder,statutory|}",
     "description": "All drops under the person drop"
   },
+  "Person (with options)": {
+    "prefix": "people.[some_person].",
+    "body": "people.[${1:some_person}].${2|address_1,address_2,amount_of_shares,amount_of_votes,custom,director,director_end_date,director_start_date,email,external_id,name,persistent_id,shareholder,statutory|}",
+    "description": "All drops under the person drop - access via period.people.[some_person] or people.first"
+  },
   "Active as directors filter": {
     "prefix": "active_as_director",
     "body": "active_as_director",
@@ -307,11 +322,6 @@
     "prefix": "marketplace_template_id",
     "body": "marketplace_template_id",
     "description": "Return id of Mapping List on the marketplace - must use with variable of type period (integer)"
-  },
-  "Adjustments drop": {
-    "prefix": "adjustments",
-    "body": "adjustments",
-    "description": "Return all adjustments in the period - must use with variable of type period (drop)"
   },
   "Bookyear index method": {
     "prefix": "bookyear_index",
@@ -358,21 +368,7 @@
     "body": "people",
     "description": "Return all people in the period - must use with variable of type period (drop)"
   },
-  "Reconciliations drop": {
-    "prefix": "reconciliations",
-    "body": "reconciliations",
-    "description": "Return all reconciliations in the period - must use with variable of type period (drop)"
-  },
-  "Reports drop": {
-    "prefix": "reports",
-    "body": "reports",
-    "description": "Return collection of Reports for the period - must use with variable of type period (drop)"
-  },
-  "Report drop": {
-    "prefix": "reports.[report handle]",
-    "body": "reports.${1:[report handle]}",
-    "description": "Return specific report for the period - must use with variable of type period (drop)"
-  },
+  
   "Shareholders drop": {
     "prefix": "shareholders",
     "body": "shareholders",
@@ -411,10 +407,51 @@
 
 
 
+  "Adjustment drop (with options)": {
+    "prefix": "adjustment.",
+    "body": "adjustment.${1|name,number,period,tags,purpose,external?,internal?,from_reverse?,from_forward?,from_copy?,forward_account,transactions|}",
+    "description": "All drops under the adjustment drop - access via period.adjustments.[adjustment_number]"
+  },
+  "Adjustments drop": {
+    "prefix": "adjustments",
+    "body": "adjustments",
+    "description": "Return all adjustments in the period - must use with variable of type period (drop)"
+  },
+  "Adjustments drop (with options)": {
+    "prefix": "adjustments.",
+    "body": "adjustments.${1|count,first|}",
+    "description": "All drops under the adjustments drop"
+  },
+
+
+
+  "Person drop (with options)": {
+    "prefix": "person.",
+    "body": "person.${1|address_1,address_2,amount_of_shares,amount_of_votes,custom,director,director_end_date,director_start_date,email,external_id,name,persistent_id,shareholder,statutory|}",
+    "description": "All drops under the person drop - access via period.people.[person_id] or people.first"
+  },
+
+
+
+  "Reconciliations drop": {
+    "prefix": "reconciliations",
+    "body": "reconciliations",
+    "description": "Return all reconciliations in the period - must use with variable of type period (drop)"
+  },
+  "Reconciliation drop (with options)": {
+    "prefix": "reconciliation.[reconciliation_handle].",
+    "body": "reconciliation.[${1:reconciliation_handle}].${2|handle,hidden?,name,number,results,starred?,exists?|}",
+    "description": "All drops under the reconciliation drop - access via period.reconciliations.[handle]. Always check .exists? before accessing other properties"
+  },
   "Reconciliations drop (with options)": {
     "prefix": "reconciliations.",
     "body": "reconciliations.${1|[reconciliation_handle],count,star|}",
     "description": "All drops under the Reconciliations drop"
+  },
+  "Results drop (with options)": {
+    "prefix": "reconciliations.[reconciliation_handle].results.",
+    "body": "reconciliations.[${1:reconciliation_handle}].results.${2|[variable_name]|}",
+    "description": "Access results from other templates - use format reconciliations.results.[variable_name]"
   },
   "Starred reconciliations drop": {
     "prefix": "starred",
@@ -429,6 +466,24 @@
 
 
 
+  "Reports drop": {
+    "prefix": "reports.",
+    "body": "reports.${1|[report_handle],count|}",
+    "description": "Return collection of Reports for the period - must use with variable of type period (drop)"
+  },
+  "Report drop": {
+    "prefix": "reports.[report handle]",
+    "body": "reports.${1:[report handle]}",
+    "description": "Return specific report for the period - must use with variable of type period (drop)"
+  },
+  "Report drop (with options)": {
+    "prefix": "report.",
+    "body": "report.${1|name,results,[report_handle]|}",
+    "description": "All drops under the report drop - access via period.reports.[report_handle]"
+  },
+
+
+
   "User drops (with options)": {
     "prefix": "user.",
     "body": "user.${1|name,email|}",
@@ -439,7 +494,7 @@
 
   "External companies drop (with options)": {
     "prefix": "external_companies.",
-    "body": "external_companies.${1|name,id,period|}",
+    "body": "external_companies.${1|file_code,name,id,period|}",
     "description": "Return all drops under the External companies drop"
   },
   "External companies period drop": {
@@ -449,12 +504,88 @@
   },
   "External companies accounts drop": {
     "prefix": "external_companies.period.accounts",
-    "body": "external_companies.period.accounts.${1|name,return_values_in_millions,return_values_in_ones,return_values_in_thousands,value|}",
+    "body": "external_companies.period.accounts.${1|[account_number].,name,return_values_in_millions,return_values_in_ones,return_values_in_thousands,value|}",
     "description": "All drops under the External companies period accounts drop"
   },
   "External companies reconciliations drop": {
     "prefix": "external_companies.period.reconciliations",
-    "body": "external_companies.period.reconciliations.${1|count,handle,starred|}",
+    "body": "external_companies.period.reconciliations.${1|[reconciliation_handle].,count,starred|}",
     "description": "All drops under the External companies period reconciliations drop"
+  },
+
+
+
+  "Consolidated companies drop (with options)": {
+    "prefix": "consolidated_companies.",
+    "body": "consolidated_companies.${1|id,file_code,name,period,join_date,exit_date,parent,currency|}",
+    "description": "All drops under the consolidated_companies drop - access to consolidated company information"
+  },
+  "Consolidated companies period drop": {
+    "prefix": "consolidated_companies.period.",
+    "body": "consolidated_companies.period.${1|accounts,adjustments|}",
+    "description": "All drops under the consolidated companies period drop"
+  },
+  "Consolidated companies period accounts drop": {
+    "prefix": "consolidated_companies.period.accounts",
+    "body": "consolidated_companies.period.accounts.${1|[account_number].,name,return_values_in_millions,return_values_in_ones,return_values_in_thousands,value|}",
+    "description": "All drops under the consolidated companies period accounts drop"
+  },
+  "Consolidated companies period adjustments drop": {
+    "prefix": "consolidated_companies.period.adjustments",
+    "body": "consolidated_companies.period.adjustments.${1|[adjustment_number].,count,external,first,internal|}",
+    "description": "All drops under the consolidated companies period adjustments drop"
+  },
+
+
+
+  "Export drop (with options)": {
+    "prefix": "export.",
+    "body": "export.${1|title,current_title,header_text,toc,toc_with_title_pages,highlight_text_color,highlight_bg_color,highlight_alt_text_color,highlight_alt_bg_color,selected_accounts,selected_accounts_and_reconciliation_texts|}",
+    "description": "All drops under the export drop - can only be used within sections inside Style settings. Available properties vary by section: Cover/Title (title), Header (current_title,header_text,title), Detail (current_title,highlight_*,selected_accounts,selected_accounts_and_reconciliation_texts), Page number (current_title)"
+  },
+
+
+
+  "Selected accounts and reconciliation texts drop (with options)": {
+    "prefix": "selected_accounts_and_reconciliation_texts.",
+    "body": "selected_accounts_and_reconciliation_texts.${1|accounts,assets,equity,empty?,expenses,incomes,include_zeros,is_account,liabilities,name,p_and_l,reconciliation_texts,rendered_template,unreconciled_value,value|}",
+    "description": "All drops under the selected_accounts_and_reconciliation_texts drop - can only be used in Detail text section within Style settings. Contains all Reconciliations and accounts selected in export. Note: unreconciled_value and value are accounts only"
+  },
+
+
+
+  "Toc drop (with options)": {
+    "prefix": "toc.",
+    "body": "toc.${1|anchor,number,title,type,until_number|}",
+    "description": "All drops under the toc drop - can only be used in Table of contents text within Style settings"
+  },
+
+
+  
+  "Toc with title pages drop (with options)": {
+    "prefix": "toc_with_title_pages.",
+    "body": "toc_with_title_pages.${1|anchor,number,title,type,until_number|}",
+    "description": "All drops under the toc_with_title_pages drop - can only be used in Table of contents text within Style settings"
+  },
+
+
+
+  "Page drop (with options)": {
+    "prefix": "page.",
+    "body": "page.${1|number,total_number|}",
+    "description": "All drops under the page drop - contains information about page numbers within export"
+  },
+  "Page title drop (with options)": {
+    "prefix": "page_title.",
+    "body": "page_title.${1|title|}",
+    "description": "All drops under the page_title drop - can only be used in Title text within Style settings. Returns current page number without counting cover pages"
+  },
+
+
+
+  "Render configuration drop (with options)": {
+    "prefix": "render_configuration.",
+    "body": "render_configuration.${1|inputs?,documents?|}",
+    "description": "All drops under the render_configuration drop - controls what is shown/hidden in input/preview/export view"
   }
 }

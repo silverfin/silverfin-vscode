@@ -209,6 +209,15 @@
       "\"4__7\": This range will return all 4, 5, 6 and 7 accounts."
     ]
   },
+  "accounts_var attribute": {
+    "prefix": "accounts_var:",
+    "body": "accounts_var:${1:variable_name}",
+    "description": [
+      "Optional attribute for account_collection input.\n",
+      "Assigns the selected accounts to a variable name.\n",
+      "Equivalent to: {% assign var = period.accounts | range:custom.drop.acc %}"
+    ]
+  },
 
   "precision attribute": {
     "prefix": "precision",
@@ -496,6 +505,16 @@
     "body": "forloop.index0",
     "description": "Return the index of the current iteration (zero based)."
   },
+  "forloop rindex": {
+    "prefix": "forloop.rindex",
+    "body": "forloop.rindex",
+    "description": "Return the index of the current iteration in descending order."
+  },
+  "forloop length": {
+    "prefix": "forloop.length",
+    "body": "forloop.length",
+    "description": "Return, in each iteration, the length of the entire loop."
+  },
   "forloop first": {
     "prefix": "forloop.first",
     "body": "forloop.first",
@@ -581,7 +600,7 @@
       "This can be useful if you only want to rollforward in specific cases."
     ]
   },
-
+  
 
 
   "locale tag": {
@@ -705,6 +724,14 @@
     "body": "{% adjustmenttransaction account_number:${1:number} description:\"${2:text}\" value:${3:value} %}",
     "description": [
       "Define transaction inside Adjustment Button."
+    ]
+  },
+  "adjustment transaction with analytical dimension": {
+    "prefix": "adjustmenttransaction-analytical",
+    "body": "{% adjustmenttransaction account_number:${1:number} description:\"${2:text}\" value:${3:value} analytical_dimension_1_id:${4:dimension.code} %}",
+    "description": [
+      "Define transaction inside Adjustment Button with analytical dimension.\n",
+      "Use analytical_dimension_1_id to specify an analytical dimension or consolidation file."
     ]
   },
 
@@ -839,8 +866,43 @@
   },
 
 
-
-  "inputvalidation integer/currency": {
+  "input_validation": {
+    "prefix": "input_validation",
+    "body": "{% input_validation \"${1:validation_name}\" %}",
+    "description": [
+      "With input_validation you can validate how data is created."
+    ]
+  },
+  "as numeric attribute": {
+    "prefix": "as:numeric",
+    "body": "as:numeric min:${2:value} max:${3:value}",
+    "description": [
+      "When using the \"as numeric\", a standard string field is shown as a numeric value with decimals."
+    ]
+  },
+  "as date_range attribute": {
+    "prefix": "as:date_range",
+    "body": "as:date_range start_date:${2:YYYY-MM-DD} end_date:${3:YYYY-MM-DD}",
+    "description": [
+      "When using the \"as date_range\", a date range field is shown.\n",
+      "You can add a start date and/or end date."
+    ]
+  },
+  "as pattern attribute": {
+    "prefix": "as:pattern",
+    "body": "as:pattern pattern:\"${2:^regex$}\" validation_text:\"${3:Custom error message}\"",
+    "description": [
+      "When using the \"as pattern\", a string field is shown with a regex pattern validation."
+    ]
+  },
+  "input_validation integer/currency": {
+    "as numeric_exclusive attribute": {
+      "prefix": "as:numeric_exclusive",
+      "body":  "as:numeric min_exclusive:${2:0} max_exclusive:${3:100}",
+      "description": [
+        "When using the \"as exclusive\", a numeric field is shown with exclusive bounds."
+      ]
+    },
     "prefix": "input_validation integer/currency",
     "body": "{% input_validation \"${1:validation_name}\" as:numeric min:${2:value} max:${3:value} %}",
     "description": [
@@ -854,6 +916,33 @@
     "description": [
       "With input_validation you can validate how data is created.\n",
       "For dates you can add a start date and/or end date."
+    ]
+  },
+  "inputvalidation string": {
+    "prefix": "input_validation string",
+    "body": "{% input_validation \"${1:validation_name}\" min_length:${2:1} max_length:${3:100} %}",
+    "description": [
+      "With input_validation you can validate how data is created.\n",
+      "For strings you can add min_length and/or max_length."
+    ]
+  },
+  "inputvalidation pattern": {
+    "prefix": "input_validation pattern",
+    "body": "{% input_validation \"${1:validation_name}\" pattern:\"${2:^regex$}\" validation_text:\"${3:Custom error message}\" %}",
+    "description": [
+      "With input_validation you can validate string format using regex.\n",
+      "The pattern attribute contains a regex pattern.\n",
+      "The validation_text attribute provides a custom error message.\n",
+      "Optionally use pattern_flags for regex modifiers (e.g., 'i' for case-insensitive)."
+    ]
+  },
+  "inputvalidation numeric exclusive": {
+    "prefix": "input_validation exclusive",
+    "body": "{% input_validation \"${1:validation_name}\" as:numeric min_exclusive:${2:0} max_exclusive:${3:100} %}",
+    "description": [
+      "With input_validation you can validate numeric data with exclusive bounds.\n",
+      "min_exclusive:0 means value must be greater than 0 (not equal to).\n",
+      "Useful for validating positive-only or negative-only values."
     ]
   },
   "validation attribute": {
