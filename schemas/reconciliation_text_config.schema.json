@@ -1,0 +1,167 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "reconciliation_text_config.schema.json",
+  "title": "Reconciliation Text Configuration",
+  "description": "Schema for config.json files in reconciliation_texts directory",
+  "type": "object",
+  "required": [
+    "id",
+    "handle",
+    "name_nl",
+    "reconciliation_type",
+    "externally_managed",
+    "text",
+    "text_parts"
+  ],
+  "properties": {
+    "id": {
+      "type": "object",
+      "description": "Maps internal system IDs to numeric identifiers for different partner systems",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "minProperties": 1
+    },
+    "partner_id": {
+      "type": "object",
+      "description": "Maps partner codes to numeric partner identifiers",
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "test": {
+      "type": "string",
+      "description": "Path to the test file for this reconciliation text",
+      "pattern": "^tests/.*_liquid_test\\.yml$"
+    },
+    "handle": {
+      "type": "string",
+      "description": "Unique identifier for the reconciliation text (lowercase with underscores)",
+      "pattern": "^[a-zA-Z0-9_]+$"
+    },
+    "name_en": {
+      "type": ["string", "null"],
+      "description": "Display name in English"
+    },
+    "name_fr": {
+      "type": ["string", "null"],
+      "description": "Display name in French"
+    },
+    "name_nl": {
+      "type": "string",
+      "description": "Display name in Dutch (required)",
+      "minLength": 1
+    },
+    "name_de": {
+      "type": ["string", "null"],
+      "description": "Display name in German"
+    },
+    "name_da": {
+      "type": ["string", "null"],
+      "description": "Display name in Danish"
+    },
+    "name_se": {
+      "type": ["string", "null"],
+      "description": "Display name in Swedish"
+    },
+    "name_fi": {
+      "type": ["string", "null"],
+      "description": "Display name in Finnish"
+    },
+    "description_en": {
+      "type": ["string", "null"],
+      "description": "Partner description in English"
+    },
+    "description_fr": {
+      "type": ["string", "null"],
+      "description": "Partner description in French"
+    },
+    "description_nl": {
+      "type": ["string", "null"],
+      "description": "Partner description in Dutch"
+    },
+    "description_de": {
+      "type": ["string", "null"],
+      "description": "Partner description in German"
+    },
+    "description_da": {
+      "type": ["string", "null"],
+      "description": "Partner description in Danish"
+    },
+    "description_se": {
+      "type": ["string", "null"],
+      "description": "Partner description in Swedish"
+    },
+    "description_fi": {
+      "type": ["string", "null"],
+      "description": "Partner description in Finnish"
+    },
+    "auto_hide_formula": {
+      "type": "string",
+      "description": "Liquid/formula expression to conditionally hide the reconciliation (can be empty)"
+    },
+    "virtual_account_number": {
+      "type": "string",
+      "description": "Identifier/reference number for the virtual account or tax code"
+    },
+    "reconciliation_type": {
+      "type": "string",
+      "description": "Defines the reconciliation type for the reconciliation text",
+      "enum": [
+        "can_be_reconciled_without_data",
+        "only_reconciled_with_data",
+        "reconciliation_not_necessary"
+      ]
+    },
+    "public": {
+      "type": "boolean",
+      "description": "Whether the reconciliation is publicly visible/available"
+    },
+    "allow_duplicate_reconciliations": {
+      "type": "boolean",
+      "description": "Whether multiple instances of this reconciliation can be created"
+    },
+    "is_active": {
+      "type": "boolean",
+      "description": "Whether this reconciliation is currently active"
+    },
+    "externally_managed": {
+      "type": "boolean",
+      "description": "Whether the reconciliation can be edited in the Platform UI or only externally"
+    },
+    "published": {
+      "type": "boolean",
+      "description": "Whether the reconciliation is published/released"
+    },
+    "hide_code": {
+      "type": "boolean",
+      "description": "Whether to hide the underlying code from users"
+    },
+    "use_full_width": {
+      "type": "boolean",
+      "description": "Whether the reconciliation should use full page width in display"
+    },
+    "downloadable_as_docx": {
+      "type": "boolean",
+      "description": "Whether the output can be downloaded as a DOCX file"
+    },
+    "test_firm_id": {
+      "type": ["integer", "string", "null"],
+      "description": "The firm ID to use for the liquid test"
+    },
+    "text": {
+      "type": "string",
+      "description": "Path to the main Liquid template file",
+      "const": "main.liquid"
+    },
+    "text_parts": {
+      "type": "object",
+      "description": "Maps component names to their Liquid template file paths",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": ".*\\.liquid$"
+      }
+    }
+  },
+  "additionalProperties": false
+}

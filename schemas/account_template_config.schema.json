@@ -1,0 +1,171 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "account_template_config.schema.json",
+  "title": "Account Template Configuration",
+  "description": "Schema for config.json files in account_templates directory",
+  "type": "object",
+  "required": [
+    "id",
+    "name_nl",
+    "externally_managed",
+    "text",
+    "text_parts"
+  ],
+  "properties": {
+    "id": {
+      "type": "object",
+      "description": "Maps internal system IDs to numeric identifiers for different partner systems",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "minProperties": 1
+    },
+    "partner_id": {
+      "type": "object",
+      "description": "Maps partner codes to numeric partner identifiers",
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "test": {
+      "type": "string",
+      "description": "Path to the test file for this account template",
+      "pattern": "^tests/.*_liquid_test\\.yml$"
+    },
+    "name_en": {
+      "type": "string",
+      "description": "Display name in English",
+      "minLength": 1
+    },
+    "name_fr": {
+      "type": "string",
+      "description": "Display name in French",
+      "minLength": 1
+    },
+    "name_nl": {
+      "type": "string",
+      "description": "Unique identifier for the account template in Dutch",
+      "minLength": 1
+    },
+    "name_de": {
+      "type": "string",
+      "description": "Display name in German",
+      "minLength": 1
+    },
+    "name_da": {
+      "type": "string",
+      "description": "Display name in Danish",
+      "minLength": 1
+    },
+    "name_se": {
+      "type": "string",
+      "description": "Display name in Swedish",
+      "minLength": 1
+    },
+    "name_fi": {
+      "type": "string",
+      "description": "Display name in Finnish",
+      "minLength": 1
+    },
+    "description_en": {
+      "type": "string",
+      "description": "Partner description name in English",
+      "minLength": 1
+    },
+    "description_fr": {
+      "type": "string",
+      "description": "Partner description name in French",
+      "minLength": 1
+    },
+    "description_nl": {
+      "type": "string",
+      "description": "Partner description name in Dutch",
+      "minLength": 1
+    },
+    "description_de": {
+      "type": "string",
+      "description": "Partner description name in German",
+      "minLength": 1
+    },
+    "description_da": {
+      "type": "string",
+      "description": "Partner description name in Danish",
+      "minLength": 1
+    },
+    "description_se": {
+      "type": "string",
+      "description": "Partner description name in Swedish",
+      "minLength": 1
+    },
+    "description_fi": {
+      "type": "string",
+      "description": "Partner description name in Finnish",
+      "minLength": 1
+    },
+    "externally_managed": {
+      "type": "boolean",
+      "description": "Whether the account template can be edited in the Platform UI or only externally"
+    },
+    "account_range": {
+      "type":"string",
+      "description": "Range of accounts for which this account template can be used"
+    },
+    "mapping_list_ranges": {
+      "type": "array",
+      "description": "List of account mapping configurations for different environments",
+      "items": {
+        "type": "object",
+        "required": ["account_range"],
+        "properties": {
+          "account_range": {
+            "type": "string",
+            "description": "Comma-separated account numbers or ranges"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["partner", "firm"],
+            "description": "Whether this mapping is partner-level or firm-level"
+          },
+          "env_id": {
+            "type": "string",
+            "description": "Environment identifier"
+          },
+          "partner_account_mapping_list_id": {
+            "type": "integer",
+            "description": "Partner mapping list ID"
+          },
+          "account_mapping_list_id": {
+            "type": "integer",
+            "description": "Firm mapping list ID"
+          }
+        }
+      }
+    },
+    "published": {
+      "type": "boolean",
+      "description": "Whether the account template is published/released"
+    },
+    "hide_code": {
+      "type": "boolean",
+      "description": "Whether to hide the underlying code from users"
+    },
+    "test_firm_id": {
+      "type": "integer",
+      "description": "The firm ID to use for the liquid test"
+    },
+    "text": {
+      "type": "string",
+      "description": "Path to the main Liquid template file",
+      "const": "main.liquid"
+    },
+    "text_parts": {
+      "type": "object",
+      "description": "Maps component names to their Liquid template file paths",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": ".*\\.liquid$"
+      }
+    }
+  },
+  "additionalProperties": false
+}
