@@ -826,9 +826,11 @@
       "type": "object",
       "additionalProperties": false,
       "patternProperties": {
-        "^[^\\.]+$": {
-          "type": ["null", "boolean", "number", "string", "array"]
-        }
+        "^[^\\.]+$": { "type": ["null", "boolean", "number", "string", "array"] }
+      },
+      "properties": {
+        "_updated_at": { "type": "string", "format": "date-time" },
+        "_value": { "type": ["null", "boolean", "number", "string", "array"] }
       }
     },
     "namedResult": {
