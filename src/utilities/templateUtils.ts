@@ -1,4 +1,5 @@
 import { posix } from "path";
+import * as fs from "fs";
 import * as vscode from "vscode";
 import * as utils from "./utils";
 
@@ -219,20 +220,41 @@ export async function getTemplateParts() {
   return Object.keys(templateConfigData.text_parts);
 }
 
+/**
+ * Recursively get all part names (relative paths without .liquid) under text_parts.
+ * Supports flat (part_name) and nested (subfolder/part_name, subfolder1/subfolder2/part_name) paths.
+ */
+async function getPartNamesFromDirectory(partsPath: string): Promise<string[]> {
+  const partNames: string[] = [];
+  const entries = await vscode.workspace.fs.readDirectory(
+    vscode.Uri.file(partsPath)
+  );
+  for (const [name, fileType] of entries) {
+    if (fileType === vscode.FileType.File && name.endsWith(".liquid")) {
+      partNames.push(name.replace(".liquid", ""));
+    } else if (fileType === vscode.FileType.Directory) {
+      const subPath = posix.join(partsPath, name);
+      const subNames = await getPartNamesFromDirectory(subPath);
+      partNames.push(...subNames.map((sub) => `${name}/${sub}`));
+    }
+  }
+  return partNames;
+}
+
 export async function removeDeletedParts() {
   const templateBasePath = await getTemplateBasePath();
   if (!templateBasePath) {
     return false;
   }
   const partsPath = posix.join(templateBasePath, "text_parts");
-  const parts = await vscode.workspace.fs.readDirectory(
-    vscode.Uri.file(partsPath)
-  );
-  const partsInDirectory = parts.map((part) => part[0].replace(".liquid", ""));
+  const partsInDirectory = await getPartNamesFromDirectory(partsPath);
   const partsInConfig = await getTemplateParts();
 
   const partsToDelete = partsInConfig.filter(
-    (part) => !partsInDirectory.includes(part)
+    (part) =>
+      !partsInDirectory.some(
+        (dirPart) => dirPart === part || dirPart.endsWith(`/${part}`)
+      )
   );
 
   if (partsToDelete.length === 0) {
@@ -272,7 +294,7 @@ async function createTemplatePart(partName: string) {
   }
   const newPartPath = posix.join(
     templateBasePath,
-    `text_parts`,
+    "text_parts",
     `${partName}.liquid`
   );
   const newPartContent = Uint8Array.from(

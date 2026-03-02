@@ -79,7 +79,10 @@ export default class PartsVerifier {
 
     // Compare the two arrays and find the differences (parts used but not existing)
     const missingParts = partsUsed.filter(
-      (part) => !existingParts.includes(part)
+      (part) =>
+        !existingParts.some(
+          (existing) => existing === part || part.endsWith(`/${existing}`)
+        )
     );
     if (missingParts.length === 0) {
       this.extensionLogger.log("All parts already exist.");
