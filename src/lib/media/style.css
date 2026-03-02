@@ -36,3 +36,115 @@ body {
   white-space: pre-wrap;
   word-break: break-all;
 }
+
+/* Editable config fields with inline editing */
+.config-value.editable-click {
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.config-value.editable-click:hover {
+  background-color: var(--vscode-list-hoverBackground);
+}
+
+.config-value.editable-click i.codicon-edit {
+  opacity: 0.5;
+  font-size: 12px;
+}
+
+.config-value.editable-click:hover i.codicon-edit {
+  opacity: 0.8;
+}
+
+/* Boolean field styling - checkbox */
+.config-checkbox {
+  cursor: pointer;
+}
+
+.config-checkbox.save-success {
+  animation: savePulse 0.5s ease;
+}
+
+/* Static boolean display (non-editable) */
+.config-value-boolean {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.config-value-boolean i.codicon-check {
+  color: var(--vscode-checkbox-foreground, var(--vscode-foreground));
+  font-size: 14px;
+}
+
+/* Input fields for inline editing - hidden by default */
+.config-input {
+  margin: 0;
+  display: none !important;
+}
+
+.config-input-string,
+.config-input-dropdown {
+  width: 100%;
+  min-width: 200px;
+}
+
+/* Editing state - when input is visible */
+.config-input.editing {
+  display: block !important;
+}
+
+/* Ensure display values don't look like inputs */
+.config-value {
+  background: transparent;
+  border: none;
+  padding: 2px 4px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* JSON/Object display formatting */
+.config-value pre {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: var(--vscode-editor-font-family, monospace);
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  color: var(--vscode-descriptionForeground);
+}
+
+/* Save success feedback */
+.config-value.save-success {
+  background-color: var(--vscode-testing-iconPassed, rgba(0, 200, 0, 0.2)) !important;
+  animation: savePulse 0.5s ease;
+}
+
+/* Save error feedback */
+.config-value.save-error {
+  background-color: var(--vscode-testing-iconFailed, rgba(200, 0, 0, 0.2)) !important;
+  animation: savePulse 0.5s ease;
+}
+
+@keyframes savePulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
