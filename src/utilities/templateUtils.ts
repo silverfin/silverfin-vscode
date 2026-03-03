@@ -1,5 +1,4 @@
 import { posix } from "path";
-import * as fs from "fs";
 import * as vscode from "vscode";
 import * as utils from "./utils";
 
@@ -215,6 +214,10 @@ export async function getTemplateLiquidTestsPath() {
   }
 }
 
+/**
+ * Returns the list of part names (flat identifiers) from the template config.
+ * Include tags in liquid use this same flat structure regardless of subfolders in config.
+ */
 export async function getTemplateParts() {
   const templateConfigData = await getTemplateConfigData();
   return Object.keys(templateConfigData.text_parts);
@@ -226,9 +229,12 @@ export async function getTemplateParts() {
  */
 async function getPartNamesFromDirectory(partsPath: string): Promise<string[]> {
   const partNames: string[] = [];
-  const entries = await vscode.workspace.fs.readDirectory(
-    vscode.Uri.file(partsPath)
-  );
+  let entries: [string, vscode.FileType][];  
+    try {  
+      entries = await vscode.workspace.fs.readDirectory(vscode.Uri.file(partsPath));  
+    } catch {  
+      return partNames; // Missing/inaccessible directory  
+    } 
   for (const [name, fileType] of entries) {
     if (fileType === vscode.FileType.File && name.endsWith(".liquid")) {
       partNames.push(name.replace(".liquid", ""));
