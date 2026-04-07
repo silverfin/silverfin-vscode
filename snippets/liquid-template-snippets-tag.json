@@ -895,14 +895,14 @@
       "When using the \"as pattern\", a string field is shown with a regex pattern validation."
     ]
   },
+  "as numeric_exclusive attribute": {
+    "prefix": "as:numeric_exclusive",
+    "body": "as:numeric min_exclusive:${2:0} max_exclusive:${3:100}",
+    "description": [
+      "When using the \"as exclusive\", a numeric field is shown with exclusive bounds."
+    ]
+  },
   "input_validation integer/currency": {
-    "as numeric_exclusive attribute": {
-      "prefix": "as:numeric_exclusive",
-      "body":  "as:numeric min_exclusive:${2:0} max_exclusive:${3:100}",
-      "description": [
-        "When using the \"as exclusive\", a numeric field is shown with exclusive bounds."
-      ]
-    },
     "prefix": "input_validation integer/currency",
     "body": "{% input_validation \"${1:validation_name}\" as:numeric min:${2:value} max:${3:value} %}",
     "description": [
@@ -910,7 +910,7 @@
       "For integers/currencies you can add a minimum and/or maximum value."
     ]
   },
-  "inputvalidation date": {
+  "input_validation date": {
     "prefix": "input_validation date",
     "body": "{% input_validation \"${1:validation_name}\" start_date:${2:YYYY-MM-DD} end_date:${3:YYYY-MM-DD} %}",
     "description": [
@@ -918,7 +918,7 @@
       "For dates you can add a start date and/or end date."
     ]
   },
-  "inputvalidation string": {
+  "input_validation string": {
     "prefix": "input_validation string",
     "body": "{% input_validation \"${1:validation_name}\" min_length:${2:1} max_length:${3:100} %}",
     "description": [
@@ -926,7 +926,7 @@
       "For strings you can add min_length and/or max_length."
     ]
   },
-  "inputvalidation pattern": {
+  "input_validation pattern": {
     "prefix": "input_validation pattern",
     "body": "{% input_validation \"${1:validation_name}\" pattern:\"${2:^regex$}\" validation_text:\"${3:Custom error message}\" %}",
     "description": [
@@ -936,7 +936,7 @@
       "Optionally use pattern_flags for regex modifiers (e.g., 'i' for case-insensitive)."
     ]
   },
-  "inputvalidation numeric exclusive": {
+  "input_validation numeric exclusive": {
     "prefix": "input_validation exclusive",
     "body": "{% input_validation \"${1:validation_name}\" as:numeric min_exclusive:${2:0} max_exclusive:${3:100} %}",
     "description": [
