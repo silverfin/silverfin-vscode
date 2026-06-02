@@ -121,12 +121,32 @@ export default class FirmHandler {
         placeHolder: "authorization code",
         title: "AUTHORIZE SILVERFIN API"
       });
-      // Get Access Token
+      // Exchange authorization code for access/refresh tokens.
+      // apiUtils.getAccessToken was removed in silverfin-cli; replicate
+      // the same OAuth token exchange that SilverfinAuthorizer performs.
       if (authorizationCode) {
-        tokenRequest = await SilverfinToolkit.apiUtils.getAccessToken(
-          firmIdProvided,
-          authorizationCode
-        );
+        try {
+          const axios = require("axios");
+          const baseURL = SilverfinToolkit.firmCredentials.getHost();
+          const redirectUri = encodeURIComponent("urn:ietf:wg:oauth:2.0:oob");
+          const tokenUrl =
+            `${baseURL}/f/${firmIdProvided}/oauth/token` +
+            `?client_id=${process.env.SF_API_CLIENT_ID}` +
+            `&client_secret=${process.env.SF_API_SECRET}` +
+            `&redirect_uri=${redirectUri}` +
+            `&grant_type=authorization_code` +
+            `&code=${authorizationCode}`;
+          const tokenResponse = await axios.post(tokenUrl);
+          if (tokenResponse?.data) {
+            SilverfinToolkit.firmCredentials.storeNewTokenPair(
+              firmIdProvided,
+              tokenResponse.data
+            );
+            tokenRequest = true;
+          }
+        } catch (e) {
+          this.extensionLogger.log(`[Auth] Token exchange error: ${JSON.stringify(e)}`);
+        }
       }
     }
     this.extensionLogger.log(
