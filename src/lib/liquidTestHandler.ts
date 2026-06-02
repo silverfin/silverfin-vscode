@@ -527,6 +527,12 @@ export default class LiquidTestHandler {
       // v1.51.0, and `resolveHTMLPath` was removed in the same release.
       // Fetch the HTML content directly from the URL returned by the API.
       const htmlUrl = response.previewRun.tests[testSelected][htmlType] as string;
+      if (!htmlUrl) {
+        this.extensionLogger.log(
+          `[HTML] No URL found for ${htmlType} in test "${testSelected}"`
+        );
+        return;
+      }
       const axios = require("axios");
       const htmlResponse = await axios.get(htmlUrl);
       const fileContent = htmlResponse.data as string;
