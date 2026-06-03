@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
+import axios from "axios";
 import ExtensionContext from "./extensionContext";
 import ExtensionLoggerWrapper from "./outputChannels/extensionLoggerWrapper";
 import SilverfinToolkit from "./silverfinToolkit";
@@ -126,7 +127,6 @@ export default class FirmHandler {
       // the same OAuth token exchange that SilverfinAuthorizer performs.
       if (authorizationCode) {
         try {
-          const axios = require("axios");
           const baseURL = SilverfinToolkit.firmCredentials.getHost();
           const tokenUrl = `${baseURL}/f/${firmIdProvided}/oauth/token`;
           // Send credentials in the POST body (application/x-www-form-urlencoded)
@@ -140,15 +140,20 @@ export default class FirmHandler {
             code: authorizationCode
           });
           const tokenResponse = await axios.post(tokenUrl, body);
-          if (tokenResponse?.data) {
+          if (tokenResponse?.data?.access_token) {
             SilverfinToolkit.firmCredentials.storeNewTokenPair(
               firmIdProvided,
               tokenResponse.data
             );
             tokenRequest = true;
           }
-        } catch (e) {
-          this.extensionLogger.log(`[Auth] Token exchange error: ${JSON.stringify(e)}`);
+        } catch (e: any) {
+          const description = e?.response?.data?.error_description;
+          const message = description ?? (e instanceof Error ? e.message : String(e));
+          this.extensionLogger.log(`[Auth] Token exchange error: ${message}`);
+          vscode.window.showErrorMessage(
+            `Authorization failed: ${message}`
+          );
         }
       }
     }
