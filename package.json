@@ -28,7 +28,7 @@
     "@vscode/codicons": "^0.0.33",
     "@vscode/webview-ui-toolkit": "^1.2.2",
     "axios": "^1.17.0",
-    "silverfin-cli": "github:silverfin/silverfin-cli",
+    "silverfin-cli": "github:silverfin/silverfin-cli#428bccee8f83b19accf571f781f905f9e00bb36c",
     "yaml": "^2.2.2"
   },
   "contributes": {
