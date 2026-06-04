@@ -2,6 +2,9 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.26.0]
+- Make config fields editable in the sidebar
+
 ## [1.25.0]
 
 - Introduce experimental Silverfin Language Server wrapper (`silverfin-ls`)
