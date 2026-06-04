@@ -369,12 +369,23 @@ function editableConfigFieldsClick() {
         // Store original value for cancel
         input.setAttribute("data-original-value", currentValue || "");
 
-        // Handle save on blur
+        // Remove previous listeners before adding new ones.
+        // Handlers are closures that capture fieldKey/fieldElement/input, so they
+        // can't be defined once at module level. We stash them on the element so
+        // removeEventListener receives the exact same function reference.
+        const prev = (input as any)._configHandlers;
+        if (prev) {
+          input.removeEventListener("blur", prev.blur);
+          input.removeEventListener("keydown", prev.keydown);
+          if (prev.change) {
+            input.removeEventListener("change", prev.change);
+          }
+        }
+
         const handleBlur = () => {
           saveFieldValue(fieldKey, fieldLabel, fieldElement, input);
         };
 
-        // Handle save on Enter (for text fields)
         const handleKeyDown = (e: KeyboardEvent) => {
           if (e.key === "Enter" && input.tagName === "VSCODE-TEXT-FIELD") {
             e.preventDefault();
@@ -385,19 +396,18 @@ function editableConfigFieldsClick() {
           }
         };
 
-        // Handle change for dropdowns
         const handleChange = () => {
           if (input.tagName === "VSCODE-DROPDOWN") {
             saveFieldValue(fieldKey, fieldLabel, fieldElement, input);
           }
         };
 
-        // Remove old listeners if any
-        input.removeEventListener("blur", handleBlur);
-        input.removeEventListener("keydown", handleKeyDown);
-        input.removeEventListener("change", handleChange);
+        (input as any)._configHandlers = {
+          blur: handleBlur,
+          keydown: handleKeyDown,
+          change: input.tagName === "VSCODE-DROPDOWN" ? handleChange : undefined
+        };
 
-        // Add new listeners
         input.addEventListener("blur", handleBlur);
         input.addEventListener("keydown", handleKeyDown);
         if (input.tagName === "VSCODE-DROPDOWN") {

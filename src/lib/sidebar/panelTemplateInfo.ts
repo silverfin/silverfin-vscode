@@ -41,6 +41,7 @@ export default class TemplateInformationViewProvider
   private readonly viewType = "template-info";
   private _view?: vscode.WebviewView;
   private templateType!: types.templateTypes | false;
+  private _configPath: string | undefined;
 
   /**
    * Centralized configuration for all config fields
@@ -158,6 +159,7 @@ export default class TemplateInformationViewProvider
     utils.setCWD();
     const configData = await templateUtils.getTemplateConfigData();
     this.templateType = await templateUtils.getTemplateType();
+    this._configPath = await templateUtils.getTemplateConfigPath();
 
     const configDataEntries = Object.entries(configData) || [];
 
@@ -214,7 +216,7 @@ export default class TemplateInformationViewProvider
 
         // Generate input HTML based on field type
         let inputHtml = "";
-        if (fieldType === "string") {
+        if (fieldType === "string" || fieldType === "number") {
           inputHtml = /*html*/ `
             <vscode-text-field
               class="config-input config-input-string"
@@ -348,26 +350,6 @@ export default class TemplateInformationViewProvider
     const success = await this.updateConfigField(fieldKey, fieldValue);
 
     if (success) {
-      // Wait a bit for file system to sync, then refresh
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      // Force reload the config document if it's open
-      const configPath = await templateUtils.getTemplateConfigPath();
-      if (configPath) {
-        const configUri = vscode.window.activeTextEditor?.document.uri.with({
-          path: configPath
-        });
-        if (configUri) {
-          try {
-            // Re-open the document to get fresh data
-            await vscode.workspace.openTextDocument(configUri);
-          } catch (error) {
-            // Document might not be open, that's okay
-          }
-        }
-      }
-
-      // Refresh the panel to show new value
       await this.setContent(webviewView);
     } else {
       vscode.window.showErrorMessage(
@@ -381,10 +363,15 @@ export default class TemplateInformationViewProvider
     fieldValue: string | boolean
   ): Promise<boolean> {
     try {
-      const configPath = await templateUtils.getTemplateConfigPath();
-      const configData = await templateUtils.getTemplateConfigData();
+      const configPath = this._configPath;
+      if (!configPath) {
+        return false;
+      }
 
-      if (!configPath || !configData) {
+      const rawBytes = await vscode.workspace.fs.readFile(vscode.Uri.file(configPath));
+      const configData = JSON.parse(Buffer.from(rawBytes).toString("utf8"));
+
+      if (!configData) {
         return false;
       }
 
@@ -397,6 +384,12 @@ export default class TemplateInformationViewProvider
         } else {
           configData[fieldKey] = fieldValue === "true";
         }
+      } else if (fieldType === "number") {
+        const numericValue = Number(fieldValue);
+        if (Number.isNaN(numericValue)) {
+          return false;
+        }
+        configData[fieldKey] = numericValue;
       } else {
         configData[fieldKey] = fieldValue;
       }

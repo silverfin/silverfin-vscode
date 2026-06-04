@@ -67,7 +67,7 @@ body {
 }
 
 .config-checkbox.save-success {
-  animation: savePulse 0.5s ease;
+  animation: save-pulse 0.5s ease;
 }
 
 /* Static boolean display (non-editable) */
@@ -105,7 +105,6 @@ body {
   background: transparent;
   border: none;
   padding: 2px 4px;
-  word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
@@ -118,7 +117,6 @@ body {
   font-size: 11px;
   line-height: 1.5;
   white-space: pre-wrap;
-  word-wrap: break-word;
   overflow-wrap: break-word;
   color: var(--vscode-descriptionForeground);
 }
@@ -126,16 +124,16 @@ body {
 /* Save success feedback */
 .config-value.save-success {
   background-color: var(--vscode-testing-iconPassed, rgba(0, 200, 0, 0.2)) !important;
-  animation: savePulse 0.5s ease;
+  animation: save-pulse 0.5s ease;
 }
 
 /* Save error feedback */
 .config-value.save-error {
   background-color: var(--vscode-testing-iconFailed, rgba(200, 0, 0, 0.2)) !important;
-  animation: savePulse 0.5s ease;
+  animation: save-pulse 0.5s ease;
 }
 
-@keyframes savePulse {
+@keyframes save-pulse {
   0% {
     opacity: 1;
   }
