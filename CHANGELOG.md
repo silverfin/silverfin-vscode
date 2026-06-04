@@ -2,6 +2,11 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.24.0]
+
+- Allow subfolders in template directories
+- Bump silverfin CLI version (1.56.0)
+
 ## [1.23.0]
 
 - Make extension compatible with the latest CLI version (1.55.2)

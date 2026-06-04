@@ -75,11 +75,15 @@ export default class PartsVerifier {
       return;
     }
 
+    // Part names from config are a flat list of identifiers (keys in text_parts), matching include paths
     const existingParts = (await templateUtils.getTemplateParts()) || [];
 
     // Compare the two arrays and find the differences (parts used but not existing)
     const missingParts = partsUsed.filter(
-      (part) => !existingParts.includes(part)
+      (part) =>
+        !existingParts.some(
+          (existing) => existing === part || existing.endsWith(`/${part}`)
+        )
     );
     if (missingParts.length === 0) {
       this.extensionLogger.log("All parts already exist.");
@@ -120,7 +124,9 @@ export default class PartsVerifier {
   }
 
   /**
-   * Inspect the liquid code of the file and search for the use of parts or shared parts
+   * Inspect the liquid code of the file and search for the use of parts or shared parts.
+   * Include tags always use a flat path (e.g. "parts/foo" or "parts/subfolder/bar");
+   * this works on a flat structure even when the template config has multiple subfolders.
    * @param type string 'sharedPart' | 'part'
    * @returns string[] | undefined
    * @example
