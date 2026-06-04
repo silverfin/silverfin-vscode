@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import * as utils from "../utilities/utils";
+import axios from "axios";
 import ExtensionContext from "./extensionContext";
 import ExtensionLoggerWrapper from "./outputChannels/extensionLoggerWrapper";
 import SilverfinToolkit from "./silverfinToolkit";
@@ -121,12 +122,39 @@ export default class FirmHandler {
         placeHolder: "authorization code",
         title: "AUTHORIZE SILVERFIN API"
       });
-      // Get Access Token
+      // Exchange authorization code for access/refresh tokens.
+      // apiUtils.getAccessToken was removed in silverfin-cli; replicate
+      // the same OAuth token exchange that SilverfinAuthorizer performs.
       if (authorizationCode) {
-        tokenRequest = await SilverfinToolkit.apiUtils.getAccessToken(
-          firmIdProvided,
-          authorizationCode
-        );
+        try {
+          const baseURL = SilverfinToolkit.firmCredentials.getHost();
+          const tokenUrl = `${baseURL}/f/${firmIdProvided}/oauth/token`;
+          // Send credentials in the POST body (application/x-www-form-urlencoded)
+          // rather than as URL query params to avoid exposing client_secret in
+          // server/proxy logs (RFC 6749 §2.3.1).
+          const body = new URLSearchParams({
+            client_id: process.env.SF_API_CLIENT_ID || "",
+            client_secret: process.env.SF_API_SECRET || "",
+            redirect_uri: "urn:ietf:wg:oauth:2.0:oob",
+            grant_type: "authorization_code",
+            code: authorizationCode
+          });
+          const tokenResponse = await axios.post(tokenUrl, body);
+          if (tokenResponse?.data?.access_token) {
+            SilverfinToolkit.firmCredentials.storeNewTokenPair(
+              firmIdProvided,
+              tokenResponse.data
+            );
+            tokenRequest = true;
+          }
+        } catch (e: any) {
+          const description = e?.response?.data?.error_description;
+          const message = description ?? (e instanceof Error ? e.message : String(e));
+          this.extensionLogger.log(`[Auth] Token exchange error: ${message}`);
+          vscode.window.showErrorMessage(
+            `Authorization failed: ${message}`
+          );
+        }
       }
     }
     this.extensionLogger.log(
@@ -230,7 +258,7 @@ export default class FirmHandler {
   }
 
   private async openBrowserAuth(firmId: string) {
-    const baseURL = process.env.SF_HOST || "https://live.getsilverfin.com";
+    const baseURL = SilverfinToolkit.firmCredentials.getHost();
     const redirectUri = "urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob";
     const scope =
       "user%3Aprofile+user%3Aemail+webhooks+administration%3Aread+administration%3Awrite+permanent_documents%3Aread+permanent_documents%3Awrite+communication%3Aread+communication%3Awrite+financials%3Aread+financials%3Awrite+financials%3Atransactions%3Aread+financials%3Atransactions%3Awrite+links+workflows%3Aread";

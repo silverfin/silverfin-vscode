@@ -241,7 +241,7 @@ export default class TemplateCommander {
 
     for (const firm of firmData) {
       let alreadyPicked = false;
-      if (firm[0].toString() === defaultFirm.toString()) {
+      if (firm[0].toString() === defaultFirm?.toString()) {
         alreadyPicked = true;
       }
       optionsToSelect.push({

@@ -1,5 +1,6 @@
 import { posix } from "path";
 import * as vscode from "vscode";
+import axios from "axios";
 import * as yaml from "yaml";
 import * as templateUtils from "../utilities/templateUtils";
 import * as utils from "../utilities/utils";
@@ -523,18 +524,18 @@ export default class LiquidTestHandler {
       this.closeHtmlPanel();
       let htmlType =
         `html_${htmlRenderMode}` as keyof (typeof response.previewRun.tests)[typeof testSelected];
-      await SilverfinToolkit.liquidTestRunner.getHTML(
-        response.previewRun.tests[testSelected][htmlType],
-        testSelected,
-        false,
-        htmlType
-      );
-      // Open File
-      const filePath = SilverfinToolkit.liquidTestRunner.resolveHTMLPath(
-        `${testSelected}_${htmlType}`
-      );
-      const fs = require("fs");
-      const fileContent = fs.readFileSync(filePath, "utf8");
+      // `liquidTestRunner.getHTML` with openBrowser=false is a no-op since
+      // v1.51.0, and `resolveHTMLPath` was removed in the same release.
+      // Fetch the HTML content directly from the URL returned by the API.
+      const htmlUrl = response.previewRun?.tests?.[testSelected]?.[htmlType] as string | undefined;
+      if (!htmlUrl) {
+        this.extensionLogger.log(
+          `[HTML] No URL found for ${htmlType} in test "${testSelected}"`
+        );
+        return;
+      }
+      const htmlResponse = await axios.get(htmlUrl, { timeout: 30000 });
+      const fileContent = htmlResponse.data as string;
       if (!this.htmlPanel) {
         this.htmlPanel = vscode.window.createWebviewPanel(
           "htmlWebView",

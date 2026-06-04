@@ -1,7 +1,6 @@
 import ExtensionLoggerWrapper from "./outputChannels/extensionLoggerWrapper";
 
 const { firmCredentials } = require("silverfin-cli/lib/api/firmCredentials");
-const apiUtils = require("silverfin-cli/lib/utils/apiUtils");
 const api = require("silverfin-cli/lib/api/sfApi");
 const liquidTestRunner = require("silverfin-cli/lib/liquidTestRunner");
 const toolkit = require("silverfin-cli");
@@ -16,7 +15,6 @@ const fsUtils = require("silverfin-cli/lib/utils/fsUtils");
 
 export default class SilverfinToolkit {
   public static firmCredentials = firmCredentials;
-  public static apiUtils = apiUtils;
   public static api = api;
   public static liquidTestRunner = liquidTestRunner;
   public static toolkit = toolkit;

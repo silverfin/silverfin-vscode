@@ -2,9 +2,13 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.23.0]
+
+- Make extension compatible with the latest CLI version (1.55.2)
+
 ## [1.22.0]
 
-- Bump silverfin CLI version (1.21.0 -> 1.22.0)
+- Bump silverfin CLI version (to 1.32)
 
 ## [1.21.0]
 
