@@ -173,7 +173,7 @@ export default class TemplateInformationViewProvider
 
     const configItemsRows = filtered
       .map(([key, value]) => {
-        const displayValue = value ? value : "";
+        const displayValue = value !== undefined && value !== null ? value : "";
         const fieldConfig = fieldConfigs[key];
         if (!fieldConfig) {
           return ""; // Skip fields without configuration
@@ -291,7 +291,7 @@ export default class TemplateInformationViewProvider
                       data-field-key="${key}"
                       data-field-label="${fieldConfig.label}"
                       data-field-value="${this.escapeHtml(String(displayValue))}"
-                      data-field-type="${fieldType || ''}"
+                      data-field-type="${fieldType}"
                       title="${isEditable ? 'Click to edit' : ''}"
                     >
                       ${displayContent}
@@ -356,6 +356,12 @@ export default class TemplateInformationViewProvider
         `Failed to update ${fieldLabel}`
       );
     }
+
+    webviewView.webview.postMessage({
+      type: "save-config-field-result",
+      fieldKey,
+      success
+    });
   }
 
   private async updateConfigField(
@@ -375,6 +381,10 @@ export default class TemplateInformationViewProvider
         return false;
       }
 
+      if (!this.isEditable(fieldKey)) {
+        return false;
+      }
+
       // Update the field - preserve type for booleans
       const fieldType = this.getFieldType(fieldKey);
       if (fieldType === "boolean") {
@@ -385,11 +395,15 @@ export default class TemplateInformationViewProvider
           configData[fieldKey] = fieldValue === "true";
         }
       } else if (fieldType === "number") {
-        const numericValue = Number(fieldValue);
-        if (Number.isNaN(numericValue)) {
-          return false;
+        if (fieldValue === "" || fieldValue === null || fieldValue === undefined) {
+          configData[fieldKey] = null;
+        } else {
+          const numericValue = Number(fieldValue);
+          if (Number.isNaN(numericValue)) {
+            return false;
+          }
+          configData[fieldKey] = numericValue;
         }
-        configData[fieldKey] = numericValue;
       } else {
         configData[fieldKey] = fieldValue;
       }
@@ -430,16 +444,6 @@ export default class TemplateInformationViewProvider
     }
     const fieldConfig = this.fieldConfigs[this.templateType]?.[key];
     return fieldConfig?.type || "string";
-  }
-
-  /**
-   * Get field configuration for a specific field
-   */
-  private getFieldConfig(key: string): FieldConfig | undefined {
-    if (!this.templateType) {
-      return undefined;
-    }
-    return this.fieldConfigs[this.templateType]?.[key];
   }
 
   private registerEvents() {

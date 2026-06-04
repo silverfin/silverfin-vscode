@@ -70,6 +70,16 @@ body {
   animation: save-pulse 0.5s ease;
 }
 
+.config-checkbox.save-error {
+  outline: 1px solid var(--vscode-testing-iconFailed, rgba(200, 0, 0, 0.8));
+  animation: save-pulse 0.5s ease;
+}
+
+.config-input.save-error {
+  outline: 1px solid var(--vscode-testing-iconFailed, rgba(200, 0, 0, 0.8));
+  animation: save-pulse 0.5s ease;
+}
+
 /* Static boolean display (non-editable) */
 .config-value-boolean {
   display: inline-flex;

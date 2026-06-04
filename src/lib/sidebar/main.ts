@@ -42,6 +42,13 @@ function main() {
   addSharedPartButton();
   removeSharedPartButton();
 
+  window.addEventListener("message", (event) => {
+    const message = event.data;
+    if (message?.type === "save-config-field-result") {
+      handleSaveConfigFieldResult(message.fieldKey, message.success);
+    }
+  });
+
   // Handle checkbox changes for boolean fields
   function setupCheckboxListeners() {
     const checkboxes = document.querySelectorAll("vscode-checkbox.config-checkbox");
@@ -62,13 +69,7 @@ function main() {
           return;
         }
 
-        // Add visual feedback
-        target.classList.add("save-success");
-        setTimeout(() => {
-          target.classList.remove("save-success");
-        }, 500);
-
-        // Save the change
+        target.setAttribute("data-previous-checked", String(!isChecked));
         postMessageSaveConfigField(fieldKey, isChecked, fieldLabel);
       });
     });
@@ -80,10 +81,10 @@ function main() {
   editableConfigFieldsClick();
 
   // Re-attach event listeners when DOM changes (e.g., after panel refresh)
-  // Use a debounce to avoid excessive calls
-  let timeoutId: NodeJS.Timeout | null = null;
+  let pendingCheckboxSetup = false;
+  let pendingConfigSetup = false;
+  let domChangeTimeoutId: NodeJS.Timeout | null = null;
   const observer = new MutationObserver((mutations) => {
-    // Check if checkboxes or config-value elements were added/removed
     const hasCheckboxChanges = mutations.some(mutation =>
       Array.from(mutation.addedNodes).some(node =>
         node.nodeType === Node.ELEMENT_NODE &&
@@ -104,22 +105,29 @@ function main() {
     );
 
     if (hasCheckboxChanges) {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-      timeoutId = setTimeout(() => {
-        setupCheckboxListeners();
-      }, 100);
+      pendingCheckboxSetup = true;
+    }
+    if (hasConfigChanges) {
+      pendingConfigSetup = true;
     }
 
-    if (hasConfigChanges) {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-      timeoutId = setTimeout(() => {
-        editableConfigFieldsClick();
-      }, 150);
+    if (!pendingCheckboxSetup && !pendingConfigSetup) {
+      return;
     }
+
+    if (domChangeTimeoutId) {
+      clearTimeout(domChangeTimeoutId);
+    }
+    domChangeTimeoutId = setTimeout(() => {
+      if (pendingCheckboxSetup) {
+        setupCheckboxListeners();
+        pendingCheckboxSetup = false;
+      }
+      if (pendingConfigSetup) {
+        editableConfigFieldsClick();
+        pendingConfigSetup = false;
+      }
+    }, 150);
   });
   observer.observe(document.body, { childList: true, subtree: true });
 }
@@ -473,4 +481,42 @@ function postMessageSaveConfigField(
     fieldValue: fieldValue,
     fieldLabel: fieldLabel
   });
+}
+
+function handleSaveConfigFieldResult(fieldKey: string, success: boolean) {
+  const checkbox = document.querySelector(
+    `vscode-checkbox.config-checkbox[data-field-key="${fieldKey}"]`
+  ) as HTMLElement | null;
+
+  if (checkbox) {
+    if (success) {
+      checkbox.classList.add("save-success");
+      setTimeout(() => checkbox.classList.remove("save-success"), 500);
+    } else {
+      const previous = checkbox.getAttribute("data-previous-checked");
+      (checkbox as any).checked = previous === "true";
+      checkbox.classList.add("save-error");
+      setTimeout(() => checkbox.classList.remove("save-error"), 500);
+    }
+    return;
+  }
+
+  const displayValue = document.querySelector(
+    `.config-value[data-field-key="${fieldKey}"]`
+  ) as HTMLElement | null;
+
+  if (displayValue && success) {
+    displayValue.classList.add("save-success");
+    setTimeout(() => displayValue.classList.remove("save-success"), 500);
+    return;
+  }
+
+  const input = document.querySelector(
+    `.config-input[data-field-key="${fieldKey}"]`
+  ) as HTMLElement | null;
+
+  if (input && !success) {
+    input.classList.add("save-error");
+    setTimeout(() => input.classList.remove("save-error"), 500);
+  }
 }
