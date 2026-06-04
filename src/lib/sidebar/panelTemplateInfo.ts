@@ -157,11 +157,22 @@ export default class TemplateInformationViewProvider
   // Section's html created based on the ActiveTextEditor
   public async setContent(webviewView: vscode.WebviewView) {
     utils.setCWD();
-    const configData = await templateUtils.getTemplateConfigData();
     this.templateType = await templateUtils.getTemplateType();
     this._configPath = await templateUtils.getTemplateConfigPath();
 
-    const configDataEntries = Object.entries(configData) || [];
+    // Read config directly from disk (not from VS Code's document model cache)
+    // so that edits written via vscode.workspace.fs.writeFile are visible immediately.
+    let configData: any = null;
+    if (this._configPath) {
+      try {
+        const rawBytes = await vscode.workspace.fs.readFile(vscode.Uri.file(this._configPath));
+        configData = JSON.parse(Buffer.from(rawBytes).toString("utf8"));
+      } catch {
+        configData = null;
+      }
+    }
+
+    const configDataEntries = Object.entries(configData || {});
 
     // Get field configurations for current template type
     const fieldConfigs = this.templateType ? this.fieldConfigs[this.templateType] || {} : {};
