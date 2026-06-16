@@ -6,6 +6,20 @@
 
 This extension aims to support the creation of **Liquid templates** with the [Silverfin Templating Language](https://developer.silverfin.com/docs) and the development of [Liquid testing YAML](https://developer.silverfin.com/docs/liquid-testing) files.
 
+## Features
+
+### Language Server Protocol (LSP) Support
+
+The extension integrates with the **Silverfin Language Server** (`silverfin-ls`) to provide:
+
+- **Hover Information**: Get documentation for Liquid tags, filters, and translation keys directly in your editor
+- **Go to Definition**: Navigate seamlessly to shared parts, text parts, translations, and variables
+- **Context-Aware Intelligence**: The language server understands your template structure and relationships between main templates, text parts, and shared parts
+
+**Prerequisite**: `silverfin-ls` is **not** bundled with the extension. Install it separately and make sure the `silverfin-ls` command is available on your `PATH`. See the [silverfin-ls repository](https://github.com/silverfin/silverfin-ls) for installation instructions. If the binary lives in a non-standard location, set `silverfin.languageServerPath` in your VS Code settings to its absolute path.
+
+When `silverfin-ls` is available, and enabled in the editor's settings, the language server will be activated automatically when you open `.liquid` files. If it cannot be started, the extension shows a warning and the LSP features are disabled for the session — the rest of the extension keeps working.
+
 ## Setup & Basic Usage
 
 ### Authorisation
@@ -145,7 +159,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <!-- STYLE SNIPPETS -->
       <tr>
         <td colspan="2">
-          <h3>Style Snippets</h3>  
+          <h3>Style Snippets</h3>
         </td>
       </tr>
       <tr>
@@ -263,7 +277,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <!-- TAG SNIPPETS -->
       <tr>
         <td colspan="2">
-          <h3>Tag Snippets</h3>  
+          <h3>Tag Snippets</h3>
         </td>
       </tr>
       <!-- Comments -->
@@ -882,7 +896,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <!-- DROPS SNIPPETS -->
       <tr>
         <td colspan="2">
-          <h3>Drops Snippets</h3>  
+          <h3>Drops Snippets</h3>
         </td>
       </tr>
       <!-- Account drops -->
@@ -1065,7 +1079,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <tr>
         <td colspan="2">&emsp;</td>
       </tr>
-      <!-- Period -->  
+      <!-- Period -->
       <tr>
         <td colspan="2"><b>Period Drops</b></td>
       </tr>
