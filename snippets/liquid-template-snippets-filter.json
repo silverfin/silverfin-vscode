@@ -1,4 +1,12 @@
 {
+  "default filter": {
+    "prefix": "default",
+    "body": "| default:\"${1:fallback value}\"",
+    "description": [
+      "Add the \"default\" filter to set a fallback value when a variable is nil, false, or empty",
+      "Example: {{ company.company_form | default:\"NV\" }}"
+    ]
+  },
   "allow_false filter": {
     "prefix": "allow_false",
     "body": ", allow_false:true",
@@ -345,18 +353,12 @@
     "description": "Divide by value and return the remainder"
   },
   "MAX function": {
-    "prefix": [
-      "max",
-      "MAX"
-    ],
+    "prefix": "MAX",
     "body": "MAX(${1:value})",
     "description": "Apply MAX function to wrapped array"
   },
   "MIN function": {
-    "prefix": [
-      "min",
-      "MIN"
-    ],
+    "prefix": "MIN",
     "body": "MIN(${1:value})",
     "description": "Apply MIN function to wrapped array"
   },

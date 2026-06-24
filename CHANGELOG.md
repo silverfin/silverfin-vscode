@@ -2,6 +2,9 @@
 
 All notable changes to the "silverfin-development-toolkit" extension will be documented in this file.
 
+## [1.27.0]
+- Add missing Liquid snippets (drops, filters, input_validation attributes, table classes) and refresh the README reference
+
 ## [1.26.0]
 - Make config fields editable in the sidebar
 
