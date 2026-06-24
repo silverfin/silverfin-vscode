@@ -1022,7 +1022,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <tr>
         <td>
           <code>accounts.</code><br>
-          <code></code>return_values_in_millions</code></td>
+          <code>return_values_in_millions</code></td>
         <td>Display the value of the individual account drops in the created accounts drop in millions</td>
       </tr>
       <tr>
@@ -1308,7 +1308,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         </td>
       </tr>
       <tr>
-Ÿ        <td><code>reconciliations.[reconciliation_handle].results.[variable_name]</code></td>
+        <td><code>reconciliations.[reconciliation_handle].results.[variable_name]</code></td>
         <td>Access results from other templates using the specific reconciliation handle and variable name, e.g., <code>reconciliations.[handle].results.[variable_name]</code></td>
       </tr>
       <tr>
@@ -1335,11 +1335,9 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Return available properties for a single report drop</td>
       </tr>
       <tr>
-      <tr>
         <td><code>report.</code></td>
         <td>Return available properties for a single report drop</td>
       </tr>
-      <tr> 
       <!-- User drops -->
       <tr>
         <td colspan="2"><b>User Drops</b></td>

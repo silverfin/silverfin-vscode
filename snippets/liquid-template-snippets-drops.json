@@ -398,8 +398,8 @@
 
 
   "Adjustment drop (with options)": {
-    "prefix": "adjustment.",
-    "body": "adjustment.${1|name,number,period,tags,purpose,external?,internal?,from_reverse?,from_forward?,from_copy?,forward_account,transactions|}",
+    "prefix": "adjustments.[adjustment_number].",
+    "body": "adjustments.[${1:adjustment_number}].${2|name,number,period,tags,purpose,external?,internal?,from_reverse?,from_forward?,from_copy?,forward_account,transactions|}",
     "description": "All drops under the adjustment drop - access via period.adjustments.[adjustment_number]"
   },
   "Adjustments drop": {
@@ -418,7 +418,7 @@
   "Person drop (with options)": {
     "prefix": "person.",
     "body": "person.${1|address_1,address_2,amount_of_shares,amount_of_votes,custom,director,director_end_date,director_start_date,email,external_id,name,persistent_id,shareholder,statutory|}",
-    "description": "All drops under the person drop - access via period.people.[person_id] or people.first"
+    "description": "All drops under a local person variable (e.g. inside a people loop, or an assigned person drop)"
   },
 
 
@@ -429,8 +429,8 @@
     "description": "Return all reconciliations in the period - must use with variable of type period (drop)"
   },
   "Reconciliation drop (with options)": {
-    "prefix": "reconciliation.[reconciliation_handle].",
-    "body": "reconciliation.[${1:reconciliation_handle}].${2|handle,hidden?,name,number,results,starred?,exists?|}",
+    "prefix": "reconciliations.[reconciliation_handle].",
+    "body": "reconciliations.[${1:reconciliation_handle}].${2|handle,hidden?,name,number,results,starred?,exists?|}",
     "description": "All drops under the reconciliation drop - access via period.reconciliations.[handle]. Always check .exists? before accessing other properties"
   },
   "Reconciliations drop (with options)": {
@@ -462,13 +462,13 @@
     "description": "Return collection of Reports for the period - must use with variable of type period (drop)"
   },
   "Report drop": {
-    "prefix": "reports.[report handle]",
-    "body": "reports.${1:[report handle]}",
+    "prefix": "reports.[report_handle]",
+    "body": "reports.[${1:report_handle}]",
     "description": "Return specific report for the period - must use with variable of type period (drop)"
   },
   "Report drop (with options)": {
-    "prefix": "report.",
-    "body": "report.${1|name,results,[report_handle]|}",
+    "prefix": "reports.[report_handle].",
+    "body": "reports.[${1:report_handle}].${2|name,results|}",
     "description": "All drops under the report drop - access via period.reports.[report_handle]"
   },
 
@@ -571,7 +571,7 @@
   "Page title drop (with options)": {
     "prefix": "page_title.",
     "body": "page_title.${1|title|}",
-    "description": "All drops under the page_title drop - can only be used in Title text within Style settings. Returns current page number without counting cover pages"
+    "description": "All drops under the page_title drop - can only be used in Title text within Style settings. Returns current page title without counting cover pages"
   },
 
 
