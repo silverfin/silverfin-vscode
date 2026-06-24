@@ -48,8 +48,8 @@
     "description": "All drops under the account drop - access a single account via period.accounts.[account_number]"
   },
   "Transaction drop (with options)": {
-    "prefix": "accounts.[account_number].transactions.",
-    "body": "accounts.[${1:account_number}].transactions.[${2:some_transaction}].${3|value,date,relation,account|}",
+    "prefix": "transactions.",
+    "body": "transactions.[${1:some_transaction}].${2|value,date,relation,account|}",
     "description": "All drops under the transaction drop - access via accounts.[account_number].transactions"
   },
 
@@ -338,11 +338,6 @@
     "body": "directors",
     "description": "Return all directors in the period - must use with variable of type period (special drop)"
   },
-  "End date drop": {
-    "prefix": "end_date",
-    "body": "end_date",
-    "description": "Return end date of the period - must use with variable of type period (date)"
-  },
   "Exists method": {
     "prefix": "exists",
     "body": "exists",
@@ -373,11 +368,6 @@
     "prefix": "shareholders",
     "body": "shareholders",
     "description": "Return all shareholders in the period - must use with variable of type period (special drop)"
-  },
-  "Start date drop": {
-    "prefix": "start_date",
-    "body": "start_date",
-    "description": "Return start date of the period - must use with variable of type period (date)"
   },
   "Year end drop": {
     "prefix": "year_end",
@@ -449,9 +439,9 @@
     "description": "All drops under the Reconciliations drop"
   },
   "Results drop (with options)": {
-    "prefix": "reconciliations.[reconciliation_handle].results.",
-    "body": "reconciliations.[${1:reconciliation_handle}].results.${2|[variable_name]|}",
-    "description": "Access results from other templates - use format reconciliations.results.[variable_name]"
+    "prefix": "results.",
+    "body": "results.[${1:variable_name}]",
+    "description": "Access results from other templates - use format reconciliations.[reconciliation_handle].results.[variable_name]"
   },
   "Starred reconciliations drop": {
     "prefix": "starred",

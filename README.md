@@ -892,48 +892,48 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add an input_validation variable with the possible attributes</td>
       </tr>
       <tr>
-        <td><code>&emsp;as:numeric</code></td>
-        <td>Add the attribute for a numeric input</td>
+        <td><code>&emsp;min</code></td>
+        <td>Add a minimum (inclusive) numeric value</td>
       </tr>
       <tr>
-        <td><code>&emsp;as:numeric_exclusive</code></td>
-        <td>Add the attribute for a numeric input with exclusive bounds</td>
+        <td><code>&emsp;max</code></td>
+        <td>Add a maximum (inclusive) numeric value</td>
       </tr>
       <tr>
-        <td><code>&emsp;as:date_range</code></td>
-        <td>Add the attribute for a date range input with start and/or end dates</td>
+        <td><code>&emsp;min_exclusive</code></td>
+        <td>Add an exclusive lower bound (value must be strictly greater than)</td>
       </tr>
       <tr>
-        <td><code>&emsp;as:string</code></td>
-        <td>Add the attribute for a string input with min and/or max length</td>
+        <td><code>&emsp;max_exclusive</code></td>
+        <td>Add an exclusive upper bound (value must be strictly less than)</td>
       </tr>
       <tr>
-        <td><code>&emsp;as:pattern</code></td>
-        <td>Add the attribute for a string input with regex pattern validation</td>
+        <td><code>&emsp;start_date</code></td>
+        <td>Add the earliest allowed date</td>
+      </tr>
+      <tr>
+        <td><code>&emsp;end_date</code></td>
+        <td>Add the latest allowed date</td>
+      </tr>
+      <tr>
+        <td><code>&emsp;min_length</code></td>
+        <td>Add a minimum string length</td>
+      </tr>
+      <tr>
+        <td><code>&emsp;max_length</code></td>
+        <td>Add a maximum string length</td>
+      </tr>
+      <tr>
+        <td><code>&emsp;pattern</code></td>
+        <td>Add a regex pattern a string input must match, together with the required validation_text error message</td>
+      </tr>
+      <tr>
+        <td><code>&emsp;pattern_flags</code></td>
+        <td>Add optional regex modifiers to a pattern (e.g. 'i' for case-insensitive)</td>
       </tr>
       <tr>
         <td><code>&emsp;validation:</code></td>
-        <td>Add the validation attribute to an input_validation variable</td>
-      </tr>
-      <tr>
-        <td><code>input_validation integer/currency</code></td>
-        <td>Add an input_validation variable for integers/currencies with min and/or max values</td>
-      </tr>
-      <tr>
-        <td><code>input_validation exclusive</code></td>
-        <td>Add an input_validation variable for numbers with exclusive bounds (min_exclusive/max_exclusive)</td>
-      </tr>
-      <tr>
-        <td><code>input_validation date_range</code></td>
-        <td>Add an input_validation variable for dates with start and/or end dates</td>
-      </tr>
-      <tr>
-        <td><code>input_validation string</code></td>
-        <td>Add an input_validation variable for strings with min and/or max length</td>
-      </tr>
-      <tr>
-        <td><code>input_validation pattern</code></td>
-        <td>Add an input_validation variable for strings with regex pattern validation</td>
+        <td>Assign an input_validation variable to an input via the validation attribute</td>
       </tr>
       <tr>
         <td colspan="2">&emsp;</td>

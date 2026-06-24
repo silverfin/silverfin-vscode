@@ -353,18 +353,12 @@
     "description": "Divide by value and return the remainder"
   },
   "MAX function": {
-    "prefix": [
-      "max",
-      "MAX"
-    ],
+    "prefix": "MAX",
     "body": "MAX(${1:value})",
     "description": "Apply MAX function to wrapped array"
   },
   "MIN function": {
-    "prefix": [
-      "min",
-      "MIN"
-    ],
+    "prefix": "MIN",
     "body": "MIN(${1:value})",
     "description": "Apply MIN function to wrapped array"
   },

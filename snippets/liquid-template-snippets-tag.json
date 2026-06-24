@@ -873,76 +873,77 @@
       "With input_validation you can validate how data is created."
     ]
   },
-  "as numeric attribute": {
-    "prefix": "as:numeric",
-    "body": "as:numeric min:${2:value} max:${3:value}",
+  "input_validation min": {
+    "prefix": "min",
+    "body": "min:${1:value}",
     "description": [
-      "When using the \"as numeric\", a standard string field is shown as a numeric value with decimals."
+      "Minimum (inclusive) numeric value for an input_validation variable."
     ]
   },
-  "as date_range attribute": {
-    "prefix": "as:date_range",
-    "body": "as:date_range start_date:${2:YYYY-MM-DD} end_date:${3:YYYY-MM-DD}",
+  "input_validation max": {
+    "prefix": "max",
+    "body": "max:${1:value}",
     "description": [
-      "When using the \"as date_range\", a date range field is shown.\n",
-      "You can add a start date and/or end date."
+      "Maximum (inclusive) numeric value for an input_validation variable."
     ]
   },
-  "as pattern attribute": {
-    "prefix": "as:pattern",
-    "body": "as:pattern pattern:\"${2:^regex$}\" validation_text:\"${3:Custom error message}\"",
+  "input_validation min_exclusive": {
+    "prefix": "min_exclusive",
+    "body": "min_exclusive:${1:0}",
     "description": [
-      "When using the \"as pattern\", a string field is shown with a regex pattern validation."
+      "Value must be strictly greater than this (exclusive lower bound).\n",
+      "min_exclusive:0 means the value must be greater than 0 (not equal to)."
     ]
   },
-  "as numeric_exclusive attribute": {
-    "prefix": "as:numeric_exclusive",
-    "body": "as:numeric min_exclusive:${2:0} max_exclusive:${3:100}",
+  "input_validation max_exclusive": {
+    "prefix": "max_exclusive",
+    "body": "max_exclusive:${1:100}",
     "description": [
-      "When using the \"as exclusive\", a numeric field is shown with exclusive bounds."
+      "Value must be strictly less than this (exclusive upper bound)."
     ]
   },
-  "input_validation integer/currency": {
-    "prefix": "input_validation integer/currency",
-    "body": "{% input_validation \"${1:validation_name}\" as:numeric min:${2:value} max:${3:value} %}",
+  "input_validation start_date": {
+    "prefix": "start_date",
+    "body": "start_date:\"${1:YYYY-MM-DD}\"",
     "description": [
-      "With input_validation you can validate how data is created.\n",
-      "For integers/currencies you can add a minimum and/or maximum value."
+      "Earliest allowed date for an input_validation variable."
     ]
   },
-  "input_validation date": {
-    "prefix": "input_validation date",
-    "body": "{% input_validation \"${1:validation_name}\" start_date:${2:YYYY-MM-DD} end_date:${3:YYYY-MM-DD} %}",
+  "input_validation end_date": {
+    "prefix": "end_date",
+    "body": "end_date:\"${1:YYYY-MM-DD}\"",
     "description": [
-      "With input_validation you can validate how data is created.\n",
-      "For dates you can add a start date and/or end date."
+      "Latest allowed date for an input_validation variable."
     ]
   },
-  "input_validation string": {
-    "prefix": "input_validation string",
-    "body": "{% input_validation \"${1:validation_name}\" min_length:${2:1} max_length:${3:100} %}",
+  "input_validation min_length": {
+    "prefix": "min_length",
+    "body": "min_length:${1:1}",
     "description": [
-      "With input_validation you can validate how data is created.\n",
-      "For strings you can add min_length and/or max_length."
+      "Minimum string length for an input_validation variable."
+    ]
+  },
+  "input_validation max_length": {
+    "prefix": "max_length",
+    "body": "max_length:${1:100}",
+    "description": [
+      "Maximum string length for an input_validation variable."
     ]
   },
   "input_validation pattern": {
-    "prefix": "input_validation pattern",
-    "body": "{% input_validation \"${1:validation_name}\" pattern:\"${2:^regex$}\" validation_text:\"${3:Custom error message}\" %}",
+    "prefix": "pattern",
+    "body": "pattern:\"${1:^regex$}\" validation_text:\"${2:Custom error message}\"",
     "description": [
-      "With input_validation you can validate string format using regex.\n",
-      "The pattern attribute contains a regex pattern.\n",
-      "The validation_text attribute provides a custom error message.\n",
-      "Optionally use pattern_flags for regex modifiers (e.g., 'i' for case-insensitive)."
+      "Validate a string input against a regex pattern.\n",
+      "The pattern attribute is mandatory; validation_text is required to provide the custom error message shown when validation fails."
     ]
   },
-  "input_validation numeric exclusive": {
-    "prefix": "input_validation exclusive",
-    "body": "{% input_validation \"${1:validation_name}\" as:numeric min_exclusive:${2:0} max_exclusive:${3:100} %}",
+  "input_validation pattern_flags": {
+    "prefix": "pattern_flags",
+    "body": "pattern_flags:\"${1:i}\"",
     "description": [
-      "With input_validation you can validate numeric data with exclusive bounds.\n",
-      "min_exclusive:0 means value must be greater than 0 (not equal to).\n",
-      "Useful for validating positive-only or negative-only values."
+      "Optional regex modifiers for the pattern, e.g. 'i' for case-insensitive.\n",
+      "Use alongside the pattern attribute."
     ]
   },
   "validation attribute": {
