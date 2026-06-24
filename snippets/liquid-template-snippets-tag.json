@@ -211,11 +211,10 @@
   },
   "accounts_var attribute": {
     "prefix": "accounts_var:",
-    "body": "accounts_var:${1:variable_name}",
+    "body": "accounts_var:${1:variable}",
     "description": [
-      "Optional attribute for account_collection input.\n",
-      "Assigns the selected accounts to a variable name.\n",
-      "Equivalent to: {% assign var = period.accounts | range:custom.drop.acc %}"
+      "Optional attribute for an account_collection input.\n",
+      "Assigns the selected accounts to a variable."
     ]
   },
 
@@ -866,25 +865,26 @@
   },
 
 
+
   "input_validation": {
     "prefix": "input_validation",
     "body": "{% input_validation \"${1:validation_name}\" %}",
     "description": [
-      "With input_validation you can validate how data is created."
+      "With input_validation you can validate how data is entered."
     ]
   },
   "input_validation min": {
     "prefix": "min",
     "body": "min:${1:value}",
     "description": [
-      "Minimum (inclusive) numeric value for an input_validation variable."
+      "Minimum (inclusive) numeric value for an input_validation variable. Also applies to currency and percentage values."
     ]
   },
   "input_validation max": {
     "prefix": "max",
     "body": "max:${1:value}",
     "description": [
-      "Maximum (inclusive) numeric value for an input_validation variable."
+      "Maximum (inclusive) numeric value for an input_validation variable. Also applies to currency and percentage values."
     ]
   },
   "input_validation min_exclusive": {

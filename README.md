@@ -202,14 +202,6 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
         <td>Add <code>infotext</code> with the as="hover" attribute</td>
       </tr>
       <tr>
-        <td><code>warningtextinline</code></td>
-        <td>Add <em>inline</em> <code>warningtext</code> inside <code>ic</code> tags</td>
-      </tr>
-      <tr>
-        <td><code>warningtextblock</code></td>
-        <td>Add <em>full-width</em> <code>warningtext</code> inside <code>ic</code> tags</td>
-      </tr>
-      <tr>
         <td><code>cautiontextinline</code></td>
         <td>Add <em>inline</em> <code>cautiontext</code> inside <code>ic</code> tags</td>
       </tr>
@@ -467,7 +459,7 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       </tr>
       <tr>
         <td><code>&emsp;&emsp;accounts_var:</code></td>
-        <td>Add the accounts_var sub-attribute to assign selected accounts to a variable</td>
+        <td>Add the accounts_var sub-attribute to an account collection input to assign the selected accounts to a variable</td>
       </tr>
       <tr>
         <td><code>&emsp;placeholder:</code></td>
