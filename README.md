@@ -955,17 +955,31 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
           <h3>Drops Snippets</h3>
         </td>
       </tr>
-      <!-- Accounts drops -->
+      <!-- Account drops -->
       <tr>
-        <td colspan="2"><b>Accounts Drops</b></td>
+        <td colspan="2"><b>Account Drops</b></td>
       </tr>
       <tr>
         <td><code>accounts.[account_number].</code></td>
         <td>Access a single account and its properties (value, name, number, transactions, etc.)</td>
       </tr>
       <tr>
+        <td colspan="2">&emsp;</td>
+      </tr>
+      <!-- Transaction drops -->
+      <tr>
+        <td colspan="2"><b>Transaction Drops</b></td>
+      </tr>
+      <tr>
         <td><code>accounts.[account_number].transactions.[some_transaction].</code></td>
         <td>Access transaction properties (value, date, relation, account)</td>
+      </tr>
+      <tr>
+        <td colspan="2">&emsp;</td>
+      </tr>
+      <!-- Accounts drops -->
+      <tr>
+        <td colspan="2"><b>Accounts Drops</b></td>
       </tr>
       <tr>
         <td>
@@ -1265,17 +1279,20 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <tr>
         <td colspan="2">&emsp;</td>
       </tr>
-      <!-- Adjustments drops -->
+      <!-- Adjustment drop -->
       <tr>
-        <td colspan="2"><b>Adjustments Drops</b></td>
+        <td colspan="2"><b>Adjustment Drop</b></td>
       </tr>
       <tr>
-        <td><code>adjustment.</code></td>
+        <td><code>adjustments.[adjustment_number].</code></td>
         <td>Return available properties for a single adjustment drop</td>
       </tr>
       <tr>
-        <td><code>adjustments</code></td>
-        <td>Return all adjustments in the period - must use with variable of type period (drop)</td>
+        <td colspan="2">&emsp;</td>
+      </tr>
+      <!-- Adjustments drops -->
+      <tr>
+        <td colspan="2"><b>Adjustments Drops</b></td>
       </tr>
       <tr>
         <td><code>adjustments.</code></td>
@@ -1872,9 +1889,9 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <tr>
         <td colspan="2"><b>CSS Classes</b></td>
       </tr>
-      <!-- Alignment Classes -->
+      <!-- Table Classes -->
       <tr>
-        <td colspan="2"><i>Alignment Classes</i></td>
+        <td colspan="2"><i>Table Classes</i></td>
       </tr>
       <tr>
         <td><code>usr-bordered</code></td>
@@ -1883,6 +1900,13 @@ If you position your cursor at the end of a drop e.g. [period.accounts] and pres
       <tr>
         <td><code>usr-width-</code></td>
         <td>Add <code>usr-width-*</code> class to set element width</td>
+      </tr>
+      <tr>
+        <td colspan="2">&emsp;</td>
+      </tr>
+      <!-- Alignment Classes -->
+      <tr>
+        <td colspan="2"><i>Alignment Classes</i></td>
       </tr>
       <tr>
         <td><code>usr-align-left</code></td>
